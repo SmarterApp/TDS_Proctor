@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://java.sun.com/jsf/passthrough"
+	xmlns:tds="http://airast.org/jsfcustom">
+	
+<h:head>
+    <title></title>
+    <link id="regStyle" href="#{request.contextPath}/shared/css/modal.css" rel="stylesheet" type="text/css" media="screen" />
+    <link id="mobileStyle" href="#{request.contextPath}/shared/css/modal_mobile.css" rel="stylesheet" type="text/css" media="screen" />
+
+	<tds:CSSLink href="Projects/{0}/css/modal.css"
+		id="clientCSSLink" rel="stylesheet" type="text/css" binding="#{lookup.clientCSSLink}" />
+	<tds:GlobalJavascript contextName="Lookup.aspx" id="gJS" language="ENU" binding="#{lookup.globalJs}"/>     
+     
+    <script src="#{request.contextPath}/Scripts/Libraries/3.14.1_build/yui/yui-min.js" type="text/javascript"></script> 
+    <script src="#{request.contextPath}/Scripts/Messages/messages_indexer.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/Scripts/Messages/messages_template.js" type="text/javascript"></script>    
+    <script src="#{request.contextPath}/Scripts/Messages/messages_system.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/Scripts/Messages/messages_loader.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/Scripts/Utilities/util.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/Scripts/Utilities/util_structs.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/Scripts/tds.js" type="text/javascript"></script>
+          
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script>DD_belatedPNG.fix('.controls a span');</script>
+    <![endif]-->    
+
+    <script src="#{request.contextPath}/js/tds_global.js" type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/browser.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_hideshow.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_cookie.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_elem.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_className.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_shared.js" type="text/javascript"></script>
+    
+    <script src="#{request.contextPath}/js/tds_lookup.js" type="text/javascript"></script>     
+    <script type="text/javascript">
+        // onload
+        YUI().use("node", "tds-lookup", "scrollview", "tds", function (Y) {
+            Y.on("domready", function() {
+                function init() {
+                    Y.tds.initLookup(gTDS);                    
+                }
+                if (Y.tdsShared.mobile())
+                    Y.tdsShared.disableStyle("#regStyle", init); //Y.tdsShared.includeCSSfile("shared/css/modal_mobile.css", init);
+                else {
+                    Y.tdsShared.disableStyle("#mobileStyle", init); //Y.tdsShared.includeCSSfile("shared/css/modal.css");                    
+                }              
+            });
+        });
+        
+    </script>
+    <style type="text/css">
+		.loading {
+			position: relative;
+			overflow: hidden;
+		}
+		.loading .wait {
+			display: block !important;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			right: 0px;
+			bottom: 0px;
+			z-index: 300;
+			background-color: #eef0f0;
+			text-align: center;
+		}
+		.wait .container {
+			display: block;
+			background-color: #ccc;
+			width: 228px;
+			margin-top: 30%;
+			margin-left: auto;
+			margin-right: auto;
+			border: 3px solid #4b4b4b;
+			text-align: left;
+			-moz-box-shadow: 0em 0em .5em #000;
+			-webkit-box-shadow: 0em 0em .5em #000;
+			box-shadow: 0em 0em .5em #000;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			font-family:Helvetica, Arial, Geneva, sans-serif;
+		}
+		.wait h2 {
+			display: block;
+			background-color: #666;
+			color: #fff;
+			line-height: 1.5em;
+			font-size: 1em;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+		.wait span span {
+			display: block;
+			background: url(shared/images/loadingAnimation.gif) no-repeat center center;
+			height: 2em;
+			margin: 0px !important;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+		.redirecting h2{
+			font-size: 1.4em;
+			padding: 20px;
+			font-weight: normal;
+			background: #fff url(shared/images/loadingAnimation.gif) no-repeat right center;
+			width: 400px;
+		}
+    </style>
+</h:head>
+<body id="doc-body" class="loading please_wait pageLookup">
+<div class="wrapper">
+<h:form id="form1">
+    <div class="topHalf">
+    	<h1 i18n-content="Label.SearchHeader">Search:</h1>
+        <div class="search_tabs">
+        	<a class="active" href="#" id="btnQuickTab" i18n-content="Label.QuickLookup">Quick Lookup</a>
+            <a id="btnAdvancedTab" href="#" i18n-content="Label.AdvancedLookup">Advanced Search</a>
+        </div>
+        <div class="controls">
+            <a href="#" target="_top" class="close" id="btnClose"><span i18n-content="Button.Close">Close</span></a>
+     	</div>
+	</div>
+    <div class="bottomHalf" id="divQuickTab">
+  	    <div class="content">
+    	<div class="intro" i18n-content="Label.Instructions">
+        </div>
+        <div class="search">
+            <input name="txtSSID" type="text" id="txtSSID" size="14"/>
+            <a href="#" id="btnQuickSearch" i18n-content="Button.QuickSearch"></a>
+            <span class="clear"></span>
+        </div>
+        <div class="search_results">
+            <h2 i18n-content="Label.SearchResults"></h2>
+        	<div class="oneResult" id="divQuickResult">                  
+             </div>
+        </div>
+    </div>
+    </div>
+  
+    <div class="bottomHalf advanced_search" id="divAdvancedTab" style="display:none">
+      
+        <div class="column1">
+        <div class="content">
+            <h2 i18n-content="Label.SearchParametersHeader">1. Enter Search Parameters</h2>
+            <div class="intro" i18n-content="Label.AdvancedSearchInstructions">
+            </div>
+            <div class="search_advanced">
+                <span class="validation" id="valid_institutionKey">*</span>
+                <select name="" id="selBoxInstitution">
+	              <option i18n-content="Label.SelectDistrict">Select a District
+	              </option>
+	            </select>
+	           
+	            <span class="validation" id="valid_schoolKey">*</span>
+                <select name="" id="selBoxSchool">
+	              <option i18n-content="Label.SelectSchool">Select a School</option>
+	            </select>
+	            
+                <span class="validation" id="valid_grade">*</span>
+                <select name="" id="selBoxGrade">
+	              <option i18n-content="Label.AllGrades">All Grades</option>
+	            </select>
+	            <span class="validation" id="valid_firstName">*</span>	
+	            <label i18n-content="Label.FirstName">First Name</label>            
+                <input type="text" id="firstName" i18n-values="value:Label.EnterAFirstName" />
+                
+                <span class="validation" id="valid_lastName">*</span>
+                <label  i18n-content="Label.LastName">Last Name</label>     
+                <input type="text" id="lastName"  i18n-values="value:Label.EnterALastName" />
+                <span class="validationMessage" id="validationMessage"></span>
+	            <a id="btnAdvancedSearch" i18n-content="Button.Search">Search</a>
+                <span class="clear"></span>
+            </div>
+        </div>
+        </div>
+  
+        <div class="column2" id="divCol2AdvancedResult">
+            <div class="content">
+                <h2 i18n-content="Label.SearchResultsHeader">2. Search Results</h2>
+                <div class="intro" i18n-content="Label.AdvancedResultInstructions">
+                </div>
+                <table border="0" cellspacing="0" cellpadding="0" id="tblAdvancedResult">
+                      <thead>
+                      <tr>
+                        <th scope="col" i18n-content="Label.MoreInfo">More Info</th>
+                        <th scope="col" i18n-content="Label.SSID"></th>
+                        <th scope="col" i18n-content="Label.LastName">Last Name</th>
+                        <th scope="col" i18n-content="Label.FirstName">First Name</th>
+                        <th scope="col" i18n-content="Label.Grade">Grade</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      
+                      </tbody>
+                    </table>
+            </div>
+        </div>
+  
+        <div class="column3" id="divCol3AdvancedResultSingle">
+  	        <div class="content">
+  	            <a href="#" class="close" id="divCol3Close" i18n-content="Button.Close">close</a>
+    	        <h2 i18n-content="Label.SearchDetailsHeader">3. Student Details</h2>
+    	        <div class="search_details">
+    	                
+        		        <div class="oneResult" id="divAdvancedResultSingle">                          
+             	        </div>
+        	    </div>
+            </div>
+       </div>  
+  	
+   </div>
+</h:form>
+
+<div class="wait">
+	<span class="container"><h2 i18n-content="Label.PleaseWait">Please Wait</h2><span class="loader"></span></span>
+</div>
+
+</div>
+</body>
+</html>

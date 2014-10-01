@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	
+	<entry key="EnableLoadData">false</entry>
+
+	<entry key="SchoolID">345234</entry>
+    <entry key="StateCode">SC</entry>
+    <entry key="ClientName">SBAC</entry>
+    <entry key="Grade">3</entry>
+    <entry key="DistrictId">12345</entry>
+    <entry key="SchoolName">Wren Reedbuck High School</entry>
+    <entry key="testadminApplicationUrl">http://localhost:8080/testadmin</entry>
+    <entry key="studentApplicationUrl">http://localhost:8080/student</entry>
+	<entry key="TestRegistrationApplicationUrl">http://localhost:8083/</entry>
+    
+    <entry key="ItemsLocationRoot">C:/tmp/</entry>
+    
+    <entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306</entry>
+    <entry key="jdbc.userName">root</entry>
+    <entry key="jdbc.password">root</entry>
+    <entry key="DBDialect">MYSQL</entry>
+    <entry key="AdditionalUrlParm">?useServerPrepStmts=false&amp;rewriteBatchedStatements=true</entry>
+    <entry key="TDSArchiveDBName">archive</entry>
+    <entry key="TDSSessionDBName">session</entry>
+    <entry key="TDSConfigsDBName">configs</entry>
+    <entry key="ItembankDBName">itembank</entry>
+    <entry key="Debug.AllowFTP">true</entry>
+    <entry key="keepSchema">true</entry>
+    <entry key="TestRegistrationPort">8083</entry>
+    <entry key="AssessmentSpecs">(SBAC)CAT-M3-ONON-S1-A1-MATH-3-Fall-2013-2014,MA</entry>
+    <entry key="AssessmentSpecs">(SBAC)CAT-M3-ONON-S1-A1-MATH-3-Fall-2013-2014,MA</entry>
+    
+</properties>

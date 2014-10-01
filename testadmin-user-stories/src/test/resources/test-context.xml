@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- Import module files -->
+	<import resource="classpath:/opentestsystem.shared.test-context-module.xml" />
+	<import resource="classpath:/opentestsystem.shared.db-context-module.xml" />
+	<import resource="classpath:/modules/test-context-schema-deployer.xml" />
+	<import resource="classpath:/modules/test-context-scripts.xml" />
+
+	<!-- BEGIN: Load properties and defaults from classpath -->
+	<context:property-placeholder
+		ignore-unresolvable="true" order="990"
+		location="classpath:opentestsystem.shared.test-db-default-properties.xml" />
+	
+	<util:properties id="studentDefaultPackageProperties"
+		location="classpath:test.tds-loadtest-default-studentpackage-properties.xml" />
+	<util:properties id="proctorDefaultPackageProperties"
+		location="classpath:test.tds-loadtest-default-proctorpackage-properties.xml" />
+	<!-- END: Load properties and defaults from classpath -->
+
+
+	<!-- Main access point for application data -->
+	<alias alias="applicationDataSource" name="sessionSchema" />
+
+	<!-- BEGIN: Web applications accessed by the tests -->
+	<bean id="testRegistrationApplication"
+		class="org.opentestsystem.shared.test.jetty.JettyWebApplication">
+		<property name="indexUrl" value="${TestRegistrationApplicationUrl}/api" />
+		<property name="contextPath" value="/" />
+		<property name="descriptor" value="web.xml" />
+		<property name="extractWar" value="false" />
+		<property name="serverInstancePerTest" value="true" />
+		<property name="usingExternalSpringContext" value="true" />
+		<property name="classLoaderStrategy" value="NO_CLASSLOADER_ISOLATION" />
+		<property name="port" value="${TestRegistrationPort}" />
+		<property name="interface" value="0.0.0.0" />
+	</bean>
+
+	<bean id="testAdminApplication"
+		class="org.opentestsystem.shared.test.webapplication.BaseWebApplication">
+		<property name="indexUrl" value="${testadminApplicationUrl}" />
+	</bean>
+
+	<bean id="studentApplication"
+		class="org.opentestsystem.shared.test.webapplication.BaseWebApplication">
+		<property name="indexUrl" value="${studentApplicationUrl}" />
+	</bean>
+	<!-- END: Web applications accessed by the tests -->
+
+
+	<!-- BEGIN: Service for registering students, administrators and assessments -->
+	<bean id="testRegistrationPojo"
+		class="org.opentestsystem.delivery.tds.loadtest.TestRegistrationPojoImpl" />
+
+	<bean id="packageGenerator"
+		class="org.opentestsystem.delivery.tds.loadtest.testregistrationapi.PackageGeneratorImpl" />
+
+	<bean id="studentPackageGenerator"
+		class="org.opentestsystem.delivery.tds.loadtest.testregistrationapi.StudentPackageGenerator">
+		<property name="defaultPackageProperties" ref="studentDefaultPackageProperties" />
+	</bean>
+
+	<bean id="proctorPackageGenerator"
+		class="org.opentestsystem.delivery.tds.loadtest.testregistrationapi.ProctorPackageGenerator">
+		<property name="defaultPackageProperties" ref="proctorDefaultPackageProperties" />
+	</bean>
+	<!-- END: Service for registering students, administrators and assessments -->
+
+
+	<!-- Factory bean for generating assessments -->
+	<bean id="assessmentLoader"
+		class="org.opentestsystem.delivery.tds.loadtest.AssessmentLoader">
+		<property name="assessmentSpecs" value="${AssessmentSpecs}" />
+		<property name="testRegistrationPojo" ref="testRegistrationPojo" />
+
+	</bean>
+
+
+	<!-- Factory bean for creating and registering test admins -->
+	<bean id="testAdminFactory"
+		class="org.opentestsystem.delivery.tds.loadtest.TestAdminFactory">
+		<property name="testRegistrationPojo" ref="testRegistrationPojo" />
+		<property name="schoolId" value="${SchoolID}" />
+		<property name="stateCode" value="${StateCode}" />
+		<property name="clientName" value="${ClientName}" />
+	</bean>
+
+	<!-- Service for registering user accounts when using RTS Package DLL -->
+	<bean
+		class="org.opentestsystem.delivery.tds.loadtest.RtsPackageTdsUserAccountRegistryImplementation" />
+
+	<!-- Factory bean for creating and registering students -->
+	<bean id="studentFactory" class="org.opentestsystem.delivery.tds.loadtest.StudentFactory">
+		<property name="testRegistrationPojo" ref="testRegistrationPojo" />
+		<property name="schoolId" value="${SchoolID}" />
+		<property name="stateCode" value="${StateCode}" />
+		<property name="clientName" value="${ClientName}" />
+		<property name="grade" value="${Grade}" />
+		<property name="districtId" value="${DistrictId}" />
+		<property name="schoolName" value="${SchoolName}" />
+		<property name="answeringStrategies">
+			<util:list>
+				<bean
+					class="org.opentestsystem.testadmin.test.itemdriver.RandomMultipleChoiceAnsweringStrategy" />
+			</util:list>
+		</property>
+	</bean>
+	<beans profile="MINNESOTA_PT">
+		<context:property-placeholder
+			ignore-unresolvable="true" order="980"
+			location="classpath:test-properties-minnesota.xml" />
+	</beans>
+	<beans profile="SBAC">
+		<context:property-placeholder
+			ignore-unresolvable="true" order="980"
+			location="classpath:test-properties-sbac.xml" />
+	</beans>
+	
+	<beans profile="SBAC_PT">
+		<context:property-placeholder
+			ignore-unresolvable="true" order="980"
+			location="classpath:test-properties-sbac_pt.xml" />
+	</beans>
+	
+</beans>

@@ -1,0 +1,171 @@
+.TDS_F_S14 #thePassage {
+	font-size: 1.3em;
+}
+.TDS_SC0 .commentItem, .TDS_T0 .contexthelp, .TDS_MfR0 .markReview, .TDS_MfR0 .markReviewMarked {
+	display: none;
+}
+.TDS_FT_San-Serif {
+	font-family: Arial, Helvetica, sans-serif;
+}
+.TDS_FT_Serif {
+	font-family:Times New Roman, Times, serif;
+}
+
+/* @group colors */
+
+body.TDS_CCYellow, body.TDS_CCYellow .inputCloze, body.TDS_CCYellow .plaintext textarea {
+	background-color: #ffffce;
+}
+body.TDS_CCYellow .multipleChoiceItem {
+	border-top-color: #ffffce;
+	border-right-color: #ffffce;
+	border-left-color: #ffffce;
+}
+body.TDS_CCYellow .mc_stacked tr {
+	border-right-color: #ffffce;	
+}
+body.TDS_CCYellow2, body.TDS_CCYellow2 .inputCloze, body.TDS_CCYellow2 .plaintext textarea {
+	background-color: #fcfce2;
+}
+body.TDS_CCYellow2 .multipleChoiceItem {
+	border-top-color: #fcfce2;
+	border-right-color: #fcfce2;
+	border-left-color: #fcfce2;
+}
+body.TDS_CCYellow2 .mc_stacked tr {
+	border-right-color: #fcfce2;	
+}
+body.TDS_CCBlue, body.TDS_CCBlue .inputCloze, body.TDS_CCBlue .plaintext textarea {
+	background-color: #99ffff;
+}
+body.TDS_CCBlue .multipleChoiceItem {
+	border-top-color: #99ffff;
+	border-right-color: #99ffff;
+	border-left-color: #99ffff;
+}
+body.TDS_CCBlue .mc_stacked tr {
+	border-right-color: #99ffff;	
+}
+body.TDS_CCBlue2, body.TDS_CCBlue2 .inputCloze, body.TDS_CCBlue2 .plaintext textarea {
+	background-color: #cfffff;
+}
+body.TDS_CCBlue2 .multipleChoiceItem {
+	border-top-color: #cfffff;
+	border-right-color: #cfffff;
+	border-left-color: #cfffff;
+}
+body.TDS_CCBlue2 .mc_stacked tr {
+	border-right-color: #cfffff;	
+}
+body.TDS_CCMagenta, body.TDS_CCMagenta .inputCloze, body.TDS_CCMagenta .plaintext textarea {
+	background-color: #ffd0ff;
+}
+body.TDS_CCMagenta .multipleChoiceItem {
+	border-top-color: #ffd0ff;
+	border-right-color: #ffd0ff;
+	border-left-color: #ffd0ff;
+}
+body.TDS_CCMagenta .mc_stacked tr {
+	border-right-color: #ffd0ff;	
+}
+body.TDS_CCMagenta2, body.TDS_CCMagenta2 .inputCloze, body.TDS_CCMagenta2 .plaintext textarea {
+	background-color: #fde3fd;
+}
+body.TDS_CCMagenta2 .multipleChoiceItem {
+	border-top-color: #fde3fd;
+	border-right-color: #fde3fd;
+	border-left-color: #fde3fd;
+}
+body.TDS_CCMagenta2 .mc_stacked tr {
+	border-right-color: #fde3fd;	
+}
+body.TDS_CCGray, body.TDS_CCGray .inputCloze, body.TDS_CCGray .plaintext textarea {
+	background-color: #cecfce;
+}
+body.TDS_CCGray .multipleChoiceItem {
+	border-top-color: #cecfce;
+	border-right-color: #cecfce;
+	border-left-color: #cecfce;
+}
+body.TDS_CCGray .mc_stacked tr {
+	border-right-color: #cecfce;	
+}
+body.TDS_CCGray2, body.TDS_CCGray2 .inputCloze, body.TDS_CCGray2 .plaintext textarea {
+	background-color: #e5e5e5;
+}
+body.TDS_CCGray2 .multipleChoiceItem {
+	border-top-color: #e5e5e5;
+	border-right-color: #e5e5e5;
+	border-left-color: #e5e5e5;
+}
+body.TDS_CCGray2 .mc_stacked tr {
+	border-right-color: #e5e5e5;	
+}
+body.TDS_CCGreen, body.TDS_CCGreen .inputCloze, body.TDS_CCGreen .plaintext textarea {
+	background-color: #cff799;
+}
+body.TDS_CCGreen .multipleChoiceItem {
+	border-top-color: #cff799;
+	border-right-color: #cff799;
+	border-left-color: #cff799;
+}
+body.TDS_CCGreen .mc_stacked tr {
+	border-right-color: #cff799;	
+}
+body.TDS_CCGreen2, body.TDS_CCGreen2 .inputCloze, body.TDS_CCGreen2 .plaintext textarea {
+	background-color: #e0f6c1;
+}
+body.TDS_CCGreen2 .multipleChoiceItem {
+	border-top-color: #e0f6c1;
+	border-right-color: #e0f6c1;
+	border-left-color: #e0f6c1;
+}
+body.TDS_CCGreen2 .mc_stacked tr {
+	border-right-color: #e0f6c1;	
+}
+.TDS_CCYellowB, .TDS_CCYellowB .inputCloze, .TDS_CCYellowB .plaintext textarea {
+	background-color: #039;
+	color:#FC0;
+}
+.TDS_CCYellowB .multipleChoiceItem {
+	border-top-color: #039;
+	border-right-color: #039;
+	border-left-color: #039;
+}
+.TDS_CCYellowB .mc_stacked tr {
+	border-right-color: #039;	
+}
+.TDS_CCYellowB .bigTable #thePassage h2 {
+	color:#FC0;
+}
+.TDS_CCInvert, .TDS_CCInvert .inputCloze, .TDS_CCInvert .plaintext textarea {
+	background-color: #000;
+	color:#FFF;
+}
+.TDS_CCInvert .multipleChoiceItem {
+	border-top-color: #000;
+	border-right-color: #000;
+	border-left-color: #000;
+}
+.TDS_CCInvert .mc_stacked tr {
+	border-right-color: #000;	
+}
+.TDS_CCInvert .bigTable #thePassage h2 {
+	color:#FFF;
+}
+.TDS_CCWhiteN, .TDS_CCWhiteN .inputCloze, .TDS_CCWhiteN .plaintext textarea {
+	background-color: #003366;
+	color:#FFF;
+}
+.TDS_CCWhiteN .multipleChoiceItem {
+	border-top-color: #003366;
+	border-right-color: #003366;
+	border-left-color: #003366;
+}
+.TDS_CCWhiteN .bigTable #thePassage h2 {
+	color:#FFF;
+}
+.TDS_CCWhiteN .mc_stacked tr {
+	border-right-color: #003366;	
+}
+/* @end */

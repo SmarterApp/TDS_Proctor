@@ -1,0 +1,242 @@
+# Proctor
+
+Proctor includes following functionality.
+
+* Create /Pause or Stop Test Session
+* Aprove or Reject Student Test Request
+
+## License ##
+This project is licensed under the [AIR Open Source License v1.0](http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf).
+
+## Getting Involved ##
+We would be happy to receive feedback on its capabilities, problems, or future enhancements:
+
+* For general questions or discussions, please use the [Forum](forum_link_here).
+* Use the **Issues** link to file bugs or enhancement requests.
+* Feel free to **Fork** this project and develop your changes!
+
+## Module Overview
+
+### Webapp
+The Webapp module contains the Proctor UI and REST APIs.
+
+## Setup
+In general, building the code and deploying the WAR file is a good first step.  The Proctor application, however, has a number of other steps that need to be performed in order to fully setup the system.
+
+### Config Folder
+Within the file system of the deployment (local file system if running locally or within Tomcat file directories), create a configuration folder structure as follows:
+```
+{CONFIG-FOLDER-NAME}/progman/
+example: /my-app-config/progman/
+``` 
+Within the deepest folder ('/progman/'), place a file named 'pm-client-security.properties' with the following contents:
+
+```
+#security props
+oauth.access.url={the URL of OAuth2 access token provider}
+pm.oauth.client.id={Client ID for program management client, can be shared amongst all client users or application/consumer specific values}
+pm.oauth.client.secret={Password for program management client, can be shared amongst all client users or application/consumer specific values}
+pm.oauth.batch.account={Account name or email for OAuth2 batch}
+pm.oauth.batch.password={OAuth2 batch password}
+
+working example:
+oauth.access.url=https://drc-dev-secure.opentestsystem.org/auth/oauth2/access_token?realm=/sbac
+pm.oauth.client.id=pm
+pm.oauth.client.secret=OAUTHCLIENTSECRET
+pm.oauth.batch.account=test@example.com
+pm.oauth.batch.password=<password>
+```
+Add environment variable `-DSB11_CONFIG_DIR` to application server start up as shown in Tomcat (Run Configuration).
+
+### Tomcat (Run Configuration)
+Like other SBAC applications, Proctor must be set up with active profiles and program management settings.
+
+* `-Dspring.profiles.active`  - Active profiles should be comma separated. Typical profiles for the `-Dspring.profiles.active` include:
+	* `progman.client.impl.integration`  - Use the integrated program management
+	* `progman.client.impl.null`  - Use the program management null implementation
+	* `mna.client.integration`  - Use the integrated MnA component
+	* `mna.client.null`  - Use the null MnA component
+* `-Dprogman.baseUri`  - This URI is the base URI for where the Program Management REST module is deployed.
+*  `-Dprogman.locator`  - The locator variable describes which combinations of name and environment (with optional overlay) should be loaded from Program Management.  For example: ```"component1-urls,dev"``` would look up the name component1-urls for the dev environment at the configured REST endpoint.  Multiple lookups can be performed by using a semicolon to delimit the pairs (or triplets with overlay): ```"component1-urls,dev;component1-other,dev"```
+*  `-DSB11_CONFIG_DIR`  - Locator string needed to find the Proctor properties to load.
+*  `-Djavax.net.ssl.trustStore`  - Location of .jks file which contains security certificates for SSO, Program Management and Permissions URL specified inside the baseuri and Program Management configuration.
+*  `-Djavax.net.ssl.trustStorePassword`  - Password string for the keystore.jks file.
+
+```
+ Example:
+-Dspring.profiles.active="progman.client.impl.integration,mna.client.integration" 
+-Dprogman.baseUri=http://<program-management-url>/programmanagement.rest/ 
+-Dprogman.locator="Proctor,local" 
+-DSB11_CONFIG_DIR=<CONFIG-FOLDER-NAME>
+-Djavax.net.ssl.trustStore="<filesystem_dir>/saml_keystore.jks" 
+-Djavax.net.ssl.trustStorePassword="xxxxxx"
+```
+
+## Program Management Properties
+Program Management properties need to be set for running Proctor. Example Proctor properties at [/proctor/docs/Installation/proctor-progman-config.txt](https://bitbucket.org/sbacoss/tdsdev/src/b8fa63e01340718add05cf4e9a97ab2dc30c341b/proctor/docs/Installation/proctor-progman-config.txt?at=default)
+
+#### Database Properties
+The following parameters need to be configured inside program management for database.
+
+* `datasource.url=jdbc:mysql://localhost:3306/schemaname`  - The JDBC URL of the database from which Connections can and should be acquired.
+* `datasource.username=<db-username>`  -  Username that will be used for the DataSource's default getConnection() method. 
+* `encrypt:datasource.password=<db-password>`  - Password that will be used for the DataSource's default getConnection() method.
+* `datasource.driverClassName=com.mysql.jdbc.Driver`  - The fully qualified class name of the JDBC driverClass that is expected to provide Connections.
+* `datasource.minPoolSize=5`  - Minimum number of Connections a pool will maintain at any given time.
+* `datasource.acquireIncrement=5`  - Determines how many connections at a time datasource will try to acquire when the pool is exhausted.
+* `datasource.maxPoolSize=20`  - Maximum number of Connections a pool will maintain at any given time.
+* `datasource.checkoutTimeout=60000`  - The number of milliseconds a client calling getConnection() will wait for a Connection to be checked-in or acquired when the pool is exhausted. Zero means wait indefinitely. Setting any positive value will cause the getConnection() call to timeout and break with an SQLException after the specified number of milliseconds.
+* `datasource.maxConnectionAge=0`  - Seconds, effectively a time to live. A Connection older than maxConnectionAge will be destroyed and purged from the pool. This differs from maxIdleTime in that it refers to absolute age. Even a Connection which has not had much idle time will be purged from the pool if it exceeds maxConnectionAge. Zero means no maximum absolute age is enforced. 
+* `datasource.acquireRetryAttempts=5`  - Defines how many times datasource will try to acquire a new Connection from the database before giving up. If this value is less than or equal to zero, datasource will keep trying to fetch a Connection indefinitely.
+
+#### MNA properties
+Following parameters need to be configured inside program management for MNA.	
+
+* `mna.mnaUrl=http://<mna-context-url>/mna-rest/`  - URL of the Monitoring and Alerting client server's rest url
+* `mnaServerName=proctor_dev`  -  Used by the mna clients to identify which server is sending the log/metrics/alerts.
+* `mnaNodeName=dev`  - Used by the mna clients to identify who is sending the log/metrics/alerts. There is a discrete mnaServerName and a node in case say XXX for server name & node1/node2 in a clustered environment giving the ability to search across clustered nodes by server name or specifically for a given node. It’s being stored in the db for metric/log/alert, but not displayed.
+* `mna.logger.level=ERROR`  - Used to control what is logged to the Monitoring and Alerting system. Logging Levels (ALL - Turn on all logging levels,  TRACE, DEBUG, INFO, WARN, ERROR, OFF - Turn off logging).
+
+
+#### SSO properties
+The following parameters need to be configured inside program management for SSO.	
+
+* `permission.uri=https://<permission-app-context-url>/rest`  - The base URL of the REST api for the Permissions application.
+* `proctor.security.profile=dev`  - The name of the environment the application is running in. For a production deployment this will most likely be "prod. (it must match the profile name used to name metadata files).
+* `component.name=Proctor`  - The name of the component that this Proctor deployment represents. This must match the name of the component in Program Management and the name of the component in the Permissions application.
+* `proctor.security.idp=https://<idp-url>`  - The URL of the SAML-based identity provider (OpenAM).
+* `proctor.webapp.saml.metadata.filename=proctor_local_sp.xml`  -  OpenAM Metadata file name uploaded for environment and placed inside server directory. 
+* `proctor.security.dir=file:////<sp-file-location-folder>`  - Location of the metadata file.
+* `proctor.security.saml.keystore.cert=<cert-name>`  - Name of the Keystore cert being used.
+* `proctor.security.saml.keystore.pass=<password>`  -  Password for keystore cert.
+* `proctor.security.saml.alias=proctor_webapp`  - Alias for identifying web application.
+* `oauth.tsb.client=tsb`  - OAuth Client id configured in OAM to allow the SAML bearer workflow to convert a SAML assertion into an OAuth token for the "coordinated web service" call to TSB.
+* `oauth.access.url=https://<oauth-url>`  - OAuth URL to OAM to allow the SAML bearer workflow to POST to get an OAuth token for any "machine to machine" calls requiring OAUTH
+* `encrypt:oauth.tsb.client.secret=<password>`  - OAuth Client secret/password configured in OAM (under the client id) to allow the SAML bearer workflow to convert a SAML assertion into an OAuth token for the "coordinated web service" call to TSB.
+* `encrypt:mna.oauth.client.secret=<password>`  -  OAuth Client secret/password configured in OAM to allow get an OAuth token for the "batch" web service call to MnA.
+* `mna.oauth.client.id=mna`  - OAuth Client id configured in OAM to allow get an OAuth token for the "batch" web service call to MnA.
+* `encrypt:proctor.oauth.resource.client.secret=<password>`  - OAuth Client secret/password configured in OAM to allow get an OAuth token for the "batch" web service call to core standards.
+* `proctor.oauth.resource.client.id=proctor`  - OAuth Client id configured in OAM to allow get an OAuth token for the "batch" web service call to core standards.
+* `proctor.oauth.checktoken.endpoint=http://<oauth-url>`  - OAuth URL to OAM to allow the SAML bearer workflow to perform a GET to check that an OAuth token is valid.
+
+#### Proctor properties
+The following parameters need to be configured inside program management for Proctor
+
+* `proctor.IsCheckinSite=false` 
+* `proctor.DONOT_Distributed=true` 
+* `proctor.ClientQueryString=false` 
+* `proctor.Appkey=Proctor` 
+* `proctor.EncryptedPassword=true` 
+* `proctor.RecordSystemClient=true` 
+* `proctor.AdminPassword=UnloadAppDomain1000tj` 
+* `proctor.SqlCommandTimeout=60` 
+* `proctor.AppName=Proctor` 
+* `proctor.SessionType=0`  - Type of the testing supported: 0 is online, 1 is paper-based.
+* `proctor.DBJndiName=java:/comp/env/jdbc/sessiondb` 
+* `proctor.TestRegistrationApplicationUrl=http://localhost:8083/`  -  URL to TR(ART) Application
+* `proctor.TDSArchiveDBName=archive`  - Name of the archive schema
+* `proctor.TDSSessionDBName=session`  - Name of the session schema
+* `proctor.TDSConfigsDBName=configs`  - Name of the config schema
+* `proctor.ItembankDBName=itembank`  -  Name of the itembank schema
+* `proctor.Debug.AllowFTP=true` 
+* `proctor.StateCode=SBAC_PT` 
+* `proctor.ClientName=SBAC_PT`
+* `proctor.IsTrStubSession=true` 
+
+## SP Metadata file for SSO
+Create metadata file for configuring the SSO. Sample SSO metadata file pointing to localhost is at [/proctor/docs/Installation/proctor_local_sp.xml](https://bitbucket.org/sbacoss/tdsdev/src/b8fa63e01340718add05cf4e9a97ab2dc30c341b/proctor/docs/Installation/proctor_local_sp.xml?at=default)
+Change the entity id and url according to the environment. Upload this file to OpenAM and place this file inside server file system.
+Specify `proctor.webapp.saml.metadata.filename` and `proctor.security.dir` in program management for metadata file name and location.
+```
+Example:
+proctor.webapp.saml.metadata.filename=proctor_local_sp.xml
+proctor.security.dir=file:////usr/securitydir
+```
+
+
+## Build Order
+These are the steps that should be taken in order to build all of the Proctor related artifacts.
+
+### Pre-Dependencies
+* Tomcat 6 or higher
+* Maven (mvn) version 3.X or higher installed
+* Java 7
+* Access to sharedmultijardev repository
+* Access to tdsdlldev repository
+* Access to item-renderer repository
+* Access to sb11-shared-build repository
+* Access to sb11-shared-code repository
+* Access to sb11-security repository
+* Access to sb11-rest-api-generator repository
+* Access to sb11-program-management repository
+* Access to sb11-monitoring-alerting-client repository
+
+### Build order
+
+If building all components from scratch the following build order is needed:
+
+* sharedmultijardev
+* itemrendererdev
+* tdsdlldev
+* tdsloadtester
+* SharedBuild
+* SharedCode
+* RestAPIGenerator
+* MonitoringAndAlertingClient
+* ProgramManagementClient
+* TDSDev
+
+## Dependencies
+Proctor has a number of direct dependencies that are necessary for it to function.  These dependencies are already built into the Maven POM files.
+
+### Compile Time Dependencies
+* shared-master
+* shared-db
+* shared-web
+* shared-config
+* shared-security
+* shared-json
+* tds-dll-api
+* tds-dll-mysql
+* tds-load-test-lib
+* tds-dll-schemas
+* item-renderer
+* prog-mgmnt-client
+* prog-mgmnt-client-null-impl
+* monitoring-alerting.client-null-impl
+* monitoring-alerting.client 
+* sb11-shared-code
+* sb11-shared-security
+* spring-security-core
+* xercesImpl
+* jackson-core
+* jackson-annotations
+* jackson-databind
+* spring-context
+* spring-webmvc
+* spring-faces
+* aspectjrt
+* slf4j-api
+* jcl-over-slf4j
+* slf4j-log4j12
+* commons-primitives
+* commons-collections
+* commons-lang
+* commons-configuration
+* commons-digester
+* javax.inject
+* servlet-api
+* jsp-api
+* myfaces-impl
+* jstl
+* c3p0
+
+
+### Test Dependencies
+* junit
+* shared-db-test
+
+
+### Runtime Dependencies
+* Servlet API
+* Persistence API

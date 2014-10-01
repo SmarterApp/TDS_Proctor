@@ -1,0 +1,168 @@
+.wrapper {
+	background: #fff url(../images/gradient_lightblue.png) repeat-x fixed left bottom;
+}
+
+/* @group Content */
+.activeTable {
+	border-color:#71b5d6;
+}
+.activeTable th a {
+	color:#045785;
+}
+.instructions {
+	background-color:#eef9ff;
+	border-color:#71b5d6;
+}
+.instructions h2 a, .shelf .button_collapse {
+	background-image: url(../images/showHide.png);
+}
+.ie6 .instructions h2 a, .ie6 .shelf .button_collapse {
+	background-image: url(../images/showHide.gif);
+}
+.footer {
+	color:#000000;
+}
+.gecko.mac .bottomHalf {
+	border-color: #e1f5ff;
+}
+/* @end */
+
+/* @group shelf */
+
+.shelf {
+	background:#e1f5ff url(../images/shelf_gradient.png) repeat-x scroll left bottom;
+	border-bottom:2px solid #cfedfd;
+}
+.settings_container .pointer, .approvals_container .pointer {
+	background-image: url(../images/stripes.gif);
+}
+.settings_container .pointer span, .approvals_container .pointer span {
+	background-image: url(../images/pointer_collapsed.gif);
+}
+.settings_closed, .approvals_closed {
+	border-left: solid 1px #8abfdb;
+	border-right: solid 1px #8abfdb;
+	border-bottom: solid 1px #8abfdb;
+	background-color: #c4e8fb;
+	color: #84897f;
+}
+.nocollapse .short_tip, .settings_show .short_tip, .not_started .short_tip {
+	border-top:1px solid #8abfdb;
+}
+
+/* @end */
+
+.level1 {
+	background-color:#0f6797;
+}
+.level1 span {
+	color: #d9ebfe;
+}
+.level1 a span {
+	color: #000;
+}
+.level1 a:hover {
+	background-color: #fff;
+}
+.level2 {
+	background-color:#bad8ee;
+	border-bottom:1px solid #fff;
+}
+.level2 .brand2 {
+	background-image: url(../images/lighthouse.gif);
+}
+.level3 {
+	background:#4ea2cf url(../images/tools_gradient.gif) repeat-x scroll left bottom;
+}
+.level3 a, span.session_nope, span.settings_nope {
+	background-color:#e8f5ff;
+	border:1px solid #0f6797;
+}
+span.session_nope {
+	background:#78bbde url(../images/disabeled_gradient.gif) repeat-x scroll left bottom;
+	color: #4c98c1;
+	border-color: #3a90bf;
+}
+a.button_approvals, a.button_approvals:hover {
+	background-color:#78bbde;
+	background-image: none;
+	color: #4c98c1;
+	border-color: #3a90bf;
+}
+.not_started .button_approvals:hover {
+	background-color: #78bbde !important;
+	color: #4c98c1 !important;
+}
+.session_bottom, a.session_stop  {
+	background: #045785 url(../images/darkblue_gradient.gif) repeat-x left bottom;
+	border-color: #2671A6;
+}
+.approvals_needed a.button_approvals {
+	background-color:#045785;
+	background-image: none;
+}
+.approvals_needed a.button_approvals:hover {
+	background-color: #f26522;
+	color: #fff;
+}
+.level3 a.session_start {
+	background-color: #55ba5b;
+}
+.level3 a.session_stop {
+	background-color: #045785;
+}
+.level3 a.session_start:hover, .level3 a.session_stop:hover {
+	background-color: #f26522;
+}
+
+/*Group Test Type Display*/
+.testIndicator, .none_selected .testIndicator {
+	 color: #b1c1c9;
+	 display: none;
+}
+
+/*NEW CLS*/
+.commonsystem, .cls{
+	background: #2671A6;
+	color: #fff;
+}
+.mobile .cls{
+	background: none transparent;
+}
+.cls a, .cls span.user, .cls li.lang span, .cls li.client span.titleThing, .level1 a span{
+	color: #fff;
+}
+.cls li:hover a, .level1 a:hover span{
+	background-color: #fff;
+	color: #2671A6;
+	text-decoration: underline;
+}
+ul.selectReplacement li a, ul.selectReplacement li:hover a, ul.selectReplacement li.selected a{
+	background: transparent none;
+}
+ul.selectedReplacement li a{
+	text-decoration: none;
+}
+ul.selectReplacement li.selected a{
+	color: white;
+	text-decoration: none;
+}
+
+ul.selectOpen li.selected{
+	background: inherit;
+}
+ul.selectOpen li{
+	background: #fff;
+	color: #2671A6;
+}
+ul.selectOpen li, ul.selectReplacement:hover li{
+	color: #0F6797;
+}
+ul.selectOpen li.selected, ul.selectReplacement:hover li.selected{
+	background: #0F6797;
+}
+ul.selectOpen li:hover, ul.selectOpen li.hover, ul.selectOpen li.selected:hover, ul.selectReplacement:hover li:hover, ul.selectReplacement:hover li.hover, ul.selectReplacement:hover li.selected:hover{
+	background: #E3F2FF;
+	color: #000;
+}
+.ie7 ul.selectReplacement li.selected{ background-color: transparent; }

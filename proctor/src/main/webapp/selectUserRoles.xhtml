@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://java.sun.com/jsf/passthrough"
+	xmlns:tds="http://airast.org/jsfcustom">
+<h:head id="head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title i18n-content="Label.AppTitle">TA Interface</title>
+	<meta name="viewport"
+		content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="apple-touch-icon" href="shared/images/custom_icon.png" />
+	<link href="#{request.contextPath}/shared/css/loading.css"
+		rel="stylesheet" type="text/css" media="screen" />
+	<link id="mobileStyle"
+		href="#{request.contextPath}/shared/css/mobile.css" rel="stylesheet"
+		type="text/css" media="screen" />
+	<link id="regStyle" href="#{request.contextPath}/shared/css/screen.css"
+		rel="stylesheet" type="text/css" media="screen" />
+	
+	<tds:CSSLink href="Projects/{0}/css/screen.css" id="clientCSSLink"
+		rel="stylesheet" type="text/css"
+		binding="#{userDetailsBacking.clientCSSLink}" />
+
+	<tds:GlobalJavascript contextName="Default.aspx,AccType,AccValue" id="gJS"
+		language="ENU" binding="#{userDetailsBacking.globalJs}" />
+
+	<script
+		src="#{request.contextPath}/Scripts/Libraries/3.14.1_build/yui/yui-min.js"
+		type="text/javascript"></script>
+	<script
+		src="#{request.contextPath}/Scripts/Messages/messages_indexer.js"
+		type="text/javascript"></script>
+	<script
+		src="#{request.contextPath}/Scripts/Messages/messages_template.js"
+		type="text/javascript"></script>
+	<script
+		src="#{request.contextPath}/Scripts/Messages/messages_system.js"
+		type="text/javascript"></script>
+	<script
+		src="#{request.contextPath}/Scripts/Messages/messages_loader.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/Scripts/Utilities/util.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/Scripts/Utilities/util_structs.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/Scripts/tds.js"
+		type="text/javascript"></script>
+
+	<script
+		src="#{request.contextPath}/Scripts/Messages/messages_switcher.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/Scripts/Accommodations/tds_acc.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_global.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/browser.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_className.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_timeout.js"
+		type="text/javascript"></script>
+
+	<script src="#{request.contextPath}/js/tds_hideshow.js"
+		type="text/javascript"></script>
+	
+
+	<script src="#{request.contextPath}/js/tds_segment.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_test.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_ping.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_session.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_shared.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_testopp.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_approvalopp.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_accTypes.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_sort.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_cookie.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_refresh.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_pUI_Model.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_alerts.js"
+		type="text/javascript"></script>
+
+
+	<script type="text/javascript">
+	var userWithMultipleRoles = #{userDetailsBacking.userWithMultipleRoles};
+		// onload
+		YUI().use("p-UI", "p-Elem", "tds-refresh", "tds-cookie",
+				"tds-hideshow", "scrollview", "tds", "event-custom",
+				"node-event-simulate", "console", "console-filters",
+	
+				function(Y) {
+					Y.on("domready", function() {
+						function init() {
+							if(userWithMultipleRoles) {
+								Y.tds.initDefault(gTDS); //new    
+								Y.tdsShared.removeBodyClass("loading");
+							 } else {
+								window.location.href="default.xhtml"
+							}
+						}
+						if (Y.tdsShared.mobile()) {
+							Y.tdsShared.disableStyle("#regStyle", init);
+						} else {
+							Y.tdsShared.disableStyle("#mobileStyle", init);
+						}
+					});
+				});
+	</script>
+	<!--[if lt IE 7]>
+    <script type="text/javascript" src="js/IE6.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script>
+      DD_belatedPNG.fix('.level3 a span, .brand1, .button_alert, .shadowtop, .shadowbottom, .label_sort, .activeTable th a, activeTable td a, .table_request a, .button_collapse');
+    </script>
+    <![endif]-->
+
+
+	<!-- link href="<%=GetClientStylePath("css/screen.css") %>
+		" rel="stylesheet" type="text/css" /-->
+	<link href="#{request.contextPath}/shared/css/print.css"
+		rel="stylesheet" type="text/css" media="print" />
+		
+		<style type="text/css">
+			
+			.popupContact {
+				position: fixed;
+				_position: absolute; /* hack for internet explorer 6*/
+				height: auto;
+				min-height: 100px;
+				width: 720px;
+				background: #FFFFFF;
+				z-index: 2;
+				margin-left: auto;
+    			margin-right: auto;
+				padding: 12px;
+				font-size: 13px;
+				border: 4px solid #93969C; 
+				border-radius: 10px 10px 10px 10px; 
+				box-shadow: 0 0 4px 3px #D1D3D4;
+			}
+			
+			.popupContact h1 {
+				text-align: left;
+				color: #6FA5FD;
+				font-size: 22px;
+				font-weight: 700;
+				border-bottom: 1px dotted #D3D3D3;
+				padding-bottom: 2px;
+				margin-bottom: 20px;
+			}
+			
+			.popupContact h3{
+				margin-bottom: 0.5em;
+			}
+			
+			.popupContact #popUpMessageButtonsDiv{
+				margin: 1.8em 0 0 0; /*Trying to match the button margin enforced by SBAC*/
+				text-align: center;
+				position: static !important;
+			}
+			.popupContact #popUpMessageButtonsDiv button{
+				margin-right: 1em;
+				padding: 6px;
+			}
+			
+			.popupContact div{
+				margin: 1em 0;
+				text-align: center;
+			}
+			
+			.popupContactClose {
+				font-size: 14px;
+				line-height: 14px;
+				right: 6px;
+				top: 4px;
+				position: absolute;
+				color: #6fa5fd;
+				font-weight: 700;
+				display: block;
+			}
+			
+			.popupContact a {
+				cursor: pointer;
+				text-decoration: none;
+			}
+		</style>
+</h:head>
+
+<h:body class="loading nocollapse not_started none_selected yui3-skin-sam">
+
+	<div class="wrapper">
+		<h:form>
+		<div class="topHalf">
+
+				<div class="level1">
+					<div class="commonsystem">
+						<ul class="cls clientsystem">
+							<li class="client"><span class="titleThing"
+								i18n-content="Label.ClientTitle"></span></li>
+							<li class="system appselect" title="Select System"
+								ID="ddlUserSitesContainer"><h:outputLabel
+									id="lblClientName" /> <h:selectOneMenu id="ddlUserSites"
+									class="SystemSelector" />
+								<ul class="selectReplacement" id="ulUserSites" runat="server"></ul>
+							</li>
+							<li class="alerts"><a href="#" id="btnAlerts"
+								class="button_alert"><span i18n-content="Button.Alerts"></span></a></li>
+							<li class="logout"><a href="#" id="btnLogout"
+								class="button_logout"><span i18n-content="Button.Logout"></span></a></li>
+							<li class="help"><a href="#" id="btnHelp"
+								class="button_help"><span i18n-content="Button.Help"></span></a></li>
+							<li class="username"><span class="user"><span
+									class="m_userlabel" i18n-content="Label.LoggedInAs"></span> <strong><span
+										id="spanUserName"></span></strong></span></li>
+							<li class="lang"><span><select id="selectLang"></select></span>
+							</li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="level2">
+					<span class="brand1" ></span> <span class="brand2">logo
+						2</span>
+				</div>
+			</div>
+		<div id="bottomHalf" class="bottomHalf">	
+		<div id="customOverlay" class="popupContact">
+				<h3>
+					Select Role
+				</h3>
+				<h:selectOneRadio value="#{userDetailsBacking.selectedRole}">
+		   			<f:selectItems value="#{userDetailsBacking.sbacRoles}" var="role"
+		   			itemLabel="#{role.label}" itemValue="#{role.key}" />
+		   		</h:selectOneRadio>
+		   		
+		   		<h:commandButton action="#{userDetailsBacking.next}"  value="Next"></h:commandButton>
+		   		
+			</div>
+			</div>
+			
+			<div class="wait">
+				<span class="container"><h2 i18n-content="Label.PleaseWait">Please
+						Wait</h2> <span class="loader"></span></span>
+			</div>
+			</h:form>
+	</div>
+		<!-- DON'T ADD ELEMENTS AFTER THIS LINE! The code below HAS to be the last code in the page. -->
+	<script type="text/javascript" src="js/Exit_Common.js"></script>
+
+	<script type="text/javascript" src="js/Exit.js"></script>
+	
+</h:body>
+</html>

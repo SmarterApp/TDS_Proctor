@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd ">
+	
+	<!-- Start : Added for SSO Integration -->
+	<beans:import resource="classpath:security/securityContext.xml"/>
+	<beans:import resource="classpath:security/samlmetadata-context.xml"/> 
+	<!-- End : Added for SSO Integration -->
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:property-placeholder
+		local-override="true"
+		location="classpath:settings.xml"
+		ignore-unresolvable="true" order="900" />
+		
+	<context:property-placeholder
+	    ignore-unresolvable="true"
+	    ignore-resource-not-found="true"
+	    order="110"
+	    location="${testadmin-override-properties:file:///${user.home}/testadmin-settings.xml}"/>
+		
+	<import resource="classpath:opentestsystem.shared.common-context-module.xml" />
+	<import resource="classpath:opentestsystem.shared.security-context-module.xml" />
+	<import resource="classpath:opentestsystem.shared.db-context-module.xml"/>
+	<import resource="classpath:opentestsystem.shared.tr-api-context-module.xml" />
+				
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<context:annotation-config />
+	
+	<!-- DLLs -->
+	<import resource="classpath:context-modules/dlls-context-module.xml"/>
+	
+	<!--  Repositories -->
+	<import resource="classpath:context-modules/repositories-context-module.xml"/>
+    
+	<!-- Services -->
+	<import resource="classpath:context-modules/services-context-module.xml"/>	
+	
+	<!-- database settings -->		
+	<!-- <jee:jndi-lookup id="applicationDataSource"
+		   jndi-name="${DBJndiName}"
+		   expected-type="javax.sql.DataSource" /> -->
+	<!--Start: c3p0 Datasource Configuration -->
+	<beans:bean id="applicationDataSource" destroy-method="close"
+		  class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+	    <beans:property name="driverClass" value="${datasource.driverClassName:com.mysql.jdbc.Driver}"/>
+	    <beans:property name="jdbcUrl" value="${datasource.url:jdbc:mysql://tds-db.dev.opentestsystem.org:3306/session}"/>
+	    <beans:property name="user" value="${datasource.username:dbsbac}"/>
+	    <beans:property name="password" value="${datasource.password:osTyMhRM1C}"/>
+	    <beans:property name="minPoolSize" value="${datasource.minPoolSize:5}"/>
+		<beans:property name="acquireIncrement" value="${datasource.acquireIncrement:5}" />
+		<beans:property name="maxPoolSize" value="${datasource.maxPoolSize:20}" />
+		<beans:property name="checkoutTimeout" value="${datasource.checkoutTimeout:60000}" />
+		<beans:property name="preferredTestQuery" value="SELECT 1" />
+		<beans:property name="maxConnectionAge" value="${datasource.maxConnectionAge:0}"/>
+		<beans:property name="acquireRetryAttempts" value="${datasource.acquireRetryAttempts:5}"/>
+	</beans:bean>
+	<!--End: c3p0 Datasource Configuration -->
+	
+	
+</beans>

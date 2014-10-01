@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<util:properties id="masterDataSourceProperties">
+		<prop key="jdbcUrl">${jdbc.url}</prop>
+		<prop key="user">${jdbc.userName}</prop>
+		<prop key="password">${jdbc.password}</prop>
+		<prop key="driverClass">${jdbc.driverclass}</prop>
+	</util:properties>
+
+	<bean id="configsSchema" class="org.opentestsystem.unittest.db.DBSchemaDeployerImpl">
+		<property name="masterDataSourceProperties" ref="masterDataSourceProperties" />
+		<property name="schemaDefinitionName" value="configs" />
+		<property name="dbDialect" value="${DBDialect}" />
+		<property name="dbName" value="${TDSConfigsDBName}" />
+		<property name="additionalUrlParm" value="${AdditionalUrlParm}" />
+	</bean>
+
+	<bean id="itembankSchema" class="org.opentestsystem.unittest.db.DBSchemaDeployerImpl">
+		<property name="masterDataSourceProperties" ref="masterDataSourceProperties" />
+		<property name="schemaDefinitionName" value="itembank" />
+		<property name="dbDialect" value="${DBDialect}" />
+		<property name="dbName" value="${ItembankDBName}" />
+		<property name="additionalUrlParm" value="${AdditionalUrlParm}" />
+	</bean>
+
+	<bean id="archiveSchema" class="org.opentestsystem.unittest.db.DBSchemaDeployerImpl">
+		<property name="masterDataSourceProperties" ref="masterDataSourceProperties" />
+		<property name="schemaDefinitionName" value="archive" />
+		<property name="dbDialect" value="${DBDialect}" />
+		<property name="dbName" value="${TDSArchiveDBName}" />
+		<property name="additionalUrlParm" value="${AdditionalUrlParm}" />
+	</bean>
+
+	<bean id="sessionSchema" class="org.opentestsystem.unittest.db.DBSchemaDeployerImpl">
+		<property name="masterDataSourceProperties" ref="masterDataSourceProperties" />
+		<property name="schemaDefinitionName" value="session" />
+		<property name="dbDialect" value="${DBDialect}" />
+		<property name="dbName" value="${TDSSessionDBName}" />
+		<property name="additionalUrlParm" value="${AdditionalUrlParm}" />
+	</bean>
+
+</beans>

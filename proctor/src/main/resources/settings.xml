@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<!-- Do not put in unit test configuration settings here. They should go 
+		into settings-unitTests.xml. -->
+
+	<!-- This file contains default values. To override these values, you can 
+		create an override file. By default, the application will look for override 
+		values in a file in the user's home directory, called testadmin-settings.xml. 
+		You can specify a different location for the settings override file by setting 
+		a system property, environment variable, or web application context parameter 
+		called testadmin-override-properties -->
+
+	<!-- Any individual property in this file can be overridden by defining 
+		a system property, environment variable or web application context parameter 
+		with the same name -->
+
+	<entry key="IsCheckinSite">${proctor.IsCheckinSite}</entry>
+	<entry key="DONOT_Distributed">${proctor.DONOT_Distributed}</entry>
+	<!--  <entry key="ClientName">Oregon</entry>-->
+	<entry key="ClientQueryString">${proctor.ClientQueryString}</entry>
+	<entry key="Appkey">${proctor.Appkey}</entry>
+	<entry key="EncryptedPassword">${proctor.EncryptedPassword}</entry>
+	<entry key="RecordSystemClient">${proctor.RecordSystemClient}</entry>
+	<entry key="AdminPassword">${proctor.AdminPassword}</entry>
+	<entry key="SqlCommandTimeout">${proctor.SqlCommandTimeout}</entry>
+	<entry key="AppName">${proctor.AppName}</entry>
+	<entry key="SessionType">${proctor.SessionType}</entry>
+	<!--  
+	<entry key="TDSSessionDBName">tdscore_dev_session2012_sandbox</entry>
+	<entry key="ItembankDBName">tdscore_dev_itembank2012_sandbox</entry>
+	<entry key="TDSArchiveDBName">tds_archive_</entry>
+	<entry key="TDSConfigsDBName">tdscore_dev_configs2012_sandbox</entry>
+	
+	<entry key="DBDialect">MYSQL</entry>
+	-->
+	<entry key="DBJndiName">${proctor.DBJndiName}</entry>
+
+	<!-- Database connection parameters should not be defined in this file. 
+		Those are defined at the container level, not at the application level -->
+		
+	<entry key="TestRegistrationApplicationUrl">${proctor.TestRegistrationApplicationUrl}</entry>
+    <entry key="TDSArchiveDBName">${proctor.TDSArchiveDBName}</entry>
+    <entry key="TDSSessionDBName">${proctor.TDSSessionDBName}</entry>
+    <entry key="TDSConfigsDBName">${proctor.TDSConfigsDBName}</entry>
+    <entry key="ItembankDBName">${proctor.ItembankDBName}</entry>
+    <entry key="Debug.AllowFTP">${proctor.Debug.AllowFTP}</entry>
+    
+    <entry key="StateCode">${proctor.StateCode}</entry>
+    <entry key="ClientName">${proctor.ClientName}</entry>
+
+</properties>

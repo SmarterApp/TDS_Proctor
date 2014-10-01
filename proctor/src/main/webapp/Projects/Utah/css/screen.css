@@ -1,0 +1,9 @@
+@charset "UTF-8";
+@import url(../../../shared/themes/tree/css/screen.css);
+
+/
+
+/*New Help Window */
+.help_wrapper iframe{
+	min-height: 300px;
+}

@@ -1,0 +1,732 @@
+@charset "UTF-8";
+/* CSS Document */
+/*html, body, table, form, div, .wrapper, .tablewrap, #content, #thePassage, #theQuestions, .bigTable{
+	overflow: visible !important;
+	position:static !important;
+}*/
+html, body{
+	overflow: auto !important;
+	max-height: none !important;
+	display: block !important;
+	position: relative !important;
+	width: auto !important; 
+	height: auto !important;
+}
+body{
+	/*width: 8in !important;*/
+	margin: 0 auto 0;
+}
+
+body {
+	/*margin: auto;
+	height: 9in;
+	width: 6.5in;*/
+}
+.layout11 #thePassage, .layout17 #thePassage, .layout21 #thePassage {
+/*	width: 6.5in;*/
+}
+.coversheet {
+	display:block;
+	/*height: 9in;*/
+	margin-right: auto;
+	margin-left: auto;
+	page-break-after: always;
+}
+.coversheet2 {
+	page-break-before: always;
+	page-break-after: avoid;
+	height: 6in;
+}
+.coversheet h1 {
+	font-size: 3em;
+	font-weight: bold;
+	padding-top: 2in;
+	padding-left: 1in;
+}
+.coversheet h2 {
+	font-size: 1.5em;
+	padding-left: 1in;
+	margin-top: .5em;
+}
+.coversheet h3 {
+	margin-top: .5em;
+	padding-left: 1in;
+}
+.oregonMessage p {
+	margin-right: 1in;
+	margin-left: 1in;
+	margin-top: .5em;
+	margin-bottom: .5em;
+}
+strong {
+	font-weight: bold;
+}
+.printPage, .instructions, .twobuttons, .loadingprint, .badflash {
+	display: none;
+}
+.studentInfoTop {
+	border-bottom-width: 1em;
+	border-bottom-style: solid;
+	border-bottom-color: #666666;
+	padding: 0.5em;
+}
+.studentInfoBottom {
+	border-top-width: 1em;
+	border-top-style: solid;
+	border-top-color: #666666;
+	padding: 0.5em;
+	margin-top: .5in;
+}
+.studentInfoTop h1, .studentInfoBottom h1 {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+.studentInfoTop h2, .studentInfoBottom h2 {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+
+/* @group Keyboard */
+
+.keyboard {
+	text-align: left;
+	margin-top: .8em;
+	border: solid 1px #fff;
+}
+.keyboard ul {
+	display:block;
+	height:2.3em;
+	clear: both;
+}
+.TDS_PS_L1 .keyboard ul, .TDS_PS_L2 .keyboard ul, .TDS_PS_L3 .keyboard ul, .TDS_PS_L4 .keyboard ul {
+	height:2.2em;
+}
+.keyboard li {
+	display: block;
+	float: left;
+	list-style-type: none;
+	height: 29px;
+	width: 29px;
+	text-align: center;
+	line-height: 29px;
+	margin-right: 0.5em;
+	/*margin-bottom: .5em;*/
+}
+.TDS_PS_L1 .keyboard li {
+	height: 40px;
+	width: 39px;
+	line-height: 40px;
+	margin-right: 0.3em;
+	margin-bottom: .3em;
+}
+.TDS_PS_L2 .keyboard li, .TDS_PS_L3 .keyboard li, .TDS_PS_L4 .keyboard li {
+	height: 50px;
+	width: 48px;
+	line-height: 50px;
+	margin-right: 0.3em;
+	margin-bottom: .3em;
+}
+.keyboard a {
+	background-image: url(../images/controls/keys.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	display: block;
+	font-weight: bold;
+	color: #000;
+	text-decoration: none;
+	font-family: "Courier New", Courier, monospace;
+	border: solid 1px #ccc;
+}
+.TDS_PS_L1 .keyboard a {
+	background-position: -31px 0px;
+}
+.TDS_PS_L2 .keyboard a, .TDS_PS_L3 .keyboard a, .TDS_PS_L4 .keyboard a {
+	background-position: -72px 0px;
+}
+.keyboard a:hover {
+	background-position: 0px -40px;
+}
+.TDS_PS_L1 .keyboard a:hover {
+	background-position: -31px -42px;
+}
+.TDS_PS_L2 .keyboard a:hover, .TDS_PS_L3 .keyboard a:hover, .TDS_PS_L4 .keyboard a:hover {
+	background-position: -72px -52px;
+}
+.keyboard a:active {
+	background-position: 0px -80px;
+}
+.TDS_PS_L1 .keyboard a:active {
+	background-position: -31px -84px;
+}
+.TDS_PS_L2 .keyboard a:active, .TDS_PS_L3 .keyboard a:active, .TDS_PS_L4 .keyboard a:active {
+	background-position: -72px -105px;
+}
+
+.key-space {
+	width: 200px !important;
+}
+.key-space a {
+	background-position: 0px -157px;
+}
+.TDS_PS_L1 .key-space {
+	width: 250px !important;
+}
+.TDS_PS_L1 .key-space a {
+	background-position: -203px -157px;
+}
+.TDS_PS_L2 .key-space a, .TDS_PS_L3 .key-space a, .TDS_PS_L4 .key-space a {
+	width: 312px !important;
+}
+.TDS_PS_L2 .key-space a, .TDS_PS_L3 .key-space a, .TDS_PS_L4 .key-space a {
+	background-position: -141px 0px;
+}
+.key-space a:hover {
+	background-position: 0px -197px;
+}
+.TDS_PS_L1 .key-space a:hover {
+	background-position: -203px -199px;
+}
+.TDS_PS_L2 .key-space a:hover, .TDS_PS_L3 .key-space a:hover, .TDS_PS_L4 .key-space a:hover {
+	background-position: -141px -52px;
+}
+.key-space a:active {
+	background-position: 0px -237px;
+}
+.TDS_PS_L1 .key-space a:active {
+	background-position: -203px -242px;
+}
+.TDS_PS_L2 .key-space a:active, .TDS_PS_L3 .key-space a:active, .TDS_PS_L4 .key-space a:active {
+	background-position: -141px -104px;
+}
+.key-delete {
+	width: 100px !important;
+}
+.key-delete a {
+	background-position: -353px -314px;
+}
+.TDS_PS_L1 .key-delete {
+	width: 126px !important;
+}
+.TDS_PS_L1 .key-delete a {
+	background-position: -200px -297px;
+}
+.TDS_PS_L2 .key-delete, .TDS_PS_L3 .key-delete, .TDS_PS_L4 .key-delete {
+	width: 156px !important;
+}
+.TDS_PS_L2 .key-delete a, .TDS_PS_L3 .key-delete a, .TDS_PS_L4 .key-delete a {
+	background-position: 0px -269px;
+}
+
+.key-delete a:hover {
+	background-position: -353px -354px;
+}
+.TDS_PS_L1 .key-delete a:hover {
+	background-position: -200px -339px;
+}
+.TDS_PS_L2 .key-delete a:hover, .TDS_PS_L3 .key-delete a:hover, .TDS_PS_L4 .key-delete a:hover {
+	background-position: 0px -321px;
+}
+.key-delete a:active {
+	background-position: -353px -394px;
+}
+.TDS_PS_L1 .key-delete a:active {
+	background-position: -200px -382px;
+}
+.TDS_PS_L2 .key-delete a:active, .TDS_PS_L3 .key-delete a:active, .TDS_PS_L4 .key-delete a:active {
+	background-position: 0px -373px;
+}
+.qwerty .key-a {
+	margin-left: .5em;
+}
+.qwerty .key-z {
+	margin-left: 1em;
+}
+.qwerty .key-m {
+	margin-right: 100px;
+}
+.qwerty .key-space {
+	margin-left: 1.5em;
+}
+.TDS_PS_L1 .qwerty .key-delete {
+	margin-left: .3em;
+}
+.TDS_PS_L2 .qwerty .key-delete, .TDS_PS_L3 .qwerty .key-delete, .TDS_PS_L4 .qwerty .key-delete {
+	margin-left: 4.5em;
+}
+.keyboard.qwerty  {
+	text-align: left;
+	width: 380px;
+	margin-top: .8em;
+}
+.TDS_PS_L1 .qwerty.keyboard {
+	width: 460px;
+}
+.TDS_PS_L2 .qwerty.keyboard, .TDS_PS_L3 .qwerty.keyboard, .TDS_PS_L4 .qwerty.keyboard {
+	width: 580px;
+}
+.keyboard.abcd  {
+	text-align: left;
+	width: 340px;
+	margin-top: .8em;
+}
+.TDS_PS_L1 .abcd.keyboard {
+	width: 415px;
+}
+.TDS_PS_L2 .abcd.keyboard, .TDS_PS_L3 .abcd.keyboard, .TDS_PS_L4 .abcd.keyboard {
+	width: 510px;
+}
+.abcd .key-delete {
+	float:right;
+}
+
+/* @end */
+/* @group item printing */
+
+.questionCell {
+	font-size: 1.4em;
+	border-bottom: solid 1px #e1e1e1;
+}
+.questionCell p, .responseCell p {
+	padding-bottom: .3em;
+	padding-top: .3em;
+}
+.questionCell h2 {
+	font-size: 1em;
+	font-weight: bold;
+	border-left: 1px dotted #cdcecf;
+	padding-left: .3em;
+}
+.answerCell {
+	font-size: 1.4em;
+	padding-top: .5em;
+	padding-bottom: .5em;
+}
+.optionContainer {
+	margin-left: 1em;
+	padding-top: .5em;
+}
+.ie .optionContainer {
+	margin-left: 2em;
+	padding-bottom: 1em;
+}
+.option {
+	display: none;
+}
+.optionClicker {
+	font-size: 1em;
+	line-height: 20px;
+	width: 20px;
+	height: 20px;
+	display: block;
+	margin-left: -1em;
+	margin-bottom: -.5em;
+}
+.ie .optionClicker {
+	margin-bottom: -1em;
+}
+.TDS_PS_L0 .optionClicker {
+	margin-bottom: -1em;
+}
+.ie .TDS_PS_L0 .optionClicker {
+	margin-bottom: -1.5em;
+}
+/*.optionSelected .optionClicker {
+	line-height: 0em;
+	height: 0em;
+	border-top: solid 10px #fff;
+	border-left: solid 20px #000;
+	border-bottom: solid 10px #fff;
+	border-right: solid 1px #fff;
+}
+.TDS_PS_L0 .optionSelected .optionClicker {
+	margin-left:-2.2em;
+	margin-top: 0em;
+}
+.TDS_PS_L1 .optionSelected .optionClicker {
+	margin-left:-1.2em;
+}*/
+.responseCell {
+	font-size: 1.4em;
+	border-top: solid 1px #e1e1e1;
+	padding: .5em 3em;
+	margin-top: 1em;
+}
+.stimulusCell {
+	text-align: center;
+}
+.theValue {
+	font-size: 1em;
+	line-height: 1em;
+	width: 1em;
+	height: 1em;
+	border: solid 1px #ccc;
+	padding: .2em;
+}
+.optionContent {
+	margin-left: 1.6em;
+	margin-top: -2em;
+}
+.ie .optionContent {
+	margin-top: -1.5em;
+}
+.ie .TDS_PS_L0 .optionContent {
+	margin-top: -2em;
+}
+.sound_repeat, .elicitedwrap, .sound_cue {
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
+	overflow: hidden;
+}
+blockquote {
+	margin: 1em;
+}
+em {
+	font-style: italic;
+}
+/* @end */
+
+/* @group Accommodations */
+body {
+	font-size: 78%;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.TDS_PS_L1 {
+	font-size: 1.5em;
+}
+.TDS_PS_L2, .TDS_PS_L3, .TDS_PS_L4 {
+	font-size: 2em;
+}
+.answerCell textarea, .inputCloze {
+	font-size: 1em;
+}
+.answerCell textarea {
+	width: 100%;
+	height: 10em;
+}
+
+.TDS_F_S14 #thePassage {
+	font-size: 1.3em !important;
+}
+.TDS_FT_Serif {
+	font-family:Times New Roman, Times, serif;
+}
+.TDS_FT_San-Serif {
+	font-family: Arial, Helvetica, sans-serif;
+}
+.TDS_FT_Verdana {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+/* @end */
+
+.StudentGridStatus {
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
+	overflow: hidden;
+}
+.orientation {
+	display: none;
+}
+
+/* new test shell style rules */
+#testShell{
+	position: relative ;
+	overflow: auto;	
+	display: block !important;
+}
+#testShell #topBar{
+	display: none; /* Do not show the top bar navigation while printing */
+}
+
+/*removing absolute positioning during print so things spread across pages correctly*/
+#testShell #contents{
+	position: relative;
+	top: 0;
+}
+#testShell .noColumns .theQuestions{
+	overflow: auto;
+	position: relative;
+}
+#testShell .SimContainer.simV2{
+	/*height: auto;
+	position: relative;
+	width: 100%;*/
+}
+#testShell .optionContent{
+	margin-top: 0px;
+}
+#testShell .optionClicker{
+	background: none;
+	border: 1px dashed #ccc;
+	border-radius: 10px;
+}
+#testShell .optionSelected .optionClicker{
+	height: 20px;
+	width: 20px;
+	margin-left: -1em;
+	border: none;
+	background: none !important;
+}
+.optionSelected .optionClicker{}
+	
+#testShell .optionA .optionClicker:before {
+	content: "A";
+	color: #ccc;
+}
+#testShell .optionB .optionClicker:before {
+	content: "B";
+	color: #ccc;
+}
+#testShell .optionC .optionClicker:before {
+	content: "C";
+	color: #ccc;
+}
+#testShell .optionD .optionClicker:before {
+	content: "D";
+	color: #ccc;
+}
+#testShell .optionE .optionClicker:before {
+	content: "E";	color: #ccc;
+}
+#testShell .optionF .optionClicker:before {
+	content: "G";
+	color: #ccc;
+}
+#testShell .optionG .optionClicker:before {
+	content: "G";
+	color: #ccc;
+}
+#testShell .optionH .optionClicker:before {
+	content: "H";
+	color: #ccc;
+}
+#testShell .optionI .optionClicker:before {
+	content: "I";
+	color: #ccc;
+}
+#testShell .optionJ .optionClicker:before {
+	content: "J";
+	color: #ccc;
+}
+#testShell .optionK .optionClicker:before {
+	content: "K";
+	color: #ccc;
+}
+#testShell .optionL .optionClicker:before {
+	content: "L";
+	color: #ccc;
+}
+#testShell .optionM .optionClicker:before {
+	content: "M";
+	color: #ccc;
+}
+#testShell .optionN .optionClicker:before {
+	content: "N";
+	color: #ccc;
+}
+#testShell .optionO .optionClicker:before {
+	content: "O";
+	color: #ccc;
+}
+#testShell .optionP .optionClicker:before {
+	content: "P";
+	color: #ccc;
+}
+#testShell .optionQ .optionClicker:before {
+	content: "Q";
+	color: #ccc;
+}
+#testShell .optionR .optionClicker:before {
+	content: "R";
+	color: #ccc;
+}
+#testShell .optionS .optionClicker:before {
+	content: "S";
+	color: #ccc;
+}
+#testShell .optionT .optionClicker:before {
+	content: "T";
+	color: #ccc;
+}
+#testShell .optionU .optionClicker:before {
+	content: "U";
+	color: #ccc;
+}
+#testShell .optionV .optionClicker:before {
+	content: "V";
+	color: #ccc;
+}
+#testShell .optionW .optionClicker:before {
+	content: "W";
+	color: #ccc;
+}
+#testShell .optionX .optionClicker:before {
+	content: "X";
+	color: #ccc;
+}
+#testShell .optionY .optionClicker:before {
+	content: "Y";
+	color: #ccc;
+}
+#testShell .optionZ .optionClicker:before {
+	content: "Z";
+	color: #ccc;
+}
+
+#testShell .optionSelected .optionClicker:before{
+	color: #000;
+	content: "\2022";
+	font-size: 4em;
+	margin-left: -5px;
+}
+#testShell .format_ms .optionClicker, .format_ms .optionClicker{
+	background-image: none !important;
+}
+/*#testShell .format_ms .optionClicker{
+	border: none;
+	border-radius: none;
+}
+#testShell .format_ms .optionClicker:before{
+	font-size: 0.8em;
+	margin-left: -4px;
+}
+#testShell .format_ms .optionSelected .optionClicker:before{
+	font-size: 4em;
+}*/
+#testShell #thePassage .padding p img{
+	max-height: 9in;
+	width: auto !important;
+}
+#testShell div.bigTable{
+	position: relative !important;
+	display: block;
+}
+#testShell .bigTable.layout11 .padding{
+	padding: 0;
+}
+#testShell .selectable.selected{
+	border-top: 2px solid #cce3a9;
+	border-bottom: 2px solid #cce3a9;
+	color: #066;
+}
+
+#testShell object{
+	display: block !important;
+	position: relative;
+}
+
+#testShell .matchConnections a.line{
+	border-top: 3px solid #0783AB;
+}
+
+#testShell table.bigTable{ font-size: 1.0em !important; }
+
+#tools{
+	display: none;  /*Removes unwanted extra page at the end*/
+}
+
+li.matchMade div.innerContainer, .matchSecondColumn .matchMode .innerContainer{  /*improve printing of match item*/
+	border: 1px solid #0785AB;
+	
+}
+.matchSecondColumn .matchMade .innerContainer{
+	border-right-color: #0785Ab !important; /* override mi.css for bug 75488 */
+}
+.matchColumn ul li{
+	page-break-before: avoid;
+	page-break-inside: avoid;
+}
+.edit-newtext, .edit-originaltext{
+	color: #ACD373;
+}
+span span.edit-crossout{
+	opacity: 1;
+	color: #CC3333;
+	text-decoration: line-through;
+}
+.ie span span.edit-crossout, span.TDS_EDIT_SPAN span.edit-crossout{
+	text-decoration: line-through !important;
+}
+
+
+/*Attempted bug 89551 fixes*/
+html, body, #testShell #contents, #testShell .theQuestions, #testShell .bigTable.noColumns{
+	width: auto;
+}
+
+img, .TDS_PS_L0 img, .TDS_PS_L1 img, .TDS_PS_L2 img, .TDS_PS_L3 img, .TDS_PS_L4 img{
+	max-width: 550px;
+	height: auto;
+}
+/*.GridContainer, .TDS_PS_L1 .GridContainer, .TDS_PS_L2 .GridContainer, .TDS_PS_L3 .GridContainer, .TDS_PS_L4 .GridContainer{
+	max-width: 600px !important;
+	max-height: 500px !important;
+}*/
+
+/*fix for 75454 */
+.mje_controls_content{
+	background-color: #fff;
+}
+.webkit .mje_nav_prev, .webkit .mje_nav_next, .webkit .mje_nav_undo, .webkit .mje_nav_del, .webkit .mje_nav_redo, .webkit .mje_button
+.ie .mje_nav_prev, .ie .mje_nav_next, .ie .mje_nav_undo, .ie .mje_nav_del, .ie .mje_nav_redo, .ie .mje_button{
+	text-indent: 0px;
+	background: none;
+	color: #000 !important;
+	width: auto;
+	border: 1px solid #000;
+	border-color: #000 !important;
+}
+	/*Passage Screen nullification*/
+
+
+/*Fix for 89545 - switch to Layout 6 for printing */
+.layout6horizontal.structure, .layout6vertical.structure, layout6.structure{
+	max-width: 8.5in;
+}
+
+/*Fix for 89551 - images and assets printing off edge of page */
+.TDS_PS_L1 .GridContainer, .TDS_PS_L2 .GridContainer, .TDS_PS_L3 .GridContainer, .TDS_PS_L4 .GridContainer,
+.TDS_PS_L1 .GridContainer object, .TDS_PS_L2 .GridContainer object, .TDS_PS_L3 .GridContainer object, .TDS_PS_L4 .GridContainer object{
+	width: 600px !important;
+	height: 500px !important;
+}
+.TDS_PS_L1 img, .TDS_PS_L2 img, .TDS_PS_L3 img, .TDS_PS_L4 img{
+	max-width: 600px !important;
+	max-height: 500px !important;
+}
+
+#landscapePlease{
+	display: none;
+}
+
+/* Fix for Bug 106018 */
+#testshell .cke_editable, .cke_editable{
+	width: 100%;
+	max-width: 800px;
+	/*Additional fix - remove scrolling, grow to height*/
+	height: auto;
+	overflow: auto;
+}
+#testshell #cke_1_top, #cke_1_top{
+	display: none;
+}
+/*IE 10 fix?*/
+.browser_ie.browserVer_10 .cke_editable{
+	height: auto !important;
+}
+
+/*Weird Firefox not printing issue*/
+.ff .mje_container span.MathJax:before{
+	display: inline-block !important;
+}
+
+/*Hide Scratchpad UI*/
+	.sp_container .sp_toolbar{
+		display: none;
+	}
+	.sp_canvas_container{
+		margin-left: 0px;
+	}
+/* end */
