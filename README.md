@@ -1,6 +1,6 @@
-# Proctor
+# TDS / Proctor
 
-Proctor includes following functionality.
+Test Delivery System / Proctor includes the following functionality:
 
 * Create /Pause or Stop Test Session
 * Aprove or Reject Student Test Request
@@ -11,7 +11,7 @@ This project is licensed under the [AIR Open Source License v1.0](http://www.sma
 ## Getting Involved ##
 We would be happy to receive feedback on its capabilities, problems, or future enhancements:
 
-* For general questions or discussions, please use the [Forum](forum_link_here).
+* For general questions or discussions, please use the [Forum](http://forum.opentestsystem.org/viewforum.php?f=9).
 * Use the **Issues** link to file bugs or enhancement requests.
 * Feel free to **Fork** this project and develop your changes!
 
