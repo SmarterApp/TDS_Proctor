@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import AIR.Common.Helpers.Constants;
 import AIR.Common.Helpers._Ref;
 import AIR.Common.Utilities.Dates;
-import AIR.Common.Utilities.JavaPrimitiveUtils;
 import AIR.Common.Utilities.UrlEncoderDecoderUtils;
 import TDS.Proctor.Services.ProctorAppTasks;
 import TDS.Proctor.Services.ProctorUserService;
@@ -39,8 +39,8 @@ import TDS.Proctor.Sql.Data.Test;
 import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Proctor.Sql.Data.TestSession;
 import TDS.Proctor.Sql.Data.Testee;
-import TDS.Proctor.Sql.Data.TesteeRequests;
 import TDS.Proctor.Sql.Data.TesteeRequestDTO;
+import TDS.Proctor.Sql.Data.TesteeRequests;
 import TDS.Proctor.Sql.Data.Testees;
 import TDS.Proctor.Sql.Data.Abstractions.IAppConfigService;
 import TDS.Proctor.Sql.Data.Accommodations.AccsDTO;
@@ -48,14 +48,11 @@ import TDS.Shared.Browser.BrowserAction;
 import TDS.Shared.Browser.BrowserInfo;
 import TDS.Shared.Browser.BrowserValidation;
 import TDS.Shared.Data.ReturnStatus;
+import TDS.Shared.Exceptions.FailedReturnStatusException;
+import TDS.Shared.Exceptions.NoDataException;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
-import TDS.Shared.Exceptions.NoDataException;
 import TDS.Shared.Exceptions.TDSSecurityException;
-
-import org.slf4j.LoggerFactory;
-
-import TDS.Shared.Exceptions.*;
 @Scope ("prototype")
 @Controller
 public class ActiveSessionXHR extends HttpHandlerBase
@@ -89,7 +86,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
    * IMessageService.class); MessageSystem messageSystem =
    * messageService.Load(selectedLanguage, contextsList); MessageJson
    * messageJson = new MessageJson(messageSystem);
-   * SendJsonString(messageJson.Create()); } catch (ReturnStatusException re) {
+   * SendJsonString(messageJson.Create()); } catch (Exception re) {
    * OnDBFailed(re.ReturnStatus); } catch (Exception ex) {
    * OnFailed("UnableToProcessRequest"); TDSLogger.Application.getFatal(ex);
    * HttpContext.clearError(); } }
@@ -131,8 +128,8 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         ProctorUserService.save (thisUser, getUserInfo ());
         return new ReturnStatus ("True", "");
       }
-    } catch (ReturnStatusException re) {
-      _logger.error (re.toString ());
+    } catch (Exception re) {
+      _logger.error (re.toString (),re);
       // OnDBFailed(re.ReturnStatus);
       throw re;
     }
@@ -164,10 +161,10 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       if (hasActivity)
     	  return new ReturnStatus ("True", "");
       return new ReturnStatus ("False", "");
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.);
-      _logger.error (re.toString ());
+      _logger.error (re.toString (),re);
       throw re;
     }
     // TODO Shiva
@@ -196,8 +193,8 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       _proctorAppTasks.getTestSessionTasks ().setSessionDateVisited (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
 
       return new ReturnStatus ("True", "");
-    } catch (ReturnStatusException re) {
-      _logger.error (re.toString ());
+    } catch (Exception re) {
+      _logger.error (re.toString (),re);
       throw re;
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
@@ -258,10 +255,10 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       }
 
       return sessionDTO;
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
-      _logger.error (re.getMessage ());
+      _logger.error (re.toString (),re);
       throw re;
     }
     // TODO Shiva
@@ -327,9 +324,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       }
 
       return sessionDTO;
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // OnDBFailed (re.ReturnStatus);
-      _logger.error (re.getMessage ());
+      _logger.error (re.toString (),re);
       throw re;
 
     }/*
@@ -352,8 +349,8 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       if (sessionTests.size () > 0)
         return sessionTests;
 
-    } catch (ReturnStatusException re) {
-      _logger.error (re.toString ());
+    } catch (Exception re) {
+      _logger.error (re.toString (),re);
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
     }
@@ -410,8 +407,8 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       sessionDTO.setSessionTests (_proctorAppTasks.getTestSessionTasks ().getSessionTests (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ()));
       sessionDTO.setbReplaceSessionTests (true);
       return sessionDTO;
-    } catch (ReturnStatusException re) {
-      _logger.error (re.toString ());
+    } catch (Exception re) {
+      _logger.error (re.toString (),re);
       // OnDBFailed(re.ReturnStatus);
       throw re;
     }
@@ -443,7 +440,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         ProctorUserService.save (thisUser, getUserInfo ());
         return sessionDTO;
       }
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -483,7 +480,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       testeeRequestsDTO.setRequests (testeeRequests);
       testeeRequestsDTO.setBrowserAction (browserAction);
       return testeeRequestsDTO;
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       throw re;
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
@@ -508,7 +505,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
       _proctorAppTasks.getRequestTasks ().denyTesteeRequest (thisUser.getSessionKey (), thisUser.getKey (), thisUser.getBrowserKey (), requestKey, reason);
       return new ReturnStatus ("True", "");
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       throw re;
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
@@ -537,7 +534,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID oppKey = UUID.fromString (strOppKey);
       _proctorAppTasks.getTestOppTasks ().pauseOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
       return new ReturnStatus ("SUCCESS", "SUCCESS");
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       throw re;
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
@@ -586,7 +583,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       // step 2: approve opp
       _proctorAppTasks.getTestOppTasks ().approveOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
       return new ReturnStatus ("", "Success");
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -618,7 +615,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       _proctorAppTasks.getTestOppTasks ().denyOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey (), strReason);
 
       return new ReturnStatus ("SUCCESS", "Success");
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed (re.ReturnStatus);
       throw re;
@@ -643,7 +640,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       sessionDTO.setbReplaceApprovalOpps (true);
       sessionDTO.setApprovalOpps (testOpps);
       return sessionDTO;
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -665,7 +662,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
       return _proctorAppTasks.getAlertTasks ().getCurrentMessages (getTimezoneOffset ());
 
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -685,7 +682,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
     checkAuthenticated ();
     try {
       return _proctorAppTasks.getAlertTasks ().getUnAcknowledgedMessages (getUser ().getKey (), getTimezoneOffset ());
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -706,7 +703,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
     try {
       Testee testee = _proctorAppTasks.getTesteeTasks ().getTestee (testeeID);
       return testee;
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       throw re;
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
@@ -737,7 +734,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
       return _proctorAppTasks.getTesteeTasks ().getSchoolTestees (schoolKey, grade, firstName, lastName);
 
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -758,7 +755,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
     try {
       ProctorUser thisUser = getUser ();
       return _proctorAppTasks.getInstitutionTasks ().getUserInstitutions (thisUser.getKey (), thisUser.getRoles ());
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       throw re;
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
@@ -778,7 +775,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
     checkAuthenticated ();
     try {
       return _proctorAppTasks.getInstitutionTasks ().getDistricts ();
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -802,7 +799,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         throw new FailedReturnStatusException ("InvalidInputDistrictKey");
 
       return _proctorAppTasks.getInstitutionTasks ().getSchools (districtKey);
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -826,7 +823,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         throw new FailedReturnStatusException ("InvalidInputSchoolKey");
 
       return _proctorAppTasks.getInstitutionTasks ().getGrades (schoolKey);
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -854,7 +851,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         return accsDTO;
       else
         throw new NoDataException ();
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -883,7 +880,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         return tests;
       else
         throw new NoDataException ();
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;
@@ -912,7 +909,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         return testSession;
       else
         throw new NoDataException ();
-    } catch (ReturnStatusException re) {
+    } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);
       throw re;

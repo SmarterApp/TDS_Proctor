@@ -2,7 +2,7 @@
 
 Test Delivery System / Proctor includes the following functionality:
 
-* Create /Pause or Stop Test Session
+* Create, Pause or Stop Test Session
 * Aprove or Reject Student Test Request
 
 ## License ##
@@ -152,7 +152,111 @@ Example:
 proctor.webapp.saml.metadata.filename=proctor_local_sp.xml
 proctor.security.dir=file:////usr/securitydir
 ```
+## Test Delivery Database Setup
 
+### Create Default Databases
+The following steps will create the DBs and all necessary objects within.
+There are also drop scripts: drop_constraints.sql and drop_tables.sql should there be need to drop all the tables and start over.
+All scripts mentioned below are located at tdsdlldev project, tds-dll-schemas module.
+
+#### 'configs' Database
+
+* Run the following command on the db server:
+`CREATE DATABASE 'configs' DEFAULT CHARACTER SET=utf8`
+* Create tables by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_tables.sql
+* Create constraints by running the SQL script file create_tables.sql located at   tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_constraints.sql
+* Create indexes by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_indexes.sql
+* Create stored procedures by running the SQL script file/files located in folder
+tds-dll-schemas/src/main/resources/sql/MYSQL/configs/StoredProcedures/
+* Create functions by running the SQL script file/files located in folder
+tds-dll-schemas/src/main/resources/sql/MYSQL/configs/Functions/
+  
+#### 'itembank' Database
+
+* Run the following command on the db server:
+`CREATE DATABASE 'itembank' DEFAULT CHARACTER SET=utf8`
+* Create tables by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_tables.sql
+* Create constraints by running the SQL script file create_tables.sql located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_constraints.sql
+* Create indexes by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_indexes.sql
+* Create triggers by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/Triggers/triggers.sql
+* Create stored procedures by running the SQL script file/files located in folder
+tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/StoredProcedures/
+* Create functions by running the SQL script file/files located in folder
+tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/Functions/
+ 
+ 
+#### 'session' Database
+
+* Run the following command on the db server:
+`CREATE DATABASE 'session' DEFAULT CHARACTER SET=utf8`
+* Create tables by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/session/create_tables.sql
+* Create constraints by running the SQL script file create_tables.sql located at tds-dll-schemas/src/main/resources/sql/MYSQL/session/create_constraints.sql
+* Create indexes by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/session/create_indexes.sql
+* Create triggers by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/session/Triggers/triggers.sql
+* Create views by running the SQL script file/files located in folder
+tds-dll-schemas/src/main/resources/sql/MYSQL/session/Views/
+* Create stored procedures by running the SQL script file/files located in folder
+tds-dll-schemas/src/main/resources/sql/MYSQL/session/StoredProcedures/
+* Create functions by running the SQL script file/files located in folder
+tds-dll-schemas/src/main/resources/sql/MYSQL/session/Functions/
+  
+#### 'archive' Database
+
+* Run the following command on the db server:
+`CREATE DATABASE 'archive' DEFAULT CHARACTER SET=utf8`
+* Create tables by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/archive/create_tables.sql
+* Create indexes by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/archive/create_indexes.sql
+  
+### Load Configuration Data
+ 
+1. Run the below three files on `configs` db to setup generic configs db:
+/tds-dll-schemas/src/main/resources/import/genericsbacconfig/gen1.sql
+/tds-dll-schemas/src/main/resources/import/genericsbacconfig/gen2.sql
+/tds-dll-schemas/src/main/resources/import/genericsbacconfig/gen3.sql
+ 
+2. Run these statements on `itembank` db to setup generic itembank db:
+```
+INSERT INTO `itembank`.`tblclient`
+(`name`,
+`description`,
+`homepath`)
+VALUES
+('SBAC_PT',
+NULL,
+/*IMP: place root directory for the items path here */);
+b. INSERT INTO `itembank`.`tblitembank`
+(`_fk_client`,
+`homepath`,
+`itempath`,
+`stimulipath`,
+`name`,
+`_efk_itembank`,
+`_key`,
+`contract`)
+VALUES
+(1, /*should be equal to _key column from tblclient tbl for this client name */
+/*IMP: place relative home path for this itembank here */,
+/*IMP: place the item path here */,
+/*IMP: place the stimuli path here */
+NULL,
+1,
+1,
+NULL);
+```
+
+Example:
+```
+Insert into `itembank`.`tblclient` (`name`, `description`,`homepath`)
+values (‘SBAC’, null, '/usr/local/tomcat/resources/tds/');
+insert into INTO `itembank`.`tblitembank`(`_fk_client`,`homepath`,`itempath`,`stimulipath`,`name`,`_efk_itembank`,`_key`,`contract`)
+values (1, ‘bank/’, ‘items/’, ‘stimuli/’, null, 1, 1, null);
+``` 
+ 
+### Load Test Package into the Database
+1. Execute/Run stored procedure `loader_main()` in database ‘itembank’ once per testpackage file. The stored proc takes one input, that is the XML file content. Copy the XML file content and paste it as an input and execute the stored procedure. Sample test packages are available in the **assessmentpackages** project. For example:
+```
+Call `itembank`.`loader_main` (‘<testpackage purpose="administration" publisher="SBAC_PT" publishdate="Aug 15 2014  9:19AM" version="1.0">.. .. .</testpackage>‘)
+```
 
 ## Build Order
 These are the steps that should be taken in order to build all of the Proctor related artifacts.

@@ -68,9 +68,9 @@ public class TestRepository extends AbstractDAO implements ITestRepository
     try (SQLConnection connection = getSQLConnection ()) {
       //TODO Clarify this interface. If it has to go by proctor key, pass it from handler
       SingleDataResultSet resultset = _rdll.P_GetAllTests_SP (connection, clientname, sessionType, proctorId);
+      ReturnStatusException.getInstanceIfAvailable (resultset, "No tests are available for this proctor");
       Iterator<DbResultRecord> records = resultset.getRecords ();
-      ReturnStatusException.getInstanceIfAvailable (resultset);
-
+      
       resultset.setFixNulls (true);
       while (records.hasNext ()) {
         DbResultRecord record = records.next ();

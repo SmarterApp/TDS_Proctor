@@ -98,7 +98,19 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
       tOp.setItemcount ((!record.hasColumn ("ItemCount")) ? -1 : record.<Integer> get ("ItemCount"));
       tOp.setResponseCount ((!record.hasColumn ("ResponseCount")) ? 0 : record.<Integer> get ("ResponseCount"));
 
-      tOp.setScore ((!record.hasColumn ("Score") || record.<Float> get ("Score") == null) ? null : new Integer (record.<Float> get ("Score").intValue ()));
+      Integer score = null;
+      
+      try {
+        score = (!record.hasColumn ("Score") || record.<Float> get ("Score") == null) ? null : new Integer (record.<Float> get ("Score").intValue ());
+      } catch (ClassCastException e) {
+        if(record. get ("Score")!=null) {
+          _logger.error ("Error while converting record to float :: "+record. get ("Score").toString ());
+        }
+      }
+      
+      tOp.setScore (score);
+      
+      
       tOp.setRequestCount ((!record.hasColumn ("RequestCount") ? 0 : record.<Integer> get ("RequestCount")));
 
       tOp.setAccs ((!record.hasColumn ("Accommodations")) ? null : record.<String> get ("Accommodations"));

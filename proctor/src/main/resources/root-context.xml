@@ -63,6 +63,9 @@
 		<beans:property name="preferredTestQuery" value="SELECT 1" />
 		<beans:property name="maxConnectionAge" value="${datasource.maxConnectionAge:0}"/>
 		<beans:property name="acquireRetryAttempts" value="${datasource.acquireRetryAttempts:5}"/>
+		<beans:property name="idleConnectionTestPeriod" value="${datasource.idleConnectionTestPeriod:300}"/>
+		<beans:property name="testConnectionOnCheckout" value="${datasource.testConnectionOnCheckout:false}"/>
+		<beans:property name="testConnectionOnCheckin" value="${datasource.testConnectionOnCheckin:false}"/>
 	</beans:bean>
 	<!--End: c3p0 Datasource Configuration -->
 	

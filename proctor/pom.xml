@@ -5,7 +5,7 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>R01.00.00</version><!-- (ver-var: air-build-version) -->
+	<version>R01.00.01</version>
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
@@ -20,9 +20,9 @@
 	</properties>
 
 	<scm>
-		<connection>scm:hg:https://bitbucket.org/sbacoss/tdsdev</connection>
-		<developerConnection>scm:hg:https://bitbucket.org/sbacoss/tdsdev</developerConnection>
-		<url>https://bitbucket.org/sbacoss/tdsdev</url>
+		<connection>scm:hg:https://bitbucket.org/sbacoss/tds_release</connection>
+		<developerConnection>scm:hg:https://bitbucket.org/sbacoss/tds_release</developerConnection>
+		<url>https://bitbucket.org/sbacoss/tds_release</url>
 	</scm>
 
 	<licenses>
@@ -33,13 +33,6 @@
 			<comments>Educational Online Test Delivery System Copyright (c) 2013 American Institutes for Research</comments>
 		</license>
 	</licenses>
- 	  <repositories>
-		<repository>
-			<id>airdev-snapshots</id>
-			<name>airdev-snapshots</name>
-			<url>http://airdev.artifactoryonline.com/airdev/libs-snapshots-local</url>
-		</repository>
-	</repositories>
 	
 	<dependencies>
 		<!-- Start Dependency shared project -->
@@ -271,12 +264,5 @@
 		</dependency>
 	</dependencies>
 	
-	<distributionManagement>
-		<repository>
-			<id>central</id>
-			<name>libs-releases</name>
-			<url>http://airdev.artifactoryonline.com/airdev/libs-releases-local</url>
-		</repository>
-	</distributionManagement>
 
 </project>

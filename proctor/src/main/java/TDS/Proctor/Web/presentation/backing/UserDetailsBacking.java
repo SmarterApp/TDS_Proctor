@@ -52,7 +52,9 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
   public UserDetailsBacking () throws Exception{
     super ();
     _selectRolePresenter = new SelectRolePresenter (this);
+    _logger.info ("UserDetailsBacking.Java >>Load>>> Start >>>>>>>> "+getTime ());
     init();
+    _logger.info ("UserDetailsBacking.Java >>Load>>> Start >>>>>>>> "+getTime ());
   }
 
   public void setClientCSSLink (CSSLink link) {
