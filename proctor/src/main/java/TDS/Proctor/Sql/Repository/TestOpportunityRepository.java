@@ -104,7 +104,7 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
         score = (!record.hasColumn ("Score") || record.<Float> get ("Score") == null) ? null : new Integer (record.<Float> get ("Score").intValue ());
       } catch (ClassCastException e) {
         if(record. get ("Score")!=null) {
-          _logger.error ("Error while converting record to float :: "+record. get ("Score").toString ());
+          _logger.warn ("Error while converting record to float :: "+record. get ("Score").toString ());
         }
       }
       
