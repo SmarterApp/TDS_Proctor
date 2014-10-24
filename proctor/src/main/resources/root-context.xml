@@ -5,11 +5,9 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:oauth2="http://www.springframework.org/schema/security/oauth2" 
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd ">
 	
 	<!-- Start : Added for SSO Integration -->
@@ -76,17 +74,6 @@
 	
 	<context:component-scan base-package="TDS.Proctor.Web.client"></context:component-scan>
 	
-	 <beans:bean id="httpComponentsClientHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"/>
-	
-	
-	  <!--apply the oauth client context -->
-    <oauth2:client id="oauth2ClientFilter" />
-    <oauth2:resource id="testregResource" type="saml_assertion" client-authentication-scheme="form"
-        client-id="${oauth.testreg.client}"
-        client-secret="${oauth.testreg.client.secret}"
-        access-token-uri="${oauth.access.url}"
-         />
-    <beans:bean id="samlAssertionTokenProvider" class="org.opentestsystem.shared.security.oauth.client.grant.samlbearer.SamlAssertionAccessTokenProvider" />
-    <oauth2:rest-template  access-token-provider="samlAssertionTokenProvider" id="testRegClientRestTemplate" resource="testregResource"/>
+	<beans:bean id="httpComponentsClientHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"/>
 	
 </beans>
