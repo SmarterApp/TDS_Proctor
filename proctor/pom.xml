@@ -5,17 +5,17 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>R01.00.02</version>
+	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>1.0.1</version>
+		<version>1.0.1-BUILD-SNAPSHOT</version>
 	</parent>
 	
 	<properties>
-		<progman-client.version>0.0.4</progman-client.version>
-		<sb11-mna-client.version>0.0.4</sb11-mna-client.version>
-		<sb11-shared-code.version>0.0.6</sb11-shared-code.version>
+		<progman-client.version>0.0.4-SNAPSHOT</progman-client.version>
+		<sb11-mna-client.version>0.0.4-SNAPSHOT</sb11-mna-client.version>
+		<sb11-shared-code.version>0.0.6-SNAPSHOT</sb11-shared-code.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 	</properties>
 
@@ -123,7 +123,7 @@
 		<dependency>
 		    <groupId>org.opentestsystem.shared</groupId>
 		    <artifactId>sb11-shared-security</artifactId>
-		    <version>0.0.1</version>
+		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -260,7 +260,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>item-renderer</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	
