@@ -38,6 +38,11 @@ pm.oauth.client.id={Client ID for program management client, can be shared among
 pm.oauth.client.secret={Password for program management client, can be shared amongst all client users or application/consumer specific values}
 pm.oauth.batch.account={Account name or email for OAuth2 batch}
 pm.oauth.batch.password={OAuth2 batch password}
+oauth.testreg.client={OAuth test client ID for test registration}
+oauth.testreg.client.secret={OAuth client secret for test registration}
+oauth.testreg.client.granttype={OAuth grant type for test registration}
+oauth.testreg.username={OAuth username for test registration}
+oauth.testreg.password={OAuth password for test registration} 
 
 working example:
 oauth.access.url=https://drc-dev-secure.opentestsystem.org/auth/oauth2/access_token?realm=/sbac
@@ -45,6 +50,11 @@ pm.oauth.client.id=pm
 pm.oauth.client.secret=OAUTHCLIENTSECRET
 pm.oauth.batch.account=test@example.com
 pm.oauth.batch.password=<password>
+oauth.testreg.client=testreg 
+oauth.testreg.client.secret=<secret> 
+oauth.testreg.client.granttype=password
+oauth.testreg.username=testreg@example.org 
+oauth.testreg.password=<password>
 ```
 Add environment variable `-DSB11_CONFIG_DIR` to application server start up as shown in Tomcat (Run Configuration).
 

@@ -1307,7 +1307,7 @@ advanced_search.bottomHalf{
 	 .dropdown #divTestApprovalDetails {
 	height: 500px !important;
 	overflow: hidden !important;
-}
+	}
    
 	.activeTable th, .activeTable td {
 		font-size: 12px;
@@ -1316,6 +1316,10 @@ advanced_search.bottomHalf{
 		background-color: rgba(255, 255, 255, .5);
 		text-align: center;
 		padding-top: 50%;
+	}
+	
+	#divApprovalsShell {
+		margin-top: 0%;
 	}
 
 .approvals_window .approvals_wrapper .approvals_shell, .all_details .allDetails .pop_container, .print_window .print_wrapper iframe, .lookup_window .lookup_wrapper iframe, .alerts_window .alerts_wrapper iframe, .help_window .help_wrapper iframe, .show_alert .alert_single .alert_container, .selectTests .checkers .checkHolder {
