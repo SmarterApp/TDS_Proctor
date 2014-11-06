@@ -5,7 +5,7 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>R01.00.04</version>
+	<version>R01.00.05</version>
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
@@ -263,6 +263,5 @@
 			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
-	
 
 </project>
