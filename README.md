@@ -83,7 +83,7 @@ Like other SBAC applications, Proctor must be set up with active profiles and pr
 ```
 
 ## Program Management Properties
-Program Management properties need to be set for running Proctor. Example Proctor properties at [/proctor/docs/Installation/proctor-progman-config.txt](https://bitbucket.org/sbacoss/tdsdev/src/b8fa63e01340718add05cf4e9a97ab2dc30c341b/proctor/docs/Installation/proctor-progman-config.txt?at=default)
+Program Management properties need to be set for running Proctor. Example Proctor properties at /proctor/docs/Installation/proctor-progman-config.txt.
 
 #### Database Properties
 The following parameters need to be configured inside program management for database.
@@ -98,6 +98,12 @@ The following parameters need to be configured inside program management for dat
 * `datasource.checkoutTimeout=60000`  - The number of milliseconds a client calling getConnection() will wait for a Connection to be checked-in or acquired when the pool is exhausted. Zero means wait indefinitely. Setting any positive value will cause the getConnection() call to timeout and break with an SQLException after the specified number of milliseconds.
 * `datasource.maxConnectionAge=0`  - Seconds, effectively a time to live. A Connection older than maxConnectionAge will be destroyed and purged from the pool. This differs from maxIdleTime in that it refers to absolute age. Even a Connection which has not had much idle time will be purged from the pool if it exceeds maxConnectionAge. Zero means no maximum absolute age is enforced. 
 * `datasource.acquireRetryAttempts=5`  - Defines how many times datasource will try to acquire a new Connection from the database before giving up. If this value is less than or equal to zero, datasource will keep trying to fetch a Connection indefinitely.
+* `datasource.idleConnectionTestPeriod=14400`  - If this is a number greater than 0, Datasource will test all idle, pooled but unchecked-out connections, every this number of seconds.
+* `datasource.testConnectionOnCheckout=false`  - If true, an operation will be performed at every connection checkout to verify that the connection is valid. 
+* `datasource.testConnectionOnCheckin=false`  -  If true, an operation will be performed asynchronously at every connection checkin to verify that the connection is valid. 
+* `datasource.numHelperThreads=3`  - c3p0 is very asynchronous. Slow JDBC operations are generally performed by helper threads that don't hold contended locks. Spreading these operations over multiple threads can significantly improve performance by allowing multiple operations to be performed simultaneously. 
+* `datasource.maxStatements=20000`  - The size of c3p0's global PreparedStatement cache. If both maxStatements and maxStatementsPerConnection are zero, statement caching will not be enabled. If maxStatements is zero but maxStatementsPerConnection is a non-zero value, statement caching will be enabled, but no global limit will be enforced, only the per-connection maximum. maxStatements controls the total number of Statements cached, for all Connections. If set, it should be a fairly large number, as each pooled Connection requires its own, distinct flock of cached statements. As a guide, consider how many distinct PreparedStatements are used frequently in your application, and multiply that number by maxPoolSize to arrive at an appropriate value.
+* `datasource.maxStatementsPerConnection=100`  - The number of PreparedStatements c3p0 will cache for a single pooled Connection. If both maxStatements and maxStatementsPerConnection are zero, statement caching will not be enabled. If maxStatementsPerConnection is zero but maxStatements is a non-zero value, statement caching will be enabled, and a global limit enforced, but otherwise no limit will be set on the number of cached statements for a single Connection. If set, maxStatementsPerConnection should be set to about the number distinct PreparedStatements that are used frequently in your application, plus two or three extra so infrequently statements don't force the more common cached statements to be culled. 
 
 #### MNA properties
 Following parameters need to be configured inside program management for MNA.	
@@ -138,7 +144,7 @@ The following parameters need to be configured inside program management for Pro
 * `proctor.Appkey=Proctor` 
 * `proctor.EncryptedPassword=true` 
 * `proctor.RecordSystemClient=true` 
-* `proctor.AdminPassword=UnloadAppDomain1000tj` 
+* `proctor.AdminPassword=sEcReTpAsSwOrd` 
 * `proctor.SqlCommandTimeout=60` 
 * `proctor.AppName=Proctor` 
 * `proctor.SessionType=0`  - Type of the testing supported: 0 is online, 1 is paper-based.
@@ -152,9 +158,14 @@ The following parameters need to be configured inside program management for Pro
 * `proctor.StateCode=SBAC_PT` 
 * `proctor.ClientName=SBAC_PT`
 * `proctor.IsTrStubSession=true` 
+* `logLatencyInterval=55` - Define the seconds of a minute when DB latency is being logged into database table.
+* `logLatencyMaxTime=30000` - If any procedure call execution time exceeds the number of milliseconds specified here, It will be logged into the dblatency table of the database.
+* `dbLockRetrySleepInterval=116` - Database connection will wait for number of milliseconds specified here before trying to acquire the exclusive resource lock on database again.
+* `dbLockRetryAttemptMax=500` - If  database connection will not get the exclusive resource lock, It will retry number of times specified here.
+
 
 ## SP Metadata file for SSO
-Create metadata file for configuring the SSO. Sample SSO metadata file pointing to localhost is at [/proctor/docs/Installation/proctor_local_sp.xml](https://bitbucket.org/sbacoss/tdsdev/src/b8fa63e01340718add05cf4e9a97ab2dc30c341b/proctor/docs/Installation/proctor_local_sp.xml?at=default)
+Create metadata file for configuring the SSO. Sample SSO metadata file pointing to localhost is at /proctor/docs/Installation/proctor_local_sp.xml.
 Change the entity id and url according to the environment. Upload this file to OpenAM and place this file inside server file system.
 Specify `proctor.webapp.saml.metadata.filename` and `proctor.security.dir` in program management for metadata file name and location.
 ```
@@ -173,9 +184,9 @@ All scripts mentioned below are located at tdsdlldev project, tds-dll-schemas mo
 
 * Run the following command on the db server:
 `CREATE DATABASE 'configs' DEFAULT CHARACTER SET=utf8`
-* Create tables by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_tables.sql
-* Create constraints by running the SQL script file create_tables.sql located at   tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_constraints.sql
-* Create indexes by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_indexes.sql
+* Create tables by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_tables.sql`
+* Create constraints by running the SQL script file create_tables.sql located at  `tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_constraints.sql`
+* Create indexes by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_indexes.sql`
 * Create stored procedures by running the SQL script file/files located in folder
 tds-dll-schemas/src/main/resources/sql/MYSQL/configs/StoredProcedures/
 * Create functions by running the SQL script file/files located in folder
@@ -184,16 +195,15 @@ tds-dll-schemas/src/main/resources/sql/MYSQL/configs/Functions/
 #### 'itembank' Database
 
 * Run the following command on the db server:
-`CREATE DATABASE 'itembank' DEFAULT CHARACTER SET=utf8`
-* Create tables by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_tables.sql
-* Create constraints by running the SQL script file create_tables.sql located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_constraints.sql
-* Create indexes by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_indexes.sql
-* Create triggers by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/Triggers/triggers.sql
+`CREATE DATABASE 'itembank' DEFAULT CHARACTER SET=utf8
+* Create tables by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_tables.sql
+* Create constraints by running the SQL script file create_tables.sql located at `tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_constraints.sql
+* Create indexes by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_indexes.sql
+* Create triggers by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/Triggers/triggers.sql
 * Create stored procedures by running the SQL script file/files located in folder
 tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/StoredProcedures/
 * Create functions by running the SQL script file/files located in folder
 tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/Functions/
- 
  
 #### 'session' Database
 
@@ -345,11 +355,9 @@ Proctor has a number of direct dependencies that are necessary for it to functio
 * jstl
 * c3p0
 
-
 ### Test Dependencies
 * junit
 * shared-db-test
-
 
 ### Runtime Dependencies
 * Servlet API
