@@ -270,13 +270,5 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-	
-	<distributionManagement>
-		<repository>
-			<id>central</id>
-			<name>libs-releases</name>
-			<url>http://airdev.artifactoryonline.com/airdev/libs-releases-local</url>
-		</repository>
-	</distributionManagement>
 
 </project>

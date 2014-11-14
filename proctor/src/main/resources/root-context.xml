@@ -71,9 +71,6 @@
 		<beans:property name="maxStatementsPerConnection" value="${datasource.maxStatementsPerConnection:200}"/>
 	</beans:bean>
 	<!--End: c3p0 Datasource Configuration -->
-	
-	<context:component-scan base-package="TDS.Proctor.Web.client"></context:component-scan>
-	
-	<beans:bean id="httpComponentsClientHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"/>
+
 	
 </beans>

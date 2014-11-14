@@ -144,7 +144,7 @@ The following parameters need to be configured inside program management for Pro
 * `proctor.Appkey=Proctor` 
 * `proctor.EncryptedPassword=true` 
 * `proctor.RecordSystemClient=true` 
-* `proctor.AdminPassword=sEcReTpAsSwOrd` 
+* `proctor.AdminPassword=SeCrEtPaSsWoRd` 
 * `proctor.SqlCommandTimeout=60` 
 * `proctor.AppName=Proctor` 
 * `proctor.SessionType=0`  - Type of the testing supported: 0 is online, 1 is paper-based.
@@ -184,9 +184,9 @@ All scripts mentioned below are located at tdsdlldev project, tds-dll-schemas mo
 
 * Run the following command on the db server:
 `CREATE DATABASE 'configs' DEFAULT CHARACTER SET=utf8`
-* Create tables by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_tables.sql`
-* Create constraints by running the SQL script file create_tables.sql located at  `tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_constraints.sql`
-* Create indexes by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_indexes.sql`
+* Create tables by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_tables.sql
+* Create constraints by running the SQL script file create_tables.sql located at   tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_constraints.sql
+* Create indexes by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/configs/create_indexes.sql
 * Create stored procedures by running the SQL script file/files located in folder
 tds-dll-schemas/src/main/resources/sql/MYSQL/configs/StoredProcedures/
 * Create functions by running the SQL script file/files located in folder
@@ -195,15 +195,16 @@ tds-dll-schemas/src/main/resources/sql/MYSQL/configs/Functions/
 #### 'itembank' Database
 
 * Run the following command on the db server:
-`CREATE DATABASE 'itembank' DEFAULT CHARACTER SET=utf8
-* Create tables by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_tables.sql
-* Create constraints by running the SQL script file create_tables.sql located at `tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_constraints.sql
-* Create indexes by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_indexes.sql
-* Create triggers by running the SQL script file located at `tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/Triggers/triggers.sql
+`CREATE DATABASE 'itembank' DEFAULT CHARACTER SET=utf8`
+* Create tables by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_tables.sql
+* Create constraints by running the SQL script file create_tables.sql located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_constraints.sql
+* Create indexes by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/create_indexes.sql
+* Create triggers by running the SQL script file located at tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/Triggers/triggers.sql
 * Create stored procedures by running the SQL script file/files located in folder
 tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/StoredProcedures/
 * Create functions by running the SQL script file/files located in folder
 tds-dll-schemas/src/main/resources/sql/MYSQL/itembank/Functions/
+ 
  
 #### 'session' Database
 
@@ -355,9 +356,11 @@ Proctor has a number of direct dependencies that are necessary for it to functio
 * jstl
 * c3p0
 
+
 ### Test Dependencies
 * junit
 * shared-db-test
+
 
 ### Runtime Dependencies
 * Servlet API
