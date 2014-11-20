@@ -272,18 +272,6 @@ values (‘SBAC’, null, '/usr/local/tomcat/resources/tds/');
 insert into INTO `itembank`.`tblitembank`(`_fk_client`,`homepath`,`itempath`,`stimulipath`,`name`,`_efk_itembank`,`_key`,`contract`)
 values (1, ‘bank/’, ‘items/’, ‘stimuli/’, null, 1, 1, null);
 ``` 
-
-3. Run these statements on `session` db to setup generic session db:
-```
-INSERT INTO `session`.`_externs`
-values (/*IMP: clientname*/,
-'Development',0,0,0,0,0,0);
-```
-Example:
-```
-INSERT INTO `session`.`_externs`
-values ('SBAC', 'Development',0,0,0,0,0,0);
-```
  
 ### Load Test Package into the Database
 1. Execute/Run stored procedure `loader_main()` in database ‘itembank’ once per testpackage file. The stored proc takes one input, that is the XML file content. Copy the XML file content and paste it as an input and execute the stored procedure. Sample test packages are available in the **assessmentpackages** project. For example:

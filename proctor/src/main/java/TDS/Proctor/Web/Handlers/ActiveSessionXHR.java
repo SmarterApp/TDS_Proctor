@@ -378,14 +378,19 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       SessionDTO sessionDTO = new SessionDTO ();
       TestSession testSession;
       if (StringUtils.isEmpty (strSessionKey)) {
-        Date now = new Date ();
-        Date begin = Dates.getStartOfDayDate (now);
-        // time zone conversion
-        begin = Dates.convertXST_EST (begin, getTimezoneOffset ());
-        Date end = Dates.getEndOfDayDate (now);
-        // time zone conversion
-        end = Dates.convertXST_EST (end, getTimezoneOffset ());
-        testSession = _proctorAppTasks.getTestSessionTasks ().createSession (thisUser.getKey (), thisUser.getBrowserKey (), "", thisUser.getId (), thisUser.getFullname (), begin, end);
+        Date begin = null;
+        Date end   = null;
+//        Date now = new Date ();
+//        begin = Dates.getStartOfDayDate (now);
+//        // time zone conversion
+//        begin = Dates.convertXST_EST (begin, getTimezoneOffset ());
+//        end = Dates.getEndOfDayDate (now);
+//        // time zone conversion
+//        end = Dates.convertXST_EST (end, getTimezoneOffset ());
+        
+        //TODO Elena: per 11/18/2014 conversation with Hoai-Anh Ngo 
+        // we will let ProctorDLL.P_CreateSession method assign begin and end dates
+        testSession = _proctorAppTasks.getTestSessionTasks ().createSession (thisUser.getKey (), thisUser.getBrowserKey (), "", thisUser.getId (), thisUser.getFullname (), null, null);
 
         thisUser.setSessionKey (testSession.getKey ());
         ProctorUserService.save (thisUser, getUserInfo ()); // save new session
