@@ -9,9 +9,12 @@
 package TDS.Proctor.Web.presentation.backing;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.opentestsystem.shared.security.domain.SbacPermission;
 import org.opentestsystem.shared.security.domain.SbacRole;
 import org.opentestsystem.shared.security.domain.SbacUser;
 import org.slf4j.Logger;
@@ -52,9 +55,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
   public UserDetailsBacking () throws Exception{
     super ();
     _selectRolePresenter = new SelectRolePresenter (this);
-    _logger.info ("UserDetailsBacking.Java >>Load>>> Start >>>>>>>> "+getTime ());
     init();
-    _logger.info ("UserDetailsBacking.Java >>Load>>> Start >>>>>>>> "+getTime ());
   }
 
   public void setClientCSSLink (CSSLink link) {
@@ -154,7 +155,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
         if(sbacUser.getRoles ().size ()==1) 
         {
           SbacRole role = sbacUser.getRoles ().iterator ().next ();
-          _selectRolePresenter.createAndUpdateProctorIsCurrent (role.getRoleName (),proctorUser.getKey (),getClientName (),role.getEffectiveEntity ().getEntityId (),role.getRoleEntityLevel ().name ());
+          _selectRolePresenter.createAndUpdateProctorIsCurrent (role,proctorUser.getKey (),getClientName (),role.getEffectiveEntity ().getEntityId (),role.getRoleEntityLevel ().name ());
         }
       }
       
@@ -163,6 +164,8 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
       throw e;
     }
   }
+  
+  
   
   
   private ProctorUser validateLogin() throws Exception{
@@ -193,7 +196,23 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
     String[] selectedRoleStr= selectedRole.split ("~");
     String entityId = selectedRoleStr[1];
     String entityLevel = selectedRoleStr[2];
-    _selectRolePresenter.createAndUpdateProctorIsCurrent (selectedRoleStr[0],proctorUser.getKey (),getClientName (),entityId,entityLevel);
+    
+    Collection<SbacRole> roles = sbacUser.getRoles ();
+    Iterator<SbacRole> rolesIter = roles.iterator ();
+    SbacRole selectedRole = null;
+    while(rolesIter.hasNext ()) {
+      SbacRole role = rolesIter.next ();
+      if(role.getRoleName ().equalsIgnoreCase (selectedRoleStr[0]) && role.getEffectiveEntity ().getEntityId ().equalsIgnoreCase (entityId)) {
+        selectedRole = role;
+        break;
+      }
+    }
+    
+    if(selectedRole==null) {
+      throw new IllegalArgumentException ("Error Selecting Role...");
+    }
+    
+    _selectRolePresenter.createAndUpdateProctorIsCurrent (selectedRole,proctorUser.getKey (),getClientName (),entityId,entityLevel);
     return "default";
     } catch (Exception e) {
       _logger.error (e.getMessage ()==null?e.toString ():e.getMessage (),e);

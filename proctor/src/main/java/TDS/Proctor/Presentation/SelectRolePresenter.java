@@ -8,8 +8,14 @@
  ******************************************************************************/
 package TDS.Proctor.Presentation;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
+import org.opentestsystem.shared.security.domain.SbacPermission;
+import org.opentestsystem.shared.security.domain.SbacRole;
 import org.opentestsystem.shared.security.domain.SbacUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,15 +66,21 @@ public class SelectRolePresenter  extends PresenterBase
       }
     }
     
-    public  void createAndUpdateProctorIsCurrent(String roleName, long userKey,String clientName,String entityId,String entityLevel) throws Exception{
-      
-      TestType testType = null;
-       if(roleName.equalsIgnoreCase ("Test Administrator")) {
-         testType = TestType.SUMMATIVE;
-       } else if(roleName.equalsIgnoreCase ("Interim Test Administrator")){
-         testType = TestType.NON_SUMMATIVE;
-       }
-      _proctorUserService.createAndUpdateProctorIsCurrent (entityLevel, entityId, clientName, userKey,testType);
+    public  void createAndUpdateProctorIsCurrent(SbacRole role, long userKey,String clientName,String entityId,String entityLevel) throws Exception{
+      List<TestType> testTypesList = new ArrayList<TestType> ();
+      Collection<SbacPermission> permissions = role.getPermissions ();
+      Iterator<SbacPermission> permissionsIter = permissions.iterator ();
+      while(permissionsIter.hasNext ()) {
+        SbacPermission permission = permissionsIter.next ();
+        if(permission.getName ().equalsIgnoreCase ("Proctor Summative Tests")) {
+          testTypesList.add (TestType.SUMMATIVE);
+        } else if(permission.getName ().equalsIgnoreCase ("Proctor Interim Tests")) {
+          testTypesList.add (TestType.INTERIM);
+        } else if(permission.getName ().equalsIgnoreCase ("Proctor Formative Tests")) {
+          testTypesList.add (TestType.FORMATIVE);
+        }
+      }
+      _proctorUserService.createAndUpdateProctorIsCurrent (entityLevel, entityId, clientName, userKey,testTypesList);
     }
 
 }

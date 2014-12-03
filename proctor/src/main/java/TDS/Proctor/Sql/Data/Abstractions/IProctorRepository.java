@@ -8,6 +8,7 @@
  ******************************************************************************/
 package TDS.Proctor.Sql.Data.Abstractions;
 
+import java.util.List;
 import java.util.UUID;
 
 import tds.dll.api.TestType;
@@ -29,6 +30,6 @@ public interface IProctorRepository
 
   void logSystemClient (boolean recordSystemClient, String clientname, String UserID, String application, String clientIP, String proxyIP, String userAgent) throws ReturnStatusException;
   
-  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, TestType testType) throws ReturnStatusException;
+  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, List<TestType> testTypeList) throws ReturnStatusException;
 
 }

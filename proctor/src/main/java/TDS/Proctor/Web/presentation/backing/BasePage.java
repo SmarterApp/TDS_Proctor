@@ -102,8 +102,4 @@ public class BasePage
     return urlBuilder.toString ();
   }
   
-  protected String getTime() {
-    java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
-    return df.format (new java.util.Date());
-  }
 }

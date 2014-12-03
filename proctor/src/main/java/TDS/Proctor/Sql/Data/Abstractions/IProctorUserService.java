@@ -8,6 +8,7 @@
  ******************************************************************************/
 package TDS.Proctor.Sql.Data.Abstractions;
 
+import java.util.List;
 import java.util.UUID;
 
 import tds.dll.api.TestType;
@@ -38,6 +39,6 @@ public interface IProctorUserService
   
   boolean userAlreadyExists(String userId) throws ReturnStatusException;
   
-  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, TestType testType) throws ReturnStatusException;
+  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, List<TestType> testTypeList) throws ReturnStatusException;
   
 }

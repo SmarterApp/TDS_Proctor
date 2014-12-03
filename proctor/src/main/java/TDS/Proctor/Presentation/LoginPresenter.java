@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tds.dll.api.TestType;
 import AIR.Common.Configuration.AppSettingsHelper;
 import AIR.Common.Helpers.Constants;
 import AIR.Common.Utilities.SpringApplicationContext;
@@ -30,7 +29,6 @@ import TDS.Shared.Data.ReturnStatus;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 import TDS.Shared.Security.IEncryption;
-import TDS.Shared.Web.Encryption;
 import TDS.Shared.Web.UserCookie;
 
 public class LoginPresenter extends PresenterBase
@@ -86,9 +84,9 @@ public class LoginPresenter extends PresenterBase
         return null;
       }
       
-      String entityId = null, entityLevel = null;
+//      String entityId = null, entityLevel = null;
       ProctorUser user = _proctorUserService.validate (browserKey, userName, password, true);
-      _proctorUserService.createAndUpdateProctorIsCurrent (entityLevel, entityId, clientName, user.getKey (),TestType.SUMMATIVE);
+//      _proctorUserService.createAndUpdateProctorIsCurrent (entityLevel, entityId, clientName, user.getKey (),TestType.SUMMATIVE);
       if (!ignorePW) // validate password
         validatePassword (password, user.getRTSPassword ());
 
@@ -163,9 +161,9 @@ public class LoginPresenter extends PresenterBase
       return null;
     }
     try {
-      String entityId = null, entityLevel = null;
+//      String entityId = null, entityLevel = null;
       ProctorUser user = _proctorUserService.validate (browserKey, userName, password, true);
-      _proctorUserService.createAndUpdateProctorIsCurrent (entityLevel, entityId, clientName, user.getKey (),TestType.SUMMATIVE);
+//      _proctorUserService.createAndUpdateProctorIsCurrent (entityLevel, entityId, clientName, user.getKey (),TestType.SUMMATIVE);
       if (!ignorePW) // validate password
         validatePassword (password, user.getRTSPassword ());
 

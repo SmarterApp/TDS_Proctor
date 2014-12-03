@@ -10,6 +10,7 @@ package TDS.Proctor.Sql.RepositorySP;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -87,7 +88,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ProctorRepository.
   }
   
   //TODO Implement when SQL implementation of following method required.
-  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, TestType testType) throws ReturnStatusException {
+  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, List<TestType> testTypeList) throws ReturnStatusException {
     
   }
 

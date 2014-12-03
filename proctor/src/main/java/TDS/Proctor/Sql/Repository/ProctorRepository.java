@@ -10,6 +10,7 @@ package TDS.Proctor.Sql.Repository;
 
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -100,14 +101,14 @@ public class ProctorRepository extends AbstractDAO implements IProctorRepository
     return user;
   }
   
-  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, TestType testType) throws ReturnStatusException {
+  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, List<TestType> testTypeList) throws ReturnStatusException {
     try (SQLConnection connection = getSQLConnection ()) {
       // Retrieve proctor package from remote service and store for local use
       if ( _rdll instanceof RtsPackageDLL ) {
         final String proctorPackage = _proctorPackageService.getProctorPackageString (entityLevel, entityId);
        
         if (proctorPackage != null) {
-           _rdll.createAndUpdateProctorIsCurrent (connection, userKey, clientName, proctorPackage, testType);
+           _rdll.createAndUpdateProctorIsCurrent (connection, userKey, clientName, proctorPackage, testTypeList);
          }
       }
     } catch (SQLException e) {

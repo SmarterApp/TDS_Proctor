@@ -10,6 +10,7 @@ package TDS.Proctor.Services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
@@ -63,9 +64,9 @@ public class ProctorUserService implements IProctorUserService
     return user;
   }
   
-  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, TestType testType) throws ReturnStatusException {
+  public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, List<TestType> testTypeList) throws ReturnStatusException {
     try {
-      _proctorRepository.createAndUpdateProctorIsCurrent (entityLevel, entityId, clientName, userKey, testType);
+      _proctorRepository.createAndUpdateProctorIsCurrent (entityLevel, entityId, clientName, userKey, testTypeList);
     } catch (ReturnStatusException e) { 
       throw e;
     }

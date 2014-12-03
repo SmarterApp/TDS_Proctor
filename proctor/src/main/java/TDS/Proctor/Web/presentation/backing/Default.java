@@ -34,9 +34,7 @@ public class Default extends BasePage implements IHomePresenter
   
 
   public Default () throws Exception{
-    _logger.info ("Default.Java >>Load>>> Start >>>>>>>> "+getTime ());
     page_Load ();
-    _logger.info ("Default.Java >>Load>>> End >>>>>>>> "+getTime ());
   }
   
   
