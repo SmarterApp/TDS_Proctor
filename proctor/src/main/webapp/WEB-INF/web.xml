@@ -32,7 +32,20 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/Services/*</url-pattern>
 	</servlet-mapping>
-
+	
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/Blackbox/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>rendererServlet</servlet-name>
+		<servlet-class>tds.itemrenderer.webcontrols.rendererservlet.RendererServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>rendererServlet</servlet-name>
+		<url-pattern>/rs/*</url-pattern>
+	</servlet-mapping>
 	<!-- Custom listeners -->
 	<listener>
 		<description>sessionListener</description>

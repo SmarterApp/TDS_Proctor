@@ -14,7 +14,9 @@ import org.apache.commons.lang.StringUtils;
 
 import tds.blackbox.BlackboxSettings;
 import AIR.Common.Utilities.TDSStringUtils;
+import AIR.Common.Web.FacesContextHelper;
 import AIR.Common.Web.WebHelper;
+import AIR.Common.Web.taglib.ClientScriptContainerBean;
 import TDS.Proctor.Presentation.IPrintRequestPresenterView;
 import TDS.Proctor.Presentation.PresenterBase;
 import TDS.Proctor.Presentation.PrintRequestPresenter;
@@ -28,8 +30,6 @@ public/* partial */class PrintRequestBacking extends BasePage implements IPrintR
 
   private String                _lblName;
 
-  GlobalJavascript              gJS;
-
   private UUID                  _requestKey;
 
   private PresenterBase         _presenterBase;
@@ -37,7 +37,7 @@ public/* partial */class PrintRequestBacking extends BasePage implements IPrintR
   // TODO Shajib: used in displayMessage, don't know who sets this
   private String                _msg;
 
-  public void PrintRequestBacking () {
+  public PrintRequestBacking () {
     Page_Load ();
   }
 
@@ -80,15 +80,6 @@ public/* partial */class PrintRequestBacking extends BasePage implements IPrintR
     return _msg;
   }
 
-  public void setGJS (GlobalJavascript value)
-  {
-    this.gJS = value;
-  }
-
-  public GlobalJavascript getGJS () {
-    return this.gJS;
-  }
-
   public String getShowMsg ()
   {
     if (StringUtils.equals (_msg, null))
@@ -112,11 +103,6 @@ public/* partial */class PrintRequestBacking extends BasePage implements IPrintR
     /*
      * lblMessage.Visible = true; lblMessage.Text = msg;
      */
-  }
-
-  public void SetPresenterBase (PresenterBase presenter)
-  {
-    gJS.setPresenter (presenter);
   }
 
   public String getBlackboxHandler () {

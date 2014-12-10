@@ -35,9 +35,9 @@ public interface IProctorUserService
    */
   void logSystemClient (boolean recordSystemClient, String clientname, String UserID, String application, String clientIP, String proxyIP, String userAgent);
   
-  void createUser (String userID,String fullName) throws ReturnStatusException;
+  void createUser (String userID, String email, String fullName) throws ReturnStatusException;
   
-  boolean userAlreadyExists(String userId) throws ReturnStatusException;
+  boolean userAlreadyExists(String userId, String email) throws ReturnStatusException;
   
   public void createAndUpdateProctorIsCurrent(String entityLevel,String entityId, String clientName, Long userKey, List<TestType> testTypeList) throws ReturnStatusException;
   

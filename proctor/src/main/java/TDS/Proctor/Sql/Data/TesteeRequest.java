@@ -366,6 +366,9 @@ public class TesteeRequest
 
   @JsonProperty ("StrDateSubmitted")
   public String getStrDateSubmitted () {
+     if (_dateSubmitted == null) {
+      return null;
+     }
     // format date as 3/9/2008 4:05:07 PM
     DateFormat df = new SimpleDateFormat ("M/d/yyyy h:mm:ss aa");
     _strDateSubmitted = df.format (this._dateSubmitted);

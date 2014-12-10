@@ -117,12 +117,12 @@ public class ProctorRepository extends AbstractDAO implements IProctorRepository
     }
   }
   
-  public int createUser(String userId,String fullName) throws ReturnStatusException{
+  public int createUser(String userId, String email, String fullName) throws ReturnStatusException{
     try (SQLConnection connection = getSQLConnection ()) {
       // C# code version did not pass password, openSessions and ignorePW to
       // stored proc
 
-      return _rdll.createUser (connection, userId,fullName);
+      return _rdll.createUser (connection, userId, email, fullName);
 
     } catch (SQLException e) {
       _logger.error (e.getMessage ());
@@ -130,12 +130,12 @@ public class ProctorRepository extends AbstractDAO implements IProctorRepository
     }
   }
   
-  public boolean userAlreadyExists(String userId) throws ReturnStatusException {
+  public boolean userAlreadyExists(String userId, String email) throws ReturnStatusException {
     try (SQLConnection connection = getSQLConnection ()) {
       // C# code version did not pass password, openSessions and ignorePW to
       // stored proc
 
-      return _rdll.userAlreadyExists (connection, userId);
+      return _rdll.userAlreadyExists (connection, userId, email);
 
     } catch (SQLException e) {
       _logger.error (e.getMessage ());

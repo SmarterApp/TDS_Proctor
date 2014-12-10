@@ -184,16 +184,13 @@ YUI.add("tds-request", function(Y) {
         return false;
     }
     function _approve(e, testeeRequest) {
-        //Remove next line and uncomment the following block once ItemRenderer is ready. We would need to port PrintRequest.xhtml too.
-    	alert("At this time TA Interface does not implement Printrequest method");
-        /*
         testeeRequest.disabled = true;
         var page = "PrintRequest.xhtml";
         var requestType = testeeRequest.RequestType;
         if (requestType.indexOf("EMBOSS") != -1)
             page = "EmbossRequest.xhtml";
         window.open(page + "?requestKey=" + testeeRequest.Key, '_blank');
-        _render(e);*/
+        _render(e);
     }
 
     function _deny(e, testeeRequest) {

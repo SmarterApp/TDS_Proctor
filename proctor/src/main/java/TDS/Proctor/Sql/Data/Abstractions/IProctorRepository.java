@@ -20,9 +20,9 @@ public interface IProctorRepository
 
   ProctorUser validate (String clientName, UUID browserKey, String userID, String password, boolean openSessions, boolean ignorePW) throws ReturnStatusException;
 
-  int createUser(String userId,String fullName) throws ReturnStatusException;
+  int createUser(String userId, String email, String fullName) throws ReturnStatusException;
   
-  boolean userAlreadyExists(String userId) throws ReturnStatusException;
+  boolean userAlreadyExists(String userId, String email) throws ReturnStatusException;
   
   void logout (String clientName, long userKey, UUID browserKey) throws ReturnStatusException;
 

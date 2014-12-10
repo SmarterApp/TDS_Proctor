@@ -173,11 +173,11 @@ private static final Logger _logger = LoggerFactory.getLogger(ProctorRepository.
     }
   }
   //TODO Implementation required when integrating with MSSQL
-  public int createUser(String userId,String fullName) throws ReturnStatusException{
+  public int createUser(String userId, String email, String fullName) throws ReturnStatusException{
     return 0;
   }
 //TODO Implementation required when integrating with MSSQL
-  public boolean userAlreadyExists(String userId) throws ReturnStatusException{
+  public boolean userAlreadyExists(String userId, String email) throws ReturnStatusException{
     return false;
   }
   

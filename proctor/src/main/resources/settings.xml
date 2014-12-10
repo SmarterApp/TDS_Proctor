@@ -38,7 +38,6 @@
 
 	<!-- Database connection parameters should not be defined in this file. 
 		Those are defined at the container level, not at the application level -->
-		
 	<entry key="TestRegistrationApplicationUrl">${proctor.TestRegistrationApplicationUrl}</entry>
     <entry key="TDSArchiveDBName">${proctor.TDSArchiveDBName}</entry>
     <entry key="TDSSessionDBName">${proctor.TDSSessionDBName}</entry>

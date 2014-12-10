@@ -32,6 +32,8 @@ public class BasePage
 
   public BasePage () {
     tdsSettings = FacesContextHelper.getBean ("tdsSettings", TDSSettings.class);
+
+    clientScript = getBean ("clientScriptBackingBean", ClientScriptContainerBean.class).getClientScript ();
   }
 
   public TDSSettings getTdsSettings () {
@@ -57,6 +59,12 @@ public class BasePage
     return clientName;
   }
 
+  //TODO Shiva: Do we need to use FacesContextHelper here or can we do a
+  // direct injection.
+  protected <T> T getBean (String beanName, final Class<T> clazz) {
+    return FacesContextHelper.getBean (beanName, clazz);
+  }
+  
   public String buildClientMessage (String message) {
     return TDSStringUtils.format ("<span i18n-content=\"{0}\" class=\"messageBox\"></span>", message);
   }

@@ -126,8 +126,8 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
       sbacUser = (SbacUser) SecurityContextHolder.getContext ().getAuthentication ().getPrincipal ();
       IProctorUserService _proctorUserService = SpringApplicationContext.getBean ("iProctorUserService", IProctorUserService.class);
       try {
-        if(!_proctorUserService.userAlreadyExists (sbacUser.getUniqueId ())) {
-          _proctorUserService.createUser (sbacUser.getUniqueId (),sbacUser.getFullName ());
+        if(!_proctorUserService.userAlreadyExists (sbacUser.getUniqueId (), sbacUser.getEmail ())) {
+          _proctorUserService.createUser (sbacUser.getUniqueId (),sbacUser.getEmail (), sbacUser.getFullName ());
         }
       } catch (ReturnStatusException e) {
         _logger.error (e.getMessage ()!=null?e.getMessage ():e.toString (),e);

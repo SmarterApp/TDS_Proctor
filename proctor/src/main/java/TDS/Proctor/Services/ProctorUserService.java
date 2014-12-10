@@ -50,8 +50,8 @@ public class ProctorUserService implements IProctorUserService
     return validate (browserKey, userID, password, false, ignorePW);
   }
   
-  public void createUser (String userID,String fullName) throws ReturnStatusException {
-    _proctorRepository.createUser (userID, fullName);
+  public void createUser (String userID, String email, String fullName) throws ReturnStatusException {
+    _proctorRepository.createUser (userID, email, fullName);
   }
   
   private ProctorUser validate (UUID browserKey, String userID, String password, boolean openSessions, boolean ignorePW) throws ReturnStatusException {
@@ -72,9 +72,9 @@ public class ProctorUserService implements IProctorUserService
     }
   }
   
-  public boolean userAlreadyExists (String userId) throws ReturnStatusException {
+  public boolean userAlreadyExists (String userId, String email) throws ReturnStatusException {
     try {
-      return _proctorRepository.userAlreadyExists (userId);
+      return _proctorRepository.userAlreadyExists (userId, email);
     } catch (ReturnStatusException e) { 
       throw e;
     }

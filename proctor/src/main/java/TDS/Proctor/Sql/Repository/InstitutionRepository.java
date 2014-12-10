@@ -68,10 +68,13 @@ public class InstitutionRepository extends AbstractDAO implements IInstitutionRe
         String tdsRole = record.<String> get ("tds_role");
 //        String role = record.<String> get ("tds_role");
 //        String tdsRole = rolesMap.get (role);
-        if (!roles.contains (tdsRole)) // ignore role
-          continue;
+        
+        //roles will be the same as in the result set
+    //    if (!roles.contains (tdsRole)) // ignore role
+      //    continue;
 
         String instType = record.<String> get ("institutionType"); // INSTITUTION|DISTRICT|STATE
+        
         if (Institution.isState (instType)) // state user
         {
           institutions = getInstitutions (clientname); // get all districts in
