@@ -1,10 +1,10 @@
 /*******************************************************************************
- * Educational Online Test Delivery System 
- * Copyright (c) 2014 American Institutes for Research
- *   
- * Distributed under the AIR Open Source License, Version 1.0 
- * See accompanying file AIR-License-1_0.txt or at
- * http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf
+ * Educational Online Test Delivery System Copyright (c) 2014 American
+ * Institutes for Research
+ * 
+ * Distributed under the AIR Open Source License, Version 1.0 See accompanying
+ * file AIR-License-1_0.txt or at http://www.smarterapp.org/documents/
+ * American_Institutes_for_Research_Open_Source_Software_License.pdf
  ******************************************************************************/
 package TDS.Proctor.Web.presentation.backing;
 
@@ -50,11 +50,14 @@ public/* partial */class PrintRequestBacking extends BasePage implements IPrintR
       setRequestKey (UUID.fromString (WebHelper.getQueryString ("requestKey")));
 
       _presenter = new PrintRequestPresenter (this);
+
+      this.getClientScriptBlock ().registerClientScriptBlock ("_testeeRequest", _presenter.GetTesteeRequestJSON (), true);
       /*
        * this.ClientScript.RegisterClientScriptBlock(typeof (Page),
        * "_testeeRequest", _presenter.GetTesteeRequestJSON(), true);
        */
-      this.getClientScript ().addToJsCode (_presenter.GetTesteeRequestJSON ());
+      // this.getClientScript ().addToJsCode (_presenter.GetTesteeRequestJSON
+      // ());
     } catch (Exception ex)
     {
       // log exception

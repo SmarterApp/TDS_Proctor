@@ -109,8 +109,8 @@ public class TesteeRepository extends AbstractDAO  implements ITesteeRepository
       // load stuff here ...
       Testee testee = new Testee ();
       TesteeAttribute taRtsKey, taSSID, taLastName, taFirstName, taGrade;
-      Long rtsKey = record.<Long> get("rtsKey");
-      if (rtsKey > 0) {
+      String rtsKey = record.<String> get("rtsKey");
+      if (rtsKey != null) {
           taRtsKey = new TesteeAttribute();
           taRtsKey.setTdsId("--RTS KEY--");
           taRtsKey.setType("ENTITYKEY");
@@ -188,7 +188,7 @@ public class TesteeRepository extends AbstractDAO  implements ITesteeRepository
           testeeAttribute.setLabel(record.<String> get ("label"));
           testeeAttribute.setValue(record.<String> get ("value"));
           testeeAttribute.setSortOrder(record.<Integer> get ("sortOrder"));
-          testeeAttribute.setEntityKey(record.<Long> get ("entityKey"));
+          testeeAttribute.setEntityKey(record.<String> get ("entityKey"));
           testeeAttribute.setEntityID(record.<String> get ("entityID"));
           testeeAttribute.setShowOnProctor(record.<Boolean> get ("showOnProctor"));
 

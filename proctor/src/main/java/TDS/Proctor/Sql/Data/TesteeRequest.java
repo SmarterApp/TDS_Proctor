@@ -13,8 +13,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import AIR.Common.JsonSerializers.JsonFilePathBackSlashToForwardSlashSerializer;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class TesteeRequest
 {
@@ -184,6 +187,7 @@ public class TesteeRequest
    * @return the _requestValue
    */
   @JsonProperty ("RequestValue")
+  @JsonSerialize(using = JsonFilePathBackSlashToForwardSlashSerializer.class)
   public String getRequestValue () {
     return _requestValue;
   }

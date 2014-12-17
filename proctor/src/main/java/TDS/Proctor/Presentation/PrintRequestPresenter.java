@@ -1,10 +1,10 @@
 /*******************************************************************************
- * Educational Online Test Delivery System 
- * Copyright (c) 2014 American Institutes for Research
- *   
- * Distributed under the AIR Open Source License, Version 1.0 
- * See accompanying file AIR-License-1_0.txt or at
- * http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf
+ * Educational Online Test Delivery System Copyright (c) 2014 American
+ * Institutes for Research
+ * 
+ * Distributed under the AIR Open Source License, Version 1.0 See accompanying
+ * file AIR-License-1_0.txt or at http://www.smarterapp.org/documents/
+ * American_Institutes_for_Research_Open_Source_Software_License.pdf
  ******************************************************************************/
 package TDS.Proctor.Presentation;
 
@@ -54,9 +54,9 @@ public class PrintRequestPresenter extends PresenterBase
               true);
       Date date = new Date ();
       _testeeRequest.setDatePrinted (date); // StrDatePrinted
-                                                           // =
-                                                           // DateTime.Now.ToShortDateString
-                                                           // ();
+                                            // =
+                                            // DateTime.Now.ToShortDateString
+                                            // ();
     } catch (ReturnStatusException rex)
     {
       _view.displayMessage (rex.getReturnStatus ().getReason ());
@@ -79,7 +79,7 @@ public class PrintRequestPresenter extends PresenterBase
     try
     {
       _testeeRequest = getProctorTasks ().getRequestTasks ().getTesteeRequestValues (getThisUser ().getSessionKey (), getThisUser ().getKey (), getThisUser ().getBrowserKey (),
-      _view.getRequestKey (), true);
+          _view.getRequestKey (), true);
       Date date = new Date ();
       _testeeRequest.setDatePrinted (date);
     } catch (ReturnStatusException rex)

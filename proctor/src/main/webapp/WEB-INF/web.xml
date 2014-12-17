@@ -89,6 +89,23 @@
 		<filter-name>contextInitializerFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>caseinsensitiveFilter</filter-name>
+		<filter-class>AIR.Common.Web.Session.CaseInsensitiveFileNameFilter</filter-class>
+		<init-param>
+			<param-name>extensionsToFilter</param-name>
+			<param-value>png|gif|jpeg|jpg|bmp|js|css</param-value>
+		</init-param>
+		<init-param>
+			<param-name>extensionsMapping</param-name>
+			<param-value>aspx=xhtml|</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>caseinsensitiveFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 		
 		<!--Start: Added for Program Management and Monitoring and Alerting dependency -->
 	<context-param>

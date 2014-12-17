@@ -193,7 +193,7 @@ private static final Logger _logger = LoggerFactory.getLogger(TesteeRepository.c
 	          testeeAttribute.setLabel(reader.getString("label"));
 	          testeeAttribute.setValue(reader.getString("value"));
 	          testeeAttribute.setSortOrder(reader.getInt("sortOrder"));
-	          testeeAttribute.setEntityKey(reader.getLong("entityKey"));
+	          testeeAttribute.setEntityKey(reader.getString("entityKey"));
 	          testeeAttribute.setEntityID(reader.getString("entityID"));
 	          testeeAttribute.setShowOnProctor(reader.getBoolean("showOnProctor"));
 

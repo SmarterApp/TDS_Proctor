@@ -3,57 +3,59 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:cc="http://java.sun.com/jsf/composite" xmlns:tds="http://airast.org/jsfcustom" xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
-<head>
-<!-- set character encoding -->
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<h:head>
+	<!-- set character encoding -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<link href="shared/css/passageScreen.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="shared/css/passagePrint.css" rel="stylesheet" type="text/css" media="print" />
+	<link href="shared/css/passageScreen.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="shared/css/passagePrint.css" rel="stylesheet" type="text/css" media="print" />
 
-<title>This need to be populated by JS</title>
+	<title>This need to be populated by JS</title>
 
-<!-- Forces IE into standards mode -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<!-- Forces IE into standards mode -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<!-- Prevents scaling -->
-<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
+	<!-- Prevents scaling -->
+	<meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
 
-<!-- Required by svgweb library -->
-<meta name="svg.config.data-path" content="#{printRequestBacking.getBlackboxUrl('Scripts/Libraries/svgweb/')}" />
+	<!-- Required by svgweb library -->
+	<meta name="svg.config.data-path" content="#{printRequestBacking.getBlackboxUrl('Scripts/Libraries/svgweb/')}" />
 
-<!-- Print Request scripts -->
-<tds:GlobalJavascript contextName="PrintRequest.xhtml" id="gJS" language="ENU" />
-<script type="text/javascript" src="ProctorScripts/Libraries/3.14.1_build/yui/yui-min.js"></script>
-<script src="ProctorScripts/Messages/messages_indexer.js" type="text/javascript"></script>
-<script src="ProctorScripts/Messages/messages_template.js" type="text/javascript"></script>
-<script src="ProctorScripts/Messages/messages_system.js" type="text/javascript"></script>
-<script src="ProctorScripts/Messages/messages_loader.js" type="text/javascript"></script>
-<script src="ProctorScripts/Utilities/util.js" type="text/javascript"></script>
-<script src="ProctorScripts/Utilities/util_structs.js" type="text/javascript"></script>
-<script src="ProctorScripts/tds.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/browser.js"></script>
-<script type="text/javascript" src="js/tds_printrequest.js"></script>
-<script type="text/javascript">
-	function blackboxEvent(blackbox, name) {
-		var printRequest = new PrintRequest(gTesteeRequest);
+	<!-- Print Request scripts -->
+	<tds:GlobalJavascript contextName="PrintRequest.xhtml" id="gJS" language="ENU" />
+	<script type="text/javascript" src="ProctorScripts/Libraries/3.14.1_build/yui/yui-min.js"></script>
+	<script src="ProctorScripts/Messages/messages_indexer.js" type="text/javascript"></script>
+	<script src="ProctorScripts/Messages/messages_template.js" type="text/javascript"></script>
+	<script src="ProctorScripts/Messages/messages_system.js" type="text/javascript"></script>
+	<script src="ProctorScripts/Messages/messages_loader.js" type="text/javascript"></script>
+	<script src="ProctorScripts/Utilities/util.js" type="text/javascript"></script>
+	<script src="ProctorScripts/Utilities/util_structs.js" type="text/javascript"></script>
+	<script src="ProctorScripts/tds.js" type="text/javascript"></script>
+	<script type="text/javascript" src="js/browser.js"></script>
+	<script type="text/javascript" src="js/tds_printrequest.js"></script>
 
-		if (name === 'available')
-			printRequest.blackboxAvailable();
-		if (name === 'ready')
-			printRequest.blackboxReady();
-	}
+	<script type="text/javascript">
+		function blackboxEvent(blackbox, name) {
+			var printRequest = new PrintRequest(gTesteeRequest);
 
-	//Blackbox Config
-	var blackboxConfig = {
-		container : 'testShell'
-	};
-</script>
+			if (name === 'available')
+				printRequest.blackboxAvailable();
+			if (name === 'ready')
+				printRequest.blackboxReady();
+		}
 
-<!-- Blackbox Seed -->
-<script type="text/javascript" src="#{printRequestBacking.getBlackboxHandler()}"></script>
-</head>
+		//Blackbox Config
+		var blackboxConfig = {
+			container : 'testShell'
+		};
+	</script>
 
-<body id="body" class="yui-skin-sam app_Proctor">
+	<!-- Blackbox Seed -->
+	<script type="text/javascript" src="#{printRequestBacking.getBlackboxHandler()}"></script>
+.
+</h:head>
+
+<h:body id="body" class="yui-skin-sam app_Proctor">
 
 	<div class="loadingprint">
 		<span>Please Wait</span>
@@ -92,5 +94,6 @@
 	<div class="orientation">
 		<span class="the_message">This application works best in portrait orientation. Please rotate your device so that it is vertical. </span>
 	</div>
-</body>
+	<tds:ClientScript binding="#{clientScript.clientScript}" />
+</h:body>
 </html>

@@ -19,7 +19,7 @@ public class TesteeAttribute {
 	private String _label;
 	private String _value;
 	private int _sortOrder;
-	private long _entityKey;
+	private String _entityKey;
 	private String _entityID;
 	private boolean _showOnProctor;	
 
@@ -87,11 +87,11 @@ public class TesteeAttribute {
 	}
 
 	@JsonProperty ("entityKey")
-	public long getEntityKey() {
+	public String getEntityKey() {
 		return _entityKey;
 	}
 
-	public void setEntityKey(long entityKey) {
+	public void setEntityKey(String entityKey) {
 		_entityKey = entityKey;
 	}
 
