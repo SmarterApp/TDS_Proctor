@@ -133,71 +133,8 @@
 		" rel="stylesheet" type="text/css" /-->
 	<link href="#{request.contextPath}/shared/css/print.css"
 		rel="stylesheet" type="text/css" media="print" />
+	 <link href="#{request.contextPath}/shared/css/roleSelect.css" rel="stylesheet" type="text/css" media="all" />	
 		
-		<style type="text/css">
-			
-			.popupContact {
-				position: fixed;
-				_position: absolute; /* hack for internet explorer 6*/
-				height: auto;
-				min-height: 100px;
-				width: 720px;
-				background: #FFFFFF;
-				z-index: 2;
-				margin-left: auto;
-    			margin-right: auto;
-				padding: 12px;
-				font-size: 13px;
-				border: 4px solid #93969C; 
-				border-radius: 10px 10px 10px 10px; 
-				box-shadow: 0 0 4px 3px #D1D3D4;
-			}
-			
-			.popupContact h1 {
-				text-align: left;
-				color: #6FA5FD;
-				font-size: 22px;
-				font-weight: 700;
-				border-bottom: 1px dotted #D3D3D3;
-				padding-bottom: 2px;
-				margin-bottom: 20px;
-			}
-			
-			.popupContact h3{
-				margin-bottom: 0.5em;
-			}
-			
-			.popupContact #popUpMessageButtonsDiv{
-				margin: 1.8em 0 0 0; /*Trying to match the button margin enforced by SBAC*/
-				text-align: center;
-				position: static !important;
-			}
-			.popupContact #popUpMessageButtonsDiv button{
-				margin-right: 1em;
-				padding: 6px;
-			}
-			
-			.popupContact div{
-				margin: 1em 0;
-				text-align: center;
-			}
-			
-			.popupContactClose {
-				font-size: 14px;
-				line-height: 14px;
-				right: 6px;
-				top: 4px;
-				position: absolute;
-				color: #6fa5fd;
-				font-weight: 700;
-				display: block;
-			}
-			
-			.popupContact a {
-				cursor: pointer;
-				text-decoration: none;
-			}
-		</style>
 </h:head>
 
 <h:body class="loading nocollapse not_started none_selected yui3-skin-sam">
@@ -238,7 +175,7 @@
 				</div>
 			</div>
 		<div id="bottomHalf" class="bottomHalf">	
-		<div id="customOverlay" class="popupContact">
+			<div id="customOverlay" class="popupContact">
 				<h3>
 					Select Role
 				</h3>
@@ -250,7 +187,7 @@
 		   		<h:commandButton action="#{userDetailsBacking.next}"  value="Next"></h:commandButton>
 		   		
 			</div>
-			</div>
+		</div>
 			
 			<div class="wait">
 				<span class="container"><h2 i18n-content="Label.PleaseWait">Please
