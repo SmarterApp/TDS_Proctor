@@ -1,10 +1,10 @@
 /*******************************************************************************
- * Educational Online Test Delivery System 
- * Copyright (c) 2014 American Institutes for Research
- *   
- * Distributed under the AIR Open Source License, Version 1.0 
- * See accompanying file AIR-License-1_0.txt or at
- * http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf
+ * Educational Online Test Delivery System Copyright (c) 2014 American
+ * Institutes for Research
+ * 
+ * Distributed under the AIR Open Source License, Version 1.0 See accompanying
+ * file AIR-License-1_0.txt or at http://www.smarterapp.org/documents/
+ * American_Institutes_for_Research_Open_Source_Software_License.pdf
  ******************************************************************************/
 package TDS.Proctor.Web.presentation.taglib;
 
@@ -57,7 +57,6 @@ public class GlobalJavascriptWriter
     _writer.write (TDSStringUtils.format ("gTDS.appConfig.ClientName = \"{0}\"; ", clientName));
     _writer.write ("\n\r");
 
-    
     // from web.config
     _writer.write (TDSStringUtils.format ("gTDS.appConfig.AppName = \"{0}\"; ", _settings.getAppName ()));
     _writer.write ("\n\r");
@@ -78,16 +77,17 @@ public class GlobalJavascriptWriter
         _writer.write (TDSStringUtils.format ("gTDS.appConfig.TimeZoneOffset = {0}; \r\n", pAppConfig.getTimeZoneOffset ()));
         _writer.write (TDSStringUtils.format ("gTDS.appConfig.Local_Domains = \"{0}\"; \r\n", AppSettingsHelper.get ("Local_Domains", "proctor|testadmin|checkin|192.168.")));
         _writer.write (TDSStringUtils.format ("gTDS.appConfig.Language = \"{0}\"; \r\n", getLanguage ()));
-        
+
         // from AIR.CLS lib
         // TODO Shiva we are ignoring CLS
-        _writer.write (TDSStringUtils.format ("gTDS.appConfig.IsCLSLogin = {0}; ", false));
+        // SB-286
+        _writer.write (TDSStringUtils.format ("gTDS.appConfig.IsCLSLogin = {0}; ", pAppConfig.getCLSLogin ()));
         _writer.write ("\n\r");
 
         if (_presenter.getThisUser () != null)
           _writer.write (TDSStringUtils.format ("gTDS.appConfig.UserFullName = \"{0}\"; \r\n", _presenter.getThisUser ().getFullname ()));
-      
-        _writer.write (TDSStringUtils.format ("gTDS.appConfig.contextPath = \"{0}\"; \r\n", _presenter.getHttpCurrentContext().getRequest ().getContextPath ()));
+
+        _writer.write (TDSStringUtils.format ("gTDS.appConfig.contextPath = \"{0}\"; \r\n", _presenter.getHttpCurrentContext ().getRequest ().getContextPath ()));
       }
     }
   }

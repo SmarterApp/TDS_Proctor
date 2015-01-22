@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import AIR.Common.DB.AbstractDAO;
 import AIR.Common.DB.SQLConnection;
@@ -28,7 +29,6 @@ import TDS.Proctor.Sql.Data.Schools;
 import TDS.Proctor.Sql.Data.Abstractions.IInstitutionRepository;
 import TDS.Shared.Data.ColumnResultSet;
 import TDS.Shared.Exceptions.ReturnStatusException;
-import org.slf4j.LoggerFactory;
 
 public class InstitutionRepository extends AbstractDAO implements IInstitutionRepository
 {

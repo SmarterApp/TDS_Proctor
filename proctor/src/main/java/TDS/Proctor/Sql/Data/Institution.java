@@ -27,10 +27,27 @@ public class Institution
   @JsonProperty ("isState")
   public boolean             isState;
 
+  @JsonProperty ("isSchoolGroup")
+  public boolean             isSchoolGroup;
+
+  @JsonProperty ("isDistrictGroup")
+  public boolean             isDistrictGroup;
+
+  @JsonProperty ("isStateGroup")
+  public boolean             isStateGroup;
+  
+  
+  @JsonProperty ("isClient")
+  public boolean             isClient;
+  
   public static final String INSTITUTION = "INSTITUTION";
   public static final String DISTRICT    = "DISTRICT";
   public static final String STATE       = "STATE";
-
+  public static final String INSTITUTION_GROUP = "INSTITUTION_GROUP";
+  public static final String DISTRICT_GROUP    = "DISTRICT_GROUP";
+  public static final String STATE_GROUP       = "STATE_GROUP";
+  public static final String CLIENT      = "CLIENT";
+  
   public Institution (String key, String name, String id, String type) {
     this._key = key;
     this._id = id;
@@ -86,6 +103,22 @@ public class Institution
 
   public static boolean isState (String instType) {
     return (STATE.equals (instType));
+  }
+
+  public static boolean isSchoolGroup (String instType) {
+    return (INSTITUTION_GROUP.equals (instType));
+  }
+
+  public static boolean isDistrictGroup (String instType) {
+    return (DISTRICT_GROUP.equals (instType));
+  }
+
+  public static boolean isStateGroup (String instType) {
+    return (STATE_GROUP.equals (instType));
+  }
+
+  public static boolean isClient (String instType) {
+    return (CLIENT.equals (instType));
   }
 
   @Override

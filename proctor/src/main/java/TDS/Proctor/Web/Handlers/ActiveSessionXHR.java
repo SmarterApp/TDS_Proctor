@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import AIR.Common.Helpers.Constants;
 import AIR.Common.Helpers._Ref;
-import AIR.Common.Utilities.Dates;
 import AIR.Common.Utilities.UrlEncoderDecoderUtils;
 import TDS.Proctor.Services.ProctorAppTasks;
 import TDS.Proctor.Services.ProctorUserService;
@@ -706,7 +705,8 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
   public Testee getTestee (@RequestParam (value = "testeeID", required = false) String testeeID) throws ReturnStatusException, TDSSecurityException {
     checkAuthenticated ();
     try {
-      Testee testee = _proctorAppTasks.getTesteeTasks ().getTestee (testeeID);
+      ProctorUser thisUser = getUser ();
+      Testee testee = _proctorAppTasks.getTesteeTasks ().getTestee (testeeID, thisUser.getKey ());
       return testee;
     } catch (Exception re) {
       throw re;
@@ -940,4 +940,5 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
   private int getTimezoneOffset () {
     return getVariablesCookie ().getTimezoneOffset ();
   }
+
 }

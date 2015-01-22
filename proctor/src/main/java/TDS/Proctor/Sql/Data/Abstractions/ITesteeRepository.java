@@ -14,7 +14,7 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 
 public interface ITesteeRepository
 {
-  Testee getTestee (String clientname, String testeeID) throws ReturnStatusException;
+  Testee getTestee (String clientname, String testeeID, long proctorKey) throws ReturnStatusException;
 
   Testees getSchoolTestees (String clientname, String schoolKey, String grade, String firstName, String lastName) throws ReturnStatusException;
 }

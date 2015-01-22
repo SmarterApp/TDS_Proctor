@@ -33,7 +33,7 @@ public class TesteeRepository extends AbstractDAO implements ITesteeRepository
 
 private static final Logger _logger = LoggerFactory.getLogger(TesteeRepository.class);
 
-  public Testee getTestee (String clientname, String testeeID) throws ReturnStatusException {
+  public Testee getTestee (String clientname, String testeeID, long proctorKey) throws ReturnStatusException {
     final String sp = "{call P_GetRTSTestee(?, ?) }";
     ColumnResultSet reader = null;
 

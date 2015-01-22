@@ -25,10 +25,10 @@ public class TesteeService implements ITesteeService
     _clientName = settings.getClientName ();
   }
 
-  public Testee getTestee (String testeeID) throws ReturnStatusException {
+  public Testee getTestee (String testeeID, long proctorKey) throws ReturnStatusException {
     Testee testee = null;
     try {
-      testee = _repository.getTestee (_clientName, testeeID);
+      testee = _repository.getTestee (_clientName, testeeID, proctorKey);
     } catch (ReturnStatusException e) {
       throw e;
     }

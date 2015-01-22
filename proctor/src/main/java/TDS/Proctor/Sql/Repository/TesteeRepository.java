@@ -45,11 +45,11 @@ public class TesteeRepository extends AbstractDAO  implements ITesteeRepository
     @Autowired
 	IRtsDLL _rdll       = null;
 	
-  public Testee getTestee (String clientName, String testeeId) throws ReturnStatusException {
+  public Testee getTestee (String clientName, String testeeId, long proctorKey) throws ReturnStatusException {
 
     Testee testee = new Testee ();
     try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = _pdll.P_GetRTSTestee_SP (connection, clientName, testeeId);
+      SingleDataResultSet result = _pdll.P_GetRTSTestee_SP (connection, clientName, testeeId, proctorKey);
       ReturnStatusException.getInstanceIfAvailable (result, "The SP P_GetRTSTestee did not return any records.");
 
       result.setFixNulls (true);

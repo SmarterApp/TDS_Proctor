@@ -54,7 +54,7 @@ public class TesteeRepositoryTest
     // into ReturnStatusException
     exception.expect (ReturnStatusException.class);
     @SuppressWarnings ("unused")
-    Testee testee = _testeeRepository.getTestee (clientName, testeeId);
+    Testee testee = _testeeRepository.getTestee (clientName, testeeId, 0);
 
   }
 
@@ -70,7 +70,7 @@ public class TesteeRepositoryTest
     // and it converts such case into ReturnStatusException
     exception.expect (ReturnStatusException.class);
     @SuppressWarnings ("unused")
-    Testee testee = _testeeRepository.getTestee (clientName, testeeId);
+    Testee testee = _testeeRepository.getTestee (clientName, testeeId, 0);
 
   }
 
@@ -80,7 +80,7 @@ public class TesteeRepositoryTest
     String testeeId = "2941406"; // valid
 
     try {
-      Testee testee = _testeeRepository.getTestee (clientName, testeeId);
+      Testee testee = _testeeRepository.getTestee (clientName, testeeId, 0);
       assertTrue(testee != null);
       assertTrue(testee.getTesteeAttributes() != null);
 
