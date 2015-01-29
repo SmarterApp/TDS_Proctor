@@ -260,8 +260,8 @@ VALUES
 /*IMP: place the item path here */,
 /*IMP: place the stimuli path here */
 NULL,
-1,
-1,
+1, /*200 for SBAC and 187 for SBAC_PT. These values must be used for AIR produced test packages to function correctly*/
+1, /*200 for SBAC and 187 for SBAC_PT. These values must be used for AIR produced test packages to function correctly*/
 NULL);
 ```
 
@@ -270,7 +270,12 @@ Example:
 Insert into `itembank`.`tblclient` (`name`, `description`,`homepath`)
 values (‘SBAC’, null, '/usr/local/tomcat/resources/tds/');
 insert into INTO `itembank`.`tblitembank`(`_fk_client`,`homepath`,`itempath`,`stimulipath`,`name`,`_efk_itembank`,`_key`,`contract`)
-values (1, ‘bank/’, ‘items/’, ‘stimuli/’, null, 1, 1, null);
+values (1, ‘bank/’, ‘items/’, ‘stimuli/’, null, 200, 200, null);
+
+Insert into `itembank`.`tblclient` (`name`, `description`,`homepath`)
+values (‘SBAC_PT’, null, '/usr/local/tomcat/resources/tds/');
+insert into INTO `itembank`.`tblitembank`(`_fk_client`,`homepath`,`itempath`,`stimulipath`,`name`,`_efk_itembank`,`_key`,`contract`)
+values (2, ‘bank/’, ‘items/’, ‘stimuli/’, null, 187, 187, null);
 ``` 
  
 ### Load Test Package into the Database
