@@ -14,17 +14,14 @@ package TDS.Proctor.Sql.Repository;
  */
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.opentestsystem.shared.security.domain.SbacEntity;
-import org.opentestsystem.shared.security.domain.SbacRole;
-import org.opentestsystem.shared.security.domain.SbacUser;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import tds.dll.api.IRtsDLL;
 import AIR.Common.DB.AbstractDAO;
 import AIR.Common.DB.SQLConnection;
 import AIR.Common.DB.results.DbResultRecord;
@@ -40,12 +37,6 @@ import TDS.Proctor.Sql.Data.Schools;
 import TDS.Proctor.Sql.Data.Abstractions.IInstitutionRepository;
 import TDS.Shared.Exceptions.ReturnStatusException;
 
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import tds.dll.api.IRtsDLL;
-
 public class InstitutionRepository extends AbstractDAO implements IInstitutionRepository
 {
 
@@ -58,9 +49,7 @@ public class InstitutionRepository extends AbstractDAO implements IInstitutionRe
 
 //    HashMap<String, String> rolesMap = new HashMap<String, String> ();
     InstitutionList institutions = null;
-
-    Map<String,String> roleLevels = getRoleLevelMap(); 
-    
+   
     try (SQLConnection connection = getSQLConnection ()) {
       SingleDataResultSet result = _rdll.GetRTSUserRoles_SP (connection, clientname, userKey, sessionType);
       ReturnStatusException.getInstanceIfAvailable (result);
@@ -74,7 +63,7 @@ public class InstitutionRepository extends AbstractDAO implements IInstitutionRe
       while (records.hasNext ()) {
         DbResultRecord record = records.next ();
         // rolesMap is map to convert rts role into tds role
-        String tdsRole = record.<String> get ("tds_role");
+ //       String tdsRole = record.<String> get ("tds_role");
 //        String role = record.<String> get ("tds_role");
 //        String tdsRole = rolesMap.get (role);
         
@@ -89,11 +78,7 @@ public class InstitutionRepository extends AbstractDAO implements IInstitutionRe
           institutions = getInstitutions (clientname); // get all districts in
                                                        // a state
         } else {
-          String instName = roleLevels.get (instType + record.<String> get ("InstitutionID"));
-          if (instName == null) {
-            instName = "";
-          }
-          institutions.add (new Institution (record.<String> get ("InstitutionKey"), instName, record.<String> get ("InstitutionID"), instType));
+          institutions.add (new Institution (record.<String> get ("InstitutionKey"), record.<String> get ("InstitutionName"), record.<String> get ("InstitutionID"), instType));
         }
       }
       if (institutions.size () == 1)
@@ -105,22 +90,6 @@ public class InstitutionRepository extends AbstractDAO implements IInstitutionRe
     }
     return institutions;
   }
-  
-  //TODO: remove this method once ART users end point included entity name for roleassociations.
-  private Map<String,String> getRoleLevelMap() {
-    SbacUser sbacUser = (SbacUser) SecurityContextHolder.getContext ().getAuthentication ().getPrincipal ();
-    Map<String, String> entityLevelMap = new HashMap<>(); 
-    for (SbacRole role:sbacUser.getRoles ()) {
-      for (SbacEntity sbacEntity : role.getEntities ()) {
-        if (sbacEntity.getEntityType () == role.getRoleEntityLevel () && !StringUtils.isBlank (sbacEntity.getEntityId ())) {
-          entityLevelMap.put (sbacEntity.getEntityType ().name () + sbacEntity.getEntityId (), sbacEntity.getEntityName ()); 
-          break;
-        }
-      }
-    }
-    return entityLevelMap;
- }
-
 
   public InstitutionList getInstitutions (String clientname) throws ReturnStatusException {
 
