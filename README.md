@@ -162,6 +162,7 @@ The following parameters need to be configured inside program management for Pro
 * `logLatencyMaxTime=30000` - If any procedure call execution time exceeds the number of milliseconds specified here, It will be logged into the dblatency table of the database.
 * `dbLockRetrySleepInterval=116` - Database connection will wait for number of milliseconds specified here before trying to acquire the exclusive resource lock on database again.
 * `dbLockRetryAttemptMax=500` - If  database connection will not get the exclusive resource lock, It will retry number of times specified here.
+* `EncryptionKey=testKey123456789123456789`  - Encryption key is used for encrypting the cookies and item file path. There is no default value set for this property. It must be set in program management. Minimum length of this key is 24 characters.
 
 
 ## SP Metadata file for SSO
