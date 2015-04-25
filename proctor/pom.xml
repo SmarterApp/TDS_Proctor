@@ -5,7 +5,7 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>R01.00.38</version>
+	<version>R01.00.52</version>
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
@@ -256,6 +256,11 @@
 			<artifactId>shared-blackbox</artifactId>
 			<version>1.0.1</version>
 			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>student.library</artifactId>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 

@@ -1,16 +1,17 @@
 /*******************************************************************************
- * Educational Online Test Delivery System 
- * Copyright (c) 2014 American Institutes for Research
- *   
- * Distributed under the AIR Open Source License, Version 1.0 
- * See accompanying file AIR-License-1_0.txt or at
- * http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf
+ * Educational Online Test Delivery System Copyright (c) 2014 American
+ * Institutes for Research
+ * 
+ * Distributed under the AIR Open Source License, Version 1.0 See accompanying
+ * file AIR-License-1_0.txt or at http://www.smarterapp.org/documents/
+ * American_Institutes_for_Research_Open_Source_Software_License.pdf
  ******************************************************************************/
 package TDS.Proctor.Web.presentation.backing;
 
 import java.util.UUID;
 
 import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ import TDS.Proctor.Web.presentation.taglib.GlobalJavascript;
  */
 public class ApprovedRequests extends AbstractApprovedRequestsPresenter
 {
-  private static final Logger _logger = LoggerFactory.getLogger(ApprovedRequests.class);
+  private static final Logger       _logger          = LoggerFactory.getLogger (ApprovedRequests.class);
   private ProctorAppTasks           _proctorAppTasks = null;
   private ApprovedRequestsPresenter _presenter       = null;
   // Start page controls
@@ -130,7 +131,7 @@ public class ApprovedRequests extends AbstractApprovedRequestsPresenter
       _presenter = new ApprovedRequestsPresenter (this);
     } catch (Exception ex) {
       // handle the message first
-    	_logger.error (ex.getMessage(),ex);
+      _logger.error (ex.getMessage (), ex);
       return;
     }
   }
@@ -149,7 +150,14 @@ class OppKeyPredicate implements Predicate
   public boolean evaluate (Object arg0) {
     if (arg0 instanceof TesteeRequest) {
       UUID candidateKey = ((TesteeRequest) arg0).getOppKey ();
-      return _oppKey.equals (candidateKey);
+      if (_oppKey == null)
+      {
+        return false;
+      }
+      else
+      {
+        return _oppKey.equals (candidateKey);
+      }
     }
     return false;
   }

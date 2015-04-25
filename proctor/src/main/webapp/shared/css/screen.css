@@ -2834,3 +2834,8 @@ ul.selectReplacement:hover li:hover, ul.selectReplacement:hover li.hover, ul.sel
 ul.selectReplacement li.selected a, ul.selectReplacement li.selected:hover a{
 	color: #fff;
 }
+
+/* I guess we don't have a app select CLS Bar anymore.  Will need to remove all the CSS on it later */
+ul.selectReplacement{
+	display: none;
+}

@@ -55,7 +55,7 @@ public class TesteeRequest
   // public PrintRequestInfo PrintRequest;
   private String  _requestParameters; // just get the String and pass to the
                                       // blackbox
-
+  private static final String dateFormat = "yyyy-MM-dd hh:mm:ss a";
   private String  _strDatePrinted;
   private Date    _datePrinted;
   private String  _strDateSubmitted;
@@ -417,4 +417,16 @@ public class TesteeRequest
   public void setDateFulfilled (Date date) {
     this._dateFulfilled = date;
   }
+  @JsonIgnore
+  public String getDateFulfilledFormatted () {
+    if(_dateFulfilled!=null) {
+      SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+      return sdf.format (_dateFulfilled);
+    } else {
+      return "";
+    }
+    
+  }
+
+  
 }

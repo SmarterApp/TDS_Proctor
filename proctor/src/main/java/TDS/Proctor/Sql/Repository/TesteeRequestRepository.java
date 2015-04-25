@@ -158,7 +158,7 @@ public class TesteeRequestRepository extends AbstractDAO implements ITesteeReque
         testeeRequest.setSessionKey (record.<UUID> get ("_fk_Session"));
 
         testeeRequest.setRequestType (record.<String> get ("RequestType"));
-        testeeRequest.setRequestType (record.<String> get ("RequestValue"));
+        testeeRequest.setRequestValue (record.<String> get ("RequestValue"));
         testeeRequest.setDateSubmitted (record.<Date> get ("DateSubmitted"));
         // Date dateFulfilled = record.<Date> get ("DateFulfilled");
         testeeRequest.setDateFulfilled (record.<Date> get ("DateFulfilled"));

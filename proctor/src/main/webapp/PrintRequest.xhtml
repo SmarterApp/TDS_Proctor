@@ -1,14 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://java.sun.com/jsf/passthrough"
-	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:cc="http://java.sun.com/jsf/composite" xmlns:tds="http://airast.org/jsfcustom" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:cc="http://java.sun.com/jsf/composite" xmlns:tds="http://airast.org/jsfcustom" xmlns:tdsproctor="http://airast.org/jsfcustomproctor"  xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
 
 <h:head>
 	<!-- set character encoding -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-	<link href="shared/css/passageScreen.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="shared/css/passagePrint.css" rel="stylesheet" type="text/css" media="print" />
 
 	<title>This need to be populated by JS</title>
 
@@ -22,7 +20,7 @@
 	<meta name="svg.config.data-path" content="#{printRequestBacking.getBlackboxUrl('Scripts/Libraries/svgweb/')}" />
 
 	<!-- Print Request scripts -->
-	<tds:GlobalJavascript contextName="PrintRequest.xhtml" id="gJS" language="ENU" />
+	<tdsproctor:GlobalJavascriptProctor contextName="PrintRequest.aspx" id="gJS" language="ENU" />
 	<script type="text/javascript" src="ProctorScripts/Libraries/3.14.1_build/yui/yui-min.js"></script>
 	<script src="ProctorScripts/Messages/messages_indexer.js" type="text/javascript"></script>
 	<script src="ProctorScripts/Messages/messages_template.js" type="text/javascript"></script>
@@ -33,7 +31,7 @@
 	<script src="ProctorScripts/tds.js" type="text/javascript"></script>
 	<script type="text/javascript" src="js/browser.js"></script>
 	<script type="text/javascript" src="js/tds_printrequest.js"></script>
-
+	<tds:ClientScript binding="#{clientScript.clientScript}" />
 	<script type="text/javascript">
 		function blackboxEvent(blackbox, name) {
 			var printRequest = new PrintRequest(gTesteeRequest);
@@ -52,7 +50,11 @@
 
 	<!-- Blackbox Seed -->
 	<script type="text/javascript" src="#{printRequestBacking.getBlackboxHandler()}"></script>
-.
+
+	<!-- Moved this two files from top to appear after blackbox css to make print preview show items properly -->
+	<link href="shared/css/passageScreen.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="shared/css/passagePrint.css" rel="stylesheet" type="text/css" media="print" />
+
 </h:head>
 
 <h:body id="body" class="yui-skin-sam app_Proctor">
@@ -94,6 +96,6 @@
 	<div class="orientation">
 		<span class="the_message">This application works best in portrait orientation. Please rotate your device so that it is vertical. </span>
 	</div>
-	<tds:ClientScript binding="#{clientScript.clientScript}" />
+	
 </h:body>
 </html>

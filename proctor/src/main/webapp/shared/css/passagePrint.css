@@ -5,7 +5,7 @@
 	position:static !important;
 }*/
 html, body{
-	overflow: auto !important;
+	overflow: hidden !important; /*Changed to Hidden due to unexpected scrollbars in Webkit browsers*/
 	max-height: none !important;
 	display: block !important;
 	position: relative !important;
@@ -35,7 +35,8 @@ body {
 .coversheet2 {
 	page-break-before: always;
 	page-break-after: avoid;
-	height: 6in;
+	/* sb-1040: print zoom issue. Changing height to min-height */
+	min-height: 6in;
 }
 .coversheet h1 {
 	font-size: 3em;
@@ -474,127 +475,199 @@ body {
 #testShell .optionA .optionClicker:before {
 	content: "A";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionB .optionClicker:before {
 	content: "B";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionC .optionClicker:before {
 	content: "C";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionD .optionClicker:before {
 	content: "D";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionE .optionClicker:before {
-	content: "E";	color: #ccc;
+	content: "E";	
+	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionF .optionClicker:before {
-	content: "G";
+	content: "F";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionG .optionClicker:before {
 	content: "G";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionH .optionClicker:before {
 	content: "H";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionI .optionClicker:before {
 	content: "I";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionJ .optionClicker:before {
 	content: "J";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionK .optionClicker:before {
 	content: "K";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionL .optionClicker:before {
 	content: "L";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionM .optionClicker:before {
 	content: "M";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionN .optionClicker:before {
 	content: "N";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionO .optionClicker:before {
 	content: "O";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionP .optionClicker:before {
 	content: "P";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionQ .optionClicker:before {
 	content: "Q";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionR .optionClicker:before {
 	content: "R";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionS .optionClicker:before {
 	content: "S";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionT .optionClicker:before {
 	content: "T";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionU .optionClicker:before {
 	content: "U";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionV .optionClicker:before {
 	content: "V";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionW .optionClicker:before {
 	content: "W";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionX .optionClicker:before {
 	content: "X";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionY .optionClicker:before {
 	content: "Y";
 	color: #ccc;
+	padding-left: 5px;
 }
 #testShell .optionZ .optionClicker:before {
 	content: "Z";
 	color: #ccc;
+	padding-left: 5px;
 }
 
 #testShell .optionSelected .optionClicker:before{
 	color: #000;
 	content: "\2022";
-	font-size: 4em;
+	font-size: 3.5em;
 	margin-left: -5px;
 }
-#testShell .format_ms .optionClicker, .format_ms .optionClicker{
+#testShell .format_ms .optionClicker, 
+#testShell .EBSR_ms .optionClicker {
 	background-image: none !important;
+	border-radius: 0px !important;
 }
-/*#testShell .format_ms .optionClicker{
-	border: none;
-	border-radius: none;
+#testShell .format_ms .optionClicker:before, 
+#testShell .EBSR_ms .optionClicker:before {
+	content: " ";
 }
-#testShell .format_ms .optionClicker:before{
-	font-size: 0.8em;
-	margin-left: -4px;
+#testShell .format_ms .optionSelected .optionClicker, 
+#testShell .EBSR_ms.optionSelected .optionClicker {
+	border: dashed 1px #666;
 }
-#testShell .format_ms .optionSelected .optionClicker:before{
-	font-size: 4em;
-}*/
+#testShell .format_ms .optionSelected .optionClicker:before, 
+#testShell .EBSR_ms.optionSelected .optionClicker:before {
+	content: "✓";
+	font-size: 1em;
+	line-height: 1em;
+	text-align: center;
+}
+.TDS_PS_L1 #testShell .format_ms .optionSelected .optionClicker:before, 
+.TDS_PS_L1 #testShell .EBSR_ms.optionSelected .optionClicker:before {
+	font-size: 1.2em;
+}
+.TDS_PS_L2 #testShell .format_ms .optionSelected .optionClicker:before, 
+.TDS_PS_L2 #testShell .EBSR_ms.optionSelected .optionClicker:before {
+	font-size: 1.3em;
+}
+.TDS_PS_L3 #testShell .format_ms .optionSelected .optionClicker:before, 
+.TDS_PS_L3 #testShell .EBSR_ms.optionSelected .optionClicker:before {
+	font-size: 1.7em;
+}
+.TDS_PS_L4 #testShell .format_ms .optionSelected .optionClicker:before, 
+.TDS_PS_L4 #testShell .EBSR_ms.optionSelected .optionClicker:before {
+	font-size: 2em;
+}
+.TDS_PS_L1 #testShell .format_ms .optionSelected .optionClicker, 
+.TDS_PS_L1 #testShell .EBSR_ms.optionSelected .optionClicker {
+    height: 30px;
+    width: 30px;
+}
+.TDS_PS_L2 #testShell .format_ms .optionSelected .optionClicker, 
+.TDS_PS_L2 #testShell .EBSR_ms.optionSelected .optionClicker {
+    height: 40px;
+    width: 40px;
+}
+.TDS_PS_L3 #testShell .format_ms .optionSelected .optionClicker, 
+.TDS_PS_L3 #testShell .EBSR_ms.optionSelected .optionClicker {
+    height: 55px;
+    width: 55px;
+}
+.TDS_PS_L4 #testShell .format_ms .optionSelected .optionClicker, 
+.TDS_PS_L4 #testShell .EBSR_ms.optionSelected .optionClicker {
+    height: 68px;
+    width: 68px;
+}
+
+
+
 #testShell #thePassage .padding p img{
 	max-height: 9in;
 	width: auto !important;
@@ -680,6 +753,11 @@ img, .TDS_PS_L0 img, .TDS_PS_L1 img, .TDS_PS_L2 img, .TDS_PS_L3 img, .TDS_PS_L4 
 }
 	/*Passage Screen nullification*/
 
+/* Fix for scroll bars on passages we don't need */
+#contents div.pageWrapper{
+	position: relative;
+	overflow: hidden;
+}
 
 /*Fix for 89545 - switch to Layout 6 for printing */
 .layout6horizontal.structure, .layout6vertical.structure, layout6.structure{
@@ -730,3 +808,59 @@ img, .TDS_PS_L0 img, .TDS_PS_L1 img, .TDS_PS_L2 img, .TDS_PS_L3 img, .TDS_PS_L4 
 		margin-left: 0px;
 	}
 /* end */
+
+/* Compound Item Printing */
+#testShell .layout_compound_1{
+	position: relative;
+	display: block;
+}
+.bigTable.compound{
+	border: none;
+}
+/* end */
+
+/* The long lost bug 89642 */
+.ff3 body, html.ff3{
+	overflow: visible !important;
+}
+/* end */
+
+/* bug 138758 & 133728 */
+.simV2.SimContainer, .GridContainer, .EquationEditor{
+	page-break-inside: avoid;
+}
+/* end */
+
+/* bug 133716 */
+.optionClicker{
+	text-indent: inherit !important;
+	overflow: visible !important;
+}
+/* end */
+
+/* bug 133728 */
+.TDS_PS_L3 .EquationEditor.widget, .TDS_PS_L3 .mje_controls, .TDS_PS_L3 .keypad-body,
+.TDS_PS_L4 .EquationEditor.widget, .TDS_PS_L4 .mje_controls, .TDS_PS_L4 .keypad-body{
+	max-width: 7.9in;
+	min-width: inherit !important;
+}
+/* end */
+
+/* bug 141941 */
+.layout21 .theQuestions, .layout21 .thePassage{
+	position: relative !important;
+	width: auto !important;
+	left: 0 !important;
+}
+/* end */
+
+/* bug 155308 */
+.matchItemDemoAccesible-Ideal input{
+	opacity: 1;
+}
+/* end */
+
+/* sb-1040: eq item keyboard */
+.keypad.mje_controls {
+    display: none;
+}

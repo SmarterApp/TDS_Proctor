@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://java.sun.com/jsf/passthrough"
-	xmlns:tds="http://airast.org/jsfcustom"
+	xmlns:tds="http://airast.org/jsfcustomproctor"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
@@ -25,10 +25,10 @@
 	<link rel="stylesheet" type="text/css"
 		href="#{request.contextPath}/ProctorScripts/Libraries/3.14.1_build/scrollview-scrollbars/assets/skins/sam/scrollview-scrollbars.css" />
 
-	<tds:CSSLink href="Projects/{0}/css/modal.css" id="clientCSSLink"
+	<tds:CSSLinkProctor href="Projects/{0}/css/modal.css" id="clientCSSLink"
 		rel="stylesheet" type="text/css"
 		binding="#{approvedRequests.clientCSSLink}" />
-	<tds:GlobalJavascript contextName="ApprovedRequests.aspx" id="gJS"
+	<tds:GlobalJavascriptProctor contextName="ApprovedRequests.aspx" id="gJS"
 		language="ENU" binding="#{approvedRequests.globalJs}" />
 
 	<script
@@ -174,12 +174,13 @@
 					<div class="intro"></div>
 
 					<div class="requestTable">
-						<c:if
-							test="#{(approvedRequests.testeeRequests != null and approvedRequests.testeeRequests.size() > 0 and approvedRequests.opps != null and approvedRequests.opps.size() > 0)}">
+						<h:panelGroup layout="block" 
+							rendered="#{(approvedRequests.testeeRequests != null and approvedRequests.testeeRequests.size() > 0 and approvedRequests.opps != null and approvedRequests.opps.size() > 0)}">
 							<ui:repeat value="#{approvedRequests.opps}" var="opp">
 								<c:set var="reqs"
-									value="#{approvedRequests.FindAll(opp.oppKey)}" />
-								<c:if test="#{reqs != null and reqs.size() > 0}">
+									value="#{approvedRequests.findAll(opp.oppKey)}" />
+								
+								<h:panelGroup layout="block" rendered="#{reqs != null and reqs.size() > 0}">
 									<table>
 										<caption>
 											#{opp.name} <span i18n-content="Label.SSID"></span>
@@ -201,14 +202,14 @@
 													<td class="testLabel">#{opp.testName}</td>
 													<td>#{individualRequest.requestDesc}</td>
 													<td><c:if test="#{individualRequest.requestType != 'PRINTPASSAGE'}">#{individualRequest.itemPosition}</c:if></td>
-													<td>#{individualRequest.dateFulfilled}</td>
+													<td>#{individualRequest.dateFulfilledFormatted}</td>
 												</tr>
 											</ui:repeat>
 										</tbody>
 									</table>
-								</c:if>
+								</h:panelGroup>
 							</ui:repeat>
-						</c:if>
+						</h:panelGroup>
 
 					</div>
 					<!--  TODO Sivag Need to revisit the below logic   END -->

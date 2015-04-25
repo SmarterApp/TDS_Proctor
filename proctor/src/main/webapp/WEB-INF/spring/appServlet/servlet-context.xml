@@ -33,4 +33,5 @@
 	<context:component-scan base-package="TDS.Proctor.Services" />
 	<context:component-scan base-package="TDS.Proctor.Web.Handlers" />
 	<context:component-scan base-package="tds.blackbox" />
+	<context:component-scan base-package="tds.iris.web.handlers.blackbox" />
 </beans:beans>

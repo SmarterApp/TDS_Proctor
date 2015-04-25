@@ -27,7 +27,7 @@ import TDS.Shared.Configuration.TDSSettings;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 
-@FacesComponent (value = "GlobalJavascript")
+@FacesComponent (value = "GlobalJavascriptProctor")
 public class GlobalJavascript extends UIComponentBase
 {
   private String          _contextName    = null;

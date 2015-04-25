@@ -14,6 +14,7 @@
 	<beans:import resource="classpath:security/securityContext.xml"/>
 	<beans:import resource="classpath:security/samlmetadata-context.xml"/> 
 	<beans:import resource="classpath:opentestsystem.itemrenderer.xml" />
+	
 	<!-- End : Added for SSO Integration -->
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
@@ -73,5 +74,7 @@
 	</beans:bean>
 	<!--End: c3p0 Datasource Configuration -->
 
+	<!--SB-1040: Added for fileFtpHandler bean -->
+	<beans:import resource="classpath:opentestsystem.shared.web-context-module.xml" />
 	
 </beans>

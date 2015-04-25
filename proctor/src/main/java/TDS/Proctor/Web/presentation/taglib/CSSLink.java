@@ -19,7 +19,7 @@ import AIR.Common.Utilities.TDSStringUtils;
 import TDS.Proctor.Presentation.PresenterBase;
 import TDS.Proctor.Sql.Data.AppConfig;
 
-@FacesComponent (value = "CSSLink")
+@FacesComponent (value = "CSSLinkProctor")
 public class CSSLink extends UIComponentBase
 {
   private String        _href     = null;

@@ -88,7 +88,7 @@ Program Management properties need to be set for running Proctor. Example Procto
 #### Database Properties
 The following parameters need to be configured inside program management for database.
 
-* `datasource.url=jdbc:mysql://localhost:3306/schemaname`  - The JDBC URL of the database from which Connections can and should be acquired.
+* `datasource.url=jdbc:mysql://localhost:3306/schemaname?useUnicode=yes&characterEncoding=utf8`  - The JDBC URL of the database from which Connections can and should be acquired. useUnicode is required to store unicode characters into the database
 * `datasource.username=<db-username>`  -  Username that will be used for the DataSource's default getConnection() method. 
 * `encrypt:datasource.password=<db-password>`  - Password that will be used for the DataSource's default getConnection() method.
 * `datasource.driverClassName=com.mysql.jdbc.Driver`  - The fully qualified class name of the JDBC driverClass that is expected to provide Connections.
@@ -284,6 +284,17 @@ values (2, ‘bank/’, ‘items/’, ‘stimuli/’, null, 187, 187, null);
 ```
 Call `itembank`.`loader_main` (‘<testpackage purpose="administration" publisher="SBAC_PT" publishdate="Aug 15 2014  9:19AM" version="1.0">.. .. .</testpackage>‘)
 ```
+
+### Database Patches - Bug Fixes
+
+#### SB-1174
+Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/configs_update_patch_02252015.sql
+
+#### SB-1277
+Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1277_other accommodation addition.sql
+
+#### SB-366 and SB-1116
+Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1116_appmessages_update.sql
 
 ## Build Order
 These are the steps that should be taken in order to build all of the Proctor related artifacts.

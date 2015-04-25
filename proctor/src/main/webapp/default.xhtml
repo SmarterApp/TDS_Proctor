@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://java.sun.com/jsf/passthrough"
-	xmlns:tds="http://airast.org/jsfcustom">
+	xmlns:tds="http://airast.org/jsfcustomproctor">
 <h:head id="head">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -20,11 +20,11 @@
 	<link id="regStyle" href="#{request.contextPath}/shared/css/screen.css"
 		rel="stylesheet" type="text/css" media="screen" />
 	
-	<tds:CSSLink href="Projects/{0}/css/screen.css" id="clientCSSLink"
+	<tds:CSSLinkProctor href="Projects/{0}/css/screen.css" id="clientCSSLink"
 		rel="stylesheet" type="text/css"
 		binding="#{defaultBacking.clientCSSLink}" />
 
-	<tds:GlobalJavascript contextName="Default.aspx,AccType,AccValue" id="gJS"
+	<tds:GlobalJavascriptProctor contextName="Default.aspx,AccType,AccValue" id="gJS"
 		language="ENU" binding="#{defaultBacking.globalJs}" />
 
 	<script

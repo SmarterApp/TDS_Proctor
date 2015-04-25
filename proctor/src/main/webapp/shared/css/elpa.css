@@ -1367,9 +1367,10 @@ a.contexthelp:hover {
 
 /* @end */
 /* focus styles */
-.contextAreaFocus {
-	border: dotted 1px #666;
-	margin: -1px;
+/* sb-1040: scrollbar issue */
+.coverpage .contextAreaFocus {
+	border: medium none;
+	margin: 0;
 	/*background: url(../Images/focus.png) repeat;*/
 }
 #thePassage.contextAreaFocus {

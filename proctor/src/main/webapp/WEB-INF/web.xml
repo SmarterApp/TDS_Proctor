@@ -10,7 +10,11 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:root-context.xml</param-value>
 	</context-param>
-		
+			<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>WEB-INF/faces-config.xml,WEB-INF/itempreview-faces-config.xml,WEB-INF/testadmin-faces-config.xml
+    </param-value>
+	</context-param>
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -37,6 +41,12 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/Blackbox/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/ContentRequest.axd/load</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>rendererServlet</servlet-name>
 		<servlet-class>tds.itemrenderer.webcontrols.rendererservlet.RendererServlet</servlet-class>
@@ -95,7 +105,7 @@
 		<filter-class>AIR.Common.Web.Session.CaseInsensitiveFileNameFilter</filter-class>
 		<init-param>
 			<param-name>extensionsToFilter</param-name>
-			<param-value>png|gif|jpeg|jpg|bmp|js|css</param-value>
+			<param-value>png|gif|jpeg|jpg|bmp|js|css|xml|swf|htc|mno</param-value>
 		</init-param>
 		<init-param>
 			<param-name>extensionsMapping</param-name>
@@ -145,7 +155,7 @@
 	</context-param>
 	<context-param>
 		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
-		<param-value>/WEB-INF/classes/taglib.xml;</param-value>
+		<param-value>/WEB-INF/classes/taglib.xml;/WEB-INF/classes/testadmin-taglib.xml</param-value>
 	</context-param>
 	<context-param>
 		<description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
@@ -171,11 +181,31 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 	
+	<!-- SB-1040: 404 error for Resources.axd while printing math item -->
+	<servlet>
+		<servlet-name>ResourceHandler</servlet-name>
+		<servlet-class>tds.itemrenderer.web.ResourceHandler</servlet-class>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResourceHandler</servlet-name>
+		<url-pattern>/Pages/API/Resources.axd/*</url-pattern>
+	</servlet-mapping>
+	
 	<!--  may only be available with Mojarra -->
 	<!--  listener>
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
 	</listener-->
 
+	<!-- SB-483 -->
+	<filter>
+		<filter-name>requestContextFilter</filter-name>
+		<filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestContextFilter</filter-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</filter-mapping>
 	<!-- End JSF Configuration -->
 	<!-- End: Do not modify unless you are modifying code behaviour -->
 

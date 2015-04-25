@@ -3,16 +3,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://java.sun.com/jsf/passthrough"
-	xmlns:tds="http://airast.org/jsfcustom"
+	xmlns:tds="http://airast.org/jsfcustomproctor"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
 	
 <h:head id="Head1">
     <title i18n-content="Label.AppTitle"></title>    
     <link href="#{request.contextPath}/shared/css/screen.css" rel="stylesheet" type="text/css" />
     
-	<tds:CSSLink href="Projects/{0}/css/screen.css"
+	<tds:CSSLinkProctor href="Projects/{0}/css/screen.css"
 		id="clientCSSLink" rel="stylesheet" type="text/css" binding="#{confirmExit.clientCSSLink}" />
-	<tds:GlobalJavascript contextName="ConfirmExit.aspx" id="gJS" language="ENU" binding="#{confirmExit.globalJs}"/>     
+	<tds:GlobalJavascriptProctor contextName="ConfirmExit.aspx" id="gJS" language="ENU" binding="#{confirmExit.globalJs}"/>     
      
     <script src="#{request.contextPath}/ProctorScripts/Libraries/3.14.1_build/yui/yui-min.js" type="text/javascript"></script> 
     <script src="#{request.contextPath}/ProctorScripts/Messages/messages_indexer.js" type="text/javascript"></script>

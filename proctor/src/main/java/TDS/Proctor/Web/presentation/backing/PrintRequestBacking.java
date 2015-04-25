@@ -50,14 +50,23 @@ public/* partial */class PrintRequestBacking extends BasePage implements IPrintR
       setRequestKey (UUID.fromString (WebHelper.getQueryString ("requestKey")));
 
       _presenter = new PrintRequestPresenter (this);
-
+      String response = _presenter.GetTesteeRequest ().getItemResponse ();
+      if (!StringUtils.equals (response, null))
+      {
+        response = response.replace ("\"", "\\\"");
+        response = response.replace ("\n", "\\n");
+        response = response.replace ("\\frac", "\\\\frac");
+        _presenter.GetTesteeRequest ().setItemResponse (response);
+      }
       this.getClientScriptBlock ().registerClientScriptBlock ("_testeeRequest", _presenter.GetTesteeRequestJSON (), true);
       /*
        * this.ClientScript.RegisterClientScriptBlock(typeof (Page),
        * "_testeeRequest", _presenter.GetTesteeRequestJSON(), true);
        */
-      // this.getClientScript ().addToJsCode (_presenter.GetTesteeRequestJSON
-      // ());
+      /*
+       * this.getClientScript ().addToJsCode (_presenter.GetTesteeRequestJSON
+       * ());
+       */
     } catch (Exception ex)
     {
       // log exception
