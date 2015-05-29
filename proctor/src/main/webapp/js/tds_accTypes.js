@@ -738,10 +738,15 @@ YUI.add("tds-accTypes", function (Y) {
         for (var i = 0; i < sLen; i++) {
             var selectedValue = selectedValues[i];
             for (var j = 0; j < mLen; j++) {
-                if (selectedValue.Code == masterValues[j].Code) {
-                    selectedValue.Value = masterValues[j].Value;
-                    newSelectedValues.push(selectedValue);
-                }
+            	//SB-1281 Test Accommodation values (masterValues) do not have Other value as it is not a predefined value
+            	if (selectedValue.Code == 'TDS_Other') {
+     			   newSelectedValues.push(selectedValue);
+     			} else {
+                   if (selectedValue.Code == masterValues[j].Code) {
+                      selectedValue.Value = masterValues[j].Value;
+                      newSelectedValues.push(selectedValue);
+                   }
+     			}
             }
         }
         if (newSelectedValues.length < 1) //selected values are not the subset of the master list

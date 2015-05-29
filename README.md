@@ -296,6 +296,18 @@ Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1277_othe
 #### SB-366 and SB-1116
 Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1116_appmessages_update.sql
 
+#### SB-1282
+Execute /tds-dll-schemas/src/main/resources/import/sessionupdates/sb1282_student_proctor_package_changes.sql
+
+#### SB-1293
+Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1293_modify_NEA_NEDS.sql
+
+#### SB-1281
+Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1281_other_accommodation_visibility.sql
+
+#### SB-1301
+Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1301_translation_combined_values order.sql
+
 ## Build Order
 These are the steps that should be taken in order to build all of the Proctor related artifacts.
 
