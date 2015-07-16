@@ -10,7 +10,7 @@ YUI.add("tds-timeout", function(Y) {
         _activityCheckInterval = 1200000, //20mins = 20x60x1000 milliseconds , check for user's activity
         _intervalId = 0,
         _requiredServerCheck = true, //true if required to ping the server
-        _logoutURL = 'saml/logout'; //page to call when inactivity period=configTimeout
+        _logoutURL = 'LandingPage.xhtml'; //page to call when inactivity period=configTimeout
 
     //-------------------------------------------------------------------------
     // Private functions
