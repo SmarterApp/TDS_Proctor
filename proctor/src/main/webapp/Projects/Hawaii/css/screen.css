@@ -1,0 +1,11 @@
+@charset "UTF-8";
+@import url(../../../shared/themes/flowers/css/screen.css);
+
+/* hawaii logos */
+.level2 .brand1 {
+	width: 358px;
+	background: url(../images/logo_hawaii_small.png) no-repeat 3px 0px;
+}
+.help_wrapper iframe {
+	height:300px;
+}

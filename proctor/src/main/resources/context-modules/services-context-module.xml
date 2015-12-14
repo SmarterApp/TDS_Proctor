@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- Services -->
+	<bean id="iAlertMessageService" class="TDS.Proctor.Services.AlertMessageService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iAlertMessageRepository"/>
+	</bean>	
+	<bean id="iAppConfigService" class="TDS.Proctor.Services.AppConfigService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iAppConfigRepository"/>
+     	<constructor-arg ref="clientContextBrowserValidation"/>
+	</bean>	
+	<bean id="iInstitutionService" class="TDS.Proctor.Services.InstitutionService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iInstitutionRepository"/>
+	</bean>
+	<bean id="iProctorUserService" class="TDS.Proctor.Services.ProctorUserService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iProctorRepository"/>
+	</bean>	
+	<bean id="iTesteeRequestService" class="TDS.Proctor.Services.TesteeRequestService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iTesteeRequestRepository"/>
+	</bean>	
+	<bean id="iTesteeService" class="TDS.Proctor.Services.TesteeService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iTesteeRepository"/>
+	</bean>
+	<bean id="iTestOpportunityService" class="TDS.Proctor.Services.TestOpportunityService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iTestOpportunityRepository"/>
+	</bean>		
+	<bean id="iTestService" class="TDS.Proctor.Services.TestService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iTestRepository"/>
+	</bean>
+	<bean id="iTestSessionService" class="TDS.Proctor.Services.TestSessionService" scope="prototype">
+		<constructor-arg ref="tdsSettings"/>
+     	<constructor-arg ref="iTestSessionRepository"/>
+	</bean>	
+	<bean id="iMessageService" class="TDS.Proctor.Services.MessageService" scope="prototype">
+     	<constructor-arg ref="iMessageRepository"/>
+	</bean>	
+	
+	<bean id="proctorAppTasks" class="TDS.Proctor.Services.ProctorAppTasks" scope="prototype">
+		<property name="appConfigTasks"><ref bean="iAppConfigService"/></property>
+     	<property name="testSessionTasks"><ref bean="iTestSessionService"/></property>
+     	<property name="testOppTasks"><ref bean="iTestOpportunityService"/></property>
+     	<property name="testTasks"><ref bean="iTestService"/></property>
+     	<property name="alertTasks"><ref bean="iAlertMessageService"/></property>
+     	<property name="requestTasks"><ref bean="iTesteeRequestService"/></property>
+     	<property name="testeeTasks"><ref bean="iTesteeService"/></property>
+     	<property name="institutionTasks"><ref bean="iInstitutionService"/></property>
+     	<property name="proctorUserTasks"><ref bean="iProctorUserService"/></property>
+	</bean>
+	
+	<bean id="proctorPackageService" class="TDS.Proctor.Services.remote.RemoteProctorPackageService" />
+
+	<bean id="httpWebHelper" class="AIR.Common.Web.HttpWebHelper"/>
+	
+	<bean id="messageXml" class="TDS.Shared.Messages.MessageXml"/>
+	
+	<bean id="clientContextBrowserValidation" class="TDS.Proctor.Sql.Data.ClientContextBrowserValidation" scope="singleton" />
+
+</beans>

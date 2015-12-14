@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<!-- TDSSettings bean. This gives access to clientname and any other info such as session type etc. -->
+	<bean id="tdsSettings" class="TDS.Shared.Configuration.TDSSettings" scope="prototype"/>
+	
+	<!--  Repositories -->
+	<bean id="iAlertMessageRepository" class="TDS.Proctor.Sql.Repository.AlertMessageRepository" scope="prototype"/>	
+	<bean id="iAppConfigRepository" class="TDS.Proctor.Sql.Repository.AppConfigRepository" scope="prototype"/>	
+	<bean id="iInstitutionRepository" class="TDS.Proctor.Sql.Repository.InstitutionRepository" scope="prototype"/>	
+	<bean id="iProctorRepository" class="TDS.Proctor.Sql.Repository.ProctorRepository" scope="prototype"/>	
+	<bean id="iTesteeRepository" class="TDS.Proctor.Sql.Repository.TesteeRepository" scope="prototype"/>	
+	<bean id="iTesteeRequestRepository" class="TDS.Proctor.Sql.Repository.TesteeRequestRepository" scope="prototype"/>	
+	<bean id="iTestOpportunityRepository" class="TDS.Proctor.Sql.Repository.TestOpportunityRepository" scope="prototype"/>	
+	<bean id="iTestRepository" class="TDS.Proctor.Sql.Repository.TestRepository" scope="prototype"/>	
+	<bean id="iTestSessionRepository" class="TDS.Proctor.Sql.Repository.TestSessionRepository" scope="prototype"/>
+	<bean id="iMessageRepository" class="TDS.Proctor.Sql.Repository.MessageRepository" scope="prototype">
+	<!-- <constructor-arg ref="tdsSettings"/> -->
+	</bean>
+	 
+
+</beans>

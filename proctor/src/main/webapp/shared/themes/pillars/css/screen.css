@@ -1,0 +1,342 @@
+.wrapper {
+	/*background: #fff url(../images/gradient_lightblue.png) repeat-x fixed left bottom;*/
+	background: #fff;
+}
+
+/* @group Content */
+.activeTable {
+	border-color:#c9e1f8;
+}
+.activeTable th a {
+	color:#045785;
+}
+.instructions {
+	background-color:#fff;
+	border-color:#c9e1f8;
+}
+.instructions h2 a, .shelf .button_collapse {
+	background-image: url(../images/showHide.png);
+}
+.ie6 .instructions h2 a, .ie6 .shelf .button_collapse {
+	background-image: url(../images/showHide.gif);
+}
+.footer {
+	color:#000000;
+}
+.bottomHalf{
+	top: 101px;
+}
+
+.ie7 .topHalf, .ie6 .topHalf{
+	/* we want height: 100px;*/
+	height: 9.5em;
+	overflow: hidden;
+}
+.ie7 .bottomHalf, .ie6 .bottomHalf{
+/*	we want	top: 100px; */
+	top: 9.4em;
+}
+.ie6 .bottomHalf{
+	height: 1%; /*Give hasLayout*/
+}
+.ie6 .bottomHalf .shelf{
+	display: block;
+	
+}
+
+.gecko.mac .bottomHalf {
+	border-color: #5f7383;
+}
+/* @end */
+
+/* @group shelf */
+
+.shelf {
+	background-color: #04384E;
+	background-image: none;
+	border-bottom:2px solid #2c333d;
+}
+.settings_content, .nocollapse .settings_content, .approvals_needed .approvals_content {
+    border-color: #bbd9f6;
+}
+.widgetTitle {
+    background-color: #fff;
+    border-color: #2671a6;
+    color: #000;
+}
+.settings_container .pointer, .approvals_container .pointer {
+	background-image: url(../images/stripes.gif);
+}
+.gecko.mac .nocollapse .settings_container .pointer{
+	margin-bottom: 0px;
+}
+.approvals_needed .approvals_container .pointer {
+	background: url(../images/stripes.gif) repeat-x 0px -6px !important;
+}
+.nocollapse .settings_container .pointer {
+	background: url(../images/stripes.gif) repeat-x 0px -6px !important;
+}
+.nocollapse .settings_container .pointer span, .approvals_needed .approvals_container .pointer span {
+	background: url(../images/pointer_open.gif) no-repeat center top !important;
+}
+.settings_container .pointer span, .approvals_container .pointer span {
+	background-image: url(../images/pointer_collapsed.gif);
+}
+.settings_closed, .approvals_closed {
+	border-left: solid 1px #e9e9e9;
+	border-right: solid 1px #e9e9e9;
+	border-bottom: solid 1px #e9e9e9;
+	background-color: #0085AD;
+	color: #fff;
+}
+.nocollapse .short_tip, .settings_show .short_tip, .not_started .short_tip {
+	border-top:1px solid #8abfdb;
+}
+
+/* @end */
+
+.topHalf{
+	 /*background: url("../images/pillars.jpg") no-repeat scroll right 12px #FFFFFF;*/
+	 background: #fff;
+	  height: 9.2em;
+}
+
+.approvals_shell .topHalf{
+	background-image: none;
+}
+.approvals_window .approvals_wrapper, .alerts_window .alerts_wrapper, .lookup_window .lookup_wrapper, .print_window .print_wrapper, .help_window .help_wrapper, .show_alert .alert_single{
+	top: 0em;
+	padding-top: 2em;
+}
+
+.level1 {
+	border: none;
+	background: none;
+	/*height: 20px;*/
+}
+/*.level1 span {
+	color: #333333;
+}
+.level1 a span {
+	color: #000;
+}
+.level1 a:hover {
+	background-color: #D5EBFE;
+}*/
+.titleThing {
+	background-image: none;
+    /*background: url(../images/breadcrumb.png);*/
+}
+.button_logout, .button_help{
+	border-color: #B1B2B4;
+	color: #5A5A5A;
+	background: #DBDCE0;
+}
+
+.level2 {
+	border: none;
+	background: none;
+	height: 2.9em;
+}
+.level2 .brand1 {
+	background: no-repeat transparent url(../images/logo_sbac.png);
+	margin-left: 25px;
+}
+.ie6 .level2 .brand1{
+	background: no-repeat transparent url(../images/logo_sbac.gif);
+}
+.level2 .brand2 {
+	background-image: none;
+}
+.level2 .session_top {
+/*    background: url("../images/sID_bg_top.png") scroll;*/
+	background: #fff;
+/*	background-image: none;
+	background-color: #688991;*/
+    border-left: 1px solid #B1B2B4;
+    border-right: 1px solid #B1B2B4;
+    border-top: 1px solid #B1B2B4;
+    color: #5A5A5A;
+    font-size: 1.6em;
+    height: 1.8em;
+    padding-left: 5px;
+    padding-right: 5px;
+   /* text-align: left;*/
+    width: 11.65em;
+}
+.ie6 .level2 .session_top {
+	background: none;
+}
+
+.level3 {
+	/*background-image:none;
+	background-color: #ffffff;*/
+	background: none;
+	border-top: 1px solid #B1B2B4;
+	border-bottom: 1px solid #B1B2B4;
+}
+.level3 a, span.session_nope, span.settings_nope {
+	background-color:#006298;
+	border:1px solid #4c91c3;
+	color: #fff;
+}
+.level3 a:hover{
+	background-color: #0085AD;
+}
+span.session_nope {
+	/*background:#78bbde url(../images/disabeled_gradient.gif) repeat-x scroll left bottom;*/
+	background: #63666A;
+	color: #DBDCE0;
+	border: none;
+	border-top: none;
+	border-bottom: none;
+	background-image: none;
+	height: 33px;
+}
+a.button_approvals, a.button_approvals:hover {
+	background-image: none;
+	background-color: transparent;
+	border: 1px solid #4c91c3;
+	color: #4c91c3;
+}
+.not_started .button_approvals:hover {
+	background-color: #none!important;
+	color: #4c91c3; !important;
+}
+.session_bottom {
+    /*background: #3b73a9 url(../images/darkblue_gradient.gif) repeat-x left bottom;*/
+	background-image: none;
+	background-color: #435435;
+    border-color: #fff;
+}
+
+a.session_stop  {
+	background: #045785 url(../images/darkblue_gradient.gif) repeat-x left bottom;
+	border-color: #fff;
+	border-bottom: none;
+}
+.approvals_needed a.button_approvals {
+	background-color: #9bafc4;
+	background-image: none;
+	font-weight: bold;
+	border-color: #4c91c3;
+}
+.approvals_needed a.button_approvals:hover {
+	background-color: #0d5487;
+	color: #fff;
+}
+.level3 a.session_start {
+	background-color: #55ba5b;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	height: 33px;
+}
+.level3 a.session_stop {
+	background-color: #b4272c;
+	border-top: none;
+	background-image: none;
+}
+.level3 a.session_start:hover{
+	background: url(../images/darkgreen_gradient_inv.gif) left bottom transparent;
+}
+.level3 a.session_stop:hover{
+	background: #0d5487;
+}
+.level3 .session_bottom{
+	/*background: url(../images/sID_bg_bot.png) repeat-x;*/
+	background: #fff;
+	height: 33px;
+	border-left: 1px solid #B1B2B4;
+    border-right: 1px solid #B1B2B4;
+	color: #18577E;
+	font-family: Verdana, Geneva, Trebuchet, sans-serif;
+}
+
+.ie6 .level3 .session_bottom{ background: #fff ; }
+.ie6 span.shadowtop{ display: none;}
+
+/*Group Test Type Display*/
+.testIndicator, .nocollapse .testIndicator, .settings_show .testIndicator, .testIndicator, .none_selected .testIndicator{
+	 color: #fff;
+}
+.ie7 .testIndicator .bracket, .ie6 .testIndicator .bracket{
+	line-height: 1.1em;
+	margin-top: -7px;
+}
+
+/*cls stuff*/
+.commonsystem, .cls{
+	background: #DBDCE0;
+}
+.cls a, .cls span.user, .cls li.lang span, .cls li.client span.titleThing{
+	color: #5A5A5A;
+}
+
+.cls li.logout, .cls li.contact, .cls li.help, .cls{
+	border-color: #B1B2B4;
+}
+.cls li.system, ul.selectReplacement, ul.selectReplacement li{
+	width: 320px;
+	color: #fff;
+}
+ul.selectReplacement{
+	background-position: 303px;
+}
+ul.selectOpen li:first-child, ul.selectReplacement:hover li:first-child{
+	color: #fff;
+}
+ul.selectOpen li:hover, ul.selectOpen li.hover, ul.selectOpen li.selected:hover, ul.selectReplacement:hover li:hover, ul.selectReplacement:hover li.hover, ul.selectReplacement:hover li.selected:hover{
+	background-color: #0D5487;
+	color: #fff;
+}
+ul.selectOpen li, ul.selectReplacement:hover li{
+	background-color: #fff;
+}
+.cls li:hover a{
+	background-color: #fff;
+}
+.cls ul.selectReplacement li:hover a{
+	color: #fff;
+	background: transparent;
+}
+ul.selectOpen li.selected, ul.selectReplacement:hover li.selected{
+	background-color: #0D5487;
+}
+ul.selectOpen li.selected a, ul.selectReplacement:hover li.selected a{
+	color: #fff;
+	background-color: #0D5487;
+}
+ul.selectReplacement li{
+	height: 13px;
+}
+ul.selectReplacement li.selected{
+	padding: 10px;
+	color: #5a5a5a;
+}
+ul.selectReplacement li.selected a{
+	color: #5a5a5a;
+}
+
+.ie7 .level1 .commonsystem .clear, .ie6 .level1 .commonsystem .clear{
+	display: none; /*weird clear bug in IE6 & 7 ONLY */
+}
+
+/* MOBILE STUFF:  As of 1/11/2013, the client styles CSS overrides the mobile.css, which is causing problems, so we have to UNDO
+some of the changes from this sheet for mobile to keep things working right */
+@media screen and (orientation: portrait){
+.mobile .topHalf{
+	height: 65px;
+}
+.mobile .checkers .topHalf{
+	height: 40px;
+}
+.mobile .approvals_wrapper, .mobile .allDetails, .mobile .print_wrapper, .mobile .lookup_wrapper, .mobile .alerts_wrapper, .mobile .help_wrapper, .mobile .alert_single, .mobile .checkers, .mobile .approvals_window .approvals_wrapper, .mobile .alerts_window .mobile .alerts_wrapper, .mobile .lookup_window .lookup_wrapper, .mobile .print_window .mobile .print_wrapper, .mobile .help_window .help_wrapper, .mobile .show_alert .alert_single {
+	background-color: rgba(0, 0, 0, .5);
+	text-align: center;
+	padding-top: 50%;
+}
+.mobile .cls span.user { color: #fff;}
+.mobile .level3 .session_bottom{ height: 20px; border: none; color: #fff; }
+}
