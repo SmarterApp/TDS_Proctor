@@ -1,0 +1,652 @@
+@import url(reset.css);
+html {
+	font-family:Helvetica, Arial, Geneva, sans-serif;
+	/*background-color: #ececec;*/
+}
+.clear {
+	display: block;
+	clear: both;
+}
+.denial {
+	display: none;
+}
+body {
+	position: relative;
+	background-color: #fff;
+}
+.wrapper{
+	overflow: hidden;
+	height: 500px;
+}
+.topHalf {
+	/*position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: 1;
+	background-color: #2671a6;
+	height: 40px;
+	color: #fff;
+	font-size: 14px;*/
+	-moz-box-shadow: 0em 0em .7em #373737;
+	-webkit-box-shadow: 0em 0em .7em #373737;
+	box-shadow: 0em 0em .7em #373737;
+	background-color: #2671a6;
+	height: 40px;
+	color: #fff;
+	font-size: 14px;
+	position: absolute;
+	width: 500px;
+	z-index: 7;
+	top: 0px;
+}
+.topHalf h1 {
+	float: left;
+	padding-left: 10px;
+	height: 40px;
+	line-height: 40px;
+}
+.topHalf .controls {
+	height: 40px;
+	padding-right: 5px;
+	/*position: absolute;
+	top: 0px;
+	left: 0px;*/
+	float: left;
+}
+.topHalf a {
+	display: block;
+	height: 30px;
+	width: 30px;
+	overflow: hidden;
+	text-indent: -9999px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	float: left;
+	margin-top: 5px;
+	margin-left: 5px;
+	text-decoration: none;
+	background: #2671a6 url(../images/sprites_mobile.png) no-repeat 50% -494px;
+}
+.topHalf a.print{
+	background-position: 50% -742px;
+}
+.bottomHalf {
+	/*padding-top: 45px;
+	min-height: 500px;*/
+	height: 460px;
+	line-height: 1em;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	margin-top: 45px;
+	display: block;
+	z-index: 2;
+	/*is causing errors? 
+	 padding-top: 45px;
+	min-height: auto;
+	max-width: 500px;*/
+}
+/*  The following code is being altered for Bug 119565.  Previously only webkit and android were given overflow auto to this window.  I'm giving it to all mobile browsers now
+#divQuickTab.bottomHalf{
+	overflow: hidden;
+}
+.webkit.mobile #divQuickTab.bottomHalf, .mobile.android #divQuickTab.bottomHalf{
+	overflow: auto;
+	-webkit-overflow-scorlling: touch;
+}*/
+
+.mobile #divQuickTab.bottomHalf{
+	overflow: auto;
+	-webkit-overflow-scorlling: touch;
+}
+
+.advanced_search.bottomHalf{
+	/*padding-top: 45px;
+	height: 500px;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;*/
+	overflow: auto;	
+	z-index: 2;
+	-webkit-overflow-scrolling: touch;
+}
+.content {
+	padding: 10px 5px;
+	font-size: 12px;
+	/*min-height: 450px;*/
+}
+.content p {
+	margin-bottom: 5px;
+}
+/* @group active table */
+
+table {
+	margin-left: auto;
+	margin-right: auto;
+	border-bottom: solid 1px #adadad;
+	margin-bottom: 10px;
+	font-size: 12px;
+}
+th {
+	text-align: left;
+	font-weight: bold;
+	padding: 5px;
+	border-top: solid 1px #adadad;
+	border-right: solid 1px #adadad;
+	background-color: #ececec;
+	vertical-align: middle;
+}
+tr:nth-child(2n+1) {
+  background-color: #d9d9d9;
+}
+th:nth-child(1) {
+  border-left: solid 1px #adadad;
+}
+td:nth-child(1) {
+  border-left: solid 1px #cacaca;
+}
+td {
+	border-top: 1px solid #cacaca;
+	border-right: solid 1px #cacaca;
+	padding: 5px;
+	font-size: 12px;
+	vertical-align: middle;
+}
+table a {
+	color: #000;
+	display: block;
+}
+.requestTable a {
+	display: block;
+	height: 30px;
+	width: 30px;
+	overflow: hidden;
+	text-indent: -9999px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	float: right;
+	margin: 5px;
+	text-decoration: none;
+	background: #fafcfc url(../images/sprites_mobile.png) no-repeat 50% -891px;
+}
+.requestTable .approve {
+	background-position: 50% -941px;
+}
+
+th.table_details a {
+	background-position: 50% -792px;
+}
+.table_details a.requested {
+	background-position: 50% -698px;
+}
+
+/* @end */
+
+/* @group print request */
+.approvedrequests .content {
+	min-height: 450px;
+}
+.requestInfo {
+	background-color: #e4f2fb;
+	padding-left: 5px;
+	padding-right: 5px;
+	line-height: 30px;
+	font-size: 10px;
+}
+.show_denial .denial {
+    background-color: rgba(0, 0, 0, .5);
+    bottom: 0;
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+}
+.show_denial .bottomHalf {
+	overflow: hidden;
+}
+.denial .reason {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 70px;
+	text-align: left;
+	width: 80%;
+	height: auto;
+	background-color: #fff;
+	border: 5px solid #ebeded;
+	padding: 10px 10px 40px;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+
+}
+.reason h4 {
+	border-bottom: solid 1px #ccc;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 1.5em;
+	margin-bottom: .5em;
+}
+.reason input {
+	width: 200px;
+	float: left;
+	line-height: 30px;
+	height: 30px;
+}
+.reason .close {
+	display: block;
+	height: 30px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	float: right;
+	text-decoration: none;
+	background-color: #2671a6;
+	color: #fff;
+	padding: 0px 10px;
+	line-height: 30px;
+}
+.reason a.close:hover {
+	background-color: #ba272b;
+	color: #fff;
+}
+.requestTable table {
+	margin-left: 10px;
+	margin-bottom: 10px;
+	width: 95%;
+	display: table;
+}
+.wrapper.approvedrequests .requestTable table {
+	display: table;
+	margin-bottom: 10px;
+	width: 95%;
+}
+
+.requestTable td, .requestTable th {
+	background-color: #fff;
+	padding: 5px;
+	border: solid 1px #ccc;
+	vertical-align: middle;
+	display: table-cell;
+}
+
+.wrapper.approvedrequests .requestTable td, .wrapper.approvedrequests .requestTable th{
+	display: table-cell;
+}
+.requestTable tr:nth-child(2n+1) td {
+  background-color: #e5e7e7;
+}
+.requestTable caption {
+	background-color: #2671a6;
+	color: #fff;
+	padding: 5px;
+	text-align: left;
+}
+.requestTable caption a {
+	display: inline;
+	background-color: #2671a6;
+	background-image: none;
+	border: none;
+	float: none;
+	color: #fff;
+	padding: 0px !important;
+	-moz-box-shadow: 0em 0em 0em #2671a6;
+	-webkit-box-shadow: 0em 0em 0em #2671a6;
+	box-shadow: 0em 0em 0em #2671a6;
+	height: inherit;
+	width: inherit;
+	text-decoration: none;
+}
+/* @end */
+
+/* @group search */
+
+.pageLookup .topHalf h1 {
+	display: none;
+}
+.search_tabs {
+	float: right;
+	padding-right: 5px;
+}
+.search_tabs a {
+	background-image: none;
+	width: auto;
+	text-indent: inherit;
+	overflow: inherit;
+	color: #fff;
+	text-decoration: none;
+	float: left;
+	padding-left: 5px;
+	padding-right: 5px;
+	line-height: 30px;
+}
+.search_tabs .active {
+	background-color: #fff;
+	color: #000;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
+	margin-top: 0px;
+	height: 39px;
+	line-height: 40px;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+.intro {
+	font-size: 10px;
+}
+.advanced_search select {
+	width: 95%;
+	margin-bottom: 1em;
+}
+.advanced_search h2 {
+	border-bottom: solid 1px #999;
+	margin-bottom: .5em;
+}
+.advanced_search label {
+	width: 95%;
+	display: block;
+}
+.advanced_search input {
+	width: 95%;
+	display: block;
+	margin-bottom: 1em;
+}
+#btnAdvancedSearch {
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-decoration: none;
+	background-color: #d2e8b1;
+	color: #000;
+}
+.validation {
+    background-color: red;
+    color: red;
+    float: left;
+    margin-left: 0;
+    margin-right: 5px;
+    overflow: hidden;
+    padding-top: 0.5em;
+    width: 0.25em;
+    height: 2.3em;
+}
+.validationMessage {
+	background-color: #FBCDC4;
+    border: 1px solid red;
+    color: red;
+    display: none;
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    margin-right: 0.5em;
+    margin-top: 0.5em;
+    padding: 0.5em;
+}
+.column2 {
+	max-width: 100%;
+	overflow: hidden;
+}
+.column2 td {
+	font-size: .8em;
+}
+td .detail {
+	display: block;
+	height: 30px;
+	width: 30px;
+	overflow: hidden;
+	text-indent: -9999px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin-left: auto;
+	margin-right: auto;
+	text-decoration: none;
+	background: #e1f5ff url(../images/sprites_mobile.png) no-repeat 50% -792px;
+}
+.show_detail {
+	height: 100%;
+	max-height: 500px;
+	overflow: hidden;
+}
+/*keeps column 3 visible */
+
+.show_detail .bottomHalf.advanced_search{
+	overflow: hidden;
+	-webkit-overflow-scrolling: none;
+}
+.show_detail .bottomHalf{
+/*	-webkit-transform: translateY(0px) !important;
+	max-height: 400px;*/
+}
+.show_detail .column3 {
+	display: block !important;
+}/*
+.pageLookup .show_detail{
+	-webkit-transform: translateY(0px) !important;
+}*/
+.column3 {
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	background-color: #666;
+	width: 70%;
+	position: absolute;
+	left: 50%;
+	margin-left: -35%;
+	top: 100px;
+}
+.search_results {
+    display: none;
+    font-size: 1.5em;
+    margin-top: 1em;
+}
+.column3 .close {
+	display: block;
+	height: 30px;
+	width: 30px;
+	overflow: hidden;
+	text-indent: -9999px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	float: right;
+	margin-top: -35px;
+	margin-right: 5px;
+	text-decoration: none;
+	background: #666 url(../images/sprites_mobile.png) no-repeat 50% -494px;
+}
+.column3 h2 {
+	color: #fff;
+	border-bottom: none;
+	float: left;
+	line-height: 40px;
+	margin-top: -40px;
+	margin-left: 5px;
+}
+.column3 .content {
+	margin: 0px;
+	padding: 0px;
+}
+#closeDetail{
+	display: block;
+	height: 30px;
+	width: 30px;
+	overflow: hidden;
+	text-indent: -9999px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	float: right;
+	margin-top: -35px;
+	margin-right: 5px;
+	text-decoration: none;
+	background: #424242 url(../images/sprites_mobile.png) no-repeat 50% -494px;
+}
+.search_details {
+	background-color: #fff;
+	padding: 10px;
+	margin: 40px 5px 5px;
+	line-height: 20px;
+}
+#btnQuickSearch {
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	float: left;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-decoration: none;
+	background-color: #d2e8b1;
+	color: #000;
+}
+#txtSSID {
+	float: left;
+	margin-right: 10px;
+	margin-top: 5px;
+}
+.oneResult {
+    background-color: #F9F9F9;
+    border: 1px solid #F4F4F4;
+    line-height: 1.4em;
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+}
+/* @end */
+
+
+/* @group loading */
+.wait {
+	display: none;
+}
+.please_wait .wait {
+	display: block !important;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 300;
+	background-color: rgba(255, 255, 255, .5);
+	text-align: center;
+}
+.wait .container {
+	display: block;
+	background-color: #ccc;
+	width: 228px;
+	margin-top: 40%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 3px solid #4b4b4b;
+	text-align: left;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.wait h2 {
+	display: block;
+	background-color: #666;
+	color: #fff;
+	line-height: 1.5em;
+	font-size: 1em;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.wait span span {
+	display: block;
+	background: url(../images/loadingAnimation.gif) no-repeat center center;
+	height: 2em;
+	margin: 0px !important;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+/* @end */
+
+
+/* @group alert center */
+.messageCenter {
+	padding-top: 1em;
+}
+.listmessage {
+	border: solid 1px #ccc;
+	margin-bottom: 1em;
+}
+.listmessage h3 {
+	font-size: 1.2em;
+	border-bottom: solid 1px #ccc;
+	background-color: #eff1f1;
+	font-weight: bold;
+	line-height: 2em;
+	padding-left: .5em;
+	padding-right: .5em;
+}
+.listmessage h4 {
+	font-size: 1.1em;
+	line-height: 1.5em;
+	padding-left: .6em;
+	padding-right: .6em;
+}
+.listmessage p {
+	line-height: 1.2em;
+	padding-left: .8em;
+	padding-right: .8em;
+	padding-bottom: .5em;
+}
+/* @end */
+
+/*Fix for Bug 69672*/
+.android input, .android textarea{
+	-webkit-user-modify: read-write-plaintext-only;
+}
+/* @end */
+
+/* dang it android scroll windows*/
+.android .bottomHalf{
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	min-height: 460px;
+}
+
+/* end */

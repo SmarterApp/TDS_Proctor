@@ -1,0 +1,9 @@
+@import url(../../../shared/themes/loon/css/login.css);
+
+/*changing to AIR logo*/
+.brand1 {
+    background-image:  url(../images/logo.png);
+}
+.ie6 .brand1 {
+    background-image:  url(../images/logo.gif);
+}

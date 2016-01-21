@@ -1,0 +1,17 @@
+@charset "UTF-8";
+/* Oregon uses default theme */
+/* Oregon Logos */
+.level2 .brand1 {
+	width: 270px;
+	background: url(../images/oaks.png) no-repeat 6px bottom;
+}
+
+.help_wrapper iframe {
+    height: 300px;
+}
+
+/*Because Oregon doesn't have a theme folder -- REMOVE when we want to show */
+/*Group Test Type Display*/
+.testIndicator{
+	 display: none;
+}

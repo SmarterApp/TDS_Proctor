@@ -1,0 +1,12 @@
+/*.bottomHalf {
+	height:expression(document.body.clientHeight-85);
+}*/
+.bottomHalf {
+	height: 100%;
+}
+.approvals_shell .bottomHalf {
+	height: 43.5em;
+}
+.approvals_shell.show_details .details_right select {
+	display: block !important;
+}

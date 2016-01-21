@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context 
+	                    http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/util 
+	                    http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- TDSSettings bean. This gives access to clientname and any other info such as session type etc. -->
+	<import resource="classpath:opentestsystem.shared.test-context-module.xml"/>
+<!-- 	<context:property-placeholder -->
+<!-- 			location="classpath:test.tds-loadtest-default-proctorpackage-properties.xml" -->
+<!-- 			ignore-unresolvable="true" order="800"/> -->
+	
+	<!-- Interface for registering students, administrators and assessments -->
+	<bean id="testRegistrationApplication"
+		class="org.opentestsystem.delivery.tds.loadtest.TestRegistrationApplicationImpl" />
+		
+	<bean id="assessmentLoader"
+	    class="org.opentestsystem.delivery.tds.loadtest.AssessmentLoader">
+	    <property name="testName" value="(Minnesota_PT)GRAD-Mathematics-11-Fall-2011-2012" />
+	    <property name="testRegistrationApplication" ref="testRegistrationApplication" />
+	</bean>
+	
+	<bean id="assessment"
+	     factory-bean="assessmentLoader" factory-method="getAssessment" lazy-init="true" />
+	
+	<bean id="testRegistrationServer"
+		class="org.opentestsystem.shared.test.jetty.JettyWebApplication">
+		<property name="indexUrl" value="http://127.0.0.1:8083"/>
+		<property name="contextPath" value="/"/>
+		<property name="descriptor" value="tds.tds-loadtest-default-proctorpackage-web.xml"/>
+		<property name="extractWar" value="false"/>
+		<property name="serverInstancePerTest" value="true"/>
+		<property name="usingExternalSpringContext" value="true"/>
+		<property name="classLoaderStrategy" value="NO_CLASSLOADER_ISOLATION"/>
+		<property name="port" value="8083"/>
+		<property name="interface" value="127.0.0.1"/>
+	</bean>
+
+	<!-- Factory bean for creating and registering test admins -->
+	<bean id="testAdminFactory"
+	    class="org.opentestsystem.delivery.tds.loadtest.TestAdminFactory">
+		<property name="testRegistrationApplication" ref="testRegistrationApplication"/>
+		<property name="schoolId" value="12345"/>
+		<property name="stateCode" value="MN"/>
+		<property name="clientName" value="MINNESOTA_PT"/>
+	</bean>
+	
+	<!-- Default test administrator -->
+	<bean id="alice" factory-bean="testAdminFactory" factory-method="create"/>
+
+    <!-- Test Registration API -->
+	<!-- Load default student and proctor package XML element values -->
+	<util:properties id="studentDefaultPackageProperties"
+		location="classpath:test.tds-loadtest-default-studentpackage-properties.xml" />
+		
+	<util:properties id="proctorDefaultPackageProperties"
+		location="classpath:test.tds-loadtest-default-proctorpackage-properties.xml" />
+
+	<bean id="packageGenerator"
+		class="org.opentestsystem.delivery.tds.loadtest.testregistrationapi.PackageGeneratorImpl" />
+
+	<bean id="studentPackageGenerator"
+		class="org.opentestsystem.delivery.tds.loadtest.testregistrationapi.StudentPackageGenerator">
+		<property name="defaultPackageProperties" ref="studentDefaultPackageProperties" />
+	</bean>
+
+	<bean id="proctorPackageGenerator"
+		class="org.opentestsystem.delivery.tds.loadtest.testregistrationapi.ProctorPackageGenerator">
+		<property name="defaultPackageProperties" ref="proctorDefaultPackageProperties" />
+	</bean>
+	
+	<bean id="proctorPackageService" class="TDS.Proctor.Services.remote.RemoteProctorPackageService">
+		<property name="testRegistrationUrl" value="#{testRegistrationServer.indexUrl}"/>
+	</bean>
+	
+	<bean id="classroom" class="org.opentestsystem.shared.test.cooperation.StageImpl"/>
+	
+	<bean id="webHelper" class="AIR.Common.Web.HttpWebHelper"/>
+	
+</beans>

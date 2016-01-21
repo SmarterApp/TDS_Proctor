@@ -1,0 +1,12 @@
+@charset "UTF-8";
+@import url(../../../shared/themes/lighthouse/css/screen.css);
+
+/* Delaware logos */
+.level2 .brand1 {
+	background: transparent url(../images/logo_delaware_small.png) no-repeat scroll 9px 3px;
+	width: 330px;
+}
+.help_wrapper iframe {
+	height:130px;
+	width:450px;
+}

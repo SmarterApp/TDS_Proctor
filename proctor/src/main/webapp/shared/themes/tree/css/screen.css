@@ -1,0 +1,181 @@
+/* Tree theme CSS */
+html, body, .wrapper{
+     background: #EFEAD7;
+}
+
+.commonsystem, .cls{
+    background: none repeat scroll 0 0 #B6C8B5;
+    border-color: #546152;
+    color: #546152;
+}
+.cls a, .cls span.user, .cls li.lang span, .cls li.client span.titleThing{
+    color: #546152;
+}
+.cls li:hover a{
+    background: #546152;
+    color: #fff;
+}
+.level2{
+    background: url("../images/utah-banner-sm.jpg") no-repeat right #546152;
+    border-color: #ccc;
+}
+.level2 .brand1{
+    background: url("../images/sage-logo.gif") no-repeat;
+}
+.level2 .brand2{
+    background: none;
+}
+.level2 .session_top{
+    background: #4B3E29;
+    border-color: #ccc;  
+}
+.session_bottom{
+    background: url("../images/darkgreen_gradient.gif") repeat-x scroll left bottom #55BA5B;
+    border-color: #ccc;
+}
+.level3{
+    background: #EFEAD7;
+    border-color: #ccc;
+}
+.level3 a span{
+}
+.level3 a{
+    background-color:#DCD8CA;
+    border-color: #ccc;
+    color: #000;
+}
+.level3 a:hover{
+    background-color: #546152;
+    color: #fff;
+}
+a.button_approvals, a.button_approvals:hover{
+    background-color: #EFEAD7;
+    color: #aaa;
+}
+.not_started .button_approvals:hover{
+    background-color: #DCD8CA !important;
+}
+.approvals_needed a.button_approvals:hover{
+    background-color: #000;
+    color: #fff;
+}
+
+a.session_stop{
+    color: #fff;
+}
+
+.shelf{
+    background: #fff;
+    border-color: #DCD8CA;
+}
+.testIndicator, .none_selected .testIndicator{
+    color: #ccc;
+}
+.nocollapse .settings_content{
+    border-color: #546152;
+}
+.widgetTitle{
+    border-color: #546152;
+    background-color: #546152;
+}
+.sorter .select_all{
+     background-color: #546152;
+}
+.nocollapse .settings_container .pointer span{
+    background: url("../images/pointer_open.gif") no-repeat scroll center top transparent !important;
+}
+.nocollapse .settings_container .pointer{
+    background: url("../images/stripes.gif") repeat-x scroll 0 -6px transparent !important
+}
+.approvals_needed .approvals_container .pointer{
+background: url("../images/stripes.gif") repeat-x scroll 0 -6px transparent !important;
+    height: 12px !important;
+    width: auto;
+}
+.approvals_needed .approvals_container .pointer span{
+     background: url("../images/pointer_open.gif") no-repeat scroll center top transparent !important;
+    height: 12px !important;
+    margin-right: 50px;
+    width: 19px !important;   
+}
+.approvals_needed .approvals_content{
+    border-color: #546152;
+}
+
+a.session_start span{
+    color: white;
+}
+.settings_closed, .approvals_closed{
+    background-color: #546152;
+    border-color: #B6C8B5;
+    color:#B6C8B5;
+}
+.settings_container .pointer span, .approvals_container .pointer span{
+     background: url("../images/pointer_collapsed.gif") no-repeat scroll center top transparent;   
+}
+.instructions{
+    background: #fff;
+    border-color: #ccc;
+}
+.activeTable{
+    border-color: #ccc;
+}
+.footer{
+    color: #000;
+}
+
+
+/*new CLS stuff*/
+.cls a:hover{
+	background-color: #fff;
+	color: #356068;	
+}
+.level1 a:hover {
+	background-color: #D5EBFE;
+}
+.titleThing {
+	background-image: none;
+    /*background: url(../images/breadcrumb.png);*/
+}
+.commonsystem, .cls{
+	/*background: #356068;*/
+}
+.mobile .commonsystem, .mobile .cls{
+	background: none transparent;
+}
+.cls a, .cls span.user, .cls li.lang span, .cls li.client span.titleThing{
+	/*color: #fff;*/
+}
+ul.selectReplacement
+{
+    width: 284px;
+}
+ul.selectReplacement li.selected{
+	color: #546152;
+}
+.cls li:hover li
+{
+    background: #fff;
+}
+.cls li:hover a{
+	background-color: #fff;
+	color: #356068;
+}
+
+.cls li:hover li.selected a
+{
+ 
+    color: #fff;
+}
+.cls li:hover li.selected:hover a
+{
+    color: #567777;
+}
+ul.selectOpen li.selected, ul.selectReplacement:hover li.selected{
+	background-color: #546152;
+}
+
+/*Increase size of help window in Utah*/
+.help_wrapper iframe{
+	height: 220px;
+}

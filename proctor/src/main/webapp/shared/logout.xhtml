@@ -1,0 +1,37 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:tds="http://airast.org/jsfcustom">
+
+
+<h:head id="Head1">
+	<title>TDS Logout</title>
+	<script type="text/javascript">
+		function closeWindow() {
+			try {
+				window.location = postURL;
+				window.close();
+			} catch (e) {
+				window.location = postURL;
+			}
+		}
+	</script>
+</h:head>
+<h:body>
+	<h:form id="form1">
+		<h:inputHidden value="#{logout.action}" />
+		<tds:ClientScript binding="#{clientScript.clientScript}" />
+	</h:form>
+
+	<script type="text/javascript">
+		if (postAction == 'close') {
+			//alert(postURL);
+			closeWindow();
+		} else {
+			window.location = "#{request.contextPath}" + "/saml/logout";
+		}
+	</script>
+
+</h:body>
+</html>

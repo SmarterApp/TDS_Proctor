@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="EnableLoadData">true</entry>
+	<entry key="IsCheckinSite">false</entry>
+	<entry key="DONOT_Distributed">true</entry>
+	<entry key="ClientName">Hawaii</entry>
+	<entry key="ClientQueryString">false</entry>
+	<entry key="Appkey">Proctor</entry>
+	<entry key="EncryptedPassword">true</entry>
+	<entry key="RecordSystemClient">true</entry>
+	<entry key="AdminPassword">UnloadAppDomain1000tj</entry>
+	<entry key="SqlCommandTimeout">60</entry>
+	<entry key="AppName">Proctor</entry>
+	<entry key="SessionType">0</entry>
+	<entry key="ItembankDBName">itembank</entry>
+	<entry key="TDSArchiveDBName">archive</entry>
+	<entry key="TDSConfigsDBName">configs</entry>
+	<entry key="StudentMaxOpps">2</entry>
+	<entry key="unitTests.baseLineDateTime">2012-10-10 15:10:10</entry>
+	<entry key="unitTests.useHardCodedBaseline">false</entry>
+	<entry key="TestRegistrationUrl">http://localhost:8083/</entry>
+	
+    <entry key="jdbc.url">jdbc:mysql://127.0.0.1:3306</entry>
+    <entry key="jdbc.userName">root</entry>
+    <entry key="jdbc.password">root</entry>
+    <entry key="DBDialect">MYSQL</entry>
+    <entry key="AdditionalUrlParm">?useServerPrepStmts=false&amp;rewriteBatchedStatements=true</entry>
+</properties>
