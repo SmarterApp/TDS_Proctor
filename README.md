@@ -383,12 +383,13 @@ Proctor has a number of direct dependencies that are necessary for it to functio
 * jsp-api
 * myfaces-impl
 * jstl
-* c3p0
+* HikariCP
 
 
 ### Test Dependencies
 * junit
 * shared-db-test
+* c3p0
 
 
 ### Runtime Dependencies
