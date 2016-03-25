@@ -17,6 +17,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
+import TDS.Proctor.performance.dao.TestSessionDao;
+import TDS.Proctor.performance.services.TestApprovalService;
+import TDS.Proctor.performance.services.TestSessionService;
 import org.slf4j.Logger;
 
 import AIR.Common.DB.AbstractDAO;
@@ -49,10 +52,17 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   @Autowired
   IProctorDLL dll     = null;
 
+    @Autowired
+    private TestApprovalService testApprovalService;
+
+    @Autowired
+    private TestSessionDao testSessionDao;;
+
   public TestOpps getCurrentSessionTestees (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
     TestOpps testOpps = null;
     try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_GetCurrentSessionTestees_SP (connection, sessionKey, proctorKey, browserKey);
+      //SingleDataResultSet result = dll.P_GetCurrentSessionTestees_SP (connection, sessionKey, proctorKey, browserKey);
+      SingleDataResultSet result = testSessionDao.getCurrentSessionTestees(sessionKey, proctorKey, browserKey);
 
       Iterator<DbResultRecord> records = result.getRecords ();
       ReturnStatusException.getInstanceIfAvailable (result);
@@ -134,7 +144,8 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   public TestOpps getTestsForApproval (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
     TestOpps testOpps = null;
     try (SQLConnection connection = getSQLConnection ()) {
-      MultiDataResultSet resultsets = dll.P_GetTestsForApproval_SP (connection, sessionKey, proctorKey, browserKey);
+      //MultiDataResultSet resultsets = dll.P_GetTestsForApproval_SP (connection, sessionKey, proctorKey, browserKey);
+      MultiDataResultSet resultsets = testApprovalService.getTestsForApproval(connection, sessionKey, proctorKey, browserKey);
 
       Iterator<SingleDataResultSet> results = resultsets.getResultSets ();
       SingleDataResultSet firstResultSet = results.next ();

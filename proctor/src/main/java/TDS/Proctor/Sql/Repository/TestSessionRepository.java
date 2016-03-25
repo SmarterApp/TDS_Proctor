@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import TDS.Proctor.performance.dao.ProctorUserDao;
+import TDS.Proctor.performance.services.ProctorUserService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,9 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
   ICommonDLL  _cdll  = null;
   @Autowired
   IProctorDLL  _pdll  = null;
+
+  @Autowired
+  private ProctorUserService proctorUserService;
 
   public List<TestSession> getCurrentSessions (String clientname, long proctorKey, int sessionType) throws ReturnStatusException {
     List<TestSession> testSession = new ArrayList<TestSession> ();
@@ -146,14 +151,22 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
 
   //TODO make void
   public ReturnStatus setSessionDateVisited (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = _pdll.P_SetSessionDateVisited_SP (connection, sessionKey, proctorKey, browserKey);
-      ReturnStatusException.getInstanceIfAvailable (result);
-    } catch (SQLException e) {
+    try {
+      proctorUserService.updateDateVisited(sessionKey, proctorKey, browserKey);
+    } catch (Exception e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
     }
     return null;
+
+//    try (SQLConnection connection = getSQLConnection ()) {
+//      SingleDataResultSet result = _pdll.P_SetSessionDateVisited_SP (connection, sessionKey, proctorKey, browserKey);
+//      ReturnStatusException.getInstanceIfAvailable (result);
+//    } catch (SQLException e) {
+//      _logger.error (e.getMessage ());
+//      throw new ReturnStatusException (e);
+//    }
+//    return null;
   }
 
   public boolean hasActiveOpps (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
