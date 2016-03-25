@@ -8,13 +8,18 @@
  ******************************************************************************/
 package TDS.Proctor.Web.Handlers;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import AIR.Common.DB.SQLConnection;
+import TDS.Proctor.performance.dao.ProctorUserDao;
+import TDS.Proctor.performance.dao.TestSessionDao;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +57,9 @@ import TDS.Shared.Exceptions.NoDataException;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 import TDS.Shared.Exceptions.TDSSecurityException;
+import tds.dll.api.ICommonDLL;
+import tds.dll.common.performance.utils.LegacySqlConnection;
+
 @Scope ("prototype")
 @Controller
 public class ActiveSessionXHR extends HttpHandlerBase
@@ -59,6 +67,18 @@ public class ActiveSessionXHR extends HttpHandlerBase
 private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.class);
 
   private ProctorAppTasks _proctorAppTasks = null;
+
+  @Autowired
+  private ProctorUserDao proctorUserDao;
+
+  @Autowired
+  private TestSessionDao testSessionDao;
+
+  @Autowired
+  private LegacySqlConnection legacySqlConnection;
+
+  @Autowired
+  private ICommonDLL _commonDll;
 
   @RequestMapping (value = "XHR.axd/TestController2", method = RequestMethod.GET)
   public @ResponseBody
@@ -183,12 +203,11 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
   // / </summary>
   @RequestMapping (value = "XHR.axd/ProctorPing")
   @ResponseBody
-  private ReturnStatus proctorPing (@RequestParam (value = "sessionKey", required = false) String strSessionKey) throws TDSSecurityException, ReturnStatusException {
-    checkAuthenticated ();
+  private ReturnStatus proctorPing (@RequestParam (value = "sessionKey", required = false) String strSessionKey) throws TDSSecurityException, ReturnStatusException, SQLException {
     try {
-      ProctorUser thisUser = getUser ();
-
       UUID sessionKey = UUID.fromString (strSessionKey);
+      ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "ProctorPing");
+
       _proctorAppTasks.getTestSessionTasks ().setSessionDateVisited (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
 
       return new ReturnStatus ("True", "");
@@ -216,23 +235,23 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
   @RequestMapping (value = "XHR.axd/AutoRefreshData")
   @ResponseBody
   public SessionDTO autoRefreshData (@RequestParam (value = "sessionKey", required = false) String strSessionKey, @RequestParam (value = "bGetCurTestees", required = false) String strBGetCurTestees)
-      throws TDSSecurityException, ReturnStatusException {
-    checkAuthenticated ();
+          throws TDSSecurityException, ReturnStatusException, SQLException {
+
     try {
-      ProctorUser thisUser = getUser ();
       if (StringUtils.isEmpty (strSessionKey)) {
-        // TODO Shiva
-        // OnFailed("InvalidInputSessionKey");
         _logger.error ("InvalidInputSessionKey");
         return null;
       }
+
+      UUID sessionKey = UUID.fromString(strSessionKey);
+      ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "AutoRefreshData");
 
       boolean bGetCurTestees = true; // always get current testees if parameter
                                      // not exists
       if (!StringUtils.isEmpty (strBGetCurTestees)) {
         bGetCurTestees = Boolean.parseBoolean (strBGetCurTestees);
       }
-      UUID sessionKey = UUID.fromString (strSessionKey);
+
       SessionDTO sessionDTO = new SessionDTO ();
 
       // 1. Get a list of students waiting for approval
@@ -939,6 +958,34 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
   private int getTimezoneOffset () {
     return getVariablesCookie ().getTimezoneOffset ();
+  }
+
+  private ProctorUser checkAuthenticatedAndValidate(UUID sessionKey, String methodName) throws TDSSecurityException, ReturnStatusException {
+    ProctorUser user = checkAuthenticated();
+    Long proctorKey = user.getKey();
+
+    // The AutoRefreshData call for getting the test approvals doesn't do the validation if the Proctor key is null
+    //  so we are putting this in place so it is handled the same way
+    if (proctorKey != null) {
+      String accessDenied = proctorUserDao.validateProctorSession(user.getKey(), sessionKey, user.getBrowserKey());
+
+      if (accessDenied != null) {
+        try (SQLConnection connection = legacySqlConnection.get()) {
+          String client = testSessionDao.getClientName(sessionKey);
+
+          _commonDll._LogDBError_SP(connection, methodName, accessDenied, proctorKey, null, null, sessionKey);
+
+          // throw the error
+          ReturnStatusException.getInstanceIfAvailable(
+            _commonDll._ReturnError_SP(connection, client, methodName, accessDenied, null, null, methodName)
+          );
+        } catch (SQLException e) {
+          throw new ReturnStatusException (e);
+        }
+      }
+    }
+
+    return user;
   }
 
 }

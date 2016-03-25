@@ -16,6 +16,7 @@ package TDS.Proctor.Sql.Repository;
 import java.sql.SQLException;
 import java.util.Iterator;
 
+import TDS.Proctor.performance.services.AppConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
@@ -45,13 +46,17 @@ public class AppConfigRepository extends AbstractDAO implements IAppConfigReposi
   IProctorDLL _pdll     = null;
   @Autowired
   ICommonDLL _cdll     = null;
+
+    @Autowired
+    private AppConfigService appConfigService;
 	 
   public AppConfig getConfigs (String clientName) throws ReturnStatusException {
 
     AppConfig proctorAppConfig = null;
 
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = _pdll.P_GetConfigs_SP (connection, clientName);
+    try {
+//      SingleDataResultSet result = _pdll.P_GetConfigs_SP (connection, clientName);
+      SingleDataResultSet result = appConfigService.getConfigs(clientName);
       ReturnStatusException.getInstanceIfAvailable (result);
 
       Iterator<DbResultRecord> records = result.getRecords ();
@@ -97,7 +102,7 @@ public class AppConfigRepository extends AbstractDAO implements IAppConfigReposi
           proctorAppConfig.setCheckinSiteURL (record.<String> get ("checkinURL"));
         }
       }
-    } catch (SQLException e) {
+    } catch (Exception e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
     }
