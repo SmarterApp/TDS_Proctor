@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.services.ProctorUserService;
+import TDS.Proctor.performance.services.TestSessionService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,9 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
 
   @Autowired
   private ProctorUserService proctorUserService;
+
+  @Autowired
+  private TestSessionService testSessionService;
 
   public List<TestSession> getCurrentSessions (String clientname, long proctorKey, int sessionType) throws ReturnStatusException {
     List<TestSession> testSession = new ArrayList<TestSession> ();
@@ -96,8 +100,9 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
     if (StringUtils.isEmpty (proctorID) || StringUtils.isEmpty (proctorName)) {
       throw new ReturnStatusException (new ReturnStatus ("failed", "UserCookieDataDamaged", "CommonPage"));
     }
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = _pdll.P_CreateSession_SP (connection, clientName, browserKey, sessionName, proctorKey, proctorID, proctorName, dateBegin, dateEnd, 0);
+    try {
+//      SingleDataResultSet result = _pdll.P_CreateSession_SP (connection, clientName, browserKey, sessionName, proctorKey, proctorID, proctorName, dateBegin, dateEnd, 0);
+      SingleDataResultSet result = testSessionService.createSession(clientName, browserKey, sessionName, proctorKey, proctorID, proctorName, dateBegin, dateEnd, 0);
       ReturnStatusException.getInstanceIfAvailable (result);
       Iterator<DbResultRecord> records = result.getRecords ();
       if (records.hasNext ()) {
@@ -110,7 +115,7 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
         // testSession.dateend = dateEnd;
         testSession.setName (sessionName);
       }
-    } catch (SQLException e) {
+    } catch (Exception e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
     }
@@ -119,10 +124,11 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
 
   //TODO make void
   public ReturnStatus insertSessionTest (UUID sessionKey, long proctorKey, UUID browserKey, String testKey, String testID) throws ReturnStatusException {
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = _pdll.P_InsertSessionTest_SP (connection, sessionKey, proctorKey, browserKey, testKey, testID);
+    try {
+//      SingleDataResultSet result = _pdll.P_InsertSessionTest_SP (connection, sessionKey, proctorKey, browserKey, testKey, testID);
+      SingleDataResultSet result = testSessionService.insertSessionTest(sessionKey, proctorKey, browserKey, testKey, testID);
       ReturnStatusException.getInstanceIfAvailable (result);
-    } catch (SQLException e) {
+    } catch (Exception e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
     }
@@ -132,8 +138,9 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
   public List<String> getSessionTests (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
 
     List<String> sessionTests = null;
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = _pdll.P_GetSessionTests_SP (connection, sessionKey, proctorKey, browserKey);
+    try {
+//      SingleDataResultSet result = _pdll.P_GetSessionTests_SP (connection, sessionKey, proctorKey, browserKey);
+      SingleDataResultSet result = testSessionService.getSessionTests(sessionKey, proctorKey, browserKey);
       ReturnStatusException.getInstanceIfAvailable (result);
 
       sessionTests = new ArrayList<String> ();
@@ -142,7 +149,7 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
         DbResultRecord record = records.next ();
         sessionTests.add (record.<String> get ("TestKey"));
       }
-    } catch (SQLException e) {
+    } catch (Exception e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
     }
