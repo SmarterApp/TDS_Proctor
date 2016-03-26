@@ -58,6 +58,9 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
     @Autowired
     private TestSessionDao testSessionDao;;
 
+    @Autowired
+    private TestSessionService testSessionService;
+
   public TestOpps getCurrentSessionTestees (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
     TestOpps testOpps = null;
     try (SQLConnection connection = getSQLConnection ()) {
@@ -245,11 +248,12 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   //TODO should be void
   public ReturnStatus approveOpportunity (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
 
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_ApproveOpportunity_SP (connection, sessionKey, proctorKey, browserKey, oppKey);
+    try {
+      SingleDataResultSet result = testSessionService.approveOpportunity(sessionKey, proctorKey, oppKey);
+//      SingleDataResultSet result = dll.P_ApproveOpportunity_SP (connection, sessionKey, proctorKey, browserKey, oppKey);
       ReturnStatusException.getInstanceIfAvailable (result);
 
-    } catch (SQLException e) {
+    } catch (Exception e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
     }
@@ -260,10 +264,11 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   //TODO should be void
   public ReturnStatus approveAccommodations (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, int segment, String segmentAccs) throws ReturnStatusException {
 
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_ApproveAccommodations_SP (connection, sessionKey, proctorKey, browserKey, oppKey, segment, segmentAccs);
+    try {
+      SingleDataResultSet result = testSessionService.approveAccommodations(sessionKey, proctorKey, browserKey, oppKey, segment, segmentAccs);
+//      SingleDataResultSet result = dll.P_ApproveAccommodations_SP (connection, sessionKey, proctorKey, browserKey, oppKey, segment, segmentAccs);
       ReturnStatusException.getInstanceIfAvailable (result);
-    } catch (SQLException e) {
+    } catch (Exception e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
     }
