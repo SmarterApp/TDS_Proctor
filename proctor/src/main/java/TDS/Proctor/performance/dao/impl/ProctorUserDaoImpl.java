@@ -70,7 +70,7 @@ public class ProctorUserDaoImpl implements ProctorUserDao {
         final String SQL_UPDATE = "update session set DateVisited = now(3) where _key = :sessionkey";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("sessionkey", sessionKey);
+        parameters.addValue("sessionkey", UuidAdapter.getBytesFromUUID(sessionKey));
 
         namedParameterJdbcTemplate.update(SQL_UPDATE, parameters);
     }
