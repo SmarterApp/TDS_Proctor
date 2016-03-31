@@ -1,6 +1,7 @@
 package TDS.Proctor.performance.services;
 
 
+import AIR.Common.DB.SQLConnection;
 import AIR.Common.DB.results.SingleDataResultSet;
 import TDS.Shared.Exceptions.ReturnStatusException;
 
@@ -12,7 +13,7 @@ public interface TestSessionService {
                                       Date dateEnd, Integer sessionType) throws ReturnStatusException;
     SingleDataResultSet insertSessionTest(UUID sessionKey, Long proctorKey, UUID browserKey, String testKey, String testId) throws ReturnStatusException;
     SingleDataResultSet getSessionTests(UUID sessionKey, Long proctorKey, UUID browserKey) throws ReturnStatusException;
-    SingleDataResultSet approveAccommodations(UUID sessionKey, Long proctorKey, UUID browserKey, UUID opportunityKey, Integer segment, String segmentAccoms)
+    SingleDataResultSet approveAccommodations(SQLConnection connection, UUID sessionKey, Long proctorKey, UUID browserKey, UUID opportunityKey, Integer segment, String segmentAccoms)
             throws ReturnStatusException;
-    SingleDataResultSet approveOpportunity(UUID sessionKey, Long proctorKey, UUID opportunityKey) throws ReturnStatusException;
+    SingleDataResultSet approveOpportunity(SQLConnection connection, UUID sessionKey, Long proctorKey, UUID opportunityKey) throws ReturnStatusException;
 }

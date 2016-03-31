@@ -276,7 +276,7 @@ public class TestSessionServiceImpl extends AbstractDLL implements TestSessionSe
      * @return
      * @throws ReturnStatusException
      */
-    public SingleDataResultSet approveAccommodations(UUID sessionKey, Long proctorKey, UUID browserKey, UUID opportunityKey, Integer segment, String segmentAccoms)
+    public SingleDataResultSet approveAccommodations(SQLConnection connection, UUID sessionKey, Long proctorKey, UUID browserKey, UUID opportunityKey, Integer segment, String segmentAccoms)
             throws ReturnStatusException {
 
         UUID oppsession = null;
@@ -286,61 +286,57 @@ public class TestSessionServiceImpl extends AbstractDLL implements TestSessionSe
         String clientName = null;
         Date dbLatencyTime = dateUtility.getLocalDate();
 
-        try (SQLConnection connection = legacySqlConnection.get()) {
-            // ProctorValidation has ben moved to the API endpoint /ApproveOpportunity
+        // ProctorValidation has ben moved to the API endpoint /ApproveOpportunity
 
-            final String SQL_QUERY1 = "SELECT _fk_Session as oppsession, status as teststatus, maxitems as numitems, clientname from testopportunity O where O._Key = ${opportunitykey} ;";
-            SqlParametersMaps parms1 = new SqlParametersMaps ().put ("opportunitykey", opportunityKey);
-            SingleDataResultSet result = executeStatement (connection, SQL_QUERY1, parms1, true).getResultSets ().next ();
-            DbResultRecord record = result.getCount () > 0 ? result.getRecords ().next () : null;
-            if (record != null) {
-                oppsession = record.<UUID> get ("oppsession");
-                teststatus = record.<String> get ("teststatus");
-                numitems = record.<Integer> get ("numitems");
-                clientName = record.<String> get ("clientname");
-            }
-
-            if (teststatus == null) {
-                error.set ("The test opportunity does not exist");
-            }
-            if (DbComparator.notEqual ("pending", teststatus) && DbComparator.notEqual ("suspended", teststatus) && DbComparator.notEqual ("segmentEntry", teststatus)
-                    && DbComparator.notEqual ("segmentExit", teststatus)) {
-                error.set ("The test opportunity is not pending approval");
-            }
-            if (sessionKey != null && oppsession != null && DbComparator.notEqual (sessionKey, oppsession)) {
-                error.set ("The test opportunity is not enrolled in this session");
-            }
-            if (error.get () != null) {
-                commonDll._LogDBError_SP (connection, "P_ApproveAccommodations", error.get (), proctorKey, null, null, opportunityKey, null, sessionKey);
-                dbLatencyService.logLatency ("P_ApproveAccommodations", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
-                return commonDll._ReturnError_SP (connection, clientName, "P_ApproveAccommodations", error.get (), null, opportunityKey, null);
-            }
-            try {
-                updateOpportunityAccommodations(connection, opportunityKey, segment, segmentAccoms, numitems, error, 0);
-                if (error.get () != null) {
-                    // we are having trouble with deadlocks on _Update so try one more time
-                    error.set (String.format ("Accommodations update failed. Making second attempt. %s", error.get ()));
-                    commonDll._LogDBError_SP (connection, "P_ApproveAccommodations", error.get (), proctorKey, null, null, opportunityKey, null, sessionKey);
-                    error.set (null);
-                    updateOpportunityAccommodations(connection, opportunityKey, segment, segmentAccoms, numitems,  error, 0);
-                    if (error.get () != null) {
-                        commonDll._LogDBError_SP (connection, "P_ApproveAccommodations", error.get (), proctorKey, null, null, opportunityKey, null, sessionKey);
-                        dbLatencyService.logLatency("P_ApproveAccommodations", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
-                        return commonDll._ReturnError_SP (connection, clientName, "P_ApproveAccommodations", error.get (), null, opportunityKey, null);
-                    }
-                }
-            } catch (Exception e) {
-                String msg = e.getMessage ();
-                commonDll._LogDBError_SP (connection, "P_ApproveAccommodations", msg, proctorKey, null, null, opportunityKey, null, sessionKey);
-                dbLatencyService.logLatency("P_ApproveAccommodations", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
-                return commonDll._ReturnError_SP (connection, clientName, "P_ApproveAccommodations", "Accommodations update failed", null, opportunityKey, null);
-            }
-            dbLatencyService.logLatency("P_ApproveAccommodations", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
-            return null;
-        } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
-            throw new ReturnStatusException(e);
+        final String SQL_QUERY1 = "SELECT _fk_Session as oppsession, status as teststatus, maxitems as numitems, clientname from testopportunity O where O._Key = ${opportunitykey} ;";
+        SqlParametersMaps parms1 = new SqlParametersMaps ().put ("opportunitykey", opportunityKey);
+        SingleDataResultSet result = executeStatement (connection, SQL_QUERY1, parms1, true).getResultSets ().next ();
+        DbResultRecord record = result.getCount () > 0 ? result.getRecords ().next () : null;
+        if (record != null) {
+            oppsession = record.<UUID> get ("oppsession");
+            teststatus = record.<String> get ("teststatus");
+            numitems = record.<Integer> get ("numitems");
+            clientName = record.<String> get ("clientname");
         }
+
+        if (teststatus == null) {
+            error.set ("The test opportunity does not exist");
+        }
+        if (DbComparator.notEqual ("pending", teststatus) && DbComparator.notEqual ("suspended", teststatus) && DbComparator.notEqual ("segmentEntry", teststatus)
+                && DbComparator.notEqual ("segmentExit", teststatus)) {
+            error.set ("The test opportunity is not pending approval");
+        }
+        if (sessionKey != null && oppsession != null && DbComparator.notEqual (sessionKey, oppsession)) {
+            error.set ("The test opportunity is not enrolled in this session");
+        }
+        if (error.get () != null) {
+            commonDll._LogDBError_SP (connection, "P_ApproveAccommodations", error.get (), proctorKey, null, null, opportunityKey, null, sessionKey);
+            dbLatencyService.logLatency ("P_ApproveAccommodations", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
+            return commonDll._ReturnError_SP (connection, clientName, "P_ApproveAccommodations", error.get (), null, opportunityKey, null);
+        }
+        try {
+            updateOpportunityAccommodations(connection, opportunityKey, segment, segmentAccoms, numitems, error, 0);
+            if (error.get () != null) {
+                // we are having trouble with deadlocks on _Update so try one more time
+                error.set (String.format ("Accommodations update failed. Making second attempt. %s", error.get ()));
+                commonDll._LogDBError_SP (connection, "P_ApproveAccommodations", error.get (), proctorKey, null, null, opportunityKey, null, sessionKey);
+                error.set (null);
+                updateOpportunityAccommodations(connection, opportunityKey, segment, segmentAccoms, numitems,  error, 0);
+                if (error.get () != null) {
+                    commonDll._LogDBError_SP (connection, "P_ApproveAccommodations", error.get (), proctorKey, null, null, opportunityKey, null, sessionKey);
+                    dbLatencyService.logLatency("P_ApproveAccommodations", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
+                    return commonDll._ReturnError_SP (connection, clientName, "P_ApproveAccommodations", error.get (), null, opportunityKey, null);
+                }
+            }
+        } catch (Exception e) {
+            String msg = e.getMessage ();
+            commonDll._LogDBError_SP (connection, "P_ApproveAccommodations", msg, proctorKey, null, null, opportunityKey, null, sessionKey);
+            dbLatencyService.logLatency("P_ApproveAccommodations", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
+            return commonDll._ReturnError_SP (connection, clientName, "P_ApproveAccommodations", "Accommodations update failed", null, opportunityKey, null);
+        }
+
+        dbLatencyService.logLatency("P_ApproveAccommodations", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
+        return null;
     }
 
     /**
@@ -352,7 +348,7 @@ public class TestSessionServiceImpl extends AbstractDLL implements TestSessionSe
      * @return
      * @throws ReturnStatusException
      */
-    public SingleDataResultSet approveOpportunity(UUID sessionKey, Long proctorKey, UUID opportunityKey) throws ReturnStatusException {
+    public SingleDataResultSet approveOpportunity(SQLConnection connection, UUID sessionKey, Long proctorKey, UUID opportunityKey) throws ReturnStatusException {
 
         UUID oppsession = null;
         String teststatus = null;
@@ -361,42 +357,37 @@ public class TestSessionServiceImpl extends AbstractDLL implements TestSessionSe
         String clientName = null;
         Date dbLatencyTime = dateUtility.getLocalDate();
 
-        try (SQLConnection connection = legacySqlConnection.get()) {
-            final String SQL_QUERY1 = "SELECT _fk_Session as oppsession, status as teststatus, maxitems as numitems, clientname from testopportunity  where _Key = ${opportunitykey} ;";
-            SqlParametersMaps parms1 = new SqlParametersMaps ().put ("opportunitykey", opportunityKey);
-            SingleDataResultSet result = executeStatement (connection, SQL_QUERY1, parms1, true).getResultSets ().next ();
-            DbResultRecord record = result.getCount () > 0 ? result.getRecords ().next () : null;
-            if (record != null) {
-                oppsession = record.<UUID> get ("oppsession");
-                teststatus = record.<String> get ("teststatus");
-                numitems = record.<Integer> get ("numitems");
-                clientName = record.<String> get ("clientname");
-            }
-
-            if (teststatus == null) {
-                error.set ("The test opportunity does not exist");
-            }
-            if (DbComparator.notEqual ("pending", teststatus) && DbComparator.notEqual ("suspended", teststatus) && DbComparator.notEqual ("segmentEntry", teststatus)
-                    && DbComparator.notEqual ("segmentExit", teststatus)) {
-                error.set ("The test opportunity is not pending approval");
-            }
-            if (sessionKey != null && oppsession != null && DbComparator.notEqual (sessionKey, oppsession)) {
-                error.set ("The test opportunity is not enrolled in this session");
-            }
-            if (error.get () != null) {
-                commonDll._LogDBError_SP(connection, "P_ApproveOpportunity", error.get (), proctorKey, null, null, sessionKey, null, null);
-                dbLatencyService.logLatency("P_ApproveOpportunity", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
-                return commonDll._ReturnError_SP (connection, clientName, "P_ApproveOpportunity", error.get (), null, opportunityKey, null);
-            }
-
-            result = commonDll.SetOpportunityStatus_SP(connection, opportunityKey, "approved", false, sessionKey.toString ());
-
-            dbLatencyService.logLatency("P_ApproveOpportunity", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
-            return result;
-        } catch (SQLException e) {
-            logger.error(e.getMessage(), e);
-            throw new ReturnStatusException(e);
+        final String SQL_QUERY1 = "SELECT _fk_Session as oppsession, status as teststatus, maxitems as numitems, clientname from testopportunity  where _Key = ${opportunitykey} ;";
+        SqlParametersMaps parms1 = new SqlParametersMaps ().put ("opportunitykey", opportunityKey);
+        SingleDataResultSet result = executeStatement (connection, SQL_QUERY1, parms1, true).getResultSets ().next ();
+        DbResultRecord record = result.getCount () > 0 ? result.getRecords ().next () : null;
+        if (record != null) {
+            oppsession = record.<UUID> get ("oppsession");
+            teststatus = record.<String> get ("teststatus");
+            numitems = record.<Integer> get ("numitems");
+            clientName = record.<String> get ("clientname");
         }
+
+        if (teststatus == null) {
+            error.set ("The test opportunity does not exist");
+        }
+        if (DbComparator.notEqual ("pending", teststatus) && DbComparator.notEqual ("suspended", teststatus) && DbComparator.notEqual ("segmentEntry", teststatus)
+                && DbComparator.notEqual ("segmentExit", teststatus)) {
+            error.set ("The test opportunity is not pending approval");
+        }
+        if (sessionKey != null && oppsession != null && DbComparator.notEqual (sessionKey, oppsession)) {
+            error.set ("The test opportunity is not enrolled in this session");
+        }
+        if (error.get () != null) {
+            commonDll._LogDBError_SP(connection, "P_ApproveOpportunity", error.get (), proctorKey, null, null, sessionKey, null, null);
+            dbLatencyService.logLatency("P_ApproveOpportunity", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
+            return commonDll._ReturnError_SP (connection, clientName, "P_ApproveOpportunity", error.get (), null, opportunityKey, null);
+        }
+
+        result = commonDll.SetOpportunityStatus_SP(connection, opportunityKey, "approved", false, sessionKey.toString ());
+
+        dbLatencyService.logLatency("P_ApproveOpportunity", dbLatencyTime, proctorKey, 0, null, sessionKey, null, null);
+        return result;
     }
 
     /**
@@ -441,6 +432,7 @@ public class TestSessionServiceImpl extends AbstractDLL implements TestSessionSe
         DataBaseTable splitAccomCodesTbl = _SplitAccomCodes_FN (connection, clientName, testKey, accoms);
         DataBaseTable testKeyAccomsTbl = TestKeyAccommodations_FN(connection, testKey);
 
+        // Currently, debug is always passed in as 0, so this block is not every run
         if (DbComparator.notEqual (debug, 0)) {
             final String SQL_QUERY2 = " select ${segment} as segment, ${clientname} as clientname, ${testkey} as testkey, ${accoms} as accoms;";
             SqlParametersMaps parms2 = (new SqlParametersMaps ()).put ("segment", segment).put ("clientname", clientName).put ("testkey", testKey).put ("accoms", accoms);
@@ -511,6 +503,8 @@ public class TestSessionServiceImpl extends AbstractDLL implements TestSessionSe
         }
 
         try {
+            // TODO: is this a problem that we are using our own connection instead of the original being passed through to this method
+            //  in approveAccommodations we use the legacySqlConnection to get a new connection instead of whatever value they might have used before
             boolean preexistingAutoCommitMode = connection.getAutoCommit ();
             connection.setAutoCommit (false);
 
