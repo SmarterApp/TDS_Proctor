@@ -45,7 +45,7 @@ oauth.testreg.username={OAuth username for test registration}
 oauth.testreg.password={OAuth password for test registration} 
 
 working example:
-oauth.access.url=https://drc-dev-secure.opentestsystem.org/auth/oauth2/access_token?realm=/sbac
+oauth.access.url=https://openam-server-name/auth/oauth2/access_token?realm=/sbac
 pm.oauth.client.id=pm
 pm.oauth.client.secret=OAUTHCLIENTSECRET
 pm.oauth.batch.account=test@example.com
@@ -330,16 +330,16 @@ These are the steps that should be taken in order to build all of the Proctor re
 
 If building all components from scratch the following build order is needed:
 
-* sharedmultijardev
-* itemrendererdev
-* tdsdlldev
+* sharedmultijar
+* itemrenderer
+* tdsdll
 * tdsloadtester
 * SharedBuild
 * SharedCode
 * RestAPIGenerator
 * MonitoringAndAlertingClient
 * ProgramManagementClient
-* TDSDev
+* TDS
 
 ## Dependencies
 Proctor has a number of direct dependencies that are necessary for it to function.  These dependencies are already built into the Maven POM files.
