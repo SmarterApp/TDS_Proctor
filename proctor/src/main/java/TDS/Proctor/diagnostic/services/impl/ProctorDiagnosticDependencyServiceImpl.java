@@ -44,43 +44,43 @@ public class ProctorDiagnosticDependencyServiceImpl implements DiagnosticDepende
     @Autowired
     private PermissionClient permissionClient;
 
-//    @Autowired
-//    private ITrClient _trClient;
+    @Autowired
+    private ITrClient _trClient;
 
 
     public Providers getProviders() {
 
         List<Status> statusList = new ArrayList<>();
 
-//        statusList.add(getArt());
+        statusList.add(getArt());
         statusList.add(getProgman());
         statusList.add(getPermissions());
 
         return new Providers(statusList);
     }
 
-//    protected Status getArt() {
-//
-//        final String unit = "ART";
-//        try {
-//            String clients = _trClient.getForObject("clients");
-//            logger.debug("Client from ART {}", clients);
-//            return new Status(unit, Level.LEVEL_0, new Date());
-//
-//        } catch (Exception e) {
-//            logger.error("Diagnostic error with dependency ART ", e);
-//            Status errorStatus = new Status(unit, Level.LEVEL_0, new Date());
-//            errorStatus.setRating(Rating.FAILED);
-//            errorStatus.setError("Diagnostic error with dependency ART");
-//            return errorStatus;
-//        }
-//    }
+    protected Status getArt() {
+
+        final String unit = "ART";
+        try {
+            String clients = _trClient.getForObject("clients");
+            logger.debug("Client from ART {}", clients);
+            return new Status(unit, Level.LEVEL_0, new Date());
+
+        } catch (Exception e) {
+            logger.error("Diagnostic error with dependency ART ", e);
+            Status errorStatus = new Status(unit, Level.LEVEL_0, new Date());
+            errorStatus.setRating(Rating.FAILED);
+            errorStatus.setError("Diagnostic error with dependency ART");
+            return errorStatus;
+        }
+    }
 
     protected Status getPermissions() {
         final String unit = "Permission";
         try {
             List<UserRole> roles = permissionClient.getRoles();
-            logger.debug("Number of roles from Permission {}", roles.size());
+            logger.debug("Roles from Permission {}", roles);
 
             if (roles.size() == 0) {
                 Status warningStatus = new Status(unit, Level.LEVEL_0, new Date());
