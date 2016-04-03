@@ -15,6 +15,8 @@ package TDS.Proctor.diagnostic.services.impl;
 
 import org.opentestsystem.shared.progman.client.ProgManClient;
 import org.opentestsystem.shared.progman.client.domain.TenantType;
+import org.opentestsystem.shared.security.domain.permission.UserRole;
+import org.opentestsystem.shared.security.integration.PermissionClient;
 import org.opentestsystem.shared.trapi.ITrClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,9 @@ public class ProctorDiagnosticDependencyServiceImpl implements DiagnosticDepende
     @Autowired
     private ProgManClient progManClient;
 
+    @Autowired
+    private PermissionClient permissionClient;
+
 //    @Autowired
 //    private ITrClient _trClient;
 
@@ -49,6 +54,7 @@ public class ProctorDiagnosticDependencyServiceImpl implements DiagnosticDepende
 
 //        statusList.add(getArt());
         statusList.add(getProgman());
+        statusList.add(getPermissions());
 
         return new Providers(statusList);
     }
@@ -69,6 +75,30 @@ public class ProctorDiagnosticDependencyServiceImpl implements DiagnosticDepende
 //            return errorStatus;
 //        }
 //    }
+
+    protected Status getPermissions() {
+        final String unit = "Permission";
+        try {
+            List<UserRole> roles = permissionClient.getRoles();
+            logger.debug("Number of roles from Permission {}", roles.size());
+
+            if (roles.size() == 0) {
+                Status warningStatus = new Status(unit, Level.LEVEL_0, new Date());
+                warningStatus.setRating(Rating.WARNING);
+                warningStatus.setWarning("There are no roles configured in Permission for Proctor");
+                return warningStatus;
+            }
+
+            return new Status(unit, Level.LEVEL_0, new Date());
+
+        } catch (Exception e) {
+            logger.error("Diagnostic error with dependency Permission ", e);
+            Status errorStatus = new Status(unit, Level.LEVEL_0, new Date());
+            errorStatus.setRating(Rating.FAILED);
+            errorStatus.setError("Diagnostic error with dependency Permission");
+            return errorStatus;
+        }
+    }
 
     protected Status getProgman() {
         final String unit = "Progman";
