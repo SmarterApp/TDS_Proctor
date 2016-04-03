@@ -43,6 +43,8 @@
 
 	<context:component-scan base-package="tds.dll.common.performance"/>
 	<context:component-scan base-package="TDS.Proctor.performance"/>
+	<context:component-scan base-package="tds.dll.common.diagnostic"/>
+	<context:component-scan base-package="TDS.Proctor.diagnostic"/>
 
 	<!-- DLLs -->
 	<import resource="classpath:context-modules/dlls-context-module.xml"/>

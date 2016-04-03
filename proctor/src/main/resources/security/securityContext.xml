@@ -28,6 +28,10 @@
 	<security:http security="none" pattern="/favicon.ico" />
 	<security:http security="none" pattern="/thankyou" />
 	<security:http security="none" pattern="/rest/version" />
+	<security:http security="none" pattern="/status" />
+	<security:http security="none" pattern="/status/summary" />
+	<security:http security="none" pattern="/Services/status" />
+	<security:http security="none" pattern="/Services/status/summary" />
 
 	<!-- Secured pages -->
 	<security:http entry-point-ref="delegatingAuthenticationEntryPoint" use-expressions="true">
