@@ -21,20 +21,25 @@ import org.opentestsystem.shared.trapi.ITrClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tds.dll.common.diagnostic.domain.Level;
 import tds.dll.common.diagnostic.domain.Providers;
 import tds.dll.common.diagnostic.domain.Rating;
 import tds.dll.common.diagnostic.domain.Status;
 import tds.dll.common.diagnostic.services.DiagnosticDependencyService;
+import tds.dll.common.diagnostic.services.impl.AbstractDiagnosticDependencyService;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
 @Service
-public class ProctorDiagnosticDependencyServiceImpl implements DiagnosticDependencyService {
+public class ProctorDiagnosticDependencyServiceImpl extends AbstractDiagnosticDependencyService {
 
     private static final Logger logger = LoggerFactory.getLogger(ProctorDiagnosticDependencyServiceImpl.class);
 
@@ -47,14 +52,18 @@ public class ProctorDiagnosticDependencyServiceImpl implements DiagnosticDepende
     @Autowired
     private ITrClient _trClient;
 
+    @Value("${proctor.security.idp}")
+    private String ssoPingUrl;
+
 
     public Providers getProviders() {
 
         List<Status> statusList = new ArrayList<>();
 
         statusList.add(getArt());
-        statusList.add(getProgman());
         statusList.add(getPermissions());
+        statusList.add(getProgman());
+        statusList.add(getSSO());
 
         return new Providers(statusList);
     }
@@ -123,6 +132,19 @@ public class ProctorDiagnosticDependencyServiceImpl implements DiagnosticDepende
         }
 
     }
+
+    protected Status getSSO() {
+        final String unit = "SSO";
+        if (!pingURL(ssoPingUrl, 2000)) {
+            Status errorStatus = new Status(unit, Level.LEVEL_0, new Date());
+            errorStatus.setRating(Rating.FAILED);
+            errorStatus.setError("Diagnostic error with dependency SSO.  Could not successfully ping URL");
+            return errorStatus;
+        }
+
+        return new Status(unit, Level.LEVEL_0, new Date());
+    }
+
 
 
 }
