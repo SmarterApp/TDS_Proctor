@@ -35,12 +35,9 @@
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/Services/*</url-pattern>
+		<url-pattern>/status/*</url-pattern>
+		<url-pattern>/status/summary/*</url-pattern>
 	</servlet-mapping>
-
-	<!--<servlet-mapping>-->
-		<!--<servlet-name>appServlet</servlet-name>-->
-		<!--<url-pattern>/diagnostic/*</url-pattern>-->
-	<!--</servlet-mapping>-->
 	
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
