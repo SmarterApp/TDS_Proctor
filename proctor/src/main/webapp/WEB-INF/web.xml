@@ -37,6 +37,7 @@
 		<url-pattern>/Services/*</url-pattern>
 		<url-pattern>/status/*</url-pattern>
 		<url-pattern>/status/summary/*</url-pattern>
+		<url-pattern>/maxopportunities/*</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
