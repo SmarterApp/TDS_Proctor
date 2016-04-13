@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 
 @Repository
-public class ItemBankDaoImpl extends AbstractDLL implements ItemBankDao {
+public class ItemBankDaoImpl extends tds.dll.common.performance.dao.impl.ItemBankDaoImpl implements ItemBankDao {
     private static final Logger logger = LoggerFactory.getLogger(ItemBankDaoImpl.class);
 
     @Autowired
