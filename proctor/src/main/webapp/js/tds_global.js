@@ -1,0 +1,1 @@
+﻿var gXHRTimeout = 90000;

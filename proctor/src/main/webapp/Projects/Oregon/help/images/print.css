@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/* CSS Document */
+* {
+	position:static !important;
+	overflow:visible !important;
+}
+
+#navigation {
+	display: none !important;
+}
+#helpContent {
+	padding: 0px !important;
+	width: 95% !important;
+	margin-top: 0px !important;
+	margin-right: auto !important;
+	margin-bottom: 0px !important;
+	margin-left: auto !important;
+	border:inherit !important;
+}
+.inner {
+	padding: 0px !important;
+}
+td {
+	padding: 3pt !important;
+	border: 1px solid #DBDBDB !important;
+}
+th {
+	font-size: 14pt !important;
+	font-weight: bold !important;
+	border: 1px solid #666666 !important;
+	padding: 4pt !important;
+}
+caption {
+	padding: 5pt;
+	font-size: 18pt;
+	text-align: left;
+}
+.toolleft {
+	text-align: right;
+	vertical-align:top;
+}
+.leftColumn {
+	text-align: center;
+	line-height: 29px;
+}
+.leftColumn img, .centerColumn img {
+	vertical-align:middle;
+}
+.centerColumn {
+	text-align: center;
+}
+

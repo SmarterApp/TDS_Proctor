@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://java.sun.com/jsf/passthrough"
+	xmlns:tds="http://airast.org/jsfcustom" xmlns:tdsproctor="http://airast.org/jsfcustomproctor">
+<h:head>
+	<meta http-equiv="Expires" content="0" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Cache-Control" content="no-cache" />
+	<title>TDS: Login Page</title>
+	<link rel="apple-touch-icon" href="#{request.contextPath}/shared/images/custom_icon.png" />
+	<link href="#{request.contextPath}/shared/css/login.css" rel="stylesheet" type="text/css" />
+	<link media="screen and (min-width: 300px) and (max-width: 1000px)"
+		href="#{request.contextPath}/shared/css/login_mobile.css" type="text/css" rel="stylesheet" />
+	<tdsproctor:CSSLinkProctor href="Projects/{0}/css/login.css"
+		id="clientCSSLink" rel="stylesheet" type="text/css" binding="#{loginBacking.clientCSSLink}" />
+	<tdsproctor:GlobalJavascriptProctor contextName="Login.aspx" id="gJS" language="ENU" binding="#{loginBacking.globalJs}"/>
+	<script src="#{request.contextPath}/ProctorScripts/Libraries/3.14.1_build/yui/yui-min.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Messages/messages_indexer.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Messages/messages_template.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Messages/messages_system.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Messages/messages_loader.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Utilities/util.js" type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Utilities/util_structs.js" type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/tds.js" type="text/javascript"></script>
+
+	<script src="#{request.contextPath}/ProctorScripts/Messages/messages_switcher.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Accommodations/tds_acc.js" type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_shared.js" type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_global.js" type="text/javascript"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/browser.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/js/Exit_Common.js"></script>
+	<script type="text/javascript">
+		var fireGlobalEvent = function(e, param) {
+			YUI().use('event-custom', function(Y) {
+				var publisher = new Y.EventTarget();
+				publisher.publish(e, {
+					broadcast : 2, // global notification
+					emitFacade : true
+				// emit a facade so we get the event target
+				}).fire(param);
+			});
+		};
+		// onload
+		YUI()
+				.use(
+						"tds",
+						"event-custom",
+						"event-key",
+						"console",
+						function(Y) {
+							if (window.name == gConfirmExitWinName)
+								window.close();
+							function help() {
+								var body = Y.one(document.body);
+								body.addClass("help_window");
+
+								var url = 'Projects/'
+										+ gTDS.appConfig.ClientPath
+										+ '/help/help.html';
+								var iframe = Y.one('#iframe_help');
+								iframe.set('src', url);
+							}
+
+							//global event handler
+							Y.Global.on('GlobalEvent:closeDialog', function(e,
+									className) {
+								var body = Y.one(document.body);
+								body.removeClass(className);
+							});
+
+							Y.on("domready", function() {
+								if (window.top != window) {
+									window.top.location = 'default.aspx';
+								}
+								Y.tds.initLogin(gTDS);
+
+								var closeBtn = Y.one("#lnkHelp");
+								closeBtn.on("click", help);
+
+								//enter key
+								var nodes = Y.all('input');
+								nodes.on('keypress', _enterKey);
+
+								var txtUserName = Y.one('#txtUsername');
+								if (txtUserName != null)
+									txtUserName.set('type', 'email');
+							});
+
+							//press enter key
+							function _enterKey(e) {
+								e = e || window.event;
+								if (e.keyCode == 13) {
+									Y.log("enter key press");
+									WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(
+											"btnLogin", "", true, "", "",
+											false, true))
+									return false;
+								}
+								return true;
+							}
+
+						});
+	</script>
+</h:head>
+<h:body id="body" styleClass="please_wait">
+	<h:form id="form1">
+		<div class="wrapper">
+			<div class="wait">
+				<span class="container">
+					<h2 i18n-content="Label.PleaseWait">Please Wait</h2> <span
+					class="loader"></span>
+				</span>
+			</div>
+			<div class="header">
+				<div class="topBar">
+					<div class="smallButtons">
+						<a id="lnkHelp"><span i18n-content="Button.Help"></span></a> <select
+							id="selectLang"></select>
+					</div>
+					<span class="clear"></span>
+				</div>
+
+				<div class="logos">
+					<div class="brand1" i18n-content="Label.Logo"></div>
+				</div>
+
+				<div class="brand2">
+					<h3 i18n-content="Label.AppTitle"></h3>
+					<span class="clear"></span>
+				</div>
+
+			</div>
+			<!-- ends header -->
+			<div class="centerThis contentWrapper">
+
+				<!-- this is for the PT site-->
+				<div class="training" i18n-content="Label.Training"></div>
+
+				<div class="green login">
+					<div class="shadowBox">
+						<div class="box2">
+							<span class="topShadow"><em></em><strong></strong></span>
+							<div id="divContent" class="content">
+								<h2 i18n-content="Label.PleaseLogIn"></h2>
+								<div class="formWrapper">
+									<div class="identity">
+										<label> <span class="spacer"
+											i18n-content="Label.Username"></span> <h:inputText
+												id="txtUsername" size="26" binding="#{loginBacking.loginInput}" required="true" 
+												requiredMessage="User Name Required"  />
+												<!--   Required attr enforces presence of a value in User Name input box -->												
+												<h:message for="txtUsername" styleClass="loginValid" />  <!-- Render's message for txtUsername -->
+										</label> <label> <span class="spacer"
+											i18n-content="Label.Password"></span> <h:inputSecret
+												id="txtPassword" size="26" binding="#{loginBacking.passwordInput}" required="true"
+												requiredMessage="Password Required"/>												
+												<!--   Required attr enforces presence of a value in Password input box -->												
+												<h:message for="txtPassword" styleClass="loginValid" /> <!-- Render's message for txtPassword -->
+										</label>
+										<tds:PlaceHolderTDS id="errorMsgPlaceHolder" binding="#{loginBacking.componentHolder}"/>
+									</div>
+
+									<div class="choices">
+										<h:commandLink id="btnLogin" styleClass="greenBtn" action="#{loginBacking.btnLogin_Click}">
+											<span i18n-content="Button.SignIn"></span>
+										</h:commandLink>
+										<span class="clear"></span>
+									</div>
+									<span class="clear"></span>
+								</div>
+								<div class="instructions" i18n-content="Label.Instructions"></div>
+
+							</div>
+							<div id="divTurnOffPopupBlocker" style="display: none">
+								<div class="instructions" i18n-content="Label.PopupInstructions">
+									<br /> <br /> <a href="#" onclick='window.location.reload();'
+										class="greenBtn"><span i18n-content="Button.Refresh"></span></a>
+									<p>&nbsp;</p>
+								</div>
+							</div>
+							<span class="bottomShadow"><em></em><strong></strong></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer" i18n-content="Label.Footer"></div>
+		</div>
+		<script type="text/javascript">
+			
+			
+//<!--
+    function checkPopupBlocker() {
+        var daWindow = window.open('shared/popup.html', '', 'width=20,height=20');        
+        var cntrl;
+        if(daWindow)
+        {         
+            daWindow.close();
+            cntrl = document.getElementById('divContent');
+            cntrl.style.display = 'block'
+            cntrl = document.getElementById('divTurnOffPopupBlocker');
+            cntrl.style.display = 'none'
+        }
+        else
+        {          
+            cntrl = document.getElementById('divContent');
+            cntrl.style.display = 'none'
+            cntrl = document.getElementById('divTurnOffPopupBlocker');
+            cntrl.style.display = 'block'
+        }
+    }
+    checkPopupBlocker();
+
+		
+		//-->
+		</script>
+	</h:form>
+	<div class="help_wrapper">
+		<iframe frameborder="0" id="iframe_help" src="#{request.contextPath}/shared/blank.html"></iframe>
+	</div>
+	<p>&nbsp;</p>
+</h:body>
+</html>

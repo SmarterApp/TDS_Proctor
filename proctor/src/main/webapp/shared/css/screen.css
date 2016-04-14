@@ -1,0 +1,2841 @@
+@import url(reset.css);
+
+/* Colors
+Dark Blue: #2671a6
+Medium Blue: #89bce9
+Light Blue: #d5ebfe
+
+Dark Green: #13a53a
+Medium Green 1: #b0d888
+Medium Green 2: #aacc80
+Light Green: #e1f5c9
+*/
+.clear {
+	display: block;
+	clear: both;
+}
+a {
+	cursor: pointer;
+}
+/* @group fixed positioning */
+
+html, body, .wrapper {
+	height:100%;
+	max-height:100%;
+	overflow: hidden;
+	font-family: Arial, Helvetica, Geneva, sans-serif;
+	background-color: #c1e19a;
+}
+.wrapper, .inactive_wrapper {
+	font-size: 68%;
+	position: relative;
+}
+.topHalf {
+	position:absolute;
+	top:0;
+	width:100%;
+	height:8.8em;
+	z-index:1;
+	right: 0px;
+}
+/*.webkit .topHalf {
+	height:7.6em;
+}*/
+.bottomHalf {
+	overflow:auto;
+	position: absolute;
+	top:97px;
+	bottom:0em;
+	left: 0px;
+	right: 0em;
+	width: 100%;
+}
+.ie7 .bottomHalf { top: 95px; }
+.ie6 .bottomHalf {
+	top: 94px;
+	left: 0px;
+}
+.ie1 .topHalf{
+	height: 9.2em;
+}
+.ie1 .bottomHalf{
+	top: 9.2em;
+}
+/*
+.webkit .bottomHalf {
+	top:7.6em;
+}*/
+.gecko.mac .bottomHalf {
+	/*border-top: solid 1em #e1f5c9;
+	margin-top: -1em;*/
+	/*This hurts rather than helps in modern FF.  If we need it for classic we'll need to get version */
+}
+.footer {
+	padding: .3em 1.2em;
+	text-align: right;
+	color: #fff;
+}
+/* @end */
+
+
+/* @group head level1 - DISABLED - SEE NEW CLS CODE */
+
+/*.level1 {
+	background-color: #2671a6;
+	border-bottom: solid 1px #fff;
+	height: 2em;
+	padding-right: .5em;
+}
+.titleThing {
+	display: block;
+	float: left;
+	background: url(../images/breadcrumb.gif) no-repeat right center;
+	line-height: 2em;
+	padding-left: .5em;
+	padding-right: 1.5em;
+	margin-right: .5em;
+	color: #89bce9;
+}
+.appselect {
+	line-height: 2em;
+	display: block;
+	float: left;
+}
+.ie7 .appselect label {
+	margin-top: -0.1em;
+	display: block;
+	float: left;
+}
+.ie6 .appselect label {
+	margin-top: .1em;
+	display: block;
+	float: left;
+}
+.appselect span{
+	color: #89bce9;
+}
+.appselect select{
+	font-size: .8em;
+}
+.button_alert, .button_logout, .button_help, .user, .button_collapse {
+	display: block;
+	float: right;
+}
+.user {
+	line-height: 2em;
+	color: #89bce9;
+}
+.button_logout, .button_help {
+	line-height: 1.5em;
+	border: solid 1px #89bce9;
+	background-color: #d5ebfe;
+	margin-top: .1em;
+	padding-left: .3em;
+	padding-right: .3em;
+	color: #000;
+	text-decoration: none;
+	margin-left: .5em;
+}
+.button_logout:hover, .button_help:hover {
+	background-color: #165e91;
+	color: #fff;
+}
+.button_alert {
+	text-indent: -9999px;
+	line-height: 2em;
+	width: 22px;
+	background: url(../images/sprites.png) no-repeat 3px -307px;
+	margin-left: .1em;
+	margin-right: -.5em;
+
+}
+.ie6 .button_alert {
+	margin-right: -.3em;
+}
+.button_alert:hover {
+	background-color: #054775;
+}*/
+.shelf .button_collapse {
+	background: url(../images/showHide.png) no-repeat 0 0;
+	display: block;
+	text-decoration: none;
+	color: #000;
+	height: 20px;
+	width: 29px;
+	float: left;
+	margin-top: .6em;
+	margin-left: 1.6em;
+	margin-right: -60px;
+	text-indent: -9999px;
+}
+.shelf .button_collapse:hover {
+	background-position: 0 -33px;
+}
+.ie6 .shelf .button_collapse {
+	margin-left: .8em;
+}
+/* hide collapse until after sesion is started */
+.not_started .shelf .button_collapse {
+	display: none;
+}
+
+/*New language selector CSS*/
+#selectLang{
+    float: right;
+    margin: 0 10px;
+	line-height: 1.5em;
+	border: solid 1px #000;
+	background-color: #fff;
+	margin-top: .1em;
+	color: #000;
+	text-decoration: none;
+	margin-left: .5em;
+	font-size: 1em;
+	padding: 0.1em 0;
+}
+
+/* @end */
+
+/* @group head level2 */
+
+.level2 {
+	border-bottom: solid 1px #13a53a;
+	height: 2.5em;
+	overflow: hidden;
+	background-color: #89bce9;
+}
+.level2 span{
+	display: block;
+	height: 2.5em;
+	float: right;
+}
+.level2 .brand1 {
+	float: left;
+	width: 200px;
+	background: url(../images/air_small.png) no-repeat 0 1px;
+	text-indent: -9999px;
+}
+.level2 .brand2 {
+	width: 190px;
+	background: url(../images/mountain.gif) no-repeat right bottom;
+	text-indent: -9999px;
+}
+.level2 .session_top {
+	border-left: solid 1px #2671a6;
+	border-right: solid 1px #2671a6;
+	color: #fff;
+	background: #4a8dbf url(../images/session_top.gif) repeat-x left top;
+	/*width: 11.65em;*/
+	min-width: 11.65em;
+	width: auto;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top:0.6em;
+	text-align: right;  /*was left, changed to accomodate longer Session IDs*/
+	height: 1.0em;
+	font-size: 1.6em;
+}
+.level2 .session_top span {
+	display: block;
+	width: 50px;
+	height: .6em;
+	float: none;
+	overflow: hidden; /* for ie6 */
+}
+
+/* @end */
+
+/* @group head level 3 */
+
+.level3 {
+	border-bottom: #c1e19a;
+	height: 3em;
+	background: #b7da8c url(../images/tools_gradient.gif) repeat-x left bottom;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+.level3 a  {
+	display: block;
+	height: 1.4em;
+	float: left;
+	font-size: 1.4em;
+	line-height: 1.4em;
+	text-decoration: none;
+	color: #000;
+	margin-right: .5em;
+	border: solid 1px #9cc26e;
+	margin-top: .35em;
+	background-color: #c1e19a;
+}
+span.session_nope, span.settings_nope  {
+	display: none;
+	height: 1.4em;
+	float: left;
+	font-size: 1.4em;
+	line-height: 1.4em;
+	text-decoration: none;
+	color: #000;
+	margin-right: .5em;
+	border: solid 1px #9cc26e;
+	margin-top: .35em;
+	background-color: #c1e19a;
+}
+.ie6 .level3 a, .ie7 .level3 a {
+	margin-top: .5em;
+}
+.level3 a:hover {
+	background-color: #13a53a;
+	color: #fff;
+}
+.level3 a span {
+	display: block;
+	padding-left: 25px;
+	padding-right: 5px;
+	background: url(../images/sprites.png) no-repeat;
+	cursor: pointer;
+	float: left; /* for ie6 */
+}
+.level3 a span.no_background{
+	background: none;
+	padding: 0 5px 0 5px;
+}
+
+#lblWaitingForApprovalsCount {
+	display: inline;
+	float: none;
+	padding: 0px;
+	background-image: none;
+}
+a.session_start, a.session_stop {
+	background: #55ba5b url(../images/darkgreen_gradient.gif) repeat-x left bottom;
+	color: #fff;
+	line-height: 1.95em;
+	height: 1.95em;
+	border: none;
+	margin-top: 0em !important;
+	font-size: 1.5em;
+}
+a.session_start {
+	display: none;
+}
+a.session_start span  {
+	background-position: 3px -40px;
+	padding-left: 25px;
+	padding-right: 10px;
+	padding-top: .07em;
+}
+a.session_stop {
+	padding-left: 3px;
+}
+a.session_stop span {
+	background: url(../images/sprites.gif) no-repeat 3px 4px;
+	padding-left: 30px;
+	padding-right: 10px;
+	height: 2em;
+}
+a.session_stop:hover, a.session_start:hover {
+	background-image: none;
+	background-color: #f26522;
+}
+
+span.session_nope {
+	background: #a2d994 url(../images/disabeled_gradient.gif) repeat-x left bottom;
+	color: #d8ecc4;
+	line-height: 1.95em;
+	height: 1.95em;
+	border: none;
+	margin-top: 0em !important;
+	font-size: 1.5em;
+}
+span.session_nope span  {
+	background: url(../images/sprites.png) no-repeat;
+	background-position: 3px -556px;
+	padding-left: 25px;
+	padding-right: 10px;
+	padding-top: .07em;
+	height: 2em;
+	display: block;
+	float: left;
+}
+a.settings span {
+	background-position: 4px -90px;
+}
+.ie6 a.settings {
+	position: relative;
+}
+span.settings_nope {
+	background-color: #55BA5B;
+	color: #fff;
+}
+.ie6 span.settings_nope, .ie7 span.settings_nope {
+	margin-top: .5em;
+}
+span.settings_nope span {
+	display: block;
+	padding-left: 25px;
+	padding-right: 5px;
+	background: url(../images/sprites.png) no-repeat;
+	background-position: 4px -90px;
+	float: left;
+}
+a.lookup span {
+	background-position: 3px -133px;
+}
+a.print_page span {
+	background-position: 3px -176px;
+}
+a.refresh span {
+	background-position: 4px -220px;
+}
+a.button_approvals span {
+	background-position: 4px -263px;
+}
+a.button_approvals, a.button_approvals:hover {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	border-color: #cee7bb;
+	color: #ecfad9;
+	background-color: #C1E19A;
+}
+.session_bottom {
+	background: #55ba5b url(../images/darkgreen_gradient.gif) repeat-x left bottom;
+	color: #fff;
+	line-height: 1.27em;
+	border: none;
+	margin-top: 0em;
+	font-size: 2.3em;
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 190px;
+	/*width: 8.1em;*/
+	padding-left: 5px;
+	padding-right: 5px;
+	border-left: solid 1px #06a134;
+	border-right: solid 1px #06a134;
+	/* The following changes are to try and accomodate longer SessionIDs*/
+	width: auto;
+	min-width: 8.1em;
+	text-align: right;
+}/*
+.ie6 .session_bottom {
+	right: 189px;
+}*/
+
+/* @end */
+
+/* @group shelf */
+
+.shelf {
+	border-bottom: solid 2px #c7e5a3;
+	background: #e1f5c9 url(../images/shelf_gradient.gif) repeat-x left bottom;
+}
+.shadowtop {
+	display: block;
+	background: url(../images/shadowtop.png) repeat-x left top;
+	height: 5px;
+}
+.shadowbottom {
+	display: block;
+	background: url(../images/shadowbottom.png) repeat-x left bottom;
+	height: 5px;
+	clear: both;
+}
+.settings_container, .approvals_container {
+	float: left;
+	margin-top: 1px;
+	margin-left: .5em;
+	margin-right: .5em;
+	margin-bottom: 0px;
+	width: 40%;
+}
+.settings_container {
+	margin-left: 5em;
+}
+.ie6 .settings_container, .ie6 .approvals_container {
+	margin-left: .25em;
+	margin-right: .25em;
+	margin-bottom: -10px;
+}
+.ie6 .settings_container {
+	margin-left: 2.5em;
+}
+.settings_container .pointer, .approvals_container .pointer {
+	display: block;
+	height: 5px;
+	overflow: hidden;
+	background: url(../images/stripes.gif) repeat-x 0 4px;
+	width: 100%;
+}
+.settings_container .pointer span, .approvals_container .pointer span {
+	display: block;
+	height: 5px;
+	background: url(../images/pointer_collapsed.gif) no-repeat center top;
+	overflow: hidden;
+	width: 9px;
+	float: left;
+	margin-left: 130px;
+}
+.ie6 .settings_container .pointer span {
+	margin-left: 48px;
+}
+.settings_closed, .approvals_closed {
+	border-left: solid 1px #a8cf79;
+	border-right: solid 1px #a8cf79;
+	border-bottom: solid 1px #a8cf79;
+	background-color: #ecfad9;
+	padding: .3em;
+	color: #84897f;
+	display: block;
+}
+.settings_content, .approvals_content, .short_tip{
+	display: none;
+}
+.sorter, .filter{
+	border-bottom: solid 1px #2671A6;
+	line-height: 1.5em;
+	font-size: 1.3em;
+	height: 1.5em;
+	min-height: 22px;
+}
+.sorter span, .sorter label {
+	display: block;
+	float: left;
+	padding-left: .3em;
+}
+.filter{
+	display: none;
+}
+.show_filter .sorter{ display:none;}
+.show_filter .filter{ display: block;}
+.nocollapse .settings_container .filter select{
+	display: inline-block;
+	width: auto;
+	height: auto;
+	border: 1px solid #2671A6;	
+	max-width: 6.5em;
+}
+.filter 
+
+.ie7 .sorter input, .ff2 .sorter input, .ff3 .sorter input, .ie6 .sorter input{
+	float: left;
+}
+.sorter .select_all {
+	display: none; /* jon wants this hidden */
+	float: right;
+	color: #fff;
+	background-color: #2671A6;
+	padding-left: .5em;
+	padding-right: .5em;
+	text-decoration: none;
+}
+.sorter .select_all:hover {
+	background-color: #13a53a;
+}
+
+.approvals_container {
+	float: right;
+	width: 15em;
+}
+.approvals_container .pointer span {
+	float: right;
+	margin-right: 50px;
+}
+.ie6 .approvals_container .pointer span {
+	margin-right: 25px;
+	margin-left: 0px;
+}
+/* @end */
+
+/* @group instructions */
+
+.instructions {
+ 	border: solid 1px #aacc80;
+ 	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	background-color: #e1f5c9;
+	margin: 1em;
+	padding: .5em;
+}
+.instructions.closed {
+	height: 1.5em;
+	overflow: hidden;
+}
+.instructions h2 a {
+	background: url(../images/showHide.png) no-repeat 0 0;
+	line-height: 1.5em;
+	padding-left: 33px;
+	display: block;
+	text-decoration: none;
+	color: #000;
+	height: 2em;
+}
+.ie6 .instructions h2 a {
+	background: url(../images/showHide.gif) no-repeat 0 0;
+}
+.instructions h2 a:hover {
+	background-position: 0 -33px;
+}
+.instructions p, .instructions ul, .instructions ol {
+	padding: .5em 1em;
+}
+.instructions ul li {
+	padding: .3em;
+	list-style-type: disc;
+	list-style-position: inside;
+}
+.not_started .activeContent .closed {
+    height: inherit;
+    overflow: inherit;
+}
+.ie6 .not_started .activeContent .closed, .ie7 .not_started .activeContent .closed {
+    height: auto;
+}
+.not_started .instructions h2 a, .ie6 .not_started .instructions h2 a {
+	background-image: none;
+	padding-left: 10px;
+	cursor: default;
+}
+.not_started .instructions h2 .notButton {
+	display: none;
+}
+/* @end */
+
+/* @group table stuff */
+
+.activeTable {
+	background-color: #fff;
+	border: solid 1px #13a53a;
+ 	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin: 1em;
+	padding: .5em;
+	text-align: center;
+}
+.activeTable h2 {
+	display: block;
+	text-align: left;
+	font-size: 1.4em;
+	font-weight: normal;
+}
+/* @group legend bar */
+
+.legend {
+	border: solid 1px #bedff5;
+	height: 1.8em;
+	background: #e3f2fc url(../images/legend_gradient.gif) repeat-x left top;
+	text-align: left;
+}
+.legend span {
+	display: block;
+	float: left;
+	line-height: 1.8em;
+	height: 1.8em;
+}
+.legend .approvedButton {
+	display: block;
+	float: left;
+	background-color: #bedff4;
+	line-height: 1.8em;
+	padding: 0px .5em;
+	color: #000;
+}
+.legend .approvedButton:hover {
+	background-color: #FF6600;
+	color: #fff;
+}
+.count {
+	background-color: #2671a6;
+	color: #fff;
+	font-weight: bold;
+	padding-left: .5em;
+	padding-right: .5em;
+}
+.label_count {
+	padding-left: .5em;
+	padding-right: .5em;
+	background-color: #cee8f9;
+}
+.label_sort {
+	background: url(../images/sprites.gif) no-repeat 0 -475px;
+	padding-left: 12px;
+	margin: 0px .5em;
+	float: right !important;
+}
+.label_print {
+	margin: 0px .5em;
+	border-left: solid 1px #bedff5;
+	border-right: solid 1px #bedff5;
+	padding: 0px .5em;
+	float: right !important;
+}
+.label_print span {
+	background-color: #ff9c00;
+	color: #fff;
+	line-height: 1.3em;
+	height: 1.3em;
+	margin-top: .2em;
+	padding-left: .3em;
+	padding-right: .3em;
+	margin-right: .3em;
+}
+.legend label {
+	display: block;
+	float: right;
+	padding-right: .2em;
+	padding-top: .15em;
+}
+.legend select {
+	font-size: .8em;
+}
+.printingRequested th.table_request {
+	background-color: #FF6600 !important;
+   	background-image: none !important;
+   	color: #FFFFFF;
+}
+/* @end */
+.activeTable table {
+	margin-top: 1em;
+	border-top: solid 1px #9dd0f0;
+	border-bottom: solid 1px #eeeeee;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1em;
+	text-align: inherit;
+}
+.activeTable th {
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: .5em;
+	background-color: #fafeff;
+	border-left: solid 1px #9dd0f0;
+	border-bottom: solid 1px #9dd0f0;
+	white-space: nowrap;
+}
+.activeTable th a {
+	color: #009c2f;
+	background: url(../images/sprites.gif) no-repeat 0 -517px;
+	display: block;
+	padding-left: 15px;
+}
+.activeTable th a:hover {
+	background-position: 0 -477px;
+}
+.activeTable .sortUp a, .activeTable .sortUp a:hover {
+	background-position: 0 -676px;
+}
+.activeTable .sortDown a, .activeTable .sortDown a:hover {
+	background-position: 0 -726px;
+}
+.activeTable .sortUp, .activeTable .sortDown {
+	background-color: #eef0f0;
+}
+.activeTable td {
+	padding: .2em .5em;
+	border-left: solid 1px #eeeeee;
+	border-bottom: solid 1px #eeeeee;
+	line-height: 2em;
+	text-align: left;
+}
+td.table_pause {
+	border-right: solid 1px #eeeeee;
+}
+th.table_pause {
+	border-right: solid 1px #9dd0f0;
+}
+td.table_accomm .positioner {
+	white-space: nowrap;
+	width: 15em;
+	overflow: hidden;
+	display: block;
+	position: relative;
+}
+td.table_accomm .positioner a {
+	position: absolute;
+	width: 2em;
+	height: 1.8em;
+	border: solid 1px #9dcff0;
+	text-indent: -9999px;
+	top: 0em;
+	right: 0em;
+	background: #e4f5ff url(../images/details.gif) no-repeat center 2px;
+	overflow: hidden;
+}
+td.table_accomm .positioner a:hover, td.table_accomm .positioner a:focus {
+	background-color: #70b4e1;
+}
+td.table_request a {
+	display: block;
+	background: url(../images/sprites.png) no-repeat 3px -177px;
+	padding-left: 25px;
+	border: solid 1px #9dcff0;
+	height: 1.8em;
+	text-decoration: none;
+	color: #000;
+	overflow: hidden;
+}
+.ie6 td.table_request a {
+	background: url(../images/sprites.gif) no-repeat 3px -175px;	
+}
+td.table_request a:hover {
+	background-color: #70b4e1;
+	color: #fff;
+}
+td.table_request a:focus  {
+	color: #fff;
+	background-color: #113e5f;
+}
+td.table_pause a {
+	display: block;
+	background: url(../images/pause.gif) no-repeat 3px center;
+	padding-left: 25px;
+	border: solid 1px #9dcff0;
+	height: 1.8em;
+	text-decoration: none;
+	color: #000;
+}
+.ie6 td.table_pause a {
+	background-position: 3px 2px;
+	overflow: hidden;
+}
+td.table_pause a:hover {
+	background-color: #70b4e1;
+	color: #fff;
+}
+td.table_pause a:focus  {
+	color: #fff;
+	background-color: #113e5f;
+}
+td.table_opp  {
+	text-align: center;
+}
+.opp1{
+	background-color:#ecfad7;
+	text-align: center !important;
+}
+.opp2{
+	background-color:#fffccc;
+	text-align: center !important;
+}
+.opp3{
+	background-color:#fbe4cf;
+	text-align: center !important;
+}
+.inactive, .inactive .opp1, .inactive .opp2, .inactive .opp3 {
+	background-color: #f9f9f9;
+	color: #666;
+}
+/* @group mini approvals */
+
+.approvals_content table {
+	margin-top: 1em;
+	border-top: solid 1px #9dd0f0;
+	border-bottom: solid 1px #eeeeee;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1em;
+	text-align: inherit;
+	width: 95%;
+}
+.approvals_content caption {
+	background-color:#AFD5F1;
+	margin-left:auto;
+	margin-right:auto;
+	padding:0.3em 0.5em;
+	text-align: left;
+	font-weight: bold;
+	margin-top: 1em;
+}
+.ff2 .approvals_content caption, .ff3_5 .approvals_content caption, .webkit .approvals_content caption {
+	margin-bottom: -1em;
+}
+.approvals_content th {
+	font-weight: bold;
+	padding: .1em;
+	background-color: #fafeff;
+	border-left: solid 1px #9dd0f0;
+	border-right: solid 1px #9dd0f0;
+	border-bottom: solid 1px #9dd0f0;
+	white-space: nowrap;
+}/*
+.approvals_content th.table_accomm {
+	border-right: solid 1px #9dd0f0;
+}
+.approvals_content td.table_accomm {
+	border-right: solid 1px #eeeeee;
+	white-space: nowrap;
+	width: 150px;
+	overflow: hidden !important;
+}*/
+.approvals_content td {
+	padding: .2em .5em;
+	border-left: solid 1px #eeeeee;
+	border-right: solid 1px #eeeeee;
+	border-bottom: solid 1px #eeeeee;
+	line-height: 2em;
+	text-align: left;
+	height: 2em;
+	white-space: nowrap;
+}
+.approvals_content th.action {
+	border-right: solid 1px #9dd0f0;
+}
+.approvals_content td.table_accomm .positioner {
+	width: 14em;
+}
+/* @end */
+
+/* @end */
+
+
+/* @group not started and new sessions */
+/*hides stop session button, refresh button and approvals widget*/
+.not_started .session_stop, .not_started .refresh, .not_started .settings_closed, .not_started #tblTestOpps {
+	display: none;
+}
+.not_started a.session_start {
+	display: block;
+}
+.not_started .button_approvals:hover {
+	background-color: #C1E19A !important;
+	color: #ecfad9 !important;
+}
+.none_selected.not_started a.session_start {
+	display: none;
+}
+.not_started a.session_start {
+	display: block;
+	border-left: none;
+	border-top: none;
+	border-bottom: none;
+}
+/* dummy start session */
+.none_selected.not_started span.session_nope{
+	display: block;
+}
+/* dummy sessions button */
+span.settings_nope, .not_started a.settings {
+	display: none;
+}
+.ie6 .none_selected #btnStartSession {
+	display: none !important;
+}
+.not_started span.settings_nope{
+	display: block;
+}
+.ie6 .some_selected span.session_nope {
+	display: none !important;
+}
+/* @end */
+
+
+
+/* @group widget rules */
+.approvals_needed .approvals_closed, .approvals_needed .settings_closed, .settings_show .approvals_closed, .settings_show .settings_closed {
+	height: 145px;
+}
+.approvals_needed .shadowbottom, .settings_show .shadowbottom, .not_started .shadowbottom {
+	height: 10px;
+}
+.widgetTitle {
+	border-bottom: solid 1px #2671a6;
+	background-color: #2671a6;
+	color: #fff;
+	padding: 3px;
+	font-size: .9em;
+}
+/* @group settings inactive */
+
+.approvals_needed .settings_closed {
+	height: 85px;
+	padding: 30px;
+}
+.approvals_needed .settings_container {
+	width: 170px;
+	margin-left: 110px;
+	line-height: 1.5em;
+}
+.ie6 .approvals_needed .settings_container {
+	margin-left: 25px;
+}
+.approvals_needed .settings_container .pointer span {
+	margin-left: 65px;
+}
+/*.ie6 .approvals_needed .settings_container .pointer span {
+	margin-left: 32px;
+}*/
+
+/* @end */
+
+.settings_show .approvals_container, .approvals_needed .approvals_container, .not_started .approvals_container {
+	width: 180px;
+	margin-right: 50px;
+	line-height: 1.5em;
+}
+/*.ie6 .settings_show .approvals_container, .ie6 .not_started .approvals_container {
+	margin-right: 25px;
+}*/
+
+/* @group approvals inactive */
+
+.settings_show .approvals_container .pointer span, .not_started .approvals_container .pointer span {
+	margin-left: 0px;
+	margin-right: 20px;
+}
+.ie6 .settings_show .approvals_container .pointer span, .ie6 .not_started .approvals_container .pointer span {
+	margin-right: 10px;
+}
+.settings_show .approvals_closed, .not_started .approvals_closed {
+	height: 125px;
+	padding: 10px;
+}
+.settings_show .short_tip, .not_started .short_tip {
+	display: none;/* hiding for now, seems unnessary*/
+	border-top: solid 1px #a8cf79;
+	margin-top: .5em;
+	padding-top: .5em;
+}
+
+/* @end */
+
+/* @group approvals active */
+
+.approvals_needed .approvals_closed{
+	display: none;
+}
+.approvals_needed .approvals_container {
+	height: 145px;
+	width: 350px;
+}
+.approvals_needed .approvals_content{
+	display: block;
+	height: 135px;
+	overflow: auto;
+	background-color: #fff;
+	border-left: solid 3px #2671a6;
+	border-right: solid 3px #2671a6;
+	border-bottom: solid 3px #2671a6;
+	position: relative;
+}
+.ie6 .approvals_needed .approvals_content, .ie7 .approvals_needed .approvals_content {
+	width: 374px;
+}
+.ie6 .approvals_needed .approvals_container {
+	margin-right: 25px;
+}
+.approvals_needed .approvals_container .pointer {
+	height: 12px !important;
+	background: url(../images/stripes.gif) repeat-x 0 -6px !important;
+	width: auto;
+}
+.gecko.mac .approvals_needed .approvals_container .pointer{
+	margin-bottom: -1px;
+}
+.ie6 .approvals_needed .approvals_container .pointer, .ie7 .approvals_needed .approvals_container .pointer {
+	width: 380px;
+}
+.approvals_needed .approvals_container .pointer span {
+	height: 12px !important;
+	background: url(../images/pointer_open.gif) no-repeat center top !important;
+	width: 19px !important;
+	margin-right: 50px;
+}
+.ie6 .approvals_needed .approvals_container .pointer span {
+	margin-right: 25px;
+}
+.approvals_needed a.button_approvals {
+	background: #13a53a url(../images/colorthrob.gif) repeat center center;
+	color: #fff;
+}
+.approvals_needed a.button_approvals:hover {
+	background-color: #2671A6;
+	background-image: none;
+}
+
+/* @end */
+
+/* @group settings active */
+
+.settings_show .settings_closed, .not_started .settings_closed{
+	display: none;
+}
+.settings_show .settings_container, .not_started .settings_container {
+	height: 145px;
+	width: 375px;
+	margin-right: 0px;
+	margin-left: 50px;
+}
+.ie6 .settings_show .settings_container, .ie6 .not_started .settings_container {
+	margin-left: 25px !important;
+}
+.settings_show .settings_content, .not_started .settings_content{
+	display: block;
+	height: 135px;
+	overflow: hidden;
+	background-color: #fff;
+	border-left: solid 3px #2671a6;
+	border-right: solid 3px #2671a6;
+	border-bottom: solid 3px #2671a6;
+}
+.settings_show .settings_container .pointer, .not_started .settings_container .pointer {
+	height: 12px !important;
+	background: url(../images/stripes.gif) repeat-x 0 -6px !important;
+	width: auto;
+}
+.gecko.mac .settings_show .settings_container .pointer, .gecko.mac .not_started .settings_container .pointer {
+	margin-bottom: -1px;
+}
+.settings_show .settings_container .pointer span, .not_started .settings_container .pointer span {
+	height: 12px !important;
+	background: url(../images/pointer_open.gif) no-repeat center top !important;
+	width: 19px !important;
+	margin-left: 100px;
+}
+.ie6 .settings_show .settings_container .pointer span, .ie6 .not_started .settings_container .pointer span {
+	margin-left: 50px !important;
+}
+.settings_show .settings_container select, .settings_show .settings_container .holderYUI, .not_started .settings_container select, .not_started .settings_container .holderYUI {
+	height: 89px;
+	width: 100%;
+	overflow:auto;
+}
+.settings_container .selected {
+	font-style: italic;
+	background-color: #eff1f1;
+	color: #666;
+}
+/*fixes FF2 scroll bar */
+.ff2.mac .settings_content .holderYUI {
+	width: 368px !important;
+	float: left;
+	border: 1px solid #eceeee;
+}
+/* @group multi-select YUI replacement */
+.settings_container .holderYUI div {
+	position:static !important;
+	visibility:visible !important;
+}
+.settings_container .yuimenuitem a {
+	text-decoration:none;
+	color:#000;
+	line-height:1.2em;
+	display:block;
+	padding-left:1.2em;
+	padding-right:.5em;
+	cursor: default;
+}
+.settings_container .yuimenuitem.yuimenuitem-disabled a, .settings_container .yuimenuitem.yuimenuitem-disabled a:hover {
+	color:#666;
+	background-color:#f5f5f5;
+	font-style:italic;
+	cursor:default;
+}
+.settings_container .yuimenuitem.yuimenuitem-checked a {
+	background-image: url(../images/sprites.gif);
+	background-position: 0px -640px;
+	background-repeat:no-repeat;
+}
+.settings_container .yuimenuitem a:hover, .ie6 .settings_container .yuimenuitem-selected a {
+	color:#fff !important;
+	background-color:#069 !important;
+}
+
+.settings_container .yuimenuitem a:active, .settings_container .yuimenuitem a:focus {
+	color:#fff !important;
+	background-color: #036 !important;
+}
+.settings_container ul {
+	margin-bottom: .5em;
+}
+/* @end */
+
+
+
+
+
+/* @end */
+
+/* @group big settings */
+/*
+.new_session .activeTable, .new_session .approvals_container {
+	display: none;
+}
+.new_session .settings_closed, .new_session .approvals_container {
+	display: none;
+}
+.new_session .settings_container {
+	width: auto;
+	margin-left: 70px;
+	margin-right: 70px;
+	float: none;
+	clear: both;
+	margin-top: 0px;
+	height: auto;
+}
+.new_session .settings_content {
+	height: 480px;
+	background-color: #fff;
+	border-left: solid 3px #2671a6;
+	border-right: solid 3px #2671a6;
+	border-bottom: solid 3px #2671a6;
+	display: block;
+	font-variant: normal;
+}
+.new_session .settings_container .pointer {
+	height: 12px;
+	background: url(../images/stripes.gif) repeat-x 0 -6px;
+	width: auto;
+}
+.new_session .settings_container .pointer span {
+	height: 12px;
+	background: url(../images/pointer_open.gif) no-repeat center top;
+	width: 19px;
+	margin-left: 75px;
+}
+.ie6 .new_session .settings_container .pointer span {
+	margin-left: 37px;
+}
+.new_session .settings_content select, .new_session .settings_container .holderYUI {
+	height:458px;
+	width: 100%;
+	border: none;
+}
+.nocollapse.new_session .settings_container {
+	width: auto;
+	margin-left: 70px;
+	margin-right: 70px;
+	float: none;
+	clear: both;
+	margin-top: 0px;
+	height: auto;
+}
+.nocollapse.new_session .settings_content {
+	height: 480px;
+}
+.nocollapse.new_session .settings_container .holderYUI {
+	height:458px;
+	width: 100%;
+	border: none;
+}
+*/
+/* @end */
+/* @end */
+
+/* @group modal windows */
+
+.wait, .approvals_wrapper, .alerts_wrapper, .alert_single, .dialogs, .lookup_wrapper, .print_wrapper, .help_wrapper, .multiple {
+	display: none;
+}
+.ie6 .please_wait .bottomHalf select, .ie6 .approvals_window .bottomHalf select, .ie6 .alerts_window .bottomHalf select, .ie6 .lookup_window .bottomHalf select, .ie6 .print_window .bottomHalf select, .ie6 .alert_show .bottomHalf select, .ie6 .help_window .bottomHalf select, .ie6 .multi_window .bottomHalf select, .ie6 .loading .bottomHalf select {
+	display: none;
+}
+.ie6 .approvals_window .details_right select {
+	display: block;
+}
+/* @group loading */
+.please_wait .wait {
+	display: block !important;
+	position: absolute;
+	top: 2em;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 300;
+	background: url(../images/white.png) repeat;
+	text-align: center;
+}
+.ie6 .please_wait .wait {
+	background: url(../images/white.gif) repeat;
+	height:1500px;
+	width:100%;
+}
+.wait .container {
+	display: block;
+	background-color: #ccc;
+	width: 228px;
+	margin-top: 15%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 3px solid #4b4b4b;
+	text-align: left;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.wait h2 {
+	display: block;
+	background-color: #666;
+	color: #fff;
+	line-height: 2em;
+	font-size: 2em;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.wait span span {
+	display: block;
+	background: url(../images/loadingAnimation.gif) no-repeat center center;
+	height: 3em;
+	margin: 0px !important;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.redirecting h2{
+	font-size: 1.4em;
+	padding: 20px;
+	font-weight: normal;
+	background: #fff url(../images/loadingAnimation.gif) no-repeat right center;
+	width: 400px;
+}
+/* @end */
+
+/* @group error messages */
+
+.show_dialog .dialogs {
+	display: block;
+	position: absolute;
+	top: 0em; /*changed because this doesn't look this is causing issues top: 2.1em;*/
+	left: 0em;
+	width: 100%;
+	bottom: 0em;
+	overflow: auto;
+	text-align: center;
+	background-image: url(../images/darkGrey.png);
+	z-index: 200;
+}
+.show_dialog.message_locked .dialogs {
+	top: 0em;
+	background-color: #ccc;
+}
+.ie6 .show_dialog .dialogs {
+	background-image: url(../images/darkGrey.gif);
+	height:100%;
+	width:100%;
+}
+.ff2.mac .show_dialog .bottomHalf, .ff2.mac .show_dialog #testsListBox, .ff2.mac .show_dialog .approvals_content, 
+.ff2.mac .please_wait .bottomHalf, .ff2.mac .please_wait #testsListBox, .ff2.mac .please_wait .approvals_content, 
+.ff2.mac .lookup_window .bottomHalf, .ff2.mac .lookup_window #testsListBox, .ff2.mac .lookup_window .approvals_content, 
+.ff2.mac .help_window .bottomHalf, .ff2.mac .help_window #testsListBox, .ff2.mac .help_window .approvals_content, 
+.ff2.mac .print_window .bottomHalf, .ff2.mac .print_window #testsListBox, .ff2.mac .print_window .approvals_content, 
+.ff2.mac .approvals_window .bottomHalf, .ff2.mac .approvals_window #testsListBox, .ff2.mac .approvals_window .approvals_content, 
+.ff2.mac .alerts_window .bottomHalf, .ff2.mac .alerts_window #testsListBox, .ff2.mac .alerts_window .approvals_content, 
+.ff2.mac .show_alert .bottomHalf, .ff2.mac .show_alert #testsListBox, .ff2.mac .show_alert .approvals_content {
+	overflow: hidden;
+}
+
+.ie6 .show_dialog .legend select, .ie6 .please_wait .legend select, .ie6 .lookup_window .legend select, .ie6 .help_window .legend select, .ie6 .print_window .legend select, 
+.ie6 .approvals_window .legend select, .ie6 .alerts_window .legend select, .ie6 .show_alert .legend select, .ie6 .show_dialog .details_right select, .ie6 .please_wait .details_right select, .ie6 .help_window .details_right select {
+	display: none;
+}
+
+.dialogs .the_message {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 150px;
+	text-align: left;
+	width: 500px;
+	height: auto;
+	background-color: #ebeded;
+	border: 10px solid #989999;
+	padding: 1em;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+}
+.message_container {
+	line-height: 1.5em;
+}
+.dialogs h2 {
+	border-bottom: solid 1px #ccc;
+	font-size: 1.5em;
+	font-weight: bold;
+	line-height: 2em;
+	margin-bottom: .5em;
+}
+.dialogs .action {
+	height: 2em;
+	margin-top: 1em;
+}
+.dialogs .action a {
+	display: block;
+	float: right;
+	font-size: 1.3em;
+	background: url(../images/sprites.gif) no-repeat;
+	background-position: 4px -350px;
+	padding-left: 18px;
+	border: solid 1px #f26522;
+	background-color: #fff;
+	text-decoration: none;
+	color: #000;
+	line-height: 1.5em;
+	padding-right: .5em;
+	margin-left: .5em;
+}
+.dialogs .action a:hover {
+	background-color: #ba272b;
+	color: #fff;
+}
+.dialogs .action .confirm {
+	background-position: 3px -395px;
+	border: solid 1px #13A53A;
+}
+.dialogs .action .confirm:hover {
+	background-color: #13A53A;
+}
+.dialogs .action .warn {
+	background: #fff url(../images/sprites.png) no-repeat 3px -307px;
+	border: solid 1px #F7941D;
+	padding-left: 23px;
+}
+.dialogs .action .warn:hover {
+	background-color: #F7941D;
+}
+.message_error .dialogs .the_message {
+	background-color: #ffdfe0;
+	border-color: #9e0b0f;
+}
+.message_error .dialogs .the_message h2 {
+	border-color: #9e0b0f;
+}
+
+.message_warning .dialogs .the_message {
+	background-color: #ffd9ad;
+	border-color: #f7941d;
+}
+.message_warning .dialogs .the_message h2 {
+	border-color: #f7941d;
+}
+
+.message_success .dialogs .the_message {
+	background-color: #e7f3dc;
+	border-color: #197b30;
+}
+.message_success .dialogs .the_message h2 {
+	border-color: #197b30;
+}
+
+/* @end */
+
+/* @group multiple */
+
+.show_multi .multiple {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	bottom: 0px;
+	overflow: auto;
+	text-align: center;
+	background-image: url(../images/darkGrey.png);
+	z-index: 200;
+}
+.ie6 .show_multi .multiple {
+	background-image: url(../images/darkGrey.gif);
+	height:100%;
+	width:100%;
+}
+.ff2.mac .show_multi .bottomHalf, .ff2.mac .show_multi .holderYUI, .ff2.mac .show_multi .approvals_content {
+	overflow: hidden;
+}
+.ie6 .show_multi .legend select, .ie6 .show_multi .details_right select {
+	display: none;
+}
+
+.multiple .the_message, .inactiveDevice {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 150px;
+	text-align: left;
+	width: 500px;
+	height: auto;
+	background-color: #ebeded;
+	border: 10px solid #989999;
+	padding: 1em;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+
+}
+.multiple h2, .inactiveDevice h2 {
+	border-bottom: solid 1px #ccc;
+	font-size: 1.5em;
+	font-weight: bold;
+	line-height: 2em;
+	margin-bottom: .5em;
+}
+.multiple .action, .inactiveDevice .action {
+	height: 2em;
+	margin-top: 1em;
+}
+.multiple .action a, .inactiveDevice .action a {
+	display: block;
+	float: right;
+	font-size: 1.3em;
+	background: url(../images/sprites.gif) no-repeat;
+	background-position: 4px -350px;
+	padding-left: 18px;
+	border: solid 1px #f26522;
+	background-color: #fff;
+	text-decoration: none;
+	color: #000;
+	line-height: 1.5em;
+	padding-right: .5em;
+	margin-left: .5em;
+}
+.multiple .action a:hover, .inactiveDevice .action a:hover {
+	background-color: #ba272b;
+	color: #fff;
+}
+.multiple .action .confirm, .inactiveDevice .action .confirm {
+	background-position: 3px -395px;
+	border: solid 1px #13A53A;
+}
+.multiple .action a.confirm:hover, .inactiveDevice .action a.confirm:hover {
+	background-color: #13A53A;
+}
+.multiple .wrongID {
+	display: block;
+	padding: 5px;
+	border: solid 1px #f26522;
+	font-size: 1.1em;
+	margin-bottom: .5em;
+	background-color: #fff;
+}
+.inactive_wrapper {
+	background-color: #ebeded;
+	height: 100%;
+	width: 100%;
+}
+/* @end */
+
+
+
+
+.infoMessage {
+	color: #fff;
+	padding: 1em;
+	font-size: 1.4em;
+	margin-top: -3px;
+	display: block;
+	background: #F7941D url(../images/gradient_orange.gif) repeat-x left bottom;
+	border-bottom: solid 1px #ffc988;
+}
+.dialogs .infoMessage {
+	margin-left: -1em;
+	margin-right: -1em;
+	margin-top: 1em;
+	font-size: 1em;
+}
+.approvals_window .approvals_wrapper, .alerts_window .alerts_wrapper, .lookup_window .lookup_wrapper, .print_window .print_wrapper, .help_window .help_wrapper, .show_alert .alert_single {
+	display: block !important;
+	position: absolute;
+	top:3.1em;	/* if the idea here was to not hide the CLS, it needs to be more than top: 2em;*/
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 99;
+	background: url(../images/white.png) repeat;
+	text-align: center;
+}
+.help_window .help_wrapper {
+	z-index: 100;
+}
+.ie6 .approvals_window .approvals_wrapper, .ie6 .alerts_window .alerts_wrapper, .ie6 .lookup_window .lookup_wrapper, .ie6 .print_window .print_wrapper, .ie6 .help_window .help_wrapper, .ie6 .show_alert .alert_single {
+	background: url(../images/white.gif) repeat;
+	height:100%;
+	width:100%;
+}
+.ie6 .lookup_window .lookup_wrapper {
+	background: url(../images/white.gif) repeat;
+	height:96%;
+	width:100%;
+}
+.ff2.mac .approvals_window .bottomHalf, .ff2.mac .alerts_window .bottomHalf, .ff2.mac .lookup_window .bottomHalf, .ff2.mac .print_window .bottomHalf, .ff2.mac .alert_show .bottomHalf {
+	overflow: hidden;
+}
+.ff2.mac .approvals_wrapper .bottomHalf {
+	overflow: auto;
+}
+.ff2.mac .approvals_wrapper .show_details .bottomHalf {
+	overflow: hidden;
+}
+.approvals_wrapper .approvals_shell, .alerts_wrapper iframe, .lookup_wrapper iframe, .print_wrapper iframe, .help_wrapper iframe {
+	height: 500px;
+	width: 750px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+	border: 3px solid #005074;
+	background-color: #fff;
+	-moz-box-shadow: 0em 0em .5em #666;
+	-webkit-box-shadow: 0em 0em .5em #666;
+	box-shadow: 0em 0em .5em #666;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.help_wrapper iframe {
+    height: 130px;
+    width: 450px;
+}
+.print_wrapper iframe {
+	height: 500px;
+	width: 550px;
+	margin-top: 5em;
+}
+.lookup_wrapper iframe {
+	width: 900px;
+}
+.approvals_wrapper .approvals_shell {
+	width: 900px;
+	position: relative;
+}
+/* @group student details */
+.details {
+	/*visibility: hidden;*/
+	display:none;
+	width: 450px;
+	z-index: 5 !important;
+}
+.approvals_detail .details {
+	display: block;
+}
+.approvals_detail .details .yui_adjustment {
+	display: block;
+	width: 450px;
+	position: absolute;
+	left: -213px;
+	top: -235px;
+}
+.pop_container{
+	border: solid 5px #279bd0;
+	background-color: #e4f2fb;
+	-moz-box-shadow: 0em 0em .7em #000;
+	-webkit-box-shadow: 0em 0em .7em #000;
+	box-shadow: 0em 0em .7em #000;
+}
+.pointer_pop {
+	/*display: block; making the pop-up more modal looking*/
+	height: 19px;
+	margin-top: -5px;
+	background: url(../images/pointer_bottom.gif) no-repeat center top;
+}
+.pop_head {
+	border-bottom: solid 1px #0073a7;
+	padding: .5em;
+}
+.pop_head h3 {
+	float:left;
+	font-size:1.5em;
+	font-weight:bold;
+	line-height:1em;
+	/*margin-right:4em;*/
+	width: 22em;
+}
+.pop_head h3 span{
+	padding-right: 0.3em;
+	}
+.container-close {
+	display: block;
+	float: right;
+	border: solid 1px #ba272b;
+	line-height: 1.5em;
+	text-decoration: none;
+	color: #000;
+	padding-left: 16px;
+	padding-right: .5em;
+	background: #fff url(../images/sprites.gif) no-repeat 4px -353px;
+}
+.container-close:hover {
+	background-color: #ba272b;
+	color: #fff;
+}
+.pop_content {
+	overflow: hidden;
+	display: none;
+}
+.approvals_detail .pop_content {
+	padding: 1em;
+	height: 150px;
+	overflow: auto;
+	font-size: 1.3em;
+	display: block;
+}
+.ff2.mac .please_wait .details, .ff2.mac .approvals_window .details {
+	visibility: hidden !important;
+	display: none !important;
+}
+/* original method didn't work with IE6
+.accommodation {
+	border-bottom: solid 1px #fff;
+	padding-bottom: .2em;
+	margin-bottom: 1em;
+	line-height: 1em;
+}
+.accommodation .accomm_name {
+	display: block;
+	text-align: right;
+	width: 190px;
+}
+.accommodation .accomm_value {
+	display: block;
+	margin-left: 200px;
+	margin-top: -1em;
+}*/
+
+#accsDetails .accommodation {
+	border-top: solid 1px #fff;
+	padding-bottom: .2em;
+	margin-top: .5em;
+	line-height: 1em;
+	min-height: 1.5em;
+	clear: both;
+	padding-top: 0.5em;
+}
+.ie6 #accsDetails .accommodation {
+	height: 1.5em;
+}
+#accsDetails .accommodation .accomm_name {
+	display: block;
+	text-align: right;
+	width: 190px;
+	float: left;
+	line-height: 1.3em;
+}
+#accsDetails .accommodation .accomm_value {
+	display: block;
+	float: left;
+	clear: right;
+	margin-left: 5px;
+	width: 190px;
+	margin-bottom: .5em;
+	line-height: 1.3em;
+}
+/* @end */
+
+/* @end */
+
+/* @group approvals modal */
+.approvals_shell .topHalf {
+	position:absolute;
+	top:0;
+	width:100%;
+	height:2.7em;
+	z-index:1;
+	right: 0px;
+	background-color: #005074;
+	color: #fff;
+}
+.approvals_shell .bottomHalf {
+	overflow:hidden;
+	position: relative;
+	top:2.5em;
+	width: 100%;
+	height: 43.3em;
+}
+.approvals_shell .topHalf h1 {
+	float: left;
+	font-size: 1.5em;
+	line-height: 1.6em;
+	padding-left: .5em;
+}
+.approvals_shell .controls {
+	float: right;
+	height: 2.7em;
+	width: 35em;
+}
+.approvals_shell .controls a  {
+	display: block;
+	height: 1.4em;
+	float: right;
+	font-size: 1.4em;
+	line-height: 1.4em;
+	text-decoration: none;
+	color: #000;
+	margin-right: .5em;
+	border: solid 1px #00a651;
+	margin-top: .1em;
+	background-color: #fff;
+}
+.approvals_shell .controls a:hover  {
+	color: #fff;
+	background-color: #00a651;
+}
+.approvals_shell .controls a:focus  {
+	color: #fff;
+	background-color: #113e5f;
+}
+.approvals_shell .controls a span {
+	display: block;
+	padding-left: 25px;
+	padding-right: 5px;
+	background: url(../images/sprites.gif) no-repeat;
+	cursor: pointer;
+	float: left; /* for ie6 */
+}
+.approvals_shell .controls a.refresh span {
+	background: url(../images/sprites.png) no-repeat 4px -220px;
+}
+.approvals_shell .controls a.all span {
+	background-image: url(../images/sprites.gif) no-repeat;
+	background-position: 4px -263px;
+}
+.approvals_shell .controls a.close {
+	border-color: #f26522;
+}
+.approvals_shell .controls a.close:hover {
+	background-color: #ba272b;
+}
+.approvals_shell .controls a.close span {
+	background-image: url(../images/sprites.gif) no-repeat;
+	background-position: 4px -350px;
+	padding-left: 18px;
+}
+.approvals_shell .content {
+	padding: 1em;
+	height: 41.3em;
+	overflow: auto;
+}
+/* @group big table */
+
+.approvals_holder table {
+	margin-top: 1em;
+	border-top: solid 1px #9dd0f0;
+	border-bottom: solid 1px #eeeeee;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1em;
+	text-align: inherit;
+	width: 855px;
+}
+.approvals_holder caption {
+	background-color:#AFD5F1;
+	font-size:1.5em;
+	margin-left:auto;
+	margin-right:auto;
+	padding:0.3em 0.5em;
+	text-align: left;
+}/*
+.gecko .approvals_holder caption {
+	margin-bottom: -.6em;
+}*/
+.approvals_holder th {
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: .5em;
+	background-color: #fafeff;
+	border-left: solid 1px #9dd0f0;
+	border-bottom: solid 1px #9dd0f0;
+	white-space: nowrap;
+}
+.approvals_holder td {
+	padding: .2em .5em;
+	border-left: solid 1px #eeeeee;
+	border-bottom: solid 1px #eeeeee;
+	line-height: 2em;
+	text-align: left;
+	height: 2em;
+}
+.ff2.mac .approvals_holder td {
+	height: 1em;
+}
+.approvals_holder td.ssid {
+	width: 8em;
+}
+.approvals_holder th.action {
+	border-right: solid 1px #9dd0f0;
+}
+.approvals_holder td.deny {
+	border-right: solid 1px #eeeeee;
+	border-left: none;
+	padding-left: 0px;
+	width: 3em;
+}
+.ff2 .approvals_holder td.deny {
+	width: 4.5em;
+}
+.ie7 .approvals_holder td.deny {
+	width: 5.5em;
+}
+.approvals_holder td.approve {
+	width: 4em;
+}
+.ff2 .approvals_holder td.approve  {
+	width: 6em;
+}
+.ie7 .approvals_holder td.approve  {
+	width: 7em;
+}
+
+.approvals_holder td.table_accomm {
+	width:20em;
+}
+.approvals_holder td.table_opp {
+	width:1.5em;
+	text-align: center;
+}
+.approvals_holder td.table_accomm span.positioner {
+	/*white-space: nowrap;
+	width: 20em;
+	overflow: hidden;
+	display: block;
+	position: static;*/
+	display: inline-block;
+	line-height: 1.2em;
+	position: relative;
+	vertical-align: middle;
+	width: 10em;
+	overflow: auto;
+	white-space: normal;
+}
+.approvals_holder td.table_accomm  a.positioner {
+	
+	height: 1.8em;
+	border: solid 1px #f7941d;
+	background: #fffddd url(../images/sprites.png) no-repeat 3px -438px;
+	overflow: hidden;
+	padding-left: 20px;
+	padding-right: 5px;
+	text-decoration: none;
+	color: #000;
+	text-indent: 0px;
+	width: 7em;
+	position: relative;
+	display: inline-block;
+	float: none;
+	vertical-align: middle;
+	margin: 0;
+}
+.ie .approvals_holder td.table_accomm  a.positioner{
+	margin-top: 0em;
+}
+/*.ie1 .approvals_holder td.table_accomm .positioner a { margin-top: 0em; }
+.webkit .approvals_holder td.table_accomm .positioner a {
+	margin-top: 0em;
+}
+.ie8 .approvals_holder td.table_accomm .positioner a, .ie9 .approvals_holder td.table_accomm .positioner a {
+	margin-top: 0em;
+}*/
+.ie6 .approvals_holder td.table_accomm .positioner a {
+	background: #fffddd url(../images/sprites.gif) no-repeat 3px -438px;
+}
+
+.approvals_holder td.table_accomm .positioner a:hover {
+	background-color: #f7941d;
+	color: #fff;
+}
+.approvals_holder td.table_accomm .positioner a:focus {
+	background-color: #f8cb78 !important;
+	color: #fff;
+}
+.approvals_holder .approve a, .approvals_holder .deny a {
+	display: block;
+	background: url(../images/sprites.gif) no-repeat 3px -395px;
+	padding-left: 17px;
+	padding-right: 5px;
+	border: solid 1px #13a53a;
+	height: 1.8em;
+	text-decoration: none;
+	color: #000;
+	overflow: hidden;
+	background-color: #fff;
+}
+.approvals_holder .approve a:hover {
+	background-color: #13a53a;
+	color: #fff;
+}
+.approvals_holder .approve a:focus {
+	background-color: #81c482;
+	color: #fff;
+}
+.approvals_holder .deny a {
+	background-position: 3px -352px;
+	border: solid 1px #f26522;
+}
+.approvals_holder .deny a:hover {
+	background-color: #ba272b;
+	color: #fff;
+}
+.approvals_holder .deny a:focus {
+	background-color: #ca6747;
+	color: #fff;
+}
+.approvals_holder .selected td {
+	background-color: #0072a7 !important;
+	color: #fff;
+}
+.hide_row {
+	display: none;
+}
+.changed {
+	background-color: #fff8f9;
+}
+.changed {
+	background-color: #fff8f9;
+}
+.approvals_shell td.test_new {
+	background: url(../images/test_new.gif) no-repeat left center;
+	padding-left: 24px;
+}
+.approvals_shell td.test_continue {
+	background: url(../images/test_continue.gif) no-repeat left center;
+	padding-left: 24px;
+}
+.problem td{
+	background-color: #de9f9c !important;
+}
+th.error {
+	padding: 0px;
+}
+.error span {
+	display: none;
+}
+td.error {
+	padding: 0px;
+}
+.problem .error {
+	background-color: #ba050e !important;
+	color: #fff;
+}
+.problem .error span {
+	display: block;
+	padding:0.2em 0.5em;
+}
+/* @end */
+
+/* @group approvals details */
+.show_details .controls a, .show_details .controls a:hover, .show_details .controls a:focus {
+	cursor: default !important;
+	background-color: #c1c3c3 !important;
+	border-color: #ccc !important;
+	color: #666 !important;
+	font-style: italic;
+}
+/*.approvals_shell.show_details .content {
+	width: 38em;
+	padding-right: 0px;
+	overflow: hidden;
+	float: left;
+}*/
+.approvals_shell.show_details {
+	position: relative;
+}
+.approvals_shell.show_details .approvals_holder td.table_accomm .positioner {
+	display: none;
+}
+.details_right {
+	display: none;
+}
+.approvals_shell.show_details .details_right {
+	display: block;
+	float: right;
+	width: 42.7em;
+	height: 43.5em;
+	background-color: #e4f2fb;
+	border-left: solid 10px #0072a7;
+	overflow: auto;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+}
+.approvals_shell.show_details .bottomHalf {
+	overflow: hidden;
+}
+/*
+.ie7 .approvals_shell .details_right {
+	width: 40em;
+}*/
+.approvals_shell .details_right h2 {
+	font-size: 1.3em;
+	font-weight: bold;
+	line-height: 1.5em;
+	margin: 1em;
+	text-align: left;
+	border-bottom: solid 1px #0072a7;
+}
+.approvals_shell .accommodation {
+	border-bottom: solid 1px #cee7f6;
+	padding-bottom: .2em;
+	margin: 1em;
+	line-height: 1.3em;
+	text-align: left;
+}
+.approvals_shell .accommodation [disabled] {
+	color:#666;
+	background-color: #f6f8f8;
+	font-style: italic;
+}
+.approvals_shell .accommodation .accomm_name {
+	display: block;
+	text-align: right;
+	width: 150px;
+}
+.approvals_shell .accommodation .accomm_value {
+	display: block;
+	margin-left: 160px;
+	margin-top: -1.3em;
+	width: 15em;
+	max-height: 10em;
+	line-height: 1.3em;
+	overflow: auto;
+}
+.approvals_shell .accommodation .multiline .selected {
+	color: #000;
+	background-color: #AFD5F1;
+}
+.approvals_shell .accommodation [disabled] .selected {
+	color: #000;
+	background-color: #c1c3c3;
+}
+.approvals_shell .details_buttons  {
+	text-align: left;
+	padding: 0em 1em 1em;
+}
+.approvals_shell .details_buttons .clear{
+	margin-bottom: 1em;
+}
+.approvals_shell .details_buttons #btnDeny {
+	display: none;
+}
+.approvals_shell .details_buttons p  {
+	padding-top: 1em;
+	padding-right: 6em;
+}
+.approvals_shell .details_buttons a  {
+	display: block;
+	height: 1.4em;
+	float: left;
+	font-size: 1.4em;
+	line-height: 1.4em;
+	text-decoration: none;
+	color: #000;
+	margin-right: .5em;
+	border: solid 1px #00a651;
+	margin-top: .1em;
+	background-color: #fff;
+}
+.approvals_shell .details_buttons a:hover  {
+	color: #fff;
+	background-color: #00a651;
+}
+.approvals_shell .details_buttons a:focus  {
+	color: #fff;
+	background-color: #113e5f;
+}
+.approvals_shell .details_buttons a span {
+	display: block;
+	padding-left: 18px;
+	padding-right: 5px;
+	background: url(../images/sprites.gif) no-repeat;
+	cursor: pointer;
+	float: left; /* for ie6 */
+}
+.approvals_shell .details_buttons a.save span {
+	background-position: 4px -395px;
+}
+.approvals_shell .details_buttons a.cancel {
+	border-color: #f26522;
+}
+.approvals_shell .details_buttons a.cancel:hover {
+	background-color: #ba272b;
+}
+.approvals_shell .details_buttons a.cancel span {
+	background-position: 4px -350px;
+	padding-left: 16px;
+}
+.approvals_wrapper .show_details td.approve, .approvals_wrapper .show_details td.deny {
+	display: none;
+}
+/* @end */
+
+.approvals_shell.show_denial .bottomHalf {
+	overflow: hidden;
+}
+.denial {
+	display: none;
+}
+.show_denial .denial {
+	display: block;
+	position: absolute;
+	top:0em;
+	left: 0em;
+	width: 100%;
+	bottom: 0em;
+	background: url(../images/darkGrey.png) repeat;
+	z-index: 5;
+	height: 100%;
+}
+.ie6 .show_denial .denial {
+	background: url(../images/darkGrey.gif) repeat;
+}
+.denial .reason {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+	text-align: left;
+	width: 350px;
+	height: auto;
+	background-color: #fff;
+	border: 10px solid #ebeded;
+	padding: 1em;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.reason h4 {
+	border-bottom: solid 1px #ccc;
+	font-size: 1.5em;
+	font-weight: bold;
+	line-height: 1.5em;
+	margin-bottom: .5em;
+}
+.reason input {
+	width: 200px;
+	float: left;
+}
+.reason .deny {
+	display: block;
+	float: right;
+	font-size: 1.3em;
+	background: url(../images/sprites.gif) no-repeat;
+	background-position: 3px -395px;
+	padding-left: 18px;
+	border: solid 1px #13A53A;
+	background-color: #fff;
+	text-decoration: none;
+	color: #000;
+	line-height: 1.4em;
+	padding-right: .5em;
+}
+.reason a.deny:hover {
+	background-color: #13A53A;
+	color: #fff;
+}
+.reason .cancel {
+	display: block;
+	float: right;
+	font-size: 1.3em;
+	background: url(../images/sprites.gif) no-repeat;
+	background-position: 4px -352px;
+	padding-left: 18px;
+	border: solid 1px #f26522;
+	background-color: #fff;
+	text-decoration: none;
+	color: #000;
+	line-height: 1.4em;
+	padding-right: .5em;
+	margin-left: .5em;
+}
+.reason a.cancel:hover {
+	background-color: #ba272b;
+	color: #fff;
+}
+
+/* @group segmented tests */
+
+.segmented caption {
+	background-color: #fcf5b9;
+}
+.segment_settings {
+	text-align: left;
+	padding: 20px;
+}
+.segmentInfo {
+	margin-bottom: 1em;
+}
+.segment_settings .details_buttons {
+	margin-left: 0px;
+}
+.approvals_shell .details_right .segment_settings h2 {
+	text-align: left;
+	margin-left: 0px;
+	margin-right: 0px;
+	padding: 0px;
+}
+.pop_content h3 {
+	line-height: 1.5em;
+	margin-bottom: 1em;
+	border-bottom: solid 1px #0073A7;
+}
+/* @end */
+/* @end */
+
+.alert_container {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 150px;
+	text-align: left;
+	width: 500px;
+	height: auto;
+	background-color: #ffd9ad;
+	border: 10px solid #f7941d;
+	padding: 1em;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+
+}
+.alert_container h2 {
+	font-size: 1.5em;
+	font-weight: bold;
+	line-height: 2em;
+}
+.alert_container .listmessage{
+	border: solid 1px #f7941d;
+	background-color: #fef0df;
+	font-size: 1.3em;
+	padding: .5em;
+	margin-bottom: 1em;
+}
+.alert_container .listmessage h4 {
+	margin-bottom: .5em;
+}
+.alert_container .action {
+	height: 2em;
+}
+.alert_container .close {
+	display: block;
+	float: right;
+	font-size: 1.3em;
+	background: url(../images/sprites.gif) no-repeat;
+	background-position: 4px -350px;
+	padding-left: 18px;
+	border: solid 1px #f26522;
+	background-color: #fff;
+	text-decoration: none;
+	color: #000;
+	line-height: 1.5em;
+	padding-right: .5em;
+}
+.alert_container .close:hover {
+	background-color: #ba272b;
+	color: #fff;
+}
+/* @group confirm exit */
+body.exit {
+	background-color:#ccc;
+	text-align:center;
+}
+.exit .wrapper {
+	background-color:#fff;
+	border:solid 1px #000;
+	width:80%;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:left;
+	height:auto;
+	margin-top:15%;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	
+}
+.exit h1 {
+	background-color:#EBEDED;
+	font-size:2.5em;
+	line-height:1.3em;
+	margin-bottom:.5em;
+	padding-left:.5em;
+	padding-right:.5em;
+	border-bottom:solid 1px #000;
+}
+.exit p {
+	padding-left:.8em;
+	padding-right:.8em;
+	padding-bottom: 1em;
+	font-size:1.5em;
+	
+}
+.exit .action {
+	height: 2em;
+	padding-left:1.3em;
+	padding-bottom:1em;
+}
+.exit .action a {
+	display: block;
+	float: left;
+	font-size: 1.3em;
+	background: url(../images/sprites.gif) no-repeat;
+	background-position: 4px -350px;
+	padding-left: 18px;
+	border: solid 1px #f26522;
+	background-color: #fff;
+	text-decoration: none;
+	color: #000;
+	line-height: 1.5em;
+	padding-right: .5em;
+	margin-right: .5em;
+}
+.exit .action a:hover {
+	background-color: #ba272b;
+	color: #fff;
+}
+.exit .action .confirm {
+	background-position: 3px -395px;
+	border: solid 1px #13A53A;
+}
+.exit .action .confirm:hover {
+	background-color: #13A53A;
+}
+
+/* @end */
+
+/* @group no collapse */
+.nocollapse .shadowbottom {
+	height: 10px;
+}
+.nocollapse .approvals_container {
+	width: 180px;
+	margin-right: 50px;
+	line-height: 1.5em;
+}
+.ie6 .nocollapse .approvals_container {
+	margin-right: 25px;
+}
+.nocollapse .approvals_container .pointer span {
+	margin-left: 0px;
+	margin-right: 20px !important;
+}
+.ie6 .nocollapse .approvals_container .pointer span {
+	margin-right: 10px;
+}
+.nocollapse.approvals_needed .approvals_container {
+	width: 350px;
+}
+.nocollapse.new_session .settings_content select {
+	height:458px;
+}
+.nocollapse .approvals_closed {
+	height: 125px;
+	padding: 10px;
+}
+.nocollapse .short_tip {
+	display: block;
+	border-top: solid 1px #a8cf79;
+	margin-top: .5em;
+	padding-top: .5em;
+}
+.nocollapse .settings_closed {
+	display: none;
+}
+.nocollapse .short_tip {
+	display: none;
+}
+.nocollapse .settings_container, .nocollapse.approvals_needed .settings_container {
+	height: 145px;
+	width: 375px;
+	margin-right: 0px;
+	margin-left: 50px;
+}
+.ie6 .nocollapse .settings_container {
+	margin-left: 25px !important;
+}
+.nocollapse .settings_content {
+	display: block;
+	height: 135px;
+	overflow: hidden;
+	background-color: #fff;
+	border-left: solid 3px #2671a6;
+	border-right: solid 3px #2671a6;
+	border-bottom: solid 3px #2671a6;
+}
+.nocollapse .settings_container .pointer {
+	height: 12px !important;
+	background: url(../images/stripes.gif) repeat-x 0 -6px !important;
+	width: auto;
+}
+.gecko.mac .nocollapse .settings_container .pointer {
+	margin-bottom: -1px;
+}
+.nocollapse .settings_container .pointer span {
+	height: 12px !important;
+	background: url(../images/pointer_open.gif) no-repeat center top !important;
+	width: 19px !important;
+	margin-left: 20px !important;
+}
+.ie6 .nocollapse .settings_container .pointer span {
+	margin-left: 10px !important;
+}
+.nocollapse .settings_container select {
+	height: 96px;
+	width: 368px;
+	border: none;
+}
+.approvals_needed .settings_container select {
+	height: 90px;
+}
+.nocollapse .settings {
+	display:none !important;
+}
+.nocollapse.not_started span.settings_nope {
+	display:none;
+}
+.nocollapse .settings_container .holderYUI {
+	height: 96px;
+	width: 368px;
+	overflow:auto;
+	border: none;
+}
+
+
+/* @end */
+#allDetails, #btnApprovalsMobile, th.table_details, td.table_details, #btnSettingsMobile, .checkers, .orientation {
+	display: none !important;
+}
+
+/* @group simple toggle */
+/*approvals needed, expanded
+.shelf .button_collapse {
+	position: absolute;
+	left: 37px;
+	top: 3px;
+}
+*html .shelf .button_collapse {
+	position: relative;
+}
+.settings_content .widgetTitle {
+	padding-left: 31px;
+}*/
+
+/* approvals needed, collapsed */
+
+/* approvals not needed, expanded */
+
+/* approvals not needed, collapsed */
+
+/* session not started */
+/* @end */
+
+/* @group new checkboxes */
+
+#testsListBox {
+	height: 92px;
+	overflow: auto;
+	position: static;
+	top: 0;
+	left: 0;
+	margin: 0px;
+	border: solid 1px transparent;
+	clear:left;
+}
+.checkers .topHalf {
+	display: none;
+}
+
+.withChecks {
+	clear: both;
+}
+.withChecks.accommodation .accomm_value {
+    display: none;
+}
+.ie6 .withChecks .accomm_value {
+    display: none !important;
+}
+.withChecks .accomm_name {
+    display: block;
+    float: left;
+    text-align: right;
+    width: 150px;
+}
+.accomm_edit, .accomm_save {
+	display: none !important;
+}
+.approvals_shell .withChecks .checkboxHolder {
+	float: left;
+	max-height: 150px;
+	overflow: auto;
+	width: 250px;
+	border: 1px solid #7ab4cf;
+	padding-bottom: 3px;
+	margin-left: 5px;
+	margin-top:-3px
+}
+.ie6 .approvals_shell .withChecks .checkboxHolder {
+	/*height: 120px;*/ /*removed due to request on bug#59817 */
+}
+/* @end */
+
+/* Group Test Type Display*/ 
+
+.testIndicator, .none_selected .testIndicator{
+	display: none;
+    color: #b1c29e;
+}
+.nocollapse .testIndicator, .settings_show .testIndicator{
+	 display: block;
+}
+.testIndicator .bracket{
+	font-family: Gujarati MT,Arial,Serif;
+    font-size: 11em;
+    left: 440px;
+    position: absolute;
+	top: 37px;
+}
+.win .testIndicator .bracket, .linux .testIndicator .bracket{
+	top: 0px;
+	font-size: 13em;
+}
+.linux .testIndicator .bracket{
+	top: 0px;
+	font-size: 12em;
+}
+.testIndicator .text{
+	font-family: myriad pro,verdana,sans-serif;
+    font-size: 3.5em;
+    left: 500px;
+    position: absolute;
+    top: 60px;
+}
+
+/* @end */
+
+/* Group 2012 CLS Rebuild - Remember to remove old level 1 stuff when you're done here */
+
+select.SystemSelector{ display: none; /*HIDE UNLESS IE6*/}
+.ie6 select.SystemSelector{ display: block;}
+
+ul.selectReplacement{ /*Show unless IE6*/ }
+.ie6 ul.selectReplacement{ display: none;}
+
+.cls {
+	list-style: none;
+	/* Clear floats */
+	float: left;
+	background-color: #000;
+	width: 100%;
+	border-bottom: 1px solid #fff;
+	_height: 30px!important;
+}
+.cls {
+	list-style: none;/* Clear floats */
+}
+.cls li {
+	float: left;
+	margin: 0px;
+	position: relative;
+}
+.cls li.system {
+	min-width: 250px;
+}
+.cls li.logout, .cls li.contact, .cls li.help {
+	border-left: 1px solid #FFFFFF;
+	float: right;
+}
+.cls li.username, .cls li.lang, .cls li.alerts {
+	float: right;
+}
+.cls a, .cls span.user, .cls li.lang span, .cls li.client span.titleThing {
+	display: block;
+	padding: 10px 10px 13px 10px;
+	color: #fff;
+	text-decoration: none;
+}
+.cls li.lang span{
+	padding: 8px 9px 10px 9px;
+}
+.cls a:hover {
+	color: #fff;
+	background: #FFF;
+	text-decoration: underline;
+}
+.button_alert {
+	text-indent: -9999px;
+	background: url(../images/sprites.png) no-repeat 3px -303px;
+}
+.cls li.alerts a:hover{
+	text-decoration: none;
+	background: url(../images/sprites.png) no-repeat 3px -303px;
+}
+select.SystemSelector.replaced {
+	display: none;
+}
+ul.selectReplacement {
+	background: url("../images/arrows.png") no-repeat scroll 260px 50% transparent;
+	height: 34px;
+	padding: 0;
+	width: 275px;
+	float: left;
+}
+ul.selectReplacement li {
+	background: none repeat scroll 0 0 #FFFFFF;
+	color: #FFFFFF;
+	cursor: pointer;
+	display: none;
+	list-style: none outside none;
+	margin: 0;
+	min-width: 275px;
+	padding: 1px 10px;
+	height: 15px;
+	_width: 275px;
+}
+ul.selectOpen li, ul.selectReplacement:hover li {
+	display: block;
+	border-bottom: 1px solid #D9D9D9;
+	padding: 10px;
+	color: #567777;
+	_width: 275px;
+	z-index: 10;
+}
+.ie7 li.system{
+	z-index: 10;
+}
+ul.selectOpen li:first-child, ul.selectReplacement:hover li:first-child {
+	background: url("../images/gradient.png") repeat-x scroll left 0 transparent;
+	color: #E1EFE8;
+	border-width: 1px 1px 0;
+	border-color: #999999;
+	border-style: solid;
+}
+ul.selectOpen li:first-child:hover, ul.selectOpen li:first-child.hover, ul.selectOpen li:first-child.selected:hover {
+	background: url("../images/arrowhover.png") no-repeat scroll 260px 50% #E8ECEA!important;
+}
+ul.selectReplacement li.selected {
+	background: url("../images/gradient.png") repeat-x scroll left 0 transparent;
+	border-width: 1px 1px 0;
+	border-color: #999999;
+	border-style: solid;
+	color: #E8ECEA;
+	display: block;
+	padding: 9px;
+	font-size: 1.1em;
+	line-height: .8em;
+}
+*html ul.selectReplacement li.selected {
+	background-image: none;
+	background-color: #515151!Important;
+}
+ul.selectOpen li.selected, ul.selectReplacement:hover li.selected {
+	display: block;
+	_display: inline;
+	background: none repeat scroll 0 0 #567777;
+	color: #FFFFFF;
+	border: none;
+	border-bottom: 1px solid #D9D9D9;
+}
+ul.selectOpen li:hover, ul.selectOpen li.hover, ul.selectOpen li.selected:hover, {
+	background: none repeat scroll 0 0 #E8ECEA;
+	color: #567777;
+}
+ul.selectReplacement li a{
+	padding: 0;
+	background: none transparent;
+}
+
+.clear {
+	clear: both;
+}
+*html .cls {
+	height: 30px;
+}
+select.SystemSelector {
+	visibility: hidden;
+	height: 1px;
+	*visibility:visible;
+	*margin-top:5px;
+	float: left;
+}
+.main {
+	background-color: red;
+	display: block;
+	height: 200px;
+}
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+* html .clearfix {
+	zoom: 1;
+} /* IE6 */
+*:first-child+html .clearfix {
+	zoom: 1;
+} /* IE7 */
+
+.ie6 .cls .li{ float: left !important; }
+
+.ie6 .cls li.alerts, .ie7 .cls li.alerts{
+	width: 16px;
+	float: right;
+}
+.ie7 .cls li.alerts{ background: url("../images/sprites.png") no-repeat scroll 3px -303px transparent; width: 20px;}
+
+span#lblClientName { display: none;}
+
+/*Because Oregon is default - orgeon colors go here*/
+.commonsystem, .cls{
+	background: #2671A6;
+	color: #89BCE9;
+}
+.cls a, .cls span.user, .cls li.lang span, .cls li.client span.titleThing{
+	color: #89BCE9;
+}
+.cls li:hover a{
+	background: #89BCE9;
+	color: #2671A6;
+	text-decoration: underline;
+}
+.cls ul.selectReplacement li a{
+	text-decoration: none;
+}
+.cls li.system:hover a{
+	background: transparent;
+}
+.ie6 .cls li a:hover{
+	background: #89BCE9;
+	color: #2671A6;
+	text-decoration: underline;
+}
+.ie6 .cls li.alerts a:hover, .ie7 .cls li.alerts a:hover{
+	background: url("../images/sprites.png") no-repeat scroll 3px -303px transparent;
+}
+.ie7 .cls li.alerts a:hover, .ie7 .cls li a.button_alert:hover{
+	background-color: none;
+}
+/*
+ul.selectOpen li.selected{
+	background: inherit;
+}
+*/
+ul.selectOpen li:hover, ul.selectOpen li.hover, ul.selectOpen li.selected:hover,
+ul.selectReplacement:hover li:hover, ul.selectReplacement:hover li.hover, ul.selectReplacement:hover li.selected:hover{
+	background: #E1F5C9;
+	color: #000;
+}
+.cls li ul li:hover a, ul.cls li ul.selectReplacement li.selected a{
+	background: transparent;
+}
+ul.selectReplacement li.selected a, ul.selectReplacement li.selected:hover a{
+	color: #fff;
+}
+
+/* I guess we don't have a app select CLS Bar anymore.  Will need to remove all the CSS on it later */
+ul.selectReplacement{
+	display: none;
+}

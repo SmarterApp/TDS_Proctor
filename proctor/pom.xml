@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.opentestsystem.delivery</groupId>
+	<artifactId>testadmin</artifactId>
+	<name>proctor</name>
+	<packaging>war</packaging>
+	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<parent>
+		<groupId>org.opentestsystem.shared</groupId>
+		<artifactId>shared-master</artifactId>
+		<version>1.0.1-BUILD-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<progman-client.version>0.0.4-SNAPSHOT</progman-client.version>
+		<sb11-mna-client.version>0.0.4-SNAPSHOT</sb11-mna-client.version>
+		<sb11-shared-code.version>0.0.6-SNAPSHOT</sb11-shared-code.version>
+		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
+	</properties>
+
+	<scm>
+		<connection>scm:hg:https://bitbucket.org/sbacoss/tds_release</connection>
+		<developerConnection>scm:hg:https://bitbucket.org/sbacoss/tds_release</developerConnection>
+		<url>https://bitbucket.org/sbacoss/tds_release</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>AIR-License-1.0</name>
+			<url>http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf</url>
+			<distribution>repo</distribution>
+			<comments>Educational Online Test Delivery System Copyright (c) 2013 American Institutes for Research</comments>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<!-- Start Dependency shared project -->
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>shared-db</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>shared-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>bcprov-jdk16</artifactId>
+					<groupId>org.bouncycastle</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>shared-db-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>shared-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>shared-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>shared-json</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>tds-dll-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.26</version>
+		</dependency>
+		<!--dependency> <groupId>org.opentestsystem.delivery</groupId> <artifactId>tds-dll-mssql</artifactId> </dependency -->
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>tds-dll-mysql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>tds-dll-schemas</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- End Dependency shared project -->
+
+		<!-- Start: Program management integration dependency -->
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>prog-mgmnt-client</artifactId>
+			<version>${progman-client.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>prog-mgmnt-client-null-impl</artifactId>
+			<version>${progman-client.version}</version>
+		</dependency>
+		<!-- End: Program management integration dependency -->
+		<!-- Start: Monitoring and Alerting integration dependency -->
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>monitoring-alerting.client-null-impl</artifactId>
+			<version>${sb11-mna-client.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>monitoring-alerting.client</artifactId>
+			<version> ${sb11-mna-client.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>sb11-shared-code</artifactId>
+			<version>${sb11-shared-code.version}</version>
+		</dependency>
+		<!-- End: Monitoring and Alerting integration dependency -->
+		<!-- Start: SSO integration dependency -->
+		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>sb11-shared-security</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${org.springframework.security-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.10.0</version>
+		</dependency>
+		<!-- End: SSO integration dependency -->
+
+		<!-- <dependency> -->
+		<!-- <groupId>log4j</groupId> -->
+		<!-- <artifactId>log4j</artifactId> -->
+		<!-- <scope>provided</scope> -->
+		<!-- </dependency> -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<!-- MySQL connector: Required primarily for unit tests. Must be placed in Tomcat's classpath (e.g. /lib directory) -->
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+
+		<!-- Logging -->
+		<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-api</artifactId> </dependency> <dependency> <groupId>org.slf4j</groupId> <artifactId>jcl-over-slf4j</artifactId> </dependency> <dependency> 
+			<groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> <scope>compile</scope> </dependency> -->
+		<dependency>
+			<groupId>commons-primitives</groupId>
+			<artifactId>commons-primitives</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+		</dependency>
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+		</dependency>
+
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+		</dependency>
+
+		<!-- TEMPORARY LOCAL DEPENDENCY FOR MSSQL. REMOVE AS SOON AS .NET PORTING COMPLETES !!! -->
+		<!-- <dependency> <groupId>com.microsoft.sqlserver</groupId> <artifactId>sqljdbc4</artifactId> <version>3.0</version> </dependency> -->
+
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Start JSF integration -->
+		<!-- Mojara implementation of JSF -->
+		<!-- dependency> <groupId>org.glassfish</groupId> <artifactId>javax.faces</artifactId> <version>${javax.faces-version}</version> <scope>runtime</scope> </dependency> <dependency> <groupId>org.glassfish</groupId> 
+			<artifactId>javax.el</artifactId> <version>${javax.el-version}</version> <scope>runtime</scope> </dependency> <dependency> <groupId>com.sun.faces</groupId> <artifactId>jsf-api</artifactId> <version>2.2.0</version> 
+			</dependency -->
+
+		<!-- Apache MyFaces dependencies -->
+		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-impl</artifactId>
+		</dependency>
+		<!-- End JSF integration -->
+
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.webflow</groupId>
+			<artifactId>spring-faces</artifactId>
+		</dependency>
+		<!-- End JSF integration -->
+		<dependency>
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>item-renderer</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.blackbox</groupId>
+			<artifactId>shared-blackbox</artifactId>
+			<version>1.0.1-BUILD-SNAPSHOT</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>student.library</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+</project>

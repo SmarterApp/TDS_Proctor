@@ -1,0 +1,118 @@
+@import url(reset.css);
+
+/* @group desktop */
+.loading {
+	position: relative;
+	overflow: hidden;
+}
+.loading .wait {
+	display: block !important;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 300;
+	background-color: #eef0f0;
+	text-align: center;
+}
+.ie6 .loading .wait {
+	height: 1500px;
+}
+.wait .container {
+	display: block;
+	background-color: #ccc;
+	width: 228px;
+	margin-top: 30%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 3px solid #4b4b4b;
+	text-align: left;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	font-family:Helvetica, Arial, Geneva, sans-serif;
+}
+.wait h2 {
+	display: block;
+	background-color: #666;
+	color: #fff;
+	line-height: 1.5em;
+	font-size: 1em;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.wait span span {
+	display: block;
+	background: url(../images/loadingAnimation.gif) no-repeat center center;
+	height: 2em;
+	margin: 0px !important;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.redirecting h2{
+	font-size: 1.4em;
+	padding: 20px;
+	font-weight: normal;
+	background: #fff url(../images/loadingAnimation.gif) no-repeat right center;
+	width: 400px;
+}
+/* @end */
+@media screen and (min-width: 1000px) {
+/* @group mobile */
+.please_wait .wait {
+	display: block !important;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	z-index: 300;
+	background-color: rgba(255, 255, 255, .5);
+	text-align: center;
+}
+.wait .container {
+	display: block;
+	background-color: #ccc;
+	width: 228px;
+	margin-top: 30%;
+	margin-left: auto;
+	margin-right: auto;
+	border: 3px solid #4b4b4b;
+	text-align: left;
+	-moz-box-shadow: 0em 0em .5em #000;
+	-webkit-box-shadow: 0em 0em .5em #000;
+	box-shadow: 0em 0em .5em #000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.wait h2 {
+	display: block;
+	background-color: #666;
+	color: #fff;
+	line-height: 1.5em;
+	font-size: 1em;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.wait span span {
+	display: block;
+	background: url(../images/loadingAnimation.gif) no-repeat center center;
+	height: 2em;
+	margin: 0px !important;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+.redirecting h2{
+	font-size: 1.4em;
+	padding: 20px;
+	font-weight: normal;
+	background: #fff url(../images/loadingAnimation.gif) no-repeat right center;
+	width: 400px;
+}
+/* @end */
+}

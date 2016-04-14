@@ -1,0 +1,162 @@
+.wrapper {
+	background: #fff url(../images/gradient_lightblue.png) repeat-x fixed left bottom;
+}
+
+/* @group Content */
+.activeTable {
+	border-color:#71b5d6;
+}
+.activeTable th a {
+	color:#045785;
+}
+.instructions {
+	background-color:#eef9ff;
+	border-color:#71b5d6;
+}
+.instructions h2 a, .shelf .button_collapse {
+	background-image: url(../images/showHide.png);
+}
+.ie6 .instructions h2 a, .ie6 .shelf .button_collapse {
+	background-image: url(../images/showHide.gif);
+}
+.footer {
+	color:#000000;
+}
+.gecko.mac .bottomHalf {
+	border-color: #ffecc5;
+}
+/* @end */
+
+/* @group shelf */
+
+.shelf {
+	background:#ffecc5 url(../images/shelf_gradient.png) repeat-x scroll left bottom;
+	border-bottom:2px solid #cfedfd;
+}
+.settings_container .pointer, .approvals_container .pointer {
+	background-image: url(../images/stripes.gif);
+}
+.settings_container .pointer span, .approvals_container .pointer span {
+	background-image: url(../images/pointer_collapsed.gif);
+}
+.settings_closed, .approvals_closed {
+	border-left: solid 1px #d8b057;
+	border-right: solid 1px #d8b057;
+	border-bottom: solid 1px #d8b057;
+	background-color: #fff2d6;
+	color: #84897f;
+}
+.nocollapse .short_tip, .settings_show .short_tip, .not_started .short_tip {
+	border-top:1px solid #8abfdb;
+}
+
+/* @end */
+
+.level1 {
+	background-color:#BFD4D7;
+}
+.level1 span {
+	color: #000;
+}
+.level1 a span {
+	color: #000;
+}
+.level1 a:hover {
+	background-color: #fff;
+}
+.level2 {
+	border-bottom:1px solid #fff;
+	background: #ce710e url(../images/flowers.gif) no-repeat right bottom;
+}
+.level2 .brand2 {
+	background-image: none;
+}
+.level2 .session_top {
+	background-color: #ce710e;
+	background-image: none;
+	border-left:1px solid #fff;
+	border-right:1px solid #fff;
+}
+.level3 {
+	background:#fed277 url(../images/tools_gradient.gif) repeat-x scroll left bottom;
+}
+.level3 a, span.session_nope, span.settings_nope {
+	background-color:#ffd377;
+	border:1px solid #fff;
+}
+span.session_nope {
+	background:#e4bf6e url(../images/disabeled_gradient.gif) repeat-x scroll left bottom;
+	color: #90660b;
+	border-color: #d8b057;
+	border-left: none;
+	border-top: none;
+	border-bottom: none;
+}
+a.button_approvals, a.button_approvals:hover {
+	background-color:#e4bf6e;
+	background-image: none;
+	color: #90660b;
+	border-color: #d8b057;
+}
+.not_started .button_approvals:hover {
+	background-color: #e4bf6e !important;
+	color: #90660b !important;
+}
+.session_bottom, a.session_stop  {
+	background: #f7941d url(../images/darkorange_gradient.gif) repeat-x left bottom;
+	border-color: #fff;
+}
+a.session_stop  {
+	border-left: none;
+	border-top: none;
+	border-bottom: none;
+}
+.approvals_needed a.button_approvals {
+	background-color:#f7941d;
+	background-image: none;
+	border-color: #fff;
+}
+.approvals_needed a.button_approvals:hover {
+	background-color: #f26522;
+	color: #fff;
+}
+.printingRequested th.table_request {
+    background-color: #FF9C00 !important;
+}
+/*Group Test Type Display*/
+.testIndicator{
+	color: #C9BB9A;
+	display: none;
+}
+
+
+/*CLS updated styles 2012*/
+.commonsystem, .cls{
+	background-color: #C4CCDD;
+}
+ul.selectOpen li:first-child, ul.selectReplacement:hover li:first-child{
+	color: #232323;
+}
+.cls a, .cls span.user, .cls li.lang span, .cls li.client span.titleThing{
+	color: black;
+}
+.cls li:hover a, .cls a:hover span{
+	background: none repeat scroll 0 0 #9BA5BA;
+    color: #FFFFFF;
+}
+.cls ul.selectReplacement li a{
+	background: none transparent;
+	color: #000;
+}
+.cls ul.selectReplacement li:hover a{
+	color: #fff;
+}
+ul.selectOpen li:hover, ul.selectOpen li.hover, ul.selectOpen li.selected:hover, ul.selectReplacement:hover li:hover, ul.selectReplacement:hover li.hover, ul.selectReplacement:hover li.selected:hover{
+	background: none repeat scroll 0 0 #9BA5BA;
+    color: #FFFFFF;
+}
+ul.selectOpen li.selected, ul.selectReplacement:hover li.selected{
+	background: #CE710E;
+	color: #fff;
+}
+ul.selectReplacement:hover li.selected a{ color: #fff;}

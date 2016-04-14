@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://java.sun.com/jsf/passthrough"
+	xmlns:tds="http://airast.org/jsfcustomproctor"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	
+<h:head id="Head1">
+    <title i18n-content="Label.AppTitle"></title>    
+    <link href="#{request.contextPath}/shared/css/screen.css" rel="stylesheet" type="text/css" />
+    
+	<tds:CSSLinkProctor href="Projects/{0}/css/screen.css"
+		id="clientCSSLink" rel="stylesheet" type="text/css" binding="#{confirmExit.clientCSSLink}" />
+	<tds:GlobalJavascriptProctor contextName="ConfirmExit.aspx" id="gJS" language="ENU" binding="#{confirmExit.globalJs}"/>     
+     
+    <script src="#{request.contextPath}/ProctorScripts/Libraries/3.14.1_build/yui/yui-min.js" type="text/javascript"></script> 
+    <script src="#{request.contextPath}/ProctorScripts/Messages/messages_indexer.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/Messages/messages_template.js" type="text/javascript"></script>    
+    <script src="#{request.contextPath}/ProctorScripts/Messages/messages_system.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/Messages/messages_loader.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/Utilities/util.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/Utilities/util_structs.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/tds.js" type="text/javascript"></script>
+    
+    <script src="#{request.contextPath}/js/tds_global.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_elem.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_className.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_shared.js" type="text/javascript"></script>        
+    <script src="#{request.contextPath}/js/tds_timeout.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        // onload
+        YUI().use("node", "tds", "tds-shared", "tds-timeout", function(Y) {
+            Y.on("domready", function() {
+                Y.tds.initBase(gTDS);
+                Y.tdsTimeout.init((gTDS.appConfig != null) ? gTDS.appConfig.Timeout : null, null, true, null); //init timeout    
+            });
+        });
+        
+    </script>    
+    <script type="text/javascript" src="#{request.contextPath}/js/Exit_Common.js"></script>
+    <script type="text/javascript" src="#{request.contextPath}/js/ConfirmExit.js"></script>  
+    <script type="text/javascript">
+        function closeWindow() {
+            window.close();
+        }
+    </script>	
+     
+</h:head>
+<body class="nocollapse exit">
+<div class="wrapper">
+    <h:form id="confirmExit" action="" name="confirmExit">   
+	    <input id="isCLSLogin" type="hidden" value="#{IsCLSLogin}"/>
+	    <input id="rc" type="hidden" value="#{param['rc']}"/>
+    </h:form>
+	<div id="dvWarn" class="border" style= '${param["rc"]=="0" ? "display:block" : "display:none"}' >    
+        <div class="withCL" style= '${IsCLSLogin ? "display:block" : "display:none"}'>  
+            <h1 i18n-content="Label.withCLS"></h1>       	
+        </div>
+        
+        <div class="withoutCL" style= '${!IsCLSLogin ? "display:block" : "display:none"}'>
+            <h1 i18n-content="Label.withoutCLS"></h1>	
+        </div>
+        
+  	    <div class="action">  
+            <a href="#" id="lnkReturn" class="confirm" 
+            	onclick="ConfirmExit.returnToOriginalApp=true;ConfirmExit.ValidateExit();">
+            	<span i18n-content="Button.Return"></span>
+            </a>
+            
+            <a href="#" id="lnkExit" class="close" onclick="ConfirmExit.ValidateExit();">
+            	<span i18n-content="Button.Exit"></span>
+            </a>
+            <span class="clear"></span>
+        </div>  
+    </div>
+    <div id="dvWait" class="redirecting" style= '${param["rc"]=="0" ? "display:block" : "display:none"}' >
+        <span class="spacing"><h2 i18n-content="Label.PleaseWait">Processing your request...</h2>        
+        </span>
+    </div>
+    <script type="text/javascript">
+        var rc = document.getElementById('rc');
+        var bRequiredConfirmation = (rc.value == '1')? true : false;
+        ConfirmExit.init(bRequiredConfirmation, gTDS.appConfig.Local_Domains, gReturnPage, gLogOutPage);
+    </script>
+</div>    
+</body>
+
+
+</html>
+

@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+/* Tree Theme */
+.topBar{
+    background: #b6c8b5;
+    border-color: #546152;
+    color: #546152;
+}
+.smallButtons a{
+    color: #546152;
+}
+.smallButtons a:hover{
+    background: #546152;
+    color: #fff;
+}
+.header{
+    border-bottom: 1px solid #ccc;
+}
+.brand1{
+    height: 105px;
+}
+.logos{
+    background: url("../images/login/utah-banner.jpg") no-repeat right #556251;
+}
+.brand1 h2{
+    position: absolute;
+    left: -99999px;
+}
+.brand2{
+    background: #fff;
+    border-color: #ccc;
+}
+.brand2 h3{
+    background: #fff;
+    border-color: #ccc;
+}
+.footer span, .footer a{
+    color: #556251;
+}
+.login, .green.login{
+    background:  #EFEAD7;
+}
+.green .shadowBox .bottomShadow{
+    background:url("../images/login/shadowboxes/greenBottomCenter.gif");
+}
+.green .shadowBox .bottomShadow em{
+    background-image: url("../images/login/shadowboxes/greenBottomLeft.gif");
+}
+.green .shadowBox .bottomShadow strong{
+    background-image: url("../images/login/shadowboxes/greenBottomRight.gif");
+}
+.shadowBox .content h2{
+    border-color: #556251;
+}

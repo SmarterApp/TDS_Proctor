@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://java.sun.com/jsf/passthrough"
+	xmlns:tds="http://airast.org/jsfcustomproctor">
+	
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="format-detection" content="telephone=no" />
+<title i18n-content="Label.RequestsTitle">Requests</title>
+    
+    <link id="regStyle" href="#{request.contextPath}/shared/css/modal.css" rel="stylesheet" type="text/css" media="screen" />
+    <link id="mobileStyle" href="#{request.contextPath}/shared/css/modal_mobile.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="#{request.contextPath}/shared/css/loading.css" rel="stylesheet" type="text/css" media="screen" />   
+     
+    <tds:GlobalJavascriptProctor contextName="Requests.aspx" id="gJS" language="ENU" binding="#{requests.globalJs}"/>
+     
+    <script src="#{request.contextPath}/ProctorScripts/Libraries/3.14.1_build/yui/yui-min.js" type="text/javascript"></script> 
+    <script src="#{request.contextPath}/ProctorScripts/Messages/messages_indexer.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/Messages/messages_template.js" type="text/javascript"></script>    
+    <script src="#{request.contextPath}/ProctorScripts/Messages/messages_system.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/Messages/messages_loader.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/Utilities/util.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/Utilities/util_structs.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/ProctorScripts/tds.js" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="#{request.contextPath}/js/browser.js"></script>
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script>
+      /* EXAMPLE */
+      DD_belatedPNG.fix('.controls a span');
+    </script>
+    <![endif]-->
+
+    <!-- JS --> 
+    
+    <script src="#{request.contextPath}/js/tds_global.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_hideshow.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_cookie.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_elem.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_className.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/js/tds_shared.js" type="text/javascript"></script>
+   
+    <script src="#{request.contextPath}/js/tds_request.js" type="text/javascript"></script>     
+    <script type="text/javascript">
+        // onload
+        YUI().use("node", "tds-request", "tds-shared", "tds", "scrollview", function(Y) {
+            Y.on("domready", function() {               
+                function init() {
+                    Y.tds.initRequests(gTDS);
+                    Y.tdsShared.activateScollView(Y.one("#divBottomHalf"));      
+                    Y.tdsShared.removeBodyClass("loading");
+                }
+                if (Y.tdsShared.mobile()) {
+                    Y.tdsShared.disableStyle("#regStyle", init);
+                }
+                else {
+                    Y.tdsShared.disableStyle("#mobileStyle", init);
+                }
+
+                Y.tdsShared.includeCSSfile("Projects/" + gTDS.appConfig.ClientPath + "/css/modal.css");
+            });
+        });
+        
+    </script>
+ 
+</head>
+
+<body class="loading">
+<div class="wrapper">
+    <h:form id="form1">
+    <div class="topHalf">
+        <div class="controls">
+            <a href="#" class="close" id="requestClose"><span i18n-content="Button.Close">Close</span></a>
+        </div>
+        <h1 i18n-content="Label.StudentRequestsHeader">Student Print Request(s) For:</h1>
+	</div>
+    <div class="bottomHalf" id="divBottomHalf">
+  	<div class="requestInfo">
+        <span i18n-content="Label.Name" class="label">Name</span>: <span id="lblname"></span> <span i18n-content="Label.SSID" class="label">SSID</span>: <span id="lblssid"></span>
+    </div>
+    <span class="infoMessage" style="display:none" id="spanInfoMessage">           
+    </span>
+    <span id="spanDebug" style="display:none" >           
+    </span>
+        
+    <div class="content">
+    	<div class="instructions_print" i18n-content="Label.Instructions">
+    	</div>
+    	<div class="print_whitelist_deny" i18n-content="Label.PrintWhitelist.Deny" style="display:none">DENY</div>
+        <div class="print_whitelist_warn" i18n-content="Label.PrintWhitelist.Warn" style="display:none">WARN</div>
+    </div>
+    
+    <div class="requestTable"> 
+        <table cellspacing="0" rules="all" border="1" id="tblRequests">
+            <thead>
+			<tr>
+                <th scope="col">&nbsp;</th>
+                <th scope="col">&nbsp;</th>
+                <th scope="col" i18n-content="Label.NewRequests">New Requests</th>
+                <th scope="col" i18n-content="Label.DateTimeRequest">Date &amp; Time of Request</th>
+            </tr>
+			</thead>
+			<tbody>           
+			</tbody>
+        </table>
+	</div>
+    
+    </div>
+    <div class="denial">
+        <span class="reason">
+            <h4 i18n-content="Label.ReasonForDenialHeader">Reason for Denial (optional):</h4>
+            <input id="denialText" type="text" />
+            <a id="btnDenialOK" class="close" i18n-content="Button.OK">OK</a>
+            <span class="clear"></span>
+        </span>
+    </div>
+    <div class="printDenial">
+        <span class="reason">
+            <h4 i18n-content="Label.PrintWhitelist.Deny">Reason for Denial (optional):</h4>
+            <a id="btnPrintDenialOK" class="close" i18n-content="Button.OK">OK</a>
+            <span class="clear"></span>
+        </span>
+    </div>
+    </h:form>
+    <div class="wait">
+    	<span class="container"><h2 i18n-content="Label.PleaseWait">Please Wait</h2><span class="loader"></span></span>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<util:properties id="scriptProperties">
+		<prop key="ItembankDBName">${ItembankDBName}</prop>
+		<prop key="ArchiveDBName">${TDSArchiveDBName}</prop>
+		<prop key="ConfigsDBName">${TDSConfigsDBName}</prop>
+		<prop key="SessionDBName">${TDSSessionDBName}</prop>
+
+	</util:properties>
+
+	<bean id="configsScripts" class="org.opentestsystem.unittest.db.DBScriptExecutor">
+		<property name="scriptProperties" ref="scriptProperties"/>
+		<property name="dataSource" ref="configsSchema" />
+		<property name="startupBeforeDependenciesScripts" value="" />
+		<property name="startupAfterDependenciesScripts" 
+			value="Functions/bigtoint.sql, StoredProcedures/_buildtable.sql" />
+		<property name="schemaDefinitionName" value="configs" />
+		<property name="dbDialect" value="${DBDialect}" />
+	</bean>
+	
+	<bean id="archiveScripts" class="org.opentestsystem.unittest.db.DBScriptExecutor">
+		<property name="scriptProperties" ref="scriptProperties"/>
+		<property name="dataSource" ref="archiveSchema" />
+		<property name="startupBeforeDependenciesScripts" value="" />
+		<property name="startupAfterDependenciesScripts" value="" />
+		<property name="schemaDefinitionName" value="archive" />
+		<property name="dbDialect" value="${DBDialect}" />
+	</bean>
+	
+	<bean id="itembankScripts" class="org.opentestsystem.unittest.db.DBScriptExecutor">
+		<property name="scriptProperties" ref="scriptProperties"/>
+		<property name="dataSource" ref="itembankSchema" />
+		<property name="startupBeforeDependenciesScripts" value="" />
+		<property name="startupAfterDependenciesScripts" value="" />
+		<property name="schemaDefinitionName" value="itembank" />
+		<property name="dbDialect" value="${DBDialect}" />
+	</bean>
+	
+	<bean id="sessionScripts" class="org.opentestsystem.unittest.db.DBScriptExecutor" depends-on="configsSchema,archiveSchema,itembankSchema">
+		<property name="scriptProperties" ref="scriptProperties"/>
+		<property name="dataSource" ref="sessionSchema" />
+		<property name="startupBeforeDependenciesScripts" value="" />
+		<property name="startupAfterDependenciesScripts" 
+			value="Views/externs.sql, 
+				   Views/statuscodes.sql,
+				   Views/timelimits.sql,
+			       Views/views_to_itembank_tables.sql,
+			       StoredProcedures/_buildtable.sql, 
+				   StoredProcedures/_computesegmentpools.sql,
+				   StoredProcedures/_createresponseset.sql,
+				   StoredProcedures/ib_listtests.sql,
+		  	       Functions/scorebytds.sql,
+		  	       Functions/_aa_issegmentsatisfied.sql,
+		  	       Functions/_aa_itempoolstring.sql,
+		  	       Functions/_testopplastactivity.sql,
+		  	       Functions/bigtoint.sql,
+		  	       Functions/ft_iseligible.sql,
+		  	       Functions/getopportunitylanguage.sql,
+		  	       Functions/issimulation.sql,
+		  	       Functions/validatecompleteness.sql " />
+		<property name="schemaDefinitionName" value="session" />
+		<property name="dbDialect" value="${DBDialect}" />
+	</bean>
+	
+	
+</beans>

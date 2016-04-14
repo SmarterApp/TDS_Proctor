@@ -1,0 +1,187 @@
+@charset "UTF-8";
+/*Lake Theme */
+
+/* @group Header Stuff */
+.header {
+	/*background: url("../images/login/pillars.jpg") no-repeat scroll right 35px #FFFFFF;*/
+    border-bottom: 1px solid #B1B2B4;
+    height: 109px;
+}
+
+.topBar {
+	background-color: #DBDCE0;
+    color: #5A5A5A;
+	width: 100%;
+	float: none;
+	height: 22px;
+}
+
+.logos {
+	background-image: none;
+	background-color: transparent;
+}
+.ie6 .logos{
+	border-top-width: 0px;
+}
+
+.brand1 {
+	background: url(../images/login/logo_default.png) no-repeat left;
+	height: 87px;
+	margin-left: 25px;
+}
+.ie7 .brand1, .ie6 .brand1{
+	width: 500px;
+}
+
+
+/*.ie6 .topBar {
+	background: #004a80 url(../images/login/lake.jpg) no-repeat left top;
+}*/
+.brand1 h2 {
+	text-indent: -9999px;
+}
+
+.header .titleThing {
+	color: #fff;
+	background-color: #03527d;
+	background-image: url(../images/breadcrumb.gif);
+}
+.brand2 {
+	/*background-color: transparent;
+	background-image: url(../images/login/brand2-bar.gif);
+	background-repeat: repeat-x;
+	border: none !important;
+	height: 31px !important;*/
+	display: none;
+}
+.brand2 h3 {
+	border-left: none;
+	float: right;
+	color: #fff;
+	margin-left: 0px;
+/*	background: url(../images/sys_bg.gif) repeat-y #456854;*/
+	background: #819dba;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 31px;
+	line-height: 31px;
+	margin-top: 0px;
+	font-weight: normal;
+}
+/*.ie6 .brand2{
+	padding-top: 0px;
+	height: 0px;
+	margin: 60px 0 0 0;
+}*/
+/* @end */
+
+/* @group Login */
+.green {
+	background-color: #fff;
+	background-image: none;
+}
+.green .shadowBox .bottomShadow {
+	background-image: url(../images/login/shadowboxes/greenBottomCenter.gif);
+}
+.green .shadowBox .bottomShadow em {
+	background-image: url(../images/login/shadowboxes/greenBottomLeft.gif);
+}
+.green .shadowBox .bottomShadow strong {
+	background-image: url(../images/login/shadowboxes/greenBottomRight.gif);
+}
+.green .shadowBox .topShadow {
+    background-image: url("../images/login/shadowboxes/greenTopCenter.gif");
+}
+.green .shadowBox .box2 {
+    background-image: url("../images/login/shadowboxes/greenRight.gif");
+}
+.green .shadowBox {
+    background-image: url("../images/login/shadowboxes/greenLeft.gif");
+}
+.green .shadowBox .topShadow em {
+    background-image: url("../images/login/shadowboxes/greenTopLeft.gif");
+}
+.green .shadowBox .topShadow strong {
+    background-image: url("../images/login/shadowboxes/greenTopRight.gif");
+}
+.shadowBox .content h2 {
+	border-bottom-color: #94b6d9;
+}
+.login .greenBtn {
+	background-image: url(../images/login/loginBtn.gif);
+	color: #175283 !important;
+}
+.login .greenBtn:hover {
+	color: #fff !important;
+}
+.forgotLink a {
+	color: #0d4373;
+}
+.training {
+	border: 5px solid #FFA20C;
+}
+/* @end */
+
+/* @group general elements */
+.footer span, .footer a {
+	color: #0d4373;
+}
+/* @end */
+.smallButtons a{
+	color: black;
+	padding: 0.5em;
+	border-color: black;
+}
+
+/*
+.smallButtons a {
+	background: url("../images/login/btnGrayTop_shell.gif") #c6d8e2;
+}
+.smallButtons a span {
+	background-image:url("../images/login/btnGrayBottom_shell.gif");
+}
+.smallButtons a:hover {
+	background-color: #fff;
+	color: #000 !important;
+}
+.instructions a.greenBtn:hover {
+	background-color: #175283 !important;
+	background-position: left -60px;
+}
+.instructions a.greenBtn:hover {
+	background-color: #175283 !important;
+	background-position: left -60px;
+}*/
+
+/*Expiremental smallButtons code*/
+/*.smallButtons a {
+	
+	border: 1px solid #b6bfba;
+	border-radius: 5px 0 5px 0; 
+	background: none;
+}
+.smallButtons a span {
+	background-image: none;
+	background-color: #d9e1e3;
+	border-radius: 5px 0 5px 0; 
+}
+.smallButtons a:hover {
+	background: none !important;
+	color: #000 !important;
+}
+.smallButtons a:hover span{
+	
+	background-color: #fff;
+}
+/*.ie7 .smallButtons a, .ie8 .smallButtons a{
+	background: url("../images/login/btnBlueTop.gif") no-repeat transparent;
+	border: none;
+}
+.ie7 .smallButtons a span, .ie8 .smallButtons a span{
+	background: url("../images/login/btnBlueBottom.gif") no-repeat transparent;
+	
+}
+.ie7 .smallButtons a:hover, .ie8 .smallButtons a:hover{
+	background-color: #fff;
+}*/
+

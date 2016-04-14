@@ -1,0 +1,121 @@
+@import url(reset.css);
+a {
+	color: #000;
+	text-decoration: none;
+}
+.level1 a, .brand1, .brand2, .level3 a, .level3 span, #btnCollapse, .approvals_container, .pointer, .settings_closed, .widgetTitle, .sorter, .approvals_wrapper, .help_wrapper, .alerts_wrapper, .lookup_wrapper, .print_wrapper, .alert_single, .dialogs, #accsDetails, #lblInstruction, .activeTable h2, .label_sort, .label_print, .legend label, .wait, .table_pause, .table_request, .footer br, .positioner a, .checkers, #testsListBox, #allDetails, .multiple, .dialogs, .alert_single, #btnApprovalsMobile, #accsDetails_Close, .table_details, .orientation, .appselect {
+	display: none !important;
+}
+.level1, .level2, level3 {
+	float: left;
+	font-size: 8pt;
+}
+.session_top {
+	margin-left: 15pt;
+}
+#lblSessionID {
+	display: block !important;
+	/*float: left;
+	font-size: 8pt;
+	margin-left: 5pt;
+	font-weight: bold;*/
+}
+.shelf {
+	clear: both;
+	border-top: dashed 1pt #ccc;
+	border-bottom: dashed 1pt #ccc;
+	margin-top: 5pt;
+	margin-bottom: 5pt;
+}
+#selTestsListBox, .yui-module {
+	display: block !important;
+	width: 100%;
+	visibility: visible !important;
+	position: static !important;
+}
+.yui-module li {
+	display: none;
+}
+.yuimenuitem-checked {
+	display: block !important;
+	float: left;
+	border-right: solid 1pt #ccc;
+	padding-right: 5pt;
+	margin-right: 5pt;
+}
+.shadowbottom {
+	display: block !important;
+	clear: both;
+}
+.legend {
+	font-size: 14pt;
+}
+#tblTestOpps {
+	width: 100%;
+	margin-top: 10pt;
+	margin-bottom: 10pt;
+	
+}
+#tblTestOpps th, #tblTestOpps td {
+	border-bottom: solid 1px #ccc;
+	border-left: solid 1px #ccc;
+	padding: 2pt;
+	text-align: left;
+}
+#tblTestOpps td {
+	font-size: 10pt;
+}
+.table_name {
+	border-left: none !important;
+}
+.footer {
+	border-top: dashed 1pt #ccc;
+	margin-top: 10pt;
+	font-size: 8pt;
+	padding-top: 5pt;
+}
+.approvals_detail #accsDetails {
+	display: block !important;
+	position: static !important;
+	border: solid 1pt #666;
+	margin-top: 1em;
+	float: left;
+	padding: 1em;
+	line-height: 2em;
+}
+.accomm_value {
+	margin-left: 1em;
+	color: #666;
+}
+.testIndicator{
+	display: none;
+}
+/* Utah asked to show the session ID on the printout*/
+.topHalf{
+	/*display: none;*/
+	display: block;
+}
+.topHalf .level1{
+	display: none;
+}
+.session_top{
+	margin: 0;
+	font-weight: bold;
+	font-size: 2em;
+	margin: 0 1em 0 0;
+}
+.session_top:after{
+	content: " : ";
+}
+#lblSessionID{
+	font-weight: normal;
+	font-size: 1.3em;
+}
+
+
+.filter select{
+	appearance: button;
+	-moz-appearance: button;
+	-webkit-appearance: button;
+	-ms-appearance: button;
+}

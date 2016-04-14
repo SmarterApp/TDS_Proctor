@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="EnableLoadData">true</entry>
+	<entry key="IsCheckinSite">false</entry>
+	<entry key="DONOT_Distributed">true</entry>
+	<entry key="ClientName">Oregon</entry>
+	<entry key="ClientQueryString">false</entry>
+	<entry key="Appkey">Proctor</entry>
+	<entry key="EncryptedPassword">true</entry>
+	<entry key="RecordSystemClient">true</entry>
+	<entry key="AdminPassword">UnloadAppDomain1000tj</entry>
+	<entry key="AppName">Proctor</entry>
+	<entry key="SessionType">0</entry>
+	<entry key="StudentMaxOpps">2</entry>
+	<entry key="unitTests.baseLineDateTime">2012-10-10 15:10:10</entry>
+	<entry key="unitTests.useHardCodedBaseline">false</entry>
+	<entry key="TestRegistrationUrl">http://localhost:8083/</entry>
+	
+    <entry key="staged-jdbc.url">jdbc:mysql://db-dev.opentestsystem.org:3306/tdscore_dev_session2012_sandbox?useServerPrepStmts=false&amp;rewriteBatchedStatements=true</entry>
+	<entry key="staged-jdbc.userName">dbsbac</entry>
+	<entry key="staged-jdbc.password">osTyMhRM1C</entry>
+	<entry key="staged-SqlCommandTimeout">60</entry>
+	<entry key="staged-DBDialect">MYSQL</entry>
+	<entry key="staged-TDSSessionDBName">tdscore_dev_session2012_sandbox</entry>
+	<entry key="staged-ItembankDBName">tdscore_dev_itembank2012_sandbox</entry>
+	<entry key="staged-TDSArchiveDBName">tds_archive_</entry>
+	<entry key="staged-TDSConfigsDBName">tdscore_dev_configs2012_sandbox</entry>
+</properties>
