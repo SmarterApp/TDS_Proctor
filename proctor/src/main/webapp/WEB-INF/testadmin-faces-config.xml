@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+	version="2.1">
+	<managed-bean>
+		<managed-bean-name>loginBacking</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.Login</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>componentHolder</property-name>
+			<value>#{placeHolderRequestScope}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>placeHolderRequestScope</managed-bean-name>
+		<managed-bean-class>AIR.Common.Web.taglib.PlaceHolder</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>brandingBackingBean</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.BrandingBackingBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>userDetailsBacking</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.UserDetailsBacking</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>defaultBacking</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.Default</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>lookup</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.Lookup</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>alerts</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.Alerts</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>approvedRequests</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.ApprovedRequests</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>confirmExit</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.ConfirmExit</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>requests</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.Requests</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>accessDenied</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.AccessDenied</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>errorNotification</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.ErrorNotification</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>logout</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.Logout</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>clientScriptBackingBean</managed-bean-name>
+		<managed-bean-class>AIR.Common.Web.taglib.ClientScriptContainerBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>clientScript</managed-bean-name>
+		<managed-bean-class>AIR.Common.Web.taglib.ClientScriptContainerBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>proctorAppTasks</property-name>
+			<value>#{proctorAppTasks}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>printRequestBacking</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.PrintRequestBacking</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>embossRequest</managed-bean-name>
+		<managed-bean-class>TDS.Proctor.Web.presentation.backing.EmbossRequest</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<application>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+	</application>
+
+	<navigation-rule>
+		<from-view-id>/selectUserRoles.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{userDetailsBacking.next}</from-action>
+			<from-outcome>default</from-outcome>
+			<to-view-id>/default.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+</faces-config>

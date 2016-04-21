@@ -1,0 +1,101 @@
+@charset "UTF-8";
+/*Flower Theme */
+
+/* @group Header Stuff */
+.header {
+	background-image: url(../images/login/gradient_top.gif);
+	border-bottom-color: #4d83c3;
+	background-repeat: repeat-x;
+	background-position: 0 0;
+}
+.ie6 .header {
+	height: 1%;
+}
+.logos {
+	background-image: url(../images/login/flowers.gif);
+	background-color: transparent !important;
+}
+.brand1 {
+	background-image: url(../images/login/logo_default.gif);
+}
+.brand1 h2 {
+	text-indent: -9999px;
+}
+.smallButtons a{
+	color: #4D83C3;
+}
+.smallButtons:hover a{
+	background: #4D83C3;
+	color: white;
+}
+.topBar {
+	background-color: #bfd4d7;
+	color: #000;
+}
+.header .titleThing {
+	color: #000;
+	background-color: #9ebec4;
+	background-image: url(../images/login/breadcrumb.gif);
+}
+.brand2 {
+	background-color:#FFF0D8;
+	background-image:none;
+	border-top-color:#4D83C3;
+}
+.brand2 h3 {
+	background-image:url("../images/login/gradientH3.gif");
+	border-left-color:#4D83C3;
+}
+/* @end */
+
+/* @group Login */
+.green {
+	background-color: #fff0d8;
+	background-image: url(../images/login/shadowboxes/greenGradient.gif);
+}
+.green .shadowBox .bottomShadow {
+	background-image: url(../images/login/shadowboxes/greenBottomCenter.gif);
+}
+.green .shadowBox .bottomShadow em {
+	background-image: url(../images/login/shadowboxes/greenBottomLeft.gif);
+}
+.green .shadowBox .bottomShadow strong {
+	background-image: url(../images/login/shadowboxes/greenBottomRight.gif);
+}
+.shadowBox .content h2 {
+	border-bottom-color: #94b6d9;
+}
+.login .greenBtn {
+	background-image: url(../images/login/loginBtn.gif);
+	color: #175283 !important;
+}
+.login .greenBtn:hover {
+	color: #fff !important;
+}
+.forgotLink a {
+	color: #0d4373;
+}
+.training {
+	border: 5px solid #FFA20C;
+}
+/* @end */
+
+/* @group general elements */
+.footer span, .footer a {
+	color: #0d4373;
+}
+/* @end */
+/*
+.smallButtons a {
+	background-image:url("../images/login/btnBlueTop.gif");
+}
+.smallButtons a span {
+	background-image:url("../images/login/btnBlueBottom.gif");
+}
+.smallButtons a:hover {
+	background-color: #ffa20c;
+}
+.instructions a.greenBtn:hover {
+	background-color: #175283 !important;
+	background-position: left -60px;
+}*/

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean id="configsData" class="org.opentestsystem.unittest.db.DBDataDeployerImpl">
+		<property name="dataSource" ref="configsSchema" />
+		<property name="dataDefinitionName" value="configs" />
+		<property name="importFileName" value="exportedAssessmentConfigsFromMSSQL.xml" />
+	</bean>
+
+	<bean id="sessionData" class="org.opentestsystem.unittest.db.DBDataDeployerImpl">
+		<property name="dataSource" ref="sessionSchema" />
+		<property name="dataDefinitionName" value="session" />
+		<property name="importFileName" value="protoSession.xml" />
+	</bean>
+
+	<bean id="itembankData" class="org.opentestsystem.unittest.db.DBDataDeployerImpl">
+		<property name="dataSource" ref="itembankSchema" />
+		<property name="dataDefinitionName" value="itembank" />
+		<property name="importFileName" value="exportedAssessmentItembankFromMSSQL.xml" />
+	</bean>
+
+</beans>

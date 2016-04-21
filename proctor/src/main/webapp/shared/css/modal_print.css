@@ -1,0 +1,4 @@
+/*Print style for modal window*/
+ .approvedrequests .controls, .wait{
+	display: none; 
+ }

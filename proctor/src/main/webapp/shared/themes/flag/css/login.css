@@ -1,0 +1,166 @@
+@charset "UTF-8";
+/*Lake Theme */
+
+/* @group Header Stuff */
+.header {
+	border-bottom: none;
+	background: #7da5c7 url(../images/login/flag.jpg) no-repeat right top;
+	height: 116px;
+	border-bottom: 1px solid #44515b;
+}
+.ie6 .topBar{
+	margin: 0;
+	padding: 0;
+	height: 15px;
+}
+.logos {
+	background-image: none;
+	background-color: transparent;
+	border-top: none;
+	display:block;
+	height: 60px;
+}
+.ie7 .logos{
+	float: none;
+	width: 100%;
+	display: block;
+	height: 60px;
+}
+.ie6 .logos{
+	float: none;
+	width: 100%;
+	display: block;
+	margin: 0;
+	padding: 0;
+	height: 1%;
+}
+
+.brand1 {
+	background: url(../images/login/logo_default.png) no-repeat 20px center;
+	height: 60px;
+    margin: 0px 0 0 0px;
+    /*width: 426px;*/
+	float:left;
+}
+.ie7 .brand1{
+	width: 100%;
+	margin: 0px 0 0px 0px;
+}
+.ie6 .brand1{
+	margin: 0;
+	padding: 0;
+	height: 1%;
+}
+.brand1 h2 {
+	text-indent: -9999px;
+}
+.topBar {
+	/*background-color: transparent;*/
+	color: #fff;
+}
+.header .titleThing {
+	color: #fff;
+	background-color: #03527d;
+	background-image: url(../images/breadcrumb.gif);
+}
+.brand2 {
+	background: url(../images/login/title.png) no-repeat 20px 0px transparent;
+	border: none !important;
+	height: 32px;
+}
+.ie6 .brand2{
+	background: url(../images/login/title.gif) no-repeat 20px 0px transparent;
+}
+/*.ie7 .brand2{ 
+	width: auto; 
+	float: none; 
+	display: block; 
+}*/
+
+.brand2 h3 {
+	border-left: none;
+	color: #fff;
+	margin-left: 0px;
+	background: #ee0131;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 31px;
+	line-height: 31px;
+	margin-top: -8px;
+	font-weight: normal;
+}
+.ie7 .brand2 h3{
+	margin-top: 0px;
+}
+.ie6 .brand2{
+	padding-top: 0px;
+	margin: 4px 0 0 0;
+}
+/* @end */
+
+/* @group Login */
+.green {
+	background-color: #fff;
+	background-image: none;
+}
+.green .shadowBox .bottomShadow {
+	background-image: url(../images/login/shadowboxes/greenBottomCenter.gif);
+}
+.green .shadowBox .bottomShadow em {
+	background-image: url(../images/login/shadowboxes/greenBottomLeft.gif);
+}
+.green .shadowBox .bottomShadow strong {
+	background-image: url(../images/login/shadowboxes/greenBottomRight.gif);
+}
+.green .shadowBox .topShadow {
+    background-image: url("../images/login/shadowboxes/greenTopCenter.gif");
+}
+.green .shadowBox .box2 {
+    background-image: url("../images/login/shadowboxes/greenRight.gif");
+}
+.green .shadowBox {
+    background-image: url("../images/login/shadowboxes/greenLeft.gif");
+}
+.green .shadowBox .topShadow em {
+    background-image: url("../images/login/shadowboxes/greenTopLeft.gif");
+}
+.green .shadowBox .topShadow strong {
+    background-image: url("../images/login/shadowboxes/greenTopRight.gif");
+}
+.shadowBox .content h2 {
+	border-bottom-color: #000;
+}
+.login .greenBtn {
+	background-image: url(../images/login/loginBtn.gif);
+	color: #003961 !important;
+}
+.login .greenBtn:hover {
+	color: #fff !important;
+}
+.forgotLink a {
+	color: #0d4373;
+}
+.training {
+	border: 5px solid #FFA20C;
+}
+/* @end */
+
+/* @group general elements */
+.footer span, .footer a {
+	color: #003961;
+}
+/* @end */
+.smallButtons a {
+	/*background: url("../images/login/btnGrayTop_shell.gif") #c6d8e2;*/
+}
+.smallButtons a span {
+/*	background-image:url("../images/login/btnGrayBottom_shell.gif");*/
+}
+.smallButtons a:hover {
+	background-color: #fff;
+	color: #000 !important;
+}
+.instructions a.greenBtn:hover {
+	background-color: #175283 !important;
+	background-position: left -60px;
+}

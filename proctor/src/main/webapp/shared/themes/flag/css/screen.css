@@ -1,0 +1,333 @@
+.wrapper {
+	/*background: #fff url(../images/gradient_lightblue.png) repeat-x fixed left bottom;*/
+	background: #fff;
+}
+
+/* @group Content */
+.activeTable {
+	border-color:#c9e1f8;
+}
+.activeTable th a {
+	color:#045785;
+}
+.instructions {
+	background-color:#fff;
+	border-color:#c9e1f8;
+}
+.instructions h2 a, .shelf .button_collapse {
+	background-image: url(../images/showHide.png);
+}
+.ie6 .instructions h2 a, .ie6 .shelf .button_collapse {
+	background-image: url(../images/showHide.gif);
+}
+.footer {
+	color:#000000;
+}
+.bottomHalf{
+	top: 97px;
+}
+.ie7 .topHalf, .ie6 .topHalf{
+	/* we want height: 100px;*/
+	height: 9.5em;
+	overflow: hidden;
+}
+.ie7 .bottomHalf, .ie6 .bottomHalf{
+/*	we want	top: 100px; */
+	top: 9.4em;
+}
+.ie6 .bottomHalf{
+	height: 1%; /*Give hasLayout*/
+}
+.ie6 .bottomHalf .shelf{
+	display: block;
+	
+}
+
+/*.gecko.mac .bottomHalf {
+	border-color: #5f7383;
+}*/
+
+/* @end */
+
+/* @group shelf */
+
+.shelf {
+	background-color: #f0f0dc;
+	background-image: none;
+	border-bottom:2px solid #2c333d;
+}
+.settings_content, .nocollapse .settings_content, .approvals_needed .approvals_content {
+    border-color: #bbd9f6;
+}
+.widgetTitle {
+    background-color: #fff;
+    border-color: #2671a6;
+    color: #000;
+}
+.settings_container .pointer, .approvals_container .pointer {
+	background-image: url(../images/stripes.gif);
+}
+.gecko.mac .nocollapse .settings_container .pointer{
+	margin-bottom: 0px;
+}
+.approvals_needed .approvals_container .pointer {
+	background: url(../images/stripes.gif) repeat-x 0px -6px !important;
+}
+.nocollapse .settings_container .pointer {
+	background: url(../images/stripes.gif) repeat-x 0px -6px !important;
+}
+.nocollapse .settings_container .pointer span, .approvals_needed .approvals_container .pointer span {
+	background: url(../images/pointer_open.gif) no-repeat center top !important;
+}
+.settings_container .pointer span, .approvals_container .pointer span {
+	background-image: url(../images/pointer_collapsed.gif);
+}
+.settings_closed, .approvals_closed {
+	border-left: solid 1px #e9e9e9;
+	border-right: solid 1px #e9e9e9;
+	border-bottom: solid 1px #e9e9e9;
+	background-color: #cbd6de;
+	color: #84897f;
+}
+.nocollapse .short_tip, .settings_show .short_tip, .not_started .short_tip {
+	border-top:1px solid #8abfdb;
+}
+
+/* @end */
+.topHalf{
+	background: url(../images/flag.jpg) no-repeat left 13px #84a5c1;
+	height: 93px;
+	/*height: 9.2em;*/
+}
+
+/*.level1 {
+	border: none;
+	background: none;
+	height: 21px;
+	overflow: hidden;
+}*/
+.level1 {
+	border: none;
+	background: none;
+	/*height: 20px;*/
+}
+
+
+.level1 span {
+	color: #fff;
+}
+.level1 a span {
+	color: #fff;
+}
+.level1 a:hover {
+	background-color: #D5EBFE;
+}
+.level1 a:hover span{
+	color: #2671A6;
+}
+
+.titleThing {
+	background-image: none;
+    /*background: url(../images/breadcrumb.png);*/
+}
+.button_logout, .button_help{
+	/*background-color: #e1e8df;
+	border-color: #b0bbb3;*/
+}
+
+.level2 {
+	border: none;
+	background: none transparent;
+}
+.level2 .brand1 {
+    background-image: none;
+}
+.level2 .brand2 {
+	background-image: none;
+}
+.level2 .session_top {
+    /*background: url("../images/session_top.gif") repeat-x scroll left top #517593;*/
+	background: url("../images/session_top_bg.png") repeat-x scroll left top;
+	/*background-color: #688991;*/
+    border-left: 1px solid #4c91c3;
+    border-right: 1px solid #4c91c3;
+    border-top: 1px solid #4c91c3;
+    color: #FFFFFF;
+    font-size: 1.6em;
+    height: 1.6em;
+    padding-left: 5px;
+    padding-right: 5px;
+    /*text-align: left;*/
+    width: 11.65em;
+}
+.ie6 .level2 .session_top{ background: #a0c7e3;}
+
+.level3 {
+	/*background-image:none;
+	background-color: #ffffff;*/
+	background: transparent none;
+	border-top: 1px solid #4c91c3;
+	border-bottom: 1px solid #4c91c3;
+	height: 2.7em;
+}
+.level3 a{
+	margin-top: 0.22em;
+}
+.level3 a, span.session_nope, span.settings_nope {
+	background-color:#e0364e;
+	border:1px solid #4c91c3;
+	color: #fff;
+}
+.level3 a:hover{
+	background-color: #336da2;
+}
+span.session_nope {
+	/*background:#78bbde url(../images/disabeled_gradient.gif) repeat-x scroll left bottom;*/
+	background: #497194;
+	color: #84A5C1;
+	border: none;
+	border-top: none;
+	border-bottom: none;
+	background-image: none;
+	height: 30px;
+}
+span.session_nope span{
+	background-position: 3px -558px;
+    line-height: 1.8em;
+}
+a.session_start span{
+	background-position: 3px -558px;
+    line-height: 1.8em;
+}
+a.session_stop span{
+	background-position: 3px 3px;
+    line-height: 1.8em;
+}
+a.button_approvals, a.button_approvals:hover {
+	background: none transparent;
+	border:1px solid #4C91C3;
+	color: #4C91C3;
+}
+.not_started .button_approvals:hover {
+	background: none transparent !important;
+	color: #4C91C3 !important;
+}
+.session_bottom {
+    background: url(../images/session_bot_bg.png) repeat-x left bottom;
+	background-color: none;
+    border-color: #4c91c3;
+	height: 30px;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+a.session_stop  {
+	background: #a3002e url(../images/darkblue_gradient.gif) repeat-x left bottom;
+	border-color: #4c91c3;
+	border-bottom: none;
+}
+.approvals_needed a.button_approvals {
+	background-color: #e0364e;
+	background-image: none;
+	font-weight: bold;
+	border-color: #4c91c3;
+}
+.approvals_needed a.button_approvals:hover {
+	background-color: #336DA2;
+	color: #fff;
+}
+.nocollapse .approvals_closed
+{
+	background: #a5c4d5;
+}
+.level3 a.session_start {
+	background-color: #55ba5b;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	height: 33px;
+}
+.level3 a.session_stop {
+	background-color: #b4272c;
+	border-top: none;
+	background-image: none;
+}
+.level3 a.session_start:hover{
+	background: url(../images/darkgreen_gradient_inv.gif) repeat-x left bottom transparent;
+}
+.level3 a.session_stop:hover{
+	background: #F26522;
+}
+
+/*for popups*/
+.approvals_shell .topHalf{
+	background: #84a5c1;
+}
+
+/*Group Test Type Display*/
+.testIndicator{
+	 color: #bdbdad;
+}
+
+/*Hide the alert request*/
+.button_alert, .btnAlerts, .cls a.button_alert, .cls a.btnAlerts{
+	display: none;
+}
+
+
+/** New CLS Code - initial Inport from SBAC **/
+.commonsystem, .cls{
+	/*background: #DBDCE0;*/
+}
+.cls a, .cls span.user, .cls li.lang span, .cls li.client span.titleThing{
+	color: #fff;
+}
+
+.cls li.logout, .cls li.contact, .cls li.help, .cls{
+	/*border-color: #B1B2B4;*/
+}
+.cls li.system, ul.selectReplacement, ul.selectReplacement li{
+	width: 320px;
+	color: #fff;
+}
+ul.selectReplacement{
+	background-position: 303px;
+}
+ul.selectOpen li:first-child, ul.selectReplacement:hover li:first-child{
+	color: #fff;
+}
+ul.selectOpen li:hover, ul.selectOpen li.hover, ul.selectOpen li.selected:hover, ul.selectReplacement:hover li:hover, ul.selectReplacement:hover li.hover, ul.selectReplacement:hover li.selected:hover{
+	background-color: #0D5487;
+	color: #fff;
+}
+ul.selectOpen li, ul.selectReplacement:hover li{
+	background-color: #fff;
+}
+.cls li:hover a{
+	background: #fff;
+}
+.cls ul.selectReplacement li:hover a{
+	color: #fff;
+	background: transparent;
+}
+ul.selectOpen li.selected, ul.selectReplacement:hover li.selected{
+	background-color: #0D5487;
+}
+ul.selectOpen li.selected a, ul.selectReplacement:hover li.selected a{
+	color: #fff;
+	background: transparent;
+}
+ul.selectReplacement li{
+	height: 13px;
+}
+ul.selectReplacement li.selected{
+	padding: 10px;
+	color: #fff;
+}
+ul.selectReplacement li.selected a{
+	color: #fff;
+}
+
+.ie7 .level1 .commonsystem .clear, .ie6 .level1 .commonsystem .clear{
+	display: none; /*weird clear bug in IE6 & 7 ONLY */
+}
