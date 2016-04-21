@@ -16,15 +16,10 @@
 		with the same name -->
 
 	<entry key="IsCheckinSite">${proctor.IsCheckinSite:false}</entry>
-	<entry key="DONOT_Distributed">${proctor.DONOT_Distributed}</entry>
-	<!--  <entry key="ClientName">Oregon</entry>-->
+	<entry key="DONOT_Distributed">${proctor.DONOT_Distributed:true}</entry>
 	<entry key="ClientQueryString">${proctor.ClientQueryString:false}</entry>
 	<entry key="Appkey">${proctor.Appkey:Proctor}</entry>
-	<entry key="EncryptedPassword">${proctor.EncryptedPassword}</entry>
 	<entry key="RecordSystemClient">${proctor.RecordSystemClient:true}</entry>
-	<entry key="AdminPassword">${proctor.AdminPassword}</entry>
-	<!-- not used, guessing it was used for SQL Server at some point -->
-	<!--<entry key="SqlCommandTimeout">${proctor.SqlCommandTimeout:60}</entry>-->
 	<entry key="AppName">${proctor.AppName:Proctor}</entry>
 	<entry key="SessionType">${proctor.SessionType:0}</entry>
 	<entry key="DBJndiName">java:/comp/env/jdbc/session</entry>
@@ -41,4 +36,10 @@
     <entry key="StateCode">${proctor.StateCode}</entry>
     <entry key="ClientName">${proctor.ClientName}</entry>
 
+	<!-- not used in code anywhere -->
+	<!--
+	<entry key="EncryptedPassword">${proctor.EncryptedPassword}</entry>
+	<entry key="AdminPassword">${proctor.AdminPassword}</entry>
+	<entry key="SqlCommandTimeout">${proctor.SqlCommandTimeout:60}</entry>
+	-->
 </properties>
