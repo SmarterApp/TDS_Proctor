@@ -142,13 +142,9 @@ The following parameters need to be configured inside program management for Pro
 * `proctor.DONOT_Distributed=true` 
 * `proctor.ClientQueryString=false` 
 * `proctor.Appkey=Proctor` 
-* `proctor.EncryptedPassword=true` 
 * `proctor.RecordSystemClient=true` 
-* `proctor.AdminPassword=SeCrEtPaSsWoRd` 
-* `proctor.SqlCommandTimeout=60` 
 * `proctor.AppName=Proctor` 
-* `proctor.SessionType=0`  - Type of the testing supported: 0 is online, 1 is paper-based.
-* `proctor.DBJndiName=java:/comp/env/jdbc/sessiondb` 
+* `proctor.SessionType=0`  - Type of the testing supported: 0 is online, 1 is paper-based. 
 * `proctor.TestRegistrationApplicationUrl=http://localhost:8083/`  -  URL to TR(ART) Application
 * `proctor.TDSArchiveDBName=archive`  - Name of the archive schema
 * `proctor.TDSSessionDBName=session`  - Name of the session schema
@@ -157,7 +153,6 @@ The following parameters need to be configured inside program management for Pro
 * `proctor.Debug.AllowFTP=true` 
 * `proctor.StateCode=SBAC_PT` 
 * `proctor.ClientName=SBAC_PT`
-* `proctor.IsTrStubSession=true` 
 * `logLatencyInterval=55` - Define the seconds of a minute when DB latency is being logged into database table.
 * `logLatencyMaxTime=30000` - If any procedure call execution time exceeds the number of milliseconds specified here, It will be logged into the dblatency table of the database.
 * `dbLockRetrySleepInterval=116` - Database connection will wait for number of milliseconds specified here before trying to acquire the exclusive resource lock on database again.
