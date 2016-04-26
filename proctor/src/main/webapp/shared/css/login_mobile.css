@@ -1,0 +1,112 @@
+@import url(reset.css);
+html.mobile {
+	font-family:Helvetica, Arial, Geneva, sans-serif;
+}
+.mobile .centerThis .green.login, .mobile .centerThis .shadowBox, .mobile .green .shadowBox .box2, .mobile .green .shadowBox .topShadow, .mobile .green .shadowBox .bottomShadow, .mobile .green .shadowBox .topShadow em, .mobile .green .shadowBox .topShadow strong, .mobile .green .shadowBox .bottomShadow em, .mobile .green .shadowBox .bottomShadow strong, .mobile .content, .mobile .small, .mobile .login, .mobile .login .identity label, .mobile .choices .greenBtn span {
+	background-image: none;
+	background-color: inherit;
+	display: inherit;
+	padding-top: inherit;
+	padding: 0px;
+	margin: 0px;
+	width: inherit;
+	height: inherit;
+}
+.mobile .contentWrapper {
+	margin: 50px;
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+.mobile .shadowBox .content {
+	font-size: 3em;
+}
+.mobile .shadowBox .content h2 {
+	border-bottom-color: #CCC;
+	padding: 30px;
+}
+.mobile .identity {
+	font-size: 2em;
+}
+.mobile .identity .spacer {
+	float: none;
+	padding: 30px;
+	margin: inherit;
+	width: inherit;
+	text-align: left;
+}
+.mobile .identity label input {
+	margin: 0px 30px;
+	width: 80%;
+	font-size: 1em;
+}
+.mobile .login .identity {
+	float: none;
+	width: inherit;
+}
+.mobile .login .choices {
+	float: none;
+	padding: 0px 30px;
+}
+.mobile .choices .greenBtn {
+	-moz-box-shadow: 0em 0em .3em #000;
+	-webkit-box-shadow: 0em 0em .3em #000;
+	box-shadow: 0em 0em .3em #000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	float: left;
+	margin-top: 10px;
+	margin-left: 0px;
+	margin-bottom: 0px;
+	text-decoration: none;
+	background-color: #2671a6;
+	background-image: none;
+	color: #fff !important;
+	font-size: 2em;
+	width: inherit;
+	height: inherit;
+	line-height: 1em;
+	padding: 30px;
+}
+.mobile .loginValid {
+    display: block;
+    font-size: .5em;
+    padding-left: 30px;
+    text-align: left;
+    color: #fff !important;
+    background-color: red;
+}
+
+.mobile form {
+	width: 100%;
+	overflow: hidden;
+}
+
+@media screen and (min-width: 600px) {
+	.mobile .shadowBox .content {
+		font-size: 2em;
+	}     
+	.mobile .identity {
+		font-size: 1em;
+	}
+	.mobile .choices .greenBtn {
+		font-size: 1em;
+	}
+
+}
+/*Fix for 69964 */
+.android .header{
+	height: 129px;
+}
+.android .topBar{
+	height: 44px;
+}
+.android .smallButtons a{
+	font-size: 2.0em;
+}
+
+/* @end */

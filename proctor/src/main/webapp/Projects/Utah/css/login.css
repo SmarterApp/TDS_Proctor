@@ -1,0 +1,9 @@
+@import url(../../../shared/themes/tree/css/login.css);
+
+/*changing to Utah logo*/
+.brand1 {
+    background-image:  url(../images/sage-logo.png);
+}
+.ie6 .brand1 {
+    background-image:  url(../images/sage-logo.gif);
+}

@@ -1,0 +1,7 @@
+@charset "UTF-8";
+@import url(../../../shared/themes/lighthouse/css/studentSteps.css);
+
+/* Delaware logos */
+.oaks {
+	background-image: url(../images/logo_delaware_large.gif);
+}

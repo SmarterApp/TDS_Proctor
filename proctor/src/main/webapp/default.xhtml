@@ -1,0 +1,561 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://java.sun.com/jsf/passthrough"
+	xmlns:tds="http://airast.org/jsfcustomproctor">
+<h:head id="head">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title i18n-content="Label.AppTitle">TA Interface</title>
+	<meta name="viewport"
+		content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="apple-touch-icon" href="shared/images/custom_icon.png" />
+	<link href="#{request.contextPath}/shared/css/loading.css"
+		rel="stylesheet" type="text/css" media="screen" />
+	<link id="mobileStyle"
+		href="#{request.contextPath}/shared/css/mobile.css" rel="stylesheet"
+		type="text/css" media="screen" />
+	<link id="regStyle" href="#{request.contextPath}/shared/css/screen.css"
+		rel="stylesheet" type="text/css" media="screen" />
+	
+	<tds:CSSLinkProctor href="Projects/{0}/css/screen.css" id="clientCSSLink"
+		rel="stylesheet" type="text/css"
+		binding="#{defaultBacking.clientCSSLink}" />
+
+	<tds:GlobalJavascriptProctor contextName="Default.aspx,AccType,AccValue" id="gJS"
+		language="ENU" binding="#{defaultBacking.globalJs}" />
+
+	<script
+		src="#{request.contextPath}/ProctorScripts/Libraries/3.14.1_build/yui/yui-min.js"
+		type="text/javascript"></script>
+	<script
+		src="#{request.contextPath}/ProctorScripts/Messages/messages_indexer.js"
+		type="text/javascript"></script>
+	<script
+		src="#{request.contextPath}/ProctorScripts/Messages/messages_template.js"
+		type="text/javascript"></script>
+	<script
+		src="#{request.contextPath}/ProctorScripts/Messages/messages_system.js"
+		type="text/javascript"></script>
+	<script
+		src="#{request.contextPath}/ProctorScripts/Messages/messages_loader.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Utilities/util.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Utilities/util_structs.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/tds.js"
+		type="text/javascript"></script>
+
+	<script
+		src="#{request.contextPath}/ProctorScripts/Messages/messages_switcher.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/ProctorScripts/Accommodations/tds_acc.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_global.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/browser.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_className.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_timeout.js"
+		type="text/javascript"></script>
+
+	<script src="#{request.contextPath}/js/tds_hideshow.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_elem.js"
+		type="text/javascript"></script>
+
+	<script src="#{request.contextPath}/js/tds_segment.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_test.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_ping.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_session.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_shared.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_testopp.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_approvalopp.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_accTypes.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_sort.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_cookie.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_refresh.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_pUI.js"
+		type="text/javascript"></script>
+	<script src="#{request.contextPath}/js/tds_alerts.js"
+		type="text/javascript"></script>
+
+	<script type="text/javascript">
+		var fireGlobalEvent = function(e, param) {
+			YUI().use('event-custom', function(Y) {
+				var publisher = new Y.EventTarget();
+				publisher.publish(e, {
+					broadcast : 2, // global notification
+					emitFacade : true
+				// emit a facade so we get the event target
+				}).fire(param);
+			});
+		};
+		//CLS redirection
+		function ddlUserSitesOnChange(listBox) {
+			var url = listBox.options[listBox.selectedIndex].value
+			if (url != '') {
+				document.location = url;
+			}
+		}
+
+		var debugData = new Array();
+
+		// onload
+		YUI().use("p-UI", "p-Elem", "tds-refresh", "tds-cookie",
+				"tds-hideshow", "scrollview", "tds", "event-custom",
+				"node-event-simulate", "console", "console-filters",
+
+				function(Y) {
+					Y.on("domready", function() {
+						function init() {
+							Y.tds.initDefault(gTDS); //new                        
+							Y.tdsShared.removeBodyClass("loading");
+						}
+						if (Y.tdsShared.mobile()) {
+							Y.tdsShared.disableStyle("#regStyle", init);
+						} else {
+							Y.tdsShared.disableStyle("#mobileStyle", init);
+						}
+					});
+				});
+	</script>
+	<!--[if lt IE 7]>
+    <script type="text/javascript" src="js/IE6.js"></script>
+    <script type="text/javascript" src="js/png.js"></script>
+    <script>
+      DD_belatedPNG.fix('.level3 a span, .brand1, .button_alert, .shadowtop, .shadowbottom, .label_sort, .activeTable th a, activeTable td a, .table_request a, .button_collapse');
+    </script>
+    <![endif]-->
+
+
+	<!-- link href="<%=GetClientStylePath("css/screen.css") %>
+		" rel="stylesheet" type="text/css" /-->
+	<link href="#{request.contextPath}/shared/css/print.css"
+		rel="stylesheet" type="text/css" media="print" />
+		
+		<style type="text/css">
+			.level2 {
+				border: none;
+				background: none;
+				height: 2.9em;
+			}
+			.level2 .brand1 {
+				background: no-repeat transparent url(${brandingBackingBean.logoImageURL});
+				margin-left: 25px;
+			}
+			.ie6 .level2 .brand1{
+				background: no-repeat transparent url(${brandingBackingBean.logoGIFURL});
+			}
+		</style>
+</h:head>
+
+<h:body class="loading nocollapse not_started none_selected">
+
+	<div class="wrapper">
+		<h:form id="form1">
+			<div class="topHalf">
+
+				<div class="level1">
+					<div class="commonsystem">
+						<ul class="cls clientsystem">
+							<li class="client"><span class="titleThing"
+								i18n-content="Label.ClientTitle"></span></li>
+							<li class="system appselect" title="Select System"
+								ID="ddlUserSitesContainer"><h:outputLabel
+									id="lblClientName" /> <h:selectOneMenu id="ddlUserSites"
+									class="SystemSelector" />
+								<ul class="selectReplacement" id="ulUserSites" runat="server"></ul>
+							</li>
+							<li class="alerts"><a href="#" id="btnAlerts"
+								class="button_alert"><span i18n-content="Button.Alerts"></span></a></li>
+							<li class="logout"><a href="#" id="btnLogout"
+								class="button_logout"><span i18n-content="Button.Logout"></span></a></li>
+							<li class="help"><a href="#" id="btnHelp"
+								class="button_help"><span i18n-content="Button.Help"></span></a></li>
+							<li class="username"><span class="user"><span
+									class="m_userlabel" i18n-content="Label.LoggedInAs"></span> <strong><span
+										id="spanUserName"></span></strong></span></li>
+							<li class="lang"><span><select id="selectLang"></select></span>
+							</li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+				</div>
+
+				<div class="level2">
+					<span class="brand1" ></span> <span class="brand2">logo
+						2</span> <span class="session_top" i18n-content="Label.SessionID"></span>
+				</div>
+				<div class="level3">
+					<span class="session_nope"><span
+						i18n-content="Button.StartSession">Start Session</span></span> <a
+						href="#" id="btnStartSession" class="session_start"><span
+						i18n-content="Button.StartSession">Start Session</span></a> <a
+						href="#" id="btnStopSession" class="session_stop"><span
+						i18n-content="Button.StopSession">Stop Session</span></a> <span
+						class="settings_nope"><span>Tests</span></span> <a href="#"
+						id="btnSettings" class="settings"><span
+						i18n-content="Button.Tests">Tests</span></a> <a id="btnSettingsMobile"
+						class="settings" href="#"><span i18n-content="Button.Tests">Tests</span></a>
+					<a href="#" id="btnLookup" class="lookup"><span
+						i18n-content="Button.Lookup">Student Lookup</span></a> <a href="#"
+						id="btnPrint" class="print_page"><span
+						i18n-content="Button.Print">Print</span></a> <a href="#"
+						id="btnRefresh" class="refresh"><span
+						i18n-content="Button.RefreshNow">Refresh Now</span></a> <span
+						id="lblSessionID" class="session_bottom">---- - ----</span> <a
+						href="#" id="btnApprovals" class="button_approvals"><span
+						class="no_background"><span i18n-content="Button.Approvals">Approvals
+						</span>(<span id="lblWaitingForApprovalsCount" class="approvals_count">0</span>)</span></a>
+
+				</div>
+				<span class="shadowtop"></span>
+			</div>
+			<div id="bottomHalf" class="bottomHalf">
+				<div class="shelf">
+					<a href="#" id="btnCollapse" class="button_collapse"><span>Enable/Disable
+							Collapsible Widgets</span></a>
+					<div class="settings_container">
+						<span class="pointer"><span></span></span> <span
+							class="settings_closed" i18n-content="Label.SettingsClosed"></span>
+						<div class="settings_content">
+							<div class="widgetTitle" i18n-content="Label.SettingsInstruction"></div>
+							<div class="sorter">
+								<span i18n-content="Label.SortBy">Sort By:</span> <label><input
+									name="radioSortTests" id="radioSortTests_grade" type="radio"
+									value="grade" checked="true" /><span
+									i18n-content="Label.SortByGrade"></span></label> <label><input
+									name="radioSortTests" id="radioSortTests_subject" type="radio"
+									value="subject" /><span i18n-content="Label.SortBySubject"></span></label>
+								<a href="#" id="btnSelectAllTests" class="select_all"
+									i18n-content="Label.SelectAll">Select All</a>
+							</div>
+							<div class="filter">
+								<label for="filters">Filter By:</label> <select
+									name="selGradeTextListBox" id="selGradeTextListBox">
+									<option>Grade</option>
+								</select> <select name="selSubjectListBox" id="selSubjectListBox">
+									<option>Subject</option>
+								</select> <select name="selCategoryListBox" id="selCategoryListBox">
+									<option>Category</option>
+								</select>
+							</div>
+							<div id="testsListBox">
+								<ul id="selTestsListBox"></ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="testIndicator">
+						<div class="bracket">}</div>
+						<div class="text" i18n-content="Label.AvailableTests"></div>
+					</div>
+
+					<div class="approvals_container">
+						<span class="pointer"><span></span></span> <span
+							class="approvals_closed" i18n-content="Label.ApprovalsClosed"></span>
+						<div id="divOfApprovalsList" class="approvals_content">
+							<div class="widgetTitle"
+								i18n-content="Label.ApprovalsInstruction"></div>
+							<table id="tblOfApprovalsList" width="100%" border="0"
+								cellspacing="0" cellpadding="0">
+								<thead>
+									<tr>
+										<th scope='col' i18n-content="Label.StudentName">Student
+											Name</th>
+										<th scope='col' i18n-content="Label.Test">Test</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+					<span class="shadowbottom"></span>
+					<div class="orientation">
+						<span class="the_message" i18n-content="Label.OrientationMessage">This
+							application works best in portrait orientation. Please rotate
+							your device so that it is vertical.</span>
+					</div>
+				</div>
+				<!-- end shelf -->
+				<span class="infoMessage" id="spanInfoMessage"
+					style="display: none;"> </span> <span id="spanDebug"> </span>
+				<div class="activeContent">
+					<div id="lblInstruction" class="instructions closed">
+						<h2>
+							<a href="#" id="btnInstruction" i18n-content="Button.Instruction"></a>
+						</h2>
+						<span i18n-content="Label.IntroText"></span>
+					</div>
+					<div class="activeTable">
+						<h2 i18n-content="Label.CurrentStudentInstruction"></h2>
+						<div class="legend">
+							<span id="lblTotalOppsCount" class="count">0</span> <span
+								class="label_count" i18n-content="Label.StudentsInSession">Students
+								in Session</span> <a href="#" id="lblApprovedRequests"
+								class="approvedButton" i18n-content="Button.ApprovedRequest">Approved
+								Requests</a> <label> <select id="testOppsHideShowColumns"
+								onchange="">
+									<option value="-1" i18n-content="Label.HideShowColumns">Hide/Show
+										Columns</option>
+									<option value="0" i18n-content="Label.StudentName">Student
+										Name</option>
+									<option value="1" i18n-content="Label.SSID">SSID</option>
+									<option value="2" i18n-content="Label.OppNum">Opp #</option>
+									<option value="3" i18n-content="Label.Test">Test</option>
+									<option value="4" i18n-content="Label.Accommodations">Accommodations</option>
+									<option value="5" i18n-content="Label.Requests">Requests</option>
+									<option value="6" i18n-content="Label.StudentStatus">Student
+										Status</option>
+									<option value="7" i18n-content="Label.PauseTest">Pause
+										Test</option>
+							</select>
+							</label> <span class="label_print"><span
+								i18n-content="Label.Requests">Requests</span><span
+								i18n-content="Label.NewRequest">= New Request</span></span> <span
+								class="label_sort" i18n-content="Label.SortColumnBy">=
+								Sort Column By</span>
+						</div>
+						<table id="tblTestOpps" cellspacing="0" rules="all" border="0"
+							style="border-collapse: collapse;">
+							<thead>
+								<tr>
+									<th scope="col" class="table_name"><a href="#"
+										id="sortCol_name" i18n-content="Label.StudentName">Student
+											Name</a></th>
+									<th scope="col" class="table_ssid"><a href="#"
+										id="sortCol_ssid" i18n-content="Label.SSID">SSID</a></th>
+									<th scope="col" class="table_opp"><a href="#"
+										id="sortCol_opp" i18n-content="Label.OppNum">Opp #</a></th>
+									<th scope="col" class="table_test"><a href="#"
+										id="sortCol_testName" i18n-content="Label.Test">Test</a></th>
+									<th scope="col" class="table_accomm" id="sortCol_accomm"
+										i18n-content="Label.Accommodations">Accommodations</th>
+									<th scope="col" class="table_request" id="sortCol_request"
+										i18n-content="Label.Requests">Requests</th>
+									<th scope="col" class="table_status"><a href="#"
+										id="sortCol_status" i18n-content="Label.StudentStatus">Student
+											Status</a></th>
+									<th scope="col" class="table_pause"><a href="#"
+										id="sortCol_pause" i18n-content="Label.PauseTest">Pause
+											Test</a></th>
+									<th scope="col" class="table_details"><a href="#"
+										id="sortCol_details" i18n-content="Label.Details">Details</a>
+									</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
+
+				<div class="footer" i18n-content="Label.Footer"></div>
+
+			</div>
+			<!-- end bottom half -->
+			<a id="btnApprovalsMobile" href="#"><span><span
+					i18n-content="Button.Approvals">Approvals </span>(<span
+					class="approvals_count" id="lblWaitingForApprovalsCountMobile"></span>)</span></a>
+
+			<div class="approvals_wrapper">
+				<div class="approvals_shell" id="divApprovalsShell">
+					<div class="topHalf">
+						<h1 i18n-content="Label.ApprovalsScreen"></h1>
+						<div class="controls">
+							<a href="#" class="close" id="btnDone"><span
+								i18n-content="Button.Done">Done</span></a> <a href="#"
+								class="refresh" id="btnRefreshApprovalOpps"><span
+								i18n-content="Button.Refresh">Refresh</span></a> <a href="#"
+								class="all" id="btnApprovalAll"><span
+								i18n-content="Button.ApproveAll">Approve All Students</span></a>
+						</div>
+					</div>
+					<div id="approvals_shell_bottomHalf" class="bottomHalf">
+						<div class="content">
+							<div class="approvals_holder" id="divOfApprovalsList2"></div>
+						</div>
+						<div class="details_right">
+							<div id="divTestApprovalDetails" class="test_settings"
+								style="display: none">
+								<h2>
+									<span i18n-content="Label.AccommodationsHeader"></span> <span
+										id="spanAccsForName"></span>
+								</h2>
+								<div class="accommodation_container" id="divAccsContainer">
+
+								</div>
+								<div class="segs_accommodation_container"
+									id="divSegsAccsContainer"></div>
+								<div class="details_buttons">
+									<a href="#" class="save" id="btnSetApprove"><span
+										i18n-content="Button.SetApprove">Set &amp; Approve</span></a> <a
+										href="#" class="save" id="btnSet"><span
+										i18n-content="Button.Set">Set</span></a> <a href="#"
+										class="cancel" id="btnDeny"><span
+										i18n-content="Button.Deny">Deny</span></a> <a href="#"
+										class="cancel" id="btnCancel"><span
+										i18n-content="Button.Cancel">Cancel</span></a> <span class="clear"></span>
+									<span i18n-content="Label.AccsSetting"></span>
+								</div>
+							</div>
+							<div id="divSegmentApprovalDetails" class="segment_settings"
+								style="display: none">
+								<h2>
+									<span i18n-content="Label.SegmentSettings"></span> <span
+										id="spanAccsForName_Seg"></span>
+								</h2>
+								<div class="segmentInfo">
+									<p i18n-content="Label.SegmentApprovalNote"></p>
+								</div>
+								<div class="details_buttons">
+									<a href="#" class="save" id="btnApprove_Seg"><span>Approve</span></a>
+									<a href="#" class="cancel" id="btnDeny_Seg"><span
+										i18n-content="Button.Deny">Deny</span></a> <a href="#"
+										class="cancel" id="btnCancel_Seg"><span
+										i18n-content="Button.Cancel">Cancel</span></a> <span class="clear"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="denial">
+						<span class="reason">
+							<h4>Reason for Denial:</h4> <input id="txtReasonForDenial"
+							type="text" maxlength="255" /> <a href="#" id="btnDenialCancel"
+							class="cancel"><span i18n-content="Button.Cancel">Cancel</span></a>
+							<a href="#" id="btnDenialOK" class="deny"
+							i18n-content="Button.Deny">Deny</a> <span class="clear"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="help_wrapper">
+				<iframe frameborder="0" id="iframe_help"></iframe>
+			</div>
+			<div class="alerts_wrapper">
+				<iframe frameborder="0" id="iframe_alerts"></iframe>
+			</div>
+			<div class="lookup_wrapper">
+				<iframe frameborder="0" id="iframe_lookup"></iframe>
+			</div>
+			<div class="print_wrapper" id="divPrintWrapper"></div>
+
+			<div class="alert_single">
+				<div class="alert_container">
+					<h2 i18n-content="Label.AlertDlgHeader">Important!</h2>
+					<div id="divAlerts" class="textcontainer"></div>
+
+					<div class="messageInstructions"
+						i18n-content="Label.AlertMessageInstructions"></div>
+					<div class="action">
+						<a href="#" id="btnAlertsOK" class="close"
+							i18n-content="Button.OK">OK</a>
+					</div>
+				</div>
+			</div>
+			<div class="dialogs">
+				<span class="the_message" id="msgDialog"></span>
+			</div>
+			<div class="multiple">
+				<span class="the_message" id="">
+					<h2>
+						<span i18n-content="Label.PleaseEnterSessionID">Please
+							Enter Session ID: </span><input name="" type="text" size="9" />
+					</h2> <span class="wrongID">Add message about entering wrong SSID
+						here...</span> <span class="message_container">Text about
+						switching devices...</span>
+					<div class="action">
+						<a class="confirm" i18n-content="Button.Activate">Activate</a><a
+							class="close" i18n-content="Button.Cancel">Cancel</a>
+					</div>
+				</span>
+			</div>
+			<div class="wait">
+				<span class="container"><h2 i18n-content="Label.PleaseWait">Please
+						Wait</h2> <span class="loader"></span></span>
+			</div>
+
+			<div id="accsDetails" class="details">
+				<span class="yui_adjustment">
+					<div class="pop_container">
+						<div class="pop_head">
+							<a href="#" class="container-close" id="accsDetails_Close"
+								i18n-content="Button.Close">Close</a>
+							<h3>
+								<span i18n-content="Label.AccommodationsHeader"></span><span
+									id="accsDetails_name"></span>
+							</h3>
+							<span class="clear"></span>
+						</div>
+						<div class="pop_content" id="accsDetails_content"></div>
+					</div> <span class="pointer_pop"></span>
+				</span>
+			</div>
+			<div id="allDetails" class="allDetails">
+				<div class="pop_container">
+					<div class="topHalf">
+						<h1>
+							<span i18n-content="Label.DetailsFor">Details for: </span><span
+								id="allDetails_name"></span>
+						</h1>
+						<div class="controls">
+							<a href="#" class="container-close" id="allDetails_Close"
+								i18n-content="Button.Close">Close</a>
+						</div>
+					</div>
+					<div id="pop_container_bottomHalf" class="bottomHalf">
+						<div class="pop_content" id="allDetails_content"></div>
+						<div class="pop_content testSettings"
+							id="allDetails_contentSettings">
+							<h3 i18n-content="Label.Accommodations"></h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="checkers">
+				<div class="checkHolder">
+					<div class="topHalf">
+						<h1>Selected Tests</h1>
+						<span class="controls"><a href="#"
+							id="btnSettingsMobileClose" i18n-content="Button.Close">close</a></span>
+					</div>
+					<div id="testsListBox_mobile" class="bottomHalf">
+						<div class="mobile_filter">
+							<label>Filters: </label> <select>
+								<option>Grade</option>
+							</select> <select>
+								<option>Subject</option>
+							</select> <select>
+								<option>Category</option>
+							</select>
+						</div>
+						<ul id="selTestsListBox2"></ul>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</div>
+
+	<!-- DON'T ADD ELEMENTS AFTER THIS LINE! The code below HAS to be the last code in the page. -->
+	<script type="text/javascript" src="js/Exit_Common.js"></script>
+
+	<script type="text/javascript" src="js/Exit.js"></script>
+
+</h:body>
+</html>

@@ -1,0 +1,105 @@
+@charset "UTF-8";
+/*Lighthouse Theme */
+
+/* @group Header Stuff */
+.header {
+	background-color: #bad8ee;
+	border-bottom-color: #0f6797;
+}
+.logos {
+	background: transparent url(../images/login/lighthouse_top.gif) no-repeat right bottom;
+}
+.brand1 {
+	background-image: url(../images/login/logo_default.gif);
+	margin-left: 22px;
+}
+.ie6 .brand1 {
+	width: 100%;
+}
+.brand1 h2 {
+	text-indent: -9999px;
+}
+.topBar {
+	background-color: #0f6797;
+	color: #fff;
+}
+.header .titleThing {
+	color: #fff;
+	background-color: #03527d;
+	background-image: url(../images/breadcrumb.gif);
+}
+.brand2 {
+	background: transparent url(../images/login/lighthouse_bottom.gif) no-repeat right top;
+	border-top: none;
+	height: 28px;
+}
+.brand2 h3 {
+	border-left: none;
+	float: left;
+	color: #fff;
+	margin-left: 85px;
+	background: #3983ac url(../images/login/gradientH3.gif) repeat-x right top;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	height: 25px;
+	line-height: 25px;
+	margin-top: 3px;
+}
+.ie6 .roots h3 {
+	margin-left: 43px;
+}
+/* @end */
+
+/* @group Login */
+.green {
+	background-color: #dbf0ff;
+	background-image: url(../images/login/shadowboxes/greenGradient.gif);
+}
+.green .shadowBox .bottomShadow {
+	background-image: url(../images/login/shadowboxes/greenBottomCenter.gif);
+}
+.green .shadowBox .bottomShadow em {
+	background-image: url(../images/login/shadowboxes/greenBottomLeft.gif);
+}
+.green .shadowBox .bottomShadow strong {
+	background-image: url(../images/login/shadowboxes/greenBottomRight.gif);
+}
+.shadowBox .content h2 {
+	border-bottom-color: #94b6d9;
+}
+.login .greenBtn {
+	background-image: url(../images/login/loginBtn.gif);
+	color: #175283 !important;
+}
+.login .greenBtn:hover {
+	color: #fff !important;
+}
+.forgotLink a {
+	color: #0d4373;
+}
+.training {
+	border: 5px solid #FFA20C;
+}
+/* @end */
+
+/* @group general elements */
+.footer span, .footer a {
+	color: #0d4373;
+}
+/* @end */
+.smallButtons a {
+	/*background-image:url("../images/login/btnBlueTop.gif");*/
+}
+.smallButtons a span {
+	/*background-image:url("../images/login/btnBlueBottom.gif");*/
+}
+.smallButtons a:hover {
+	background-color: #fff;
+	color: #175283;
+	text-decoration: underline;
+}
+
+.instructions a.greenBtn:hover {
+	background-color: #175283 !important;
+	background-position: left -60px;
+}

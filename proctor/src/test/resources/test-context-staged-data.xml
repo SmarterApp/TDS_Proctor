@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context 
+	                    http://www.springframework.org/schema/context/spring-context.xsd
+	                    http://www.springframework.org/schema/util 
+	                    http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<context:component-scan base-package="tds.student.dll.test,tds.dll.mysql" />
+	<import resource="classpath:opentestsystem.shared.test-context-module.xml" />
+
+	<!-- Load defaults from classpath -->
+	<context:property-placeholder
+		ignore-unresolvable="true" order="800"
+		location="classpath:settings-unitTests-staged-data.xml" />
+
+	<!-- Repositories -->
+	<import resource="classpath:context-modules/repositories-context-module.xml" />
+
+	<!-- DLLs -->
+	<import resource="classpath:context-modules/dlls-context-module.xml" />
+
+	<!-- Services -->
+	<import resource="classpath:context-modules/services-context-module.xml" />
+
+	<!-- Wire a DataSource (since we probably aren't running in a webapp container) -->
+	<bean id="applicationDataSource" class="com.mchange.v2.c3p0.DataSources"
+		factory-method="unpooledDataSource">
+		<constructor-arg value="${staged-jdbc.url}" />
+		<constructor-arg value="${staged-jdbc.userName}" />
+		<constructor-arg value="${staged-jdbc.password}" />
+	</bean>
+
+	<!-- Add properties to the appSettings bean. This is done as a side-effect 
+		of the creation of an anonymous bean -->
+	<bean factory-bean="appSettings" factory-method="updateProperties"
+		lazy-init="false">
+		<constructor-arg>
+			<util:map map-class="java.util.HashMap">
+				<entry key="DBDialect" value="${staged-DBDialect}" />
+				<entry key="TDSArchiveDBName" value="${staged-TDSArchiveDBName}" />
+				<entry key="ItembankDBName" value="${staged-ItembankDBName}" />
+				<entry key="TDSConfigsDBName" value="${staged-TDSConfigsDBName}" />
+				<entry key="TDSSessionDBName" value="${staged-TDSSessionDBName}" />
+				<entry key="SqlCommandTimeout" value="${staged-SqlCommandTimeout}" />
+			</util:map>
+		</constructor-arg>
+	</bean>
+
+	<!-- This bean wraps the applicationDataSource in a factory for AIR SQLConnection 
+		objects -->
+	<!-- The application _must_ configure a DataSource bean with the id "applicationDataSource" -->
+	<bean id="abstractConnectionManager" class="AIR.Common.DB.AbstractConnectionManager">
+		<property name="databaseDialect" value="${staged-DBDialect}" />
+		<property name="dataSource" ref="applicationDataSource" />
+	</bean>
+
+</beans>

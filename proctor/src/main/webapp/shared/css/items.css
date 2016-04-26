@@ -1,0 +1,1859 @@
+@charset "UTF-8";
+/* VERSION 4, aka "al pastor" ////////////////////////////////*/
+
+/* @group Reset Code */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+}
+:focus {
+	outline: 0;
+}
+body {
+	line-height: 1;
+	color: black;
+	background: white;
+}
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+caption, th {
+	text-align: left;
+	font-weight: normal;
+}
+td {
+	font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+}
+
+/* @end */
+
+/* @group Misc */
+
+html {
+	height:100%;
+	max-height:100%;
+	padding:0;
+	margin:0;
+	border:0;
+	background:#fff;
+	font-size:76%;
+	font-family:Times New Roman, Times, serif;
+	overflow: hidden;
+}
+body {
+	height:100%;
+	max-height:100%;
+	overflow:hidden;
+}
+.clear {
+	clear: both;
+	display: block;
+}
+.padding {
+	display: block;
+	padding-top: 40px;
+	padding-right: 20px;
+	padding-bottom: 20px;
+	padding-left: 20px;
+}
+/* specific style for indenting all new lists */
+.indent, .indent ul, .indent ol {
+	padding-top: 0.5em;
+	padding-right: 1em;
+	padding-bottom: 0.5em;
+	padding-left: 1em;
+}
+
+/* @end */
+
+/* @group Mark for Review & Comments */
+
+.markComment {
+	display: block;
+	height: 18px;
+}
+.markComment a {
+	display: none;
+	background-image: url(../Images/controls/sprites_student.png);
+	background-repeat: no-repeat;
+	background-position: 0px -3360px;
+	text-indent: -9999px;
+	height: 16px;
+	width: 15px;
+	float: right;
+}
+a.commentItem {
+	display: block;
+}
+.markComment a:hover {
+	background-position: 0px -3390px;
+}
+.markComment input {
+	display: block;
+	float: right !important;
+	margin-right: 3px;
+}
+.commentBox {
+	background-color: #fffcc8;
+	border: 1px solid #ded539;
+	padding: 5px;
+	min-width: 200px;
+}
+.commentBox textarea {
+	width: 100%;
+	border: 1px solid #ded539;
+}
+.TDS_PS_Larger .commentBox textarea {
+	font-size: 1.2em;
+}
+.TDS_PS_Largest .commentBox textarea {
+	font-size: 1.5em;
+}
+.commentBox .greenBtn {
+	display: block;
+	background-image: url(../images/btnGreenTop.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	float: right;
+	text-decoration: none;
+	color: #04A033;
+	padding: 5px;
+	background-color: #FFFFFF;
+	line-height: 0.7em;
+}
+
+.commentBox .greenBtn span {
+	display: block;
+	background-image: url(../images/btnGreenBottom.gif);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	padding-top: 7px;
+	padding-right: 5px;
+	padding-bottom: 7px;
+	padding-left: 5px;
+	margin: -5px;
+}
+.commentBox .greenBtn:hover {
+	color: #FFFFFF;
+	background-color: #04A033;
+}
+/* fixes positioning of submit link for OS 9 */
+.browserVer_1_3 .commentBox textarea {
+	margin-bottom: 2.5em;	
+}
+.browserVer_1_3 .commentBox .greenBtn {
+	margin-top: -1.5em;
+}
+
+/* @group comment/review zooming */
+
+.TDS_PS_Larger .markComment input {
+	height: 1.5em;
+	width: 1.5em;	
+	position:relative;
+}
+.TDS_PS_Larger .markComment a {
+	background-image: url(../Images/controls/sprites_student.png);
+	background-position: 0px -3480px;
+	height: 25px;
+	width: 25px;
+}
+.TDS_PS_Larger .markComment a:hover {
+	background-position: 0px -3520px;
+}
+.TDS_PS_Largest .markComment input {
+	height: 2em;
+	width: 2em;	
+	position:relative;
+}
+.TDS_PS_Largest .markComment a {
+	background-image: url(../Images/controls/sprites_student.png);
+	background-position: 0px -3640px;
+	height: 30px;
+	width: 30px;
+}
+.TDS_PS_Largest .markComment a:hover {
+	background-position: 0px -3690px;
+}
+
+/* @end */
+
+
+/* @group mark for review zooming */
+
+/* Mark for Review */
+a.markReview, a.markReview:hover {
+	display: block;
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 28px;
+	height: 17px;
+	background-position: 0px -3420px;
+}
+a.markReviewMarked, a.markReviewMarked:hover {
+	display: block;
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 28px;
+	height: 17px;
+	background-position: 0px -3450px;
+}
+a.markReviewDisabled, a.markReviewDisabled:hover {
+	display: block;
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 28px;
+	height: 17px;
+	background-position: 0px -3420px;
+	cursor: default;
+	filter:alpha(opacity=50);
+	-moz-opacity: 0.50;
+	opacity: 0.50;
+}
+.TDS_PS_Larger a.markReview, .TDS_PS_Larger a.markReview:hover {
+	/*display: block;*/
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 34px;
+	height: 21px;
+	background-position: 0px -3560px;
+}
+.TDS_PS_Larger a.markReviewMarked, .TDS_PS_Larger a.markReviewMarked:hover {
+	/*display: block;*/
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 34px;
+	height: 21px;
+	background-position: 0px -3600px;
+}
+.TDS_PS_Larger a.markReviewDisabled, .TDS_PS_Larger a.markReviewDisabled:hover {
+	/*display: block;*/
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 34px;
+	height: 21px;
+	background-position: 0px -3560px;
+	cursor: default;
+	filter:alpha(opacity=50);
+	-moz-opacity: 0.50;
+	opacity: 0.50;
+}
+.TDS_PS_Largest a.markReview, .TDS_PS_Largest a.markReview:hover {
+	/*display: block;*/
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 41px;
+	height: 25px;
+	background-position: 0px -3740px;
+}
+.TDS_PS_Largest a.markReviewMarked, .TDS_PS_Largest a.markReviewMarked:hover {
+	/*display: block;*/
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 41px;
+	height: 25px;
+	background-position: 0px -3790px;
+}
+.TDS_PS_Largest a.markReviewDisabled, .TDS_PS_Largest a.markReviewDisabled:hover {
+	/*display: block;*/
+	margin-right: 4px;
+	background-image: url(../Images/controls/sprites_student.png);
+	width: 41px;
+	height: 25px;
+	background-position: 0px -3740px;
+	cursor: default;
+	filter:alpha(opacity=50);
+	-moz-opacity: 0.50;
+	opacity: 0.50;
+}
+
+/* @end */
+/* @end */
+
+/* @group Single Item Layouts */
+
+.noColumns #theQuestions {
+	position:absolute;
+	left:0;
+	top:0px;
+	bottom:0px;
+	overflow:auto;
+	width: 100%;
+} 
+.structure {
+	margin-right: auto;
+	margin-left: auto;
+	max-width:40em;
+	min-width: 200px;
+	display:block;
+}
+.layout1 {
+	max-width: none;
+}
+.layout1 td {
+	vertical-align: top;
+}
+.layout1 .stimulusCell {
+	padding-right: 2em;
+}
+.layout1 .questionCell {
+	vertical-align: bottom;
+}
+.structure tbody {
+	margin-left:auto;
+	margin-right:auto;
+	display:table;
+}
+
+/* ITS embedded table issue, gives tbody back it's porperties to allow for formatting */
+.stimulusCell tbody, .questionCell tbody, .answerCell tbody {
+ display:table-row-group;
+}
+.TDS_PS_Larger .structure, .TDS_PS_Largest .structure tbody {
+	position:relative;
+}
+.questionCell, .answerCell, .stimulusCell {
+	padding: .5em;
+}
+
+.layout7 .stimulusCell {
+	padding-bottom: 1em;
+}
+.layout7 .questionCell {
+	vertical-align:top;
+	padding-right: 2em;
+}
+.layout5Horizontal .stimulusCell {
+	padding-bottom: 1em;
+}
+.layout3vertical .questionCell, .layout4vertical .questionCell, /*.layout5Horizontal .questionCell,*/ .layout6horizontal .questionCell, .layout8vertical .questionCell {
+	padding-bottom: 1em;
+}
+/* aligns bottom */
+.layout2stacked .stimulusCell, .layout2stacked  .questionCell, .layout2vertical .questionCell, .layout2vertical .stimulusCell, .layout3vertical .questionCell, .layout4vertical .questionCell {
+	vertical-align: bottom;
+}
+.layout4vertical .answerCell, .layout3vertical .answerCell {
+	vertical-align: middle !important;
+}
+
+/* @end */
+
+/* @group Multiple Items Layouts */
+
+.layout11 #thePassage {
+	position:absolute;
+	left:0;
+	top:0px;
+	bottom:0px;
+	z-index:4;
+	overflow: auto;
+	left:0;
+	width: 60%;
+}
+.layout11 #theQuestions {
+	position:absolute;
+	left:0;
+	top:0px;
+	bottom:0px;
+	z-index:4;
+	overflow:auto;
+	left:60%;
+	width: 40%;
+	/*border-left-width: 2px;
+	border-left-style: solid;
+	border-left-color: #999999;*/
+	background: url(../Images/controls/passageborder.gif) repeat-y left top;
+}
+
+/* this fixes extra scroll bar issue with Mozilla 1.3 and reading */
+.browserVer_1_3 .layout11 #theQuestions .padding {
+	overflow:hidden;
+}
+
+/* active item stuff */
+.layout11 .multipleChoiceItem {
+	padding: .3em;	
+}
+/*.layout11  .activeItem {
+	border: 1px dashed #99CCFF !important;
+	background-image: url(../Images/gradientActive.gif);
+	background-repeat: repeat-y;
+	background-position: right top;
+}*/
+#thePassage p {
+	font-size:1em;
+	/* fixes line hieght/highlighting issue with linux browsers */
+	line-height:1.2em;	
+}
+#thePassage td p {
+	font-size: .9em;
+	line-height:1em;
+}
+/* keeps border when wide tables need to scroll */
+#thePassage .padding table {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #FFFFFF;
+}
+#thePassage .padding table table {
+	border-right-style: inherit;
+	border-right-color: inherit;
+	border-right-width: auto;
+}
+.layout11 .multipleChoiceItem {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #DBDBDB;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-left-style: solid;
+	border-top-color: #FFFFFF;
+	border-right-color: #FFFFFF;
+	border-left-color: #FFFFFF;
+}
+.layout11 .questionContainer {
+	padding-bottom: 1em;	
+}
+#theQuestions {
+	font-size:1em;
+}
+/* original style */
+.questionContainer ol, .questionContainer ul {
+	display: block;
+	margin-left: 2em;
+	margin-right: 2em;
+}
+.answerContainer li {
+	padding-bottom: .5em;
+}
+
+.questionContainer h4 {
+	font-weight: bold;
+}
+/* setting list styles */
+#theQuestion ul, #theQuestion ol {
+	padding-left: 1.5em;
+}
+#theQuestions em, #thePassage em {
+	font-style:italic;
+}
+#theQuestions strong, #thePassage strong {
+	font-weight:bold;
+}
+.lastItem {
+	border-bottom-color: #FFFFFF !important;
+}
+.attribute, .attributes {
+	font-size: 0.7em !important;
+	font-style: italic;
+	margin-top: 3em;
+	padding-top: .5em;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #999999;
+	/*clear:both;*/
+}
+.attribute br, .attributes br {
+	display: block;
+}
+/* @end */
+
+/* @group Strikethrough */
+
+.strikethrough {
+	color: #666666;
+	text-decoration: line-through;
+}
+.strikethrough .Image {
+	filter:alpha(opacity=50);
+	-moz-opacity: 0.50;
+	opacity: 0.50;
+}
+
+/* @end */
+
+/* @group Modal */
+
+#dialog {
+	position: fixed;
+	z-index: 500;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+#dialog table {
+	height: 100%;
+	width: 100%;
+	background-color: #f2f7ec;
+}
+#dialog th {
+	vertical-align:middle;
+	text-align:center;
+}
+#dialog .dailogBox {
+	background-color: #FFFFFF;
+	border: 1px solid #04A033;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: left;
+	width: 30%;
+	padding: 2em;
+}
+.dailogBox h2 {
+	font-size: 2em;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #B7DA8C;
+	margin-bottom: .2em;
+}
+.dailogBox p {
+	font-size: 1.3em;
+}
+.yourChoices a {
+	font-size: 1.5em;
+	margin-right: 1em;
+}
+.yourChoices .greenBtn {
+	display: block;
+	background-image: url(../images/btnGreenTop.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	float: left;
+	text-decoration: none;
+	color: #04A033;
+	padding: 5px;
+}
+.yourChoices .greenBtn span {
+	display: block;
+	background-image: url(../images/btnGreenBottom.gif);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	padding-top: 7px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	margin: -5px;
+}
+.yourChoices .greenBtn:hover {
+	color: #FFFFFF;
+	background-color: #04A033;
+}
+.yourChoices .redBtn {
+	display: block;
+	background-image: url(../images/btnRedTop.gif);
+	background-repeat: no-repeat;
+	background-position: left top;
+	float: left;
+	text-decoration: none;
+	color: #990000;
+	padding: 5px;
+}
+.yourChoices .redBtn span {
+	display: block;
+	background-image: url(../images/btnRedBottom.gif);
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	padding-top: 7px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	margin: -5px;
+}
+.yourChoices .redBtn:hover {
+	color: #FFFFFF;
+	background-color: #990000;
+}
+
+/* @end */
+
+/* @group Structural Stuff */
+
+.bigTable {
+	font-size: 1.4em;
+}
+.bigTable h2 {
+	font-size: .9em;
+	font-weight: bold;
+	font-style: italic;
+	color: #666666;
+}
+.bigTable .questionCell h2, .bigTable .questionContainer h2 {
+	background-color: #DBDBDB;
+	display: block;
+	clear: both;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+	text-align: center;
+	margin-bottom: 0.5em;
+	padding-right: .2em;
+	padding-left: .2em;
+	/* so we don't have to set width for box shape */
+	float:left;
+}
+/* clears the question for the question number */
+.questionCell p, .questionContainer p {
+	display: block;
+	clear: both;
+}
+.bigTable  #thePassage h2 {
+	text-transform: uppercase;
+	font-size: 1.3em;
+	color: #000000;
+}
+
+
+
+/* magnify stuff */
+.TDS_PS_Larger .bigTable {
+	font-size: 2em;
+}
+.TDS_PS_Larger .bigTable table {
+	font-size: .9em;
+}
+.TDS_PS_Larger .bigTable h2 {
+	font-size: 1.1em;
+	margin-bottom: .1em;
+	position:relative;
+}
+.TDS_PS_Larger .questionContainer, .TDS_PS_Larger .questionCell {
+	position:relative;
+}
+/* fix for layout 3 and 4 for Mozilla 1.3.1 */
+.TDS_PS_Larger .layout3vertical .questionCell .TDS_PS_Larger .layout4vertical .questionCell {
+	position:inherit;
+}
+.TDS_PS_Larger .answerCell input, .TDS_PS_Larger .answerContainer input {
+	margin-right: 0.2em;
+	margin-top: 0.2em;
+	height: 1.5em;
+	width: 1.5em;	
+	position:relative;
+}
+.TDS_PS_Larger .answerCell .option, .TDS_PS_Larger .answerContainer .option {
+	padding-left: 2.5em;
+	position:relative;
+}
+.TDS_PS_Larger .answerCell .option .Image {
+	margin-right: .1em;
+	margin-left: .1em;
+}
+.TDS_PS_Larger #thePassage{
+	font-size: 1em;
+}
+.TDS_PS_Larger #thePassage .padding, .TDS_PS_Larger #theQuestions .padding {
+	position:relative;
+}
+.TDS_PS_Larger .commentBox .greenBtn {
+	position:relative;
+	font-size: .8em;
+}
+/* magnify stuff even more */
+.TDS_PS_Largest .bigTable {
+	font-size: 2.5em;
+}
+.TDS_PS_Largest .bigTable table {
+	font-size: .9em;
+}
+.TDS_PS_Largest .bigTable h2 {
+	font-size: 1.1em ;
+	margin-bottom: .1em;
+	position:relative;
+}
+.TDS_PS_Largest .questionContainer, .TDS_PS_Largest .questionCell {
+	position:relative;
+}
+/* fix for layout 3 and 4 for Mozilla 1.3.1 */
+.TDS_PS_Largest .layout3vertical .questionCell, .TDS_PS_Largest .layout4vertical .questionCell {
+	position:inherit;
+}
+.TDS_PS_Largest .answerCell input, .TDS_PS_Largest .answerContainer input {
+	margin-right: 0.5em;
+	margin-top: 0.7em;
+	height: 2em;
+	width: 2em;
+	position:relative;
+}
+.TDS_PS_Largest .answerCell .option, .TDS_PS_Largest .answerContainer .option {
+	padding-left: 2.5em;
+	position:relative;
+}
+.TDS_PS_Largest .answerCell .option .Image {
+	margin-right: .1em;
+	margin-left: .1em;
+}
+.TDS_PS_Largest #thePassage {
+	font-size: 1em ;
+}
+.TDS_PS_Largest #thePassage .padding, .TDS_PS_Largest #theQuestions .padding {
+	position:relative;
+}
+.TDS_PS_Largest .commentBox .greenBtn {
+	position:relative;
+	font-size: .8em;
+}
+
+/* @end */
+
+
+/* @group mulit-language */
+
+.languagedivider {
+	line-height: 60%;
+}
+.optiondivider {
+	display:none;
+}
+/* hides strikethrough*/
+.languagedivider, .optiondivider {
+	text-indent: -9999px;
+}
+.layout11 .optiondivider {
+	line-height: 50%;
+	display:block;
+}
+#thePassage h2 .languagedivider {
+	line-height: 20%;
+}
+
+/* @end */
+
+
+
+/* @group MC Option Styling */
+
+/* @group MC Variations */
+
+.horizontal  .answerCell {
+	vertical-align:top;
+}
+.answerCell .flat, .answerCell .mc_stacked {
+	margin-right: auto;
+	margin-left: auto;
+}
+.answerContainer .flat td:first-child, .answerContainer .mc_stacked td:first-child {
+	padding-left: 0px;
+}
+.flat td{
+	padding-left: 2em;
+	padding-bottom: 2em;
+	vertical-align:top;
+}
+.mc_stacked td {
+	padding-left: 4em;
+	padding-bottom: 2em;
+	vertical-align:top;
+}
+.mc_stacked tr {
+	border-right-width: 3em;
+	border-right-style: solid;
+	border-right-color: #fff;	
+}
+.mc_stacked table {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+/* @end */
+
+.optionContainer {
+	display:block;
+	cursor: pointer;
+	clear:both;
+}
+.optionContainer input {
+	display: none !important;
+}
+.optionClicker {
+	background-image: url(../Images/controls/optionBlank.png);
+	display: block;
+	height: 20px;
+	width: 20px;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	float: left;
+}
+.platform_unix .optionClicker, .platform_linux .optionClicker {
+	margin-top:4px;
+}
+.answerContainer div:hover span, .answerCell div:hover span {
+	background-position: 0px -21px;
+}
+.optionA .optionClicker {
+	background-image: url(../Images/controls/optionA.png);
+}
+.optionB .optionClicker {
+	background-image: url(../Images/controls/optionB.png);
+}
+.optionC .optionClicker {
+	background-image: url(../Images/controls/optionC.png);
+}
+.optionD .optionClicker {
+	background-image: url(../Images/controls/optionD.png);
+}
+.optionE .optionClicker {
+	background-image: url(../Images/controls/optionE.png);
+}
+.optionF .optionClicker {
+	background-image: url(../Images/controls/optionF.png);
+}
+
+/* for Hawaiian*/
+.language_HAW .optionA .optionClicker {
+	background-image: url(../Images/controls/optionA.png);
+}
+.language_HAW .optionB .optionClicker {
+	background-image: url(../Images/controls/optionE.png);
+}
+.language_HAW .optionC .optionClicker {
+	background-image: url(../Images/controls/optionI.png);
+}
+.language_HAW .optionD .optionClicker {
+	background-image: url(../Images/controls/optionO.png);
+}
+
+/* @group mc option zooming */
+
+.optionSelected .optionClicker, .answerContainer div.optionSelected:hover span, .answerCell div.optionSelected:hover span, .optionSelectedDisabled .optionClicker, .answerContainer div.optionSelectedDisabled:hover span, .answerCell div.optionSelectedDisabled:hover span  {
+	background-position: 0px -40px !important;
+}
+.optionContent {
+	display: block;
+	clear: right;
+	margin-left:35px;
+	text-align: left;
+	margin-bottom: 1em;
+}
+.mc_stacked .optionContent {
+	margin-bottom: 0em;
+}
+.optionDisabled, .optionSelectedDisabled {
+	cursor: default;
+	filter:alpha(opacity=50);
+	-moz-opacity: 0.50;
+	opacity: 0.50;
+}
+.answerContainer div.optionDisabled:hover span, .answerCell div.optionDisabled:hover span{
+	background-position: 0px 0px;
+}
+
+
+/* level 1 zoom */
+.TDS_PS_Larger .optionClicker {
+	background-position: -40px 0px;
+	height: 30px;
+	width: 30px;
+}
+.TDS_PS_Larger.platform_unix .optionClicker, .TDS_PS_Larger.platform_linux .optionClicker {
+	margin-top:8px;
+}
+.TDS_PS_Larger .optionSelected .optionClicker, .TDS_PS_Larger .answerContainer div.optionSelected:hover span, .TDS_PS_Larger .answerCell div.optionSelected:hover span, .TDS_PS_Larger .optionSelectedDisabled .optionClicker, .TDS_PS_Larger .answerContainer div.optionSelectedDisabled:hover span, .TDS_PS_Larger .answerCell div.optionSelectedDisabled:hover span {
+	background-position: -40px -60px !important;
+}
+.TDS_PS_Larger .optionContent {
+	margin-left:40px;
+	padding-top:5px;
+}
+.TDS_PS_Larger .multipleChoiceItem {
+	padding-bottom:10px;
+}
+.TDS_PS_Larger .answerContainer div:hover span, .TDS_PS_Larger .answerCell div:hover span {
+	background-position: -40px -30px;
+}
+.TDS_PS_Larger .answerContainer div.optionDisabled:hover span, .TDS_PS_Larger .answerCell div.optionDisabled:hover span {
+	background-position: -40px 0px;
+}
+
+
+/* level 2 */
+.TDS_PS_Largest .optionClicker {
+	background-position: 0px -60px;
+	height: 40px;
+	width: 40px;
+}
+.TDS_PS_Largest.platform_unix .optionClicker {
+	margin-top:12px;
+}
+.TDS_PS_Largest .optionSelected .optionClicker, .TDS_PS_Largest .answerContainer div.optionSelected:hover span, .TDS_PS_Largest .answerCell div.optionSelected:hover span, .TDS_PS_Largest .optionSelectedDisabled .optionClicker, .TDS_PS_Largest .answerContainer div.optionSelectedDisabled:hover span, .TDS_PS_Largest .answerCell div.optionSelectedDisabled:hover span {
+	background-position: -40px -100px !important;
+}
+.TDS_PS_Largest .optionContent {
+	margin-left:52px;
+	padding-top:6px;
+}
+.TDS_PS_Largest .multipleChoiceItem {
+	padding-bottom:15px;
+}
+.TDS_PS_Largest .answerContainer div:hover span, .TDS_PS_Largest .answerCell div:hover span {
+	background-position: 0px -100px;
+}
+.TDS_PS_Largest .answerContainer div.optionDisabled:hover span, .TDS_PS_Largest .answerCell div.optionDisabled:hover span {
+	background-position: 0px -60px;
+}
+
+/* @end */
+
+/* @end */
+/* fixes linux ligatures getting cut off */
+.platform_linux .highlight, .platform_unix .highlight  {
+	line-height: 1.45em;
+}
+
+/* @group Writing */
+.activeItem .prompt {
+	border: dotted 1px #666;
+}
+.activeItem .prompt .contextArea {
+	border: none;
+}
+.layout12 {
+	text-align: center;
+}
+.writeWrap  {
+	text-align: left;
+	width:100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 50px;
+	overflow: auto;
+}
+.writeNav {
+	background-color: #f5f5f5;
+	height: 49px;
+	width: 100%;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #bcbcbc;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.writeNav a {
+	display: block;
+	hight: 49px;
+	background-repeat: repeat-x;
+	background-position: 0px 0px;
+	line-height: 49px;
+	text-transform: uppercase;
+	color: #FFF;
+	text-decoration: none;
+}
+.writeNav a:hover, .writeNav a:hover .lefty {
+	background-position: 0% -100px;
+}
+.writeNav a:hover .righty {
+	background-position: 100% -100px;
+}
+.writeNav .inactive, .writeNav .inactive:hover, .writeNav .inactive .lefty {
+	background-position: 0% -200px !important;
+	color: #999;
+	cursor:default;
+}
+.writeNav .inactive .righty {
+	background-position: 100% -200px !important;
+}
+
+.lefty, .righty {
+	float: left;
+}
+.expandAll {
+	background-image:url(../Images/writing/expandCenter.gif);
+	margin-left: 3px;
+	float: left;
+	text-align:left;
+}
+.expandAll .lefty {
+	display: block;
+	height: 49px;
+	background-image: url(../Images/writing/expandLeft.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	padding-left: 10px;
+}
+.expandAll .righty {
+	background-image: url(../Images/writing/expandRight.gif);
+	display: block;
+	height: 49px;
+	background-repeat: no-repeat;
+	background-position: 100% 0%;
+	padding-right: 55px;
+}
+.allClose {
+	display:none;
+}
+.collapse .righty {
+	background-image: url(../Images/writing/collapseRight.gif);
+}
+.collapse .allOpen {
+	display:none;
+}
+.collapse .allClose {
+	display:inline;
+}
+.writeNow {
+	background-image:url(../Images/writing/startCenter.gif);
+	float:right;
+	text-align:right;
+}
+.writeNow .lefty {
+	display: block;
+	height: 49px;
+	background-image: url(../Images/writing/startLeft.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	padding-left: 10px;
+}
+.writeNow .righty {
+	background-image: url(../Images/writing/startRight.gif);
+	display: block;
+	height: 49px;
+	background-repeat: no-repeat;
+	background-position: 100% 0%;
+	padding-right: 35px;
+}
+.chooseLeft {
+	float: left;
+	width: 50%;
+}
+.chooseRight {
+	float: right;
+	width: 50%;
+}
+.writeWrap .instructionsPrompt {
+	padding-top: 2em;
+	padding-right: 45px;
+	padding-bottom: 0px;
+	padding-left: 45px;
+	display: none;
+}
+.writeWrap .stimulusCell {
+	padding-top: .5em;
+	padding-right: .5em;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	margin-bottom: -2em;
+}
+.prompt {
+	background-repeat: repeat-x;
+	background-position: 0% 0%;
+	border: solid 1px transparent;
+}
+.chooseLeft .prompt {
+	margin:19px 10px 19px 40px;	
+}
+.chooseRight .prompt {
+	margin: 19px 40px 19px 10px;	
+}
+.topCorners {
+	height: 10px;
+	display: block;
+	background-repeat: no-repeat;
+	background-position: 100% 0%;
+	border-top: solid 1px #bcbcbc;
+	border-left: solid 1px #bcbcbc;
+	border-right: solid 1px #bcbcbc;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-right-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px; 
+	margin-left: 5px;
+	margin-right: 5px;
+	background: url(../Images/focus.png) repeat;
+}
+.promptWrapper {
+	border-left: solid 1px #bcbcbc;
+	border-right: solid 1px #bcbcbc;
+	margin-left: 5px;
+	margin-right: 5px;
+	background: url(../Images/focus.png) repeat;
+}
+.promptContent {
+	display: block;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.addMark {
+	display: block;
+	background-image: url(../Images/writing/chooseMark1.png);
+	height: 200px;
+	overflow:auto;
+	color:#000;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	padding-left: 40px;
+}
+.addMark:hover {
+	display: block;
+	background-image: url(../Images/writing/chooseMark4.png);
+}
+.openedPrompt .addMark {
+	height: inherit !important;
+	overflow:visible;
+	/*min-height:55px;*/
+	min-height:200px;
+	/*new*/
+	padding-bottom: .2em;
+}
+.promptName {
+	font-weight: bold;
+	float: left;
+}
+.expandPrompt {	
+	display: block;
+	height: 39px;
+	text-decoration: none;
+	line-height: 35px;
+	color: #000;
+	text-align: right;
+	text-transform: uppercase;
+	font-family: Arial, Helvetica, sans-serif;
+	border: solid 1px #bcbcbc;
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px; 
+	margin-left: 5px;
+	margin-right: 5px;
+	background: #d3d1d1 url(../Images/writing/bottomRight.png) no-repeat 100% 0px;
+	padding-right: 50px;
+}
+.expandPrompt:hover {
+	background: #a8a8a8 url(../Images/writing/bottomRight.png) no-repeat 100% -50px;
+	color: #FFFFFF;
+}
+.openedPrompt .expandPrompt {
+	background-image: url(../Images/writing/bottomRight_collapse.png);
+}
+.openedPrompt .expandPrompt:hover {
+	background-image: url(../Images/writing/bottomRight_collapse.png);
+}
+.selectedPrompt .prompt .topCorners {
+	border-top-color: #048b36;
+	border-left-color: #048b36;
+	border-right-color: #048b36;
+	background-image: none;
+}
+.selectedPrompt .prompt .promptWrapper {
+	border-left-color: #048b36;
+	border-right-color: #048b36;
+	background-image: none;
+}
+.selectedPrompt .prompt .expandPrompt {
+	border-color: #048b36;
+	background-color: #c4e09d;
+	background-position: 100% -100px;
+}
+.selectedPrompt .prompt .expandPrompt:hover {
+	background-position: 100% -150px;
+	background-color: #005b8c;
+}
+.selectedPrompt .prompt .addMark, .selectedPrompt .prompt .addMark:hover {
+	background-image: url(../Images/writing/chooseMark3.png) !important;
+}
+/* styles prompt on writing page, hides nonselected prompts */
+.nowWrite .writeWrap  {
+	bottom: 20px;
+}
+.nowWrite .prompt {
+	display: none;
+}
+.nowWrite .selectedPrompt .prompt {
+	display: block;
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-left: 45px;
+}
+.nowWrite .selectedPrompt .prompt .addMark, .nowWrite .selectedPrompt .prompt .addMark:hover {
+	background-image: url(../Images/writing/chooseMark2.png) !important;
+	margin-right: 50px;
+	max-height:40px;
+	overflow:hidden;
+	background-repeat: no-repeat !important;
+}
+/*fixes issue where text doesn't reflow*/
+.nowWrite .selectedPrompt .openedPrompt .addMark {
+	position: relative !important;
+}
+.nowWrite .selectedPrompt .prompt .topCorners {
+	border-color: #aeaeae;
+	height: 10px;
+}
+.nowWrite .selectedPrompt .prompt .topCorners em {
+	display:block;
+	float:right;
+	height:10px;
+	width:39px;
+	border-left: solid 1px #aeaeae;
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-top-right-radius: 10px;
+	-webkit-border-bottom-right-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright: 10px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	background-color: #c9c6c6;
+}
+.nowWrite .selectedPrompt .prompt .promptWrapper {
+	border-color: #aeaeae;
+	background: url(../Images/writing/nowCenterRight.gif) no-repeat right top;
+}
+.nowWrite .selectedPrompt .prompt .promptContent {
+	padding-bottom:3px;
+}
+.nowWrite .selectedPrompt .expandPrompt, .nowWrite .selectedPrompt .expandPrompt:hover {
+	height: 18px;
+	line-height: 18px;
+	font-size: .8em;
+	color: #000 !important;
+	background-image: none;
+	border-color: #aeaeae;
+	background-color: #f2f2f2;
+	margin-bottom: 8px;
+}
+.nowWrite .rightExpand, .nowWrite .rightExpand:hover {
+	padding-right: 0px;
+	margin-right: -40px;
+}
+
+.nowWrite .openedPrompt .addMark {
+	max-height: inherit !important;
+	min-height:inherit !important;
+	overflow:visible;
+}
+.nowWrite .openedPrompt .promptWrapper {
+	background-image: url(../Images/writing/nowCenterRight2.gif) !important;
+}
+
+/* */
+
+
+.textClose {
+	display:none;
+}
+.openedPrompt .textOpen {
+	display:none;
+}
+.textOpen u {
+	text-decoration:none;
+}
+.nowWrite .textOpen u {
+	text-decoration: underline;
+}
+.nowWrite .parenthesis {
+	display: inline;
+}
+.parenthesis {
+	display: none;
+}
+.openedPrompt .textClose {
+	display:inline;
+}
+.changeWrap {
+	display:none;
+}
+.nowWrite .selectedPrompt .changeWrap {
+	display:block;
+	float: right;
+	padding-top:42px;
+	margin-right: -130px;
+}
+.changePrompt {
+	height: 39px;
+	color: #FFF;
+	text-decoration: none;
+	font-family: Arial, Helvetica, sans-serif;
+	/*width:100%;*/
+	display:block;
+	font-size:.9em;
+	white-space:nowrap;
+	border: solid 1px #666;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px; 
+	padding-bottom: 2px;
+}
+.changePrompt .lefty {
+	height: 39px;
+	padding-left: 10px;
+	border: solid 1px #fff;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	background-color: #f4a635;
+}
+.changePrompt .righty {
+	padding-right: 55px;
+	height: 42px;
+	padding-top: 4px;
+	width: 3.5em;
+	background: url(../Images/writing/changeRight.gif) no-repeat 100% 8px;
+	margin-right: 5px;
+}
+.changePrompt:hover .lefty {
+	background-color: #005c8c;
+}
+.changePrompt:hover .righty {
+	background-position: 100% -47px;
+}
+
+.nowWrite .chooseLeft, .nowWrite .chooseRight {
+	float:none;
+	width:100%;
+}
+.nowWrite .chooseHolder {
+	float:left;
+	margin-right:0px;
+	width:85%;
+}
+.nowWrite .prompt {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 45px;
+	position: inherit;
+}
+.nowWrite .writeNav {
+	display:none;
+}
+.writeNav2 {
+	display:none;
+}
+.nowWrite .writeNav2 {
+	background-color: #f5f5f5;
+	height: 20px;
+	width: 100%;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #bcbcbc;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height:20px;
+	display:block;
+}
+.writingBlock {
+	display:none;
+}
+.nowWrite .selectedPrompt .writingBlock {
+	display:block;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	position:absolute;
+	left:45px;
+	right:45px;
+}
+.writingBlock textarea {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1em;
+	line-height: 1.1em;
+	padding: .3em;
+	height: 450px;
+	width: 100%;
+	overflow: auto;
+	font-weight: normal;
+	font-variant: normal;
+}
+.unitWrap .markComment {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	display:none;
+	padding-top: .5em;
+	padding-right: .5em;
+}
+.nowWrite .selectedPrompt .markComment {
+	display:block;
+}
+
+/* writing zoom */
+.TDS_PS_Largest .expandPrompt, .TDS_PS_Largest .changePrompt {
+	font-size:.5em !important;
+}
+.TDS_PS_Largest .writeNav2 {
+	font-size:.55em !important;
+}
+.TDS_PS_Largest .changePrompt, .TDS_PS_Largest .writeNav {
+	font-size:.55em !important;
+}
+.TDS_PS_Larger .changePrompt, .TDS_PS_Larger .expandPrompt  {
+	font-size:.6em !important;
+}
+.TDS_PS_Larger .writeNav2 {
+	font-size:.7em !important;
+}
+.TDS_PS_Larger .changePrompt {
+	font-size:.65em !important;
+}
+.TDS_PS_Larger .writeNav {
+	font-size:.7em !important;
+}
+.TDS_PS_Larger .addMark {
+	position:relative !important;
+}
+.TDS_PS_Largest .addMark {
+	position:inherit !important;
+}
+.TDS_PS_Larger .prompNumber {
+	top: 48px;
+}
+.TDS_PS_Largest .prompNumber {
+	top: 49px;
+}
+.TDS_PS_Larger .inlineCount {
+	font-size:1em;
+}
+.TDS_PS_Largest .inlineCount {
+	font-size:.9em;
+}
+.TDS_PS_Larger .instructionsChoose, .TDS_PS_Larger .textOpen, .TDS_PS_Larger .writingBlock textarea {
+	position:relative;
+}
+.TDS_PS_Larger .instructionsResponse {
+	position:relative;
+	padding-right:100px;
+}
+.TDS_PS_Largest .instructionsResponse {
+	padding-right:120px;
+}
+
+/* less than 4 prompts */
+.itemcount_2 .chooseLeft, .itemcount_2 .chooseRight {
+	float: none;
+	width: auto;
+	margin-right: 45px;
+	margin-left: 45px;
+}
+.itemcount_2 .prompt {
+	float:left;
+	width:46%;
+	margin-top: 20px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+}
+.itemcount_1 .chooseLeft, .itemcount_1 .chooseRight {
+	float: none;
+	width: auto;
+	margin-right: 45px;
+	margin-left: 45px;
+}
+.itemcount_1 .prompt {
+	float:none;
+	margin-top: 20px;
+	margin-right: 22px;
+	margin-bottom: 0px;
+	margin-left: 22px;
+}
+.itemcount_1 .nowWrite .unitWrap, .itemcount_2 .nowWrite .unitWrap {
+	clear:both;
+}
+.itemcount_1 .nowWrite .selectedPrompt .prompt, .itemcount_2 .nowWrite .selectedPrompt .prompt {
+	width: auto;
+	float:none;
+}
+.itemcount_1 .nowWrite .chooseLeft, .itemcount_1 .nowWrite .chooseRight, .itemcount_2 .nowWrite .chooseLeft, .itemcount_2 .nowWrite .chooseRight {
+	margin: 0px;
+	width:100%;
+}
+.prompt {
+	position:relative;
+}
+.prompNumber {
+	display: block;
+	width: 25px;
+	position: absolute;
+	top: 48px;
+	left: 19px;
+	text-align: center;
+	text-decoration: underline;
+	color: #666;	
+}
+.nowWrite .prompNumber {
+	display: none;
+}
+.inlineCount {
+	display: block;
+	bottom: .8em;
+	left: 10px;
+	font-size: 0.8em;
+	color: #ffffff;
+	font-weight: bold;
+	background-image:url(../Images/mediumGrey.png);
+	background-repeat: repeat;
+	line-height:1.1em;
+	float: left;
+	margin-top: .8em;
+	margin-left: 15px;
+}
+.nowWrite .inlineCount {
+	display: none;
+}
+.changePrompt2 {
+	display: none;
+}
+
+/* hides stimulus on response screen */
+.nowWrite .selectedPrompt .instructionsPrompt {
+	display:block;
+}
+.layout12 .commentBox {
+	margin-left: 44px;
+	margin-right: 44px;
+	position: relative;
+}
+.browserVer_1_3 .layout12 .commentBox {
+	margin-left: 100px;
+	margin-right: 100px;
+	margin-top:50px;
+	position: absolute;
+	z-index:99;
+}
+.instructionsChoose {
+	padding-top: 5px;
+	margin-right: 45px !important;
+	padding-bottom: 5px;
+	margin-left: 45px !important;
+}
+.instructionsChoose.contextAreaFocus {
+	border: dotted 1px #666 !important;
+	margin-top: -1px !important;
+	margin-bottom: -1px !important;
+	margin-right: 44px !important;
+	margin-left: 44px !important;
+}
+.instructionsResponse {
+	padding-top: 5px;
+	margin-right: 65px !important;
+	padding-bottom: 0px;
+	margin-left: 45px !important;
+}
+.instructionsResponse.contextAreaFocus {
+	border: dotted 1px #666 !important;
+	margin-bottom: -1px !important;
+	margin-top: -1px !important;
+	margin-right: 64px !important;
+	margin-left: 44px !important;
+}
+.nowWrite .instructionsChoose, .nowWrite .instructionsResponse {
+	display: none;
+}
+/* fixes extra horizontal scroll bar for Mozilla 1.3 */
+.browserVer_1_3 .nowWrite .writeWrap {
+	bottom: -18px;
+}
+.browserVer_1_3 .nowWrite .writeNav2 {
+	z-index:80;
+}
+.browserVer_1_3 .nowWrite .selectedPrompt .writingBlock {
+	padding-bottom:30px;
+	position:relative;
+	margin-right:-45px;
+} 
+
+
+/* @group One Prompt */
+.layout_12.itemcount_1 .unitWrap, .layout_12.itemcount_1 .instructionsChoose, .layout_12.itemcount_1 .writeNav, .layout_12.itemcount_1 .changeWrap, .layout_12.itemcount_1 .prompNumber, .layout_12.itemcount_1 .inlineCount {
+	display: none;
+}
+.layout_12.itemcount_1 .selectedPrompt, .layout_12.itemcount_1 .instructionsPrompt {
+	display: block;
+}
+.layout_12.itemcount_1 .writeNav2 {
+	background-color: #f5f5f5;
+	height: 20px;
+	width: 100%;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #bcbcbc;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	font-family: Arial, Helvetica, sans-serif;
+	line-height:20px;
+	display:block;
+}
+.layout_12.itemcount_1 .writeWrap {
+	bottom: 20px;
+}
+.layout_12.itemcount_1 .chooseHolder {
+	width: 95%;
+}
+.layout_12.itemcount_1 .selectedPrompt .prompt {
+	display: block;
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-left: 45px;
+	background-color: #FFFFFF;
+	background-image: url(../Images/writing/nowTopCenter.gif);
+}
+.layout_12.itemcount_1 .selectedPrompt .prompt .addMark, .layout_12.itemcount_1 .selectedPrompt .prompt .addMark:hover {
+	background-image: url(../Images/writing/chooseMark2.gif) !important;
+	padding-right: 50px;
+	max-height:40px;
+	overflow:hidden;
+	padding-bottom: .2em;
+}
+.layout_12.itemcount_1 .openedPrompt.prompt .addMark, .layout_12.itemcount_1 .openedPrompt.prompt .addMark:hover {
+	max-height:inherit;
+}
+.layout_12.itemcount_1 .selectedPrompt .prompt .topCorners {
+	background-image: url(../Images/writing/nowTopRight.gif);
+}
+.layout_12.itemcount_1 .selectedPrompt .prompt .topCorners em {
+	background-image: url(../Images/writing/nowTopLeft.gif);
+}
+.layout_12.itemcount_1 .selectedPrompt .prompt .promptWrapper {
+	background-image: url(../Images/writing/nowCenterRight.gif);
+}
+.layout_12.itemcount_1 .selectedPrompt .openedPrompt .promptWrapper {
+	background-image: url(../Images/writing/nowCenterRight2.gif);
+}
+.layout_12.itemcount_1 .selectedPrompt .prompt .promptContent {
+	background-image: url(../Images/writing/nowCenterLeft.gif);
+	padding-bottom:3px;
+}
+.layout_12.itemcount_1 .selectedPrompt .expandPrompt, .layout_12.itemcount_1 .selectedPrompt .expandPrompt:hover {
+	background-image: url(../Images/writing/nowBottomCenter.gif);
+	height: 24px;
+	background-position: 0px 0px;
+	line-height: 18px;
+	font-size: .8em;
+	color: #000 !important;
+}
+.layout_12.itemcount_1 .selectedPrompt .shorty .topCorners {
+	background-position: 100% -20px;
+}
+.layout_12.itemcount_1 .selectedPrompt .shorty .promptWrapper {
+	background-image: url(../Images/writing/nowCenterRight.gif);
+}
+.layout_12.itemcount_1 .selectedPrompt .shorty .promptContent {
+	background-image: url(../Images/writing/nowCenterLeft.gif);
+	padding-bottom:3px;
+}
+.layout_12.itemcount_1 .selectedPrompt .shorty .expandPrompt, .layout_12.itemcount_1 .selectedPrompt .shorty .expandPrompt:hover {
+	background-position: 0px -30px !important;
+}
+.layout_12.itemcount_1 .selectedPrompt .writingBlock {
+	display:block;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	position:absolute;
+	left:45px;
+	right:45px;
+}
+.layout_12.itemcount_1 .selectedPrompt .markComment {
+	display:block;
+}
+.layout_12.itemcount_1 .selectedPrompt .expandPrompt, .layout_12.itemcount_1 .selectedPrompt .expandPrompt:hover {
+	background-image: url(../Images/writing/nowBottomCenter.gif);
+	height: 24px;
+	background-position: 0px 0px;
+	line-height: 18px;
+	font-size: .8em;
+	color: #000 !important;
+}
+.layout_12.itemcount_1 .rightExpand, .layout_12.itemcount_1 .rightExpand:hover {
+	background-image: url(../Images/writing/nowBottomRight.gif);
+	background-position: 100% 0px !important;
+	height: 24px;
+	padding-right: 20px;
+}
+.layout_12.itemcount_1 .leftExpand, .layout_12.itemcount_1 .leftExpand:hover {
+	background-image: url(../Images/writing/nowBottomLeft.gif);
+	background-position: 0% 0px !important;
+	height: 24px;
+}
+.layout_12.itemcount_1 .selectedPrompt .shorty .expandPrompt, .layout_12.itemcount_1 .selectedPrompt .shorty .expandPrompt:hover {
+	background-position: 0px -30px !important;
+}
+.layout_12.itemcount_1 .shorty .rightExpand, .layout_12.itemcount_1 .shorty .rightExpand:hover {
+	background-position: 100% -30px !important;
+}
+.layout_12.itemcount_1 .shorty .leftExpand, .layout_12.itemcount_1 .shorty .leftExpand:hover {
+	background-position: 0% -30px !important;
+}
+.layout_12.itemcount_1 .textOpen u {
+	text-decoration: underline;
+}
+.layout_12.itemcount_1 .prompt {
+	float:none;
+	margin-top: 20px;
+	margin-right: 22px;
+	margin-bottom: 0px;
+	margin-left: 22px;
+}
+.layout_12.itemcount_1 .unitWrap {
+	clear:both;
+}
+.layout_12.itemcount_1 .selectedPrompt .prompt {
+	width: auto;
+	float:none;
+}
+.layout_12.itemcount_1 .chooseLeft, .layout12.layout_12.itemcount_1 .chooseRight {
+	margin: 0px;
+	width:100%;
+}
+
+/* @end */
+
+/* os 9 fix */
+.browserVer_1_3 .promptContent {
+	position: relative;
+}
+.browserVer_1_3 .prompNumber, .browserVer_1_3 .TDS_PS_Larger .prompNumber, .browserVer_1_3 .TDS_PS_Largest .prompNumber {
+	top: 35px;
+}
+.browserVer_1_3.TDS_PS_Larger .openedPrompt .leftExpand .textClose {
+	position: relative;
+}
+
+/* fixes writing area from overlapping expanded prompt*/
+.browserVer_1_3 .layout_12.itemcount_1 .selectedPrompt .writingBlock {
+	position: inherit;
+	padding-left:45px;
+	padding-right:45px;
+}
+.browserVer_1_3 .layout_12 .commentBox {
+	position: inherit;
+	margin-top:0px;
+}
+.browserVer_1_3 .layout_12.itemcount_1 .commentBox {
+	margin-left: 44px;
+	margin-right: 44px;
+}
+.browserVer_1_3 .layout_12.itemcount_1 .writeWrap  {
+	bottom: -8px;
+}
+.browserVer_1_3 .layout_12.itemcount_1 .writeNav2 {
+	z-index:999 !important;
+}
+.browserVer_1_3 .layout_12.itemcount_1 .instructionsPrompt .newtable {
+	max-width: 900px;
+}
+
+/* hide applet when dialogs, help, tools or context menu is shown */
+body.dialogShowing applet, body.popupShowing applet, body.contextMenuShowing applet {
+	visibility: hidden !important;
+}
+
+body.dialogShowing .GridContainer iframe, body.popupShowing .GridContainer iframe, body.contextMenuShowing .GridContainer iframe {
+	visibility: hidden !important;
+}
+
+/* grid container */
+.GridContainer.loading, .GridContainer.failed {
+    border: solid 1px #CCC;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.GridContainer.loading {
+    background-image: url(../shared/images/controls/loader32.gif);
+}
+
+.GridContainer.failed {
+    background-image: url(../shared/images/alerts/stopWhite.gif);
+}
+
+.GridContainer.loading applet, .GridContainer.loading iframe, .GridContainer.loading object, 
+.GridContainer.failed applet, .GridContainer.failed iframe, .GridContainer.failed object {
+    visibility: hidden;
+}
+
+/* grid status */
+.StudentGridStatus {
+    display: none;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.7em;
+}
+
+.GridContainer.loading .StudentGridStatus, .GridContainer.failed .StudentGridStatus {
+    display: block;
+}
+
+/* @end */
+
+/* Hide the scrollbars from showing through the dialogs on Firefox 2.0 on Mac */
+/* WARNING: overflow destroys the grid! */
+/*
+.browser_firefox.browserVer_2.platform_mac.showingDialog #thePassage, .browser_firefox.browserVer_2.platform_mac.showingDialog #theQuestions {
+	overflow: hidden;
+	padding-right: 18px;
+}
+*/
+.browser_firefox.browserVer_2.platform_mac.showingDialog #thePassage, 
+.browser_firefox.browserVer_2.platform_mac.showingDialog #theQuestions, 
+.browser_airsecurebrowser.browserVer_3_5.platform_mac.showingDialog #thePassage, 
+.browser_airsecurebrowser.browserVer_3_5.platform_mac.showingDialog #theQuestions {
+	height: 10000px;
+}
+.browser_firefox.browserVer_2.platform_mac.showingDialog .layout11 .padding, 
+.browser_firefox.browserVer_2.platform_mac.showingDialog .layout17 .padding, 
+.browser_airsecurebrowser.browserVer_3_5.platform_mac.showingDialog .layout11 .padding, 
+.browser_airsecurebrowser.browserVer_3_5.platform_mac.showingDialog .layout17 .padding {
+	padding-right: 35px;
+}
+.browser_firefox.browserVer_2.platform_mac.showingDialog .layout21 .padding, 
+.browser_airsecurebrowser.browserVer_3_5.platform_mac.showingDialog .layout21 .padding {
+	padding-right: 25px;
+}
