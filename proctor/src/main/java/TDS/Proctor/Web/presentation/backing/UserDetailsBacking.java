@@ -152,10 +152,10 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
         sbacRoles.add (roleSelection);
       }
       
-      _logger.info ("UserDetailsBacking.info: roles size %d", sbacUser.getRoles ().size ());
+      _logger.info (String.format("UserDetailsBacking.info: roles size %d", sbacUser.getRoles ().size ()));
       for (SbacRole role:sbacUser.getRoles()) {
-        _logger.info ("UserDetailsBacking.info: rolename: %s, roleentityname: %s, roleentitylevel %s", 
-            role.getRoleName (), role.getRoleEntityName (), role.getRoleEntityLevel ());
+        _logger.info (String.format("UserDetailsBacking.info: rolename: %s, roleentityname: %s, roleentitylevel %s", 
+            role.getRoleName (), role.getRoleEntityName (), role.getRoleEntityLevel ()));
       } 
 
       if(!userWithMultipleRoles) {
