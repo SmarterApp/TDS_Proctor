@@ -48,13 +48,7 @@ public class RemoteProctorPackageService implements IProctorPackageService
     String urlPath = null;
     try {
       urlPath = "proctorassessments?stateAbbreviation=" + _stateCode + "&entityLevel=" + entityLevel + "&entityName=" + entityId + "&date=" + DateTime.getTodaysDate("yyyy-MM-dd");
-      
-      _logger.info(String.format("url request:  %s", urlPath));
-      String tmp = _trClient.getPackage (urlPath);
-      _logger.info(String.format("proctorassessments reply:  %s", tmp));
-      return tmp;
-
-//      return _trClient.getPackage (urlPath);
+      return _trClient.getPackage (urlPath);
     } catch (Exception e) {
       _logger.error(e.getMessage(), e);
       return null;
