@@ -123,6 +123,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
 
   public void init() throws Exception{
     try {
+      _logger.info ("UserDetailsBacking.info 1"); 
       sbacUser = (SbacUser) SecurityContextHolder.getContext ().getAuthentication ().getPrincipal ();
       IProctorUserService _proctorUserService = SpringApplicationContext.getBean ("iProctorUserService", IProctorUserService.class);
       try {
@@ -155,6 +156,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
         if(sbacUser.getRoles ().size ()==1) 
         {
           SbacRole role = sbacUser.getRoles ().iterator ().next ();
+          _logger.info ("UserDetailsBacking.info 10"); 
           _selectRolePresenter.createAndUpdateProctorIsCurrent (role,proctorUser.getKey (),getClientName (),role.getEffectiveEntity ().getEntityId (),role.getRoleEntityLevel ().name ());
         }
       }
@@ -193,6 +195,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
   
   public String next() throws Exception{
     try {
+    _logger.info ("UserDetailsBacking.info 2"); 
     String[] selectedRoleStr= selectedRole.split ("~");
     String entityId = selectedRoleStr[1];
     String entityLevel = selectedRoleStr[2];
@@ -211,7 +214,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
     if(selectedRole==null) {
       throw new IllegalArgumentException ("Error Selecting Role...");
     }
-    
+    _logger.info ("UserDetailsBacking.info 20"); 
     _selectRolePresenter.createAndUpdateProctorIsCurrent (selectedRole,proctorUser.getKey (),getClientName (),entityId,entityLevel);
     return "default";
     } catch (Exception e) {
