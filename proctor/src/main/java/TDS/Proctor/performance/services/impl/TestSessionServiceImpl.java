@@ -12,10 +12,12 @@ import TDS.Proctor.performance.dao.TestAccommodationDao;
 import TDS.Proctor.performance.dao.TestSessionDao;
 import TDS.Proctor.performance.domain.TestAccommodationFamily;
 import TDS.Proctor.performance.services.TestSessionService;
+import TDS.Proctor.performance.utils.TdsRouterHelper;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tds.dll.api.ICommonDLL;
 import tds.dll.common.performance.domain.Externs;
@@ -33,6 +35,12 @@ import java.util.*;
 @Service
 public class TestSessionServiceImpl extends AbstractDLL implements TestSessionService {
     private static final Logger logger = LoggerFactory.getLogger(TestApprovalServiceImpl.class);
+
+    @Value("${proctor.TDSRouter.zone}")
+    private String tdsRouterZone;
+
+    @Value("${proctor.TDSRouter.enabled:false}")
+    private Boolean tdsRouterEnabled;
 
     @Autowired
     private TestSessionDao testSessionDao;
@@ -110,6 +118,12 @@ public class TestSessionServiceImpl extends AbstractDLL implements TestSessionSe
                 return commonDll._ReturnError_SP (connection, clientName, "P_CreateSession", "There already is an active session for this user.");
             }
             prefix = commonDll._CoreSessName_FN (connection, clientName, procName);
+
+            if ( tdsRouterEnabled ) {
+                logger.info("router enabled");
+                prefix = TdsRouterHelper.createRoutePrefix(prefix, tdsRouterZone);
+            }
+
             sessionKey = UUID.randomUUID();
             if (dateBegin == null) {
                 dateBegin = now;
