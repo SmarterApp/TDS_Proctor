@@ -303,6 +303,30 @@ Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1281_othe
 #### SB-1301
 Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1301_translation_combined_values order.sql
 
+
+## Diagnostic API
+
+### Usage
+
+The diagnostic API is available via the `/status` endpoint.  Most commonly that would mean `https://url.com/status`.
+
+There are 5 different levels of details provided depending on what is passed in via the level querystring parameter like `status?level=1`.  The levels are defined below:
+
+1. Local system details such as CPU usage, memory usage and free storage space
+2. Configuration details for the local java environment settings and ProgMan settings
+3. Database read access checks to each of the 4 databases used in TDS
+4. Database write access checks to each of the 4 databases used in TDS
+5. Component dependency checks for access to ART, ProgMan, Permission, and SSO.
+
+### ProgMan Settings
+
+The Diagnostic API has a few settings which can adjusted via ProgMan.  Logical defaults are provided for each so there is no need to enter them usually.  The default values are provided below.
+
+* `diagnostic.enabled: true` - Disable access to the API by setting to `false`
+* `diagnostic.volume.minimumPercentFree: 5` - When the percent free space on disk is less than this value an error state is returned.
+* `diagnostic.volume.warningPercentFree: 15` - A warning state is returned when the percent available disk space is below this value.
+
+
 ## Build Order
 These are the steps that should be taken in order to build all of the Proctor related artifacts.
 
