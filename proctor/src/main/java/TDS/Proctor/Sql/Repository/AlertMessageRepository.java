@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.UUID;
 
+import TDS.Proctor.performance.dao.AlertMessageDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,14 @@ public class AlertMessageRepository extends AbstractDAO implements IAlertMessage
     @Autowired
 	IProctorDLL  dll  = null;
 
+  @Autowired
+  private AlertMessageDao alertMessageDao;
+
 	public AlertMessages loadCurrentMessages (String clientName, int timezoneOffset) throws ReturnStatusException {
     AlertMessages alerts = new AlertMessages (timezoneOffset);
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_GetCurrentAlertMessages_SP (connection, clientName);
+    try {
+//      SingleDataResultSet result = dll.P_GetCurrentAlertMessages_SP (connection, clientName);
+      SingleDataResultSet result = alertMessageDao.getCurrentAlertMessages(clientName);
       ReturnStatusException.getInstanceIfAvailable (result);
       Iterator<DbResultRecord> records = result.getRecords ();
       if (records != null) {
@@ -70,14 +75,15 @@ public class AlertMessageRepository extends AbstractDAO implements IAlertMessage
 
   public AlertMessages loadUnAcknowledgedMessages (String clientName, long proctorKey, int timezoneOffset) throws ReturnStatusException {
     AlertMessages alerts = new AlertMessages (timezoneOffset);
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_GetUnAcknowledgedAlertMessages_SP (connection, clientName, proctorKey);
+    try {
+//      SingleDataResultSet result = dll.P_GetUnAcknowledgedAlertMessages_SP (connection, clientName, proctorKey);
+      SingleDataResultSet result = alertMessageDao.getUnacknowledgedAlertMessages(clientName, proctorKey);
       ReturnStatusException.getInstanceIfAvailable (result);
       Iterator<DbResultRecord> records = result.getRecords ();
       if (records != null) {
         loadMessages (records, alerts);
       }
-    } catch (SQLException e) {
+    } catch (Exception e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
     }
