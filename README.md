@@ -45,7 +45,7 @@ oauth.testreg.username={OAuth username for test registration}
 oauth.testreg.password={OAuth password for test registration} 
 
 working example:
-oauth.access.url=https://drc-dev-secure.opentestsystem.org/auth/oauth2/access_token?realm=/sbac
+oauth.access.url=https://openam-server-name/auth/oauth2/access_token?realm=/sbac
 pm.oauth.client.id=pm
 pm.oauth.client.secret=OAUTHCLIENTSECRET
 pm.oauth.batch.account=test@example.com
@@ -109,10 +109,11 @@ The following parameters need to be configured inside program management for dat
 Following parameters need to be configured inside program management for MNA.	
 
 * `mna.mnaUrl=http://<mna-context-url>/mna-rest/`  - URL of the Monitoring and Alerting client server's rest url
-* `mnaServerName=proctor_dev`  -  Used by the mna clients to identify which server is sending the log/metrics/alerts.
-* `mnaNodeName=dev`  - Used by the mna clients to identify who is sending the log/metrics/alerts. There is a discrete mnaServerName and a node in case say XXX for server name & node1/node2 in a clustered environment giving the ability to search across clustered nodes by server name or specifically for a given node. It’s being stored in the db for metric/log/alert, but not displayed.
+* `mnaServerName=proctor`  -  Used by the mna clients to identify which server is sending the log/metrics/alerts.
+* `mnaNodeName=production`  - Used by the mna clients to identify who is sending the log/metrics/alerts. There is a discrete mnaServerName and a node in case say XXX for server name & node1/node2 in a clustered environment giving the ability to search across clustered nodes by server name or specifically for a given node. It’s being stored in the db for metric/log/alert, but not displayed.
 * `mna.logger.level=ERROR`  - Used to control what is logged to the Monitoring and Alerting system. Logging Levels (ALL - Turn on all logging levels,  TRACE, DEBUG, INFO, WARN, ERROR, OFF - Turn off logging).
-
+* `mna.oauth.batch.account=user@example.com` - Username (email address) of MNA client user used for authenticating into MNA and logging metrics information 
+* `mna.oauth.batch.password=password` - Password of MNA client user
 
 #### SSO properties
 The following parameters need to be configured inside program management for SSO.	
@@ -348,16 +349,16 @@ These are the steps that should be taken in order to build all of the Proctor re
 
 If building all components from scratch the following build order is needed:
 
-* sharedmultijardev
-* itemrendererdev
-* tdsdlldev
+* sharedmultijar
+* itemrenderer
+* tdsdll
 * tdsloadtester
 * SharedBuild
 * SharedCode
 * RestAPIGenerator
 * MonitoringAndAlertingClient
 * ProgramManagementClient
-* TDSDev
+* TDS
 
 ## Dependencies
 Proctor has a number of direct dependencies that are necessary for it to function.  These dependencies are already built into the Maven POM files.
