@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import TDS.Proctor.performance.services.AppConfigService;
+import TDS.Proctor.performance.services.ProctorUserService;
 import org.slf4j.Logger;
 
 import AIR.Common.DB.AbstractDAO;
@@ -56,6 +58,12 @@ public class TestRepository extends AbstractDAO implements ITestRepository
   IProctorDLL _pdll    = null;
   @Autowired
   IRtsDLL _rdll        = null;
+
+    @Autowired
+    private ProctorUserService proctorUserService;
+
+    @Autowired
+    private AppConfigService appConfigService;
   
 
   public List<Test> getSelectableTests (String clientname, int sessionType, Long proctorId) throws ReturnStatusException {
@@ -67,7 +75,8 @@ public class TestRepository extends AbstractDAO implements ITestRepository
 
     try (SQLConnection connection = getSQLConnection ()) {
       //TODO Clarify this interface. If it has to go by proctor key, pass it from handler
-      SingleDataResultSet resultset = _rdll.P_GetAllTests_SP (connection, clientname, sessionType, proctorId);
+//      SingleDataResultSet resultset = _rdll.P_GetAllTests_SP (connection, clientname, sessionType, proctorId);
+      SingleDataResultSet resultset = proctorUserService.getAllTests(clientname, sessionType, proctorId);
       ReturnStatusException.getInstanceIfAvailable (resultset, "No tests are available for this proctor");
       Iterator<DbResultRecord> records = resultset.getRecords ();
       
@@ -160,8 +169,9 @@ public class TestRepository extends AbstractDAO implements ITestRepository
 
   public Accs getGlobalAccs (String clientname, String context) throws ReturnStatusException {
     Accs accs = null;
-    try (SQLConnection connection = getSQLConnection ()) {
-      MultiDataResultSet resultsets = _pdll.IB_GlobalAccommodations_SP (connection, clientname, context);
+    try {
+      //MultiDataResultSet resultsets = _pdll.IB_GlobalAccommodations_SP (connection, clientname, context);
+      MultiDataResultSet resultsets = appConfigService.getGlobalAccommodations(clientname, context);
 
       Iterator<SingleDataResultSet> results = resultsets.getResultSets ();
       SingleDataResultSet firstResultSet = results.next ();

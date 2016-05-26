@@ -268,8 +268,8 @@ private static final Logger _logger = LoggerFactory.getLogger(HttpHandlerBase.cl
   }
   
   
-  // TODO Shiva, this needs to redone with authentication.
-  protected void checkAuthenticated () throws TDSSecurityException {
+  // returning the user so it can be used after the authentication check instead of the code calling getUser() again
+  protected ProctorUser checkAuthenticated () throws TDSSecurityException {
     /*
      * This is what was in the .NET code.
      */
@@ -278,8 +278,12 @@ private static final Logger _logger = LoggerFactory.getLogger(HttpHandlerBase.cl
     // {
     // throw new TDSSecurityException();
     // }
-    if (!getUser ().isAuth ())
+    ProctorUser user = getUser();
+
+    if (!user.isAuth ())
       throw new TDSSecurityException ();
+
+    return user;
   }
 
   /*
