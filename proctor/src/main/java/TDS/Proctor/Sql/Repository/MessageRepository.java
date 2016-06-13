@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import TDS.Proctor.performance.services.AppMessageService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
@@ -44,6 +45,9 @@ public class MessageRepository extends AbstractDAO implements IMessageRepository
   @Autowired
   IProctorDLL    dll     = null;
 
+  @Autowired
+  private AppMessageService appMessageService;
+
   public MessageRepository () {
 	 
   }
@@ -64,7 +68,8 @@ public class MessageRepository extends AbstractDAO implements IMessageRepository
     try (SQLConnection connection = getSQLConnection ()) {
 
       //TODO: EF check
-      SingleDataResultSet result = dll.AppMessagesByContext_SP (connection, getTdsSettings().getAppName(), getTdsSettings().getClientName(), language, contextlist, delimiter);
+//      SingleDataResultSet result = dll.AppMessagesByContext_SP (connection, getTdsSettings().getAppName(), getTdsSettings().getClientName(), language, contextlist, delimiter);
+      SingleDataResultSet result = appMessageService.getAppMessagesByContext(getTdsSettings().getAppName(), getTdsSettings().getClientName(), language, contextlist, delimiter);
       //ReturnStatusException.getInstanceIfAvailable (result);
 
       Iterator<DbResultRecord> records = result.getRecords ();

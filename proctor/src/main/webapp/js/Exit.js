@@ -11,7 +11,7 @@ function confirmExit(e) {
 
     if (e) {
         if (clicked == false && (e.target == document || e.target == null || e.clientX < 0 || e.clientY < 0)) {
-            window.open(gConfirmExitPage + gConfirmExitQueryStr, gConfirmExitWinName, 'height=600,width=800, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, directories=no, status=no');
+            // window.open(gConfirmExitPage + gConfirmExitQueryStr, gConfirmExitWinName, 'height=600,width=800, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, directories=no, status=no');
         }
     }
 }

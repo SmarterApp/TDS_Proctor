@@ -17,9 +17,7 @@
 		
 	
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
-	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -32,6 +30,7 @@
 	
 	<context:component-scan base-package="TDS.Proctor.Services" />
 	<context:component-scan base-package="TDS.Proctor.Web.Handlers" />
+	<context:component-scan base-package="TDS.Proctor.diagnostic.controller" />
 	<context:component-scan base-package="tds.blackbox" />
 	<context:component-scan base-package="tds.iris.web.handlers.blackbox" />
 </beans:beans>

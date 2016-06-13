@@ -15,37 +15,31 @@
 		a system property, environment variable or web application context parameter 
 		with the same name -->
 
-	<entry key="IsCheckinSite">${proctor.IsCheckinSite}</entry>
-	<entry key="DONOT_Distributed">${proctor.DONOT_Distributed}</entry>
-	<!--  <entry key="ClientName">Oregon</entry>-->
-	<entry key="ClientQueryString">${proctor.ClientQueryString}</entry>
-	<entry key="Appkey">${proctor.Appkey}</entry>
-	<entry key="EncryptedPassword">${proctor.EncryptedPassword}</entry>
-	<entry key="RecordSystemClient">${proctor.RecordSystemClient}</entry>
-	<entry key="AdminPassword">${proctor.AdminPassword}</entry>
-	<entry key="SqlCommandTimeout">${proctor.SqlCommandTimeout}</entry>
-	<entry key="AppName">${proctor.AppName}</entry>
-	<entry key="SessionType">${proctor.SessionType}</entry>
-	<!--  
-	<entry key="TDSSessionDBName">tdscore_dev_session2012_sandbox</entry>
-	<entry key="ItembankDBName">tdscore_dev_itembank2012_sandbox</entry>
-	<entry key="TDSArchiveDBName">tds_archive_</entry>
-	<entry key="TDSConfigsDBName">tdscore_dev_configs2012_sandbox</entry>
-	
-	<entry key="DBDialect">MYSQL</entry>
-	-->
-	<entry key="DBJndiName">${proctor.DBJndiName}</entry>
+	<entry key="IsCheckinSite">${proctor.IsCheckinSite:false}</entry>
+	<entry key="DONOT_Distributed">${proctor.DONOT_Distributed:true}</entry>
+	<entry key="ClientQueryString">${proctor.ClientQueryString:false}</entry>
+	<entry key="Appkey">${proctor.Appkey:Proctor}</entry>
+	<entry key="RecordSystemClient">${proctor.RecordSystemClient:true}</entry>
+	<entry key="AppName">${proctor.AppName:Proctor}</entry>
+	<entry key="SessionType">${proctor.SessionType:0}</entry>
+	<entry key="DBJndiName">java:/comp/env/jdbc/session</entry>
 
 	<!-- Database connection parameters should not be defined in this file. 
 		Those are defined at the container level, not at the application level -->
 	<entry key="TestRegistrationApplicationUrl">${proctor.TestRegistrationApplicationUrl}</entry>
-    <entry key="TDSArchiveDBName">${proctor.TDSArchiveDBName}</entry>
-    <entry key="TDSSessionDBName">${proctor.TDSSessionDBName}</entry>
-    <entry key="TDSConfigsDBName">${proctor.TDSConfigsDBName}</entry>
-    <entry key="ItembankDBName">${proctor.ItembankDBName}</entry>
-    <entry key="Debug.AllowFTP">${proctor.Debug.AllowFTP}</entry>
+    <entry key="TDSArchiveDBName">${proctor.TDSArchiveDBName:archive}</entry>
+    <entry key="TDSSessionDBName">${proctor.TDSSessionDBName:session}</entry>
+    <entry key="TDSConfigsDBName">${proctor.TDSConfigsDBName:configs}</entry>
+    <entry key="ItembankDBName">${proctor.ItembankDBName:itembank}</entry>
+    <entry key="Debug.AllowFTP">${proctor.Debug.AllowFTP:true}</entry>
     
     <entry key="StateCode">${proctor.StateCode}</entry>
     <entry key="ClientName">${proctor.ClientName}</entry>
 
+	<!-- not used in code anywhere -->
+	<!--
+	<entry key="EncryptedPassword">${proctor.EncryptedPassword}</entry>
+	<entry key="AdminPassword">${proctor.AdminPassword}</entry>
+	<entry key="SqlCommandTimeout">${proctor.SqlCommandTimeout:60}</entry>
+	-->
 </properties>

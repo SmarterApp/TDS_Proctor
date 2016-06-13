@@ -17,6 +17,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
+import TDS.Proctor.performance.dao.TestSessionDao;
+import TDS.Proctor.performance.services.TestApprovalService;
+import TDS.Proctor.performance.services.TestSessionService;
 import org.slf4j.Logger;
 
 import AIR.Common.DB.AbstractDAO;
@@ -49,10 +52,20 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   @Autowired
   IProctorDLL dll     = null;
 
+    @Autowired
+    private TestApprovalService testApprovalService;
+
+    @Autowired
+    private TestSessionDao testSessionDao;;
+
+    @Autowired
+    private TestSessionService testSessionService;
+
   public TestOpps getCurrentSessionTestees (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
     TestOpps testOpps = null;
     try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_GetCurrentSessionTestees_SP (connection, sessionKey, proctorKey, browserKey);
+      //SingleDataResultSet result = dll.P_GetCurrentSessionTestees_SP (connection, sessionKey, proctorKey, browserKey);
+      SingleDataResultSet result = testSessionDao.getCurrentSessionTestees(sessionKey, proctorKey, browserKey);
 
       Iterator<DbResultRecord> records = result.getRecords ();
       ReturnStatusException.getInstanceIfAvailable (result);
@@ -134,16 +147,20 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   public TestOpps getTestsForApproval (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
     TestOpps testOpps = null;
     try (SQLConnection connection = getSQLConnection ()) {
-      MultiDataResultSet resultsets = dll.P_GetTestsForApproval_SP (connection, sessionKey, proctorKey, browserKey);
+        //MultiDataResultSet resultsets = dll.P_GetTestsForApproval_SP (connection, sessionKey, proctorKey, browserKey);
+        MultiDataResultSet resultsets = testApprovalService.getTestsForApproval(sessionKey, proctorKey, browserKey);
 
-      Iterator<SingleDataResultSet> results = resultsets.getResultSets ();
-      SingleDataResultSet firstResultSet = results.next ();
-      ReturnStatusException.getInstanceIfAvailable (firstResultSet);
-      Iterator<DbResultRecord> records = firstResultSet.getRecords ();
+        testOpps = new TestOpps ();
 
-      testOpps = new TestOpps ();
-      loadTestsForApproval (testOpps, records, resultsets);
+        // the new method returns null if there are no opportunities found that need approval
+        if (resultsets != null) {
+            Iterator<SingleDataResultSet> results = resultsets.getResultSets ();
+            SingleDataResultSet firstResultSet = results.next ();
+            ReturnStatusException.getInstanceIfAvailable (firstResultSet);
+            Iterator<DbResultRecord> records = firstResultSet.getRecords ();
 
+            loadTestsForApproval (testOpps, records, resultsets);
+        }
     } catch (SQLException e) {
       _logger.error (e.getMessage ());
       throw new ReturnStatusException (e);
@@ -235,7 +252,8 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   public ReturnStatus approveOpportunity (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
 
     try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_ApproveOpportunity_SP (connection, sessionKey, proctorKey, browserKey, oppKey);
+      SingleDataResultSet result = testSessionService.approveOpportunity(connection, sessionKey, proctorKey, oppKey);
+//      SingleDataResultSet result = dll.P_ApproveOpportunity_SP (connection, sessionKey, proctorKey, browserKey, oppKey);
       ReturnStatusException.getInstanceIfAvailable (result);
 
     } catch (SQLException e) {
@@ -249,8 +267,9 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   //TODO should be void
   public ReturnStatus approveAccommodations (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, int segment, String segmentAccs) throws ReturnStatusException {
 
-    try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_ApproveAccommodations_SP (connection, sessionKey, proctorKey, browserKey, oppKey, segment, segmentAccs);
+  try (SQLConnection connection = getSQLConnection ()) {
+      SingleDataResultSet result = testSessionService.approveAccommodations(connection, sessionKey, proctorKey, browserKey, oppKey, segment, segmentAccs);
+//      SingleDataResultSet result = dll.P_ApproveAccommodations_SP (connection, sessionKey, proctorKey, browserKey, oppKey, segment, segmentAccs);
       ReturnStatusException.getInstanceIfAvailable (result);
     } catch (SQLException e) {
       _logger.error (e.getMessage ());
