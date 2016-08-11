@@ -28,6 +28,8 @@ public class SessionDTO
   private boolean       bReplaceTestOpps;
   private boolean       bReplaceAlertMsgs;
   private AlertMessages alertMessages;
+  private MsbAlert      msbAlert;
+
 
   @JsonProperty("session")
   public TestSession getSession () {
@@ -163,5 +165,14 @@ public class SessionDTO
     this.bReplaceApprovalOpps = bReplace;
     this.bReplaceTestOpps = bReplace;
     this.bReplaceAlertMsgs = bReplace;
+  }
+
+  public void setMsbAlert(MsbAlert msbAlert) {
+    this.msbAlert = msbAlert;
+  }
+
+  @JsonProperty("msbAlert")
+  public MsbAlert getMsbAlert() {
+    return msbAlert;
   }
 }
