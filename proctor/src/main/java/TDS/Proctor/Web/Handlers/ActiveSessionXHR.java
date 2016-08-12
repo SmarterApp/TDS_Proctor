@@ -259,6 +259,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
           if (msbSessionId.equals(strSessionKey)) {
             sessionDTO.setMsbAlert(new MsbAlert(msbSessionId, msbStudentId, msbState));
+            _cachingService.setValue(CacheType.LongTerm, "msbData", "DISTRIBUTING");
           }
         }
       }

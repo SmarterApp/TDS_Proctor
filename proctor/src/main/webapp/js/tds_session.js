@@ -296,6 +296,15 @@ YUI.add("tds-session", function (Y) {
                 Y.AlertMessages.setData(sessionDTO.alertMessages);
                 Y.AlertMessages.start(Y.pUI); //start alert if any
             }
+            if (sessionDTO.msbAlert) {
+                Y.AlertMessages.setData([{
+                    Key: 'key1',
+                    Title: 'MSB Alert',
+                    Message: 'asdfasdf asdfasdfasdf'
+
+                }]);
+                Y.AlertMessages.start(Y.pUI); //start alert if any
+            }
         }
         catch (e) {
             Y.log("ERROR: tdsSession.setAndRender: " + e);
