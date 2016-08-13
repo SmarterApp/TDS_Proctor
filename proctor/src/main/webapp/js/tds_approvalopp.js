@@ -19,8 +19,10 @@ YUI.add("tds-approvalopps", function (Y) {
         _divAccsContainer = null,
         _divSegsAccsContainer = null,
         _divTestApprovalDetails = null,
-    _divSegmentApprovalDetails = null,
-    _spanAccsForName_Seg = null,
+        _divSegmentApprovalDetails = null,
+        _divMsbSegmentApprovalDetails = null,
+        _spanAccsForName_Seg = null,
+        _spanAccsForName_MsbSeg = null,
         _btnSet = null,
         _btnCancel = null,
         _btnSetApprove = null;
@@ -72,16 +74,16 @@ YUI.add("tds-approvalopps", function (Y) {
         _divSegsAccsContainer = Y.one('#divSegsAccsContainer');
         _divTestApprovalDetails = Y.one('#divTestApprovalDetails');
         _divSegmentApprovalDetails = Y.one('#divSegmentApprovalDetails');
-
+        _divMsbSegmentApprovalDetails = Y.one('#divMsbSegmentApprovalDetails');
         _spanAccsForName_Seg = Y.one('#spanAccsForName_Seg');
-
+        _spanAccsForName_MsbSeg = Y.one("#_spanAccsForName_MsbSeg");
         _btnSetApprove = Y.one('#btnSetApprove');
         _btnSet = Y.one('#btnSet');
         _btnCancel = Y.one('#btnCancel');
 
         _isInit = true;
     }
-    //WaitForSegmentEntry and WaitForSegmentExit    
+    //WaitForSegmentEntry and WaitForSegmentExit
     function _getSegmentAppText(status) {
         var key = "WaitFor" + status;
         return _oMessages.getRaw(key);
@@ -323,7 +325,7 @@ YUI.add("tds-approvalopps", function (Y) {
     }
     function _refresh() {
         Y.log("_refresh");
-        //confirm if there are waiting opps with setAcc=true        
+        //confirm if there are waiting opps with setAcc=true
         if (_hasSetAcc()) {
             var msgDialog = _oShared.msgDialog("Refresh Approvals Screen", _oMessages.get("All set accommodations for waiting students will be lost. Would you like to continue?"));
             msgDialog.addButton("confirm", Y.tds.messages.getRaw("Button.Yes"), _refreshConfirm);
@@ -377,7 +379,7 @@ YUI.add("tds-approvalopps", function (Y) {
 
     //return an hash array of {testlabel, count}
     function _getTestsAndCounts(testOpps) {
-        if (testOpps == null || testOpps.length < 1) {//no data            
+        if (testOpps == null || testOpps.length < 1) {//no data
             return null;
         }
         var len = testOpps.length;
@@ -423,7 +425,7 @@ YUI.add("tds-approvalopps", function (Y) {
 
     function _done() {
         Y.log("_done");
-        //confirm if there are waiting opps with setAcc=true        
+        //confirm if there are waiting opps with setAcc=true
         if (_hasSetAcc()) {
             var msgDialog = _oShared.msgDialog(Y.tds.messages.getRaw("Important!"), _oMessages.get("All set accommodations for waiting students will be lost. Would you like to continue?"));
             msgDialog.addButton("confirm", Y.tds.messages.getRaw("Button.Yes"), _doneConfirm);
@@ -444,7 +446,7 @@ YUI.add("tds-approvalopps", function (Y) {
         //remove the class and then call Y.pUI.refresh
         _oShared.removeBodyClass(_oClassName.approvals_window);
 
-        _oShared.addClosing(); //for mobile      
+        _oShared.addClosing(); //for mobile
 
         Y.pUI.refresh(); //this will pulling the data from the server again and then restart the auto refresh
         Y.pUI.startAutoRefresh();
@@ -647,7 +649,7 @@ YUI.add("tds-approvalopps", function (Y) {
     function _seeEditDetails_SegApproval(e, testOpp) {
         Y.log("_seeEditDetails_SegApproval");
         _showEditDetailDialog(true, testOpp);
-        _addORremoveTopButtons(false); //remove event listeners   
+        _addORremoveTopButtons(false); //remove event listeners
 
         //add show_details css class to the approvals_shell elem
         _divApprovalsShell.addClass(_oClassName.show_details);
@@ -659,12 +661,38 @@ YUI.add("tds-approvalopps", function (Y) {
         var btn = Y.one("#btnApprove_Seg");
         btn.detach();
         btn.on('click', _approveAndClose, null, testOpp);
-        //denied 
+        //denied
         btn = Y.one("#btnDeny_Seg");
         btn.detach();
         btn.on('click', _denyAndClose, null, testOpp);
-        //cancel 
+        //cancel
         btn = Y.one("#btnCancel_Seg");
+        btn.detach();
+        btn.on('click', _cancelAcc, null, testOpp);
+    }
+
+    //display details for MSB segment approval
+    function _seeEditDetails_MsbSegApproval(e, testOpp) {
+        Y.log("_seeEditDetails_MsbSegApproval");
+        _showEditDetailDialog(true, testOpp);
+        _addORremoveTopButtons(false); //remove event listeners
+
+        //add show_details css class to the approvals_shell elem
+        _divApprovalsShell.addClass(_oClassName.show_details);
+        _divTestApprovalDetails.hide();
+        _divMsbSegmentApprovalDetails.show();
+        _spanAccsForName_MsbSeg.setContent(testOpp.name)
+
+        //approve
+        var btn = Y.one("#btnApprove_MsbSeg");
+        btn.detach();
+        btn.on('click', _approveAndClose, null, testOpp);
+        //denied
+        btn = Y.one("#btnDeny_MsbSeg");
+        btn.detach();
+        btn.on('click', _denyAndClose, null, testOpp);
+        //cancel
+        btn = Y.one("#btnCancel_MsbSeg");
         btn.detach();
         btn.on('click', _cancelAcc, null, testOpp);
     }
@@ -676,6 +704,7 @@ YUI.add("tds-approvalopps", function (Y) {
             segments = Y.tdsSegments.getSegments(testOpp.testKey);
         _divTestApprovalDetails.show();
         _divSegmentApprovalDetails.hide();
+        _divMsbSegmentApprovalDetails.hide()
         _showEditDetailDialog(true, testOpp);
         //Get all possible accom if not exists
         _oAccTypes.loadAccs(testOpp, segments, _renderAccsEdit);
@@ -709,7 +738,7 @@ YUI.add("tds-approvalopps", function (Y) {
             btnDeny.on('click', _deny, null, testOpp);
         }
 
-        _addORremoveTopButtons(false); //remove event listeners   
+        _addORremoveTopButtons(false); //remove event listeners
         //add show_details css class to the approvals_shell elem
         _divApprovalsShell.addClass(_oClassName.show_details);
 
@@ -721,7 +750,7 @@ YUI.add("tds-approvalopps", function (Y) {
         _renderOnAccTypesEdit(testOpp, oppAccTypes, masterAccTypes, _divAccsContainer);
 
         var oppAccTypesLen = testOpp.accTypesList.length;
-        //SEGMENT level accs     
+        //SEGMENT level accs
         _divSegsAccsContainer.setContent(''); //clean out
         if (segments == null || oppAccTypesLen <= 1) return; //no need to reapprove segment accommodations
         var len = segments.length;
@@ -748,7 +777,7 @@ YUI.add("tds-approvalopps", function (Y) {
             var masterAccType = masterAccTypes[i].Value;
             _renderOneAccTypeEdit(testOpp, oppAccTypes, masterAccTypes, masterAccType, detailElem);
 
-            //tool dependencies          
+            //tool dependencies
             var accDepParentTypes = masterAccType.accDepParentTypes;
             if (accDepParentTypes != null && accDepParentTypes.length > 0) { //call _renderOneAccTypeEdit for each dependencies
                 _renderAccsDependencies(testOpp, oppAccTypes, masterAccTypes, detailElem, masterAccType.Type, accDepParentTypes);
@@ -769,7 +798,7 @@ YUI.add("tds-approvalopps", function (Y) {
         var contElem = null;
         //NOTE: from Larry:
         //If the status is ‘pending’ then the test has not officially started and any accommodation available to the proctor can be changed.
-        //If the status is ‘suspended’, then the test has officially started and any accommodations whose AllowChange flag = 0 cannot be altered.            
+        //If the status is ‘suspended’, then the test has officially started and any accommodations whose AllowChange flag = 0 cannot be altered.
 
         //NOTE: from H-A
         //the test has officially started when student clicked on "Begin Test Now"
@@ -796,7 +825,7 @@ YUI.add("tds-approvalopps", function (Y) {
             if (selectedAccType == null)
                 selectedAccTypeV = masterAccTypeV;
             else {
-                //get only selected values that is a subset of the master list, 
+                //get only selected values that is a subset of the master list,
                 //use the default from the test master list if selected values is null
                 selectedAccTypeV = _oAccTypes.getSelectedAccTypeValue(selectedAccType.Value, masterAccTypeV);
                 if (selectedAccTypeV == null)
@@ -816,7 +845,7 @@ YUI.add("tds-approvalopps", function (Y) {
                 if (selectedAccType == null)
                     selectedAccTypeV = masterAccTypeV;
                 else {
-                    //get only selected values that is a subset of the master list, 
+                    //get only selected values that is a subset of the master list,
                     //use the default from the test master list if selected values is null
                     selectedAccTypeV = _oAccTypes.getSelectedAccTypeValue(selectedAccType.Value, masterAccTypeV);
                     if (selectedAccTypeV == null)
@@ -824,7 +853,7 @@ YUI.add("tds-approvalopps", function (Y) {
                 }
                 divAcc.append(_oAccTypes.buildAccValueSpan(selectedAccTypeV));
 
-                //add edit/done buttons for mobile                
+                //add edit/done buttons for mobile
                 var aBtn = _oShared.aNode("Edit", "accomm_edit");
                 aBtn.on('click', _accValueEditOnclick);
                 divAcc.append(aBtn);
@@ -964,7 +993,7 @@ YUI.add("tds-approvalopps", function (Y) {
                 segments = Y.tdsSegments.getSegments(testOpp.testKey);
 
             if (segments != null) {
-                //SEGMENT level accs        
+                //SEGMENT level accs
                 var len = segments.length;
                 for (var i = 0; i < len; i++) {
                     //get all select box elems on the page
@@ -1013,13 +1042,13 @@ YUI.add("tds-approvalopps", function (Y) {
             }
             if (selectedAccType.Value == undefined)
                 selectedAccType.Value = {}; //add the new type if not exists
-            selectedAccType.Value.Values = new Array();   //alter selected accTypes in ApprovalOpps            
+            selectedAccType.Value.Values = new Array();   //alter selected accTypes in ApprovalOpps
             //get values
             selectedAccType.Value.Values = _getInputValues(accDiv, selectedAccType);
             selectedAccType.setAcc = true;
         }
         //remove extra tool from tool dependencies
-        //NOTE (09/22/2011): This will not remove from the db, Larry does this in the sp 
+        //NOTE (09/22/2011): This will not remove from the db, Larry does this in the sp
         len = oppAccTypes.length;
         i = 0;
         while (i < len) {
@@ -1212,10 +1241,11 @@ YUI.add("tds-approvalopps", function (Y) {
 
         td = _oShared.tdNode(null, "table_accomm");
         var span = _oShared.spanNode(null, "positioner");
-
+        // For the prototype - lets just assume isSegmentApproval means its a Multi Stage Braille action
+        var isMsbApproval = testOpp.IsSegmentApproval;
         var btnDetailsLabel;
         //if segment approval
-        if (testOpp.IsSegmentApproval) {
+        if (testOpp.IsSegmentApproval || isMsbApproval) {
             span.setContent(_getSegmentAppText(status))
             btnDetailsLabel = _getBtnDetailsLabel();
         }
@@ -1227,30 +1257,45 @@ YUI.add("tds-approvalopps", function (Y) {
 
         var a = _oShared.aNode(btnDetailsLabel, "positioner");
         //if segment approval
-        if (testOpp.IsSegmentApproval)
+        if (testOpp.IsSegmentApproval && !isMsbApproval) {
             a.on('click', _seeEditDetails_SegApproval, null, testOpp);
-        else
+            td.append(span);
+        } else if (isMsbApproval) { // Waiting for page maybe?
+            td.append("Waiting for handout of MSB Package");
+        } else {
             a.on('click', _seeEditDetails, null, testOpp);
-        td.append(span);
-        td.append(a);
-        tr.append(td);
+            td.append(span);
+            td.append(a);
+        }
 
-        td = _oShared.tdNode(null, "approve");
-        a = _oShared.aNode(_getBtnApproveLabel(), null);
-        a.on('click', _approve, null, testOpp);
-        td.append(a);
         tr.append(td);
+        if ((testOpp.IsSegmentApproval && !isMsbApproval) || !testOpp.IsSegmentApproval) {
+            td = _oShared.tdNode(null, "approve");
+            a = _oShared.aNode(_getBtnApproveLabel(), null);
+            a.on('click', _approve, null, testOpp);
+            td.append(a);
+            tr.append(td);
 
-        td = _oShared.tdNode(null, "deny");
-        a = _oShared.aNode(_getBtnDenyLabel());
-        a.on('click', _deny, null, testOpp);
-        td.append(a);
-        tr.append(td);
+            td = _oShared.tdNode(null, "deny");
+            a = _oShared.aNode(_getBtnDenyLabel());
+            a.on('click', _deny, null, testOpp);
+            td.append(a);
+            tr.append(td);
 
-        td = _oShared.tdNode(null, "error");
-        span = _oShared.spanNode();
-        td.append(span);
-        tr.append(td);
+            td = _oShared.tdNode(null, "error");
+            span = _oShared.spanNode();
+            td.append(span);
+            tr.append(td);
+
+        } else if (isMsbApproval) {
+            td = _oShared.tdNode(null, "approve")
+            var a = _oShared.aNode("MSB Request Details", "positioner");
+            a.on('click', _seeEditDetails_MsbSegApproval, null, testOpp);
+            td.append(a);
+            tr.append(td);
+        }
+
+
 
         //Mobile browser:
         _buildRowMobile(tr, testOpp);
