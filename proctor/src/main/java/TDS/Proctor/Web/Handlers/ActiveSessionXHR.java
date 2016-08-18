@@ -242,29 +242,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID sessionKey = UUID.fromString(strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "AutoRefreshData");
 
-      // format: [SESSION-ID]|[STUDENT-ID]|[STATE]|[SESSION-ID]|.......
-      // [STATE] can be: PAUSED, DISTRIBUTING, SIGNED
-      //    PAUSED: student finish first segment, so we should prompt proctor
-      //    DISTRIBUTING: proctor is being shown the modal and distributing the handout
-      //    SIGNED: proctor confirmed they passed out the packet and the student can now continue with last segment
-      String msbStudentData = (String)_cachingService.getValue(CacheType.LongTerm, "msbData");
-
-      if (StringUtils.isNotEmpty(msbStudentData)) {
-        String[] msbParts = msbStudentData.split(":");
-
-        for (int i=0; i < msbParts.length; i+=3) {
-          String msbSessionId = msbParts[i];
-          String msbStudentId = msbParts[i + 1];
-          String msbState = msbParts[i + 2];
-
-          if (msbSessionId.equals(strSessionKey)) {
-            sessionDTO.setMsbAlert(new MsbAlert(msbSessionId, msbStudentId, msbState));
-            _cachingService.setValue(CacheType.LongTerm, "msbData", "DISTRIBUTING");
-          }
-        }
-      }
-
-
       boolean bGetCurTestees = true; // always get current testees if parameter
                                      // not exists
       if (!StringUtils.isEmpty (strBGetCurTestees)) {

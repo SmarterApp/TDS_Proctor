@@ -1261,7 +1261,7 @@ YUI.add("tds-approvalopps", function (Y) {
             a.on('click', _seeEditDetails_SegApproval, null, testOpp);
             td.append(span);
         } else if (isMsbApproval) { // Waiting for page maybe?
-            td.append("Waiting for handout of MSB Package");
+            td.append("Waiting for MSB Package GRADE3-ELA-2");
         } else {
             a.on('click', _seeEditDetails, null, testOpp);
             td.append(span);
@@ -1288,8 +1288,8 @@ YUI.add("tds-approvalopps", function (Y) {
             tr.append(td);
 
         } else if (isMsbApproval) {
-            td = _oShared.tdNode(null, "approve")
-            var a = _oShared.aNode("MSB Request Details", "positioner");
+            td = _oShared.tdNode(null, "approve");
+            var a = _oShared.aNode("Confirm...", "positioner");
             a.on('click', _seeEditDetails_MsbSegApproval, null, testOpp);
             td.append(a);
             tr.append(td);
