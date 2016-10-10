@@ -96,7 +96,6 @@ public class TestRepository extends AbstractDAO implements ITestRepository
         test.setAccFamily (record.<String> get ("AccommodationFamily"));
         test.setIsselectable (record.<Boolean> get ("isSelectable"));
         test.setSegmented (record.<Boolean> get ("IsSegmented"));
-        test.set_isMsb(record.<Boolean> get ("msb"));
 
         if(record.hasColumn("Category"))
             test.setCategory(record.<String> get("Category"));

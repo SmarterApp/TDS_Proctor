@@ -30,16 +30,6 @@ public class Test
   private boolean _isSegmented;
   private int 	  _sortGrade;
   private String _category;            //test category
-  private boolean _isMsb;
-
-  @JsonProperty("isMsb")
-  public boolean is_isMsb() {
-    return _isMsb;
-  }
-
-  public void set_isMsb(boolean _isMsb) {
-    this._isMsb = _isMsb;
-  }
 
   @JsonProperty ("Key")
   public String get_key () {
