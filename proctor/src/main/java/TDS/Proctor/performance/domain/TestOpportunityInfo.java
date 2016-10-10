@@ -17,6 +17,7 @@ public class TestOpportunityInfo {
     private Integer waitingForSegment;
     private String mode;
     private String lepValue;
+    private boolean msb;
 
     public boolean isMsb() {
         return msb;
@@ -25,8 +26,6 @@ public class TestOpportunityInfo {
     public void setMsb(boolean msb) {
         this.msb = msb;
     }
-
-    private boolean msb;
 
     public UUID getOpportunityId() {
         return opportunityId;

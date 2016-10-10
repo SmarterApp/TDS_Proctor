@@ -16,24 +16,14 @@ import java.util.UUID;
 public class TestOpportunity implements Comparable<TestOpportunity>
 {
   private UUID   _oppKey;
-  private String _ssid;                // the ID by which the testee is
-                                        // known to the client
+  private String _ssid;
   private String _testKey;
-  // administered (an
-  // aggregate
-  // from tblTesteeResponse)
-  private int    _responseCount = -1;  // how many items testee has
-  // answered
+  private int    _responseCount = -1;
   private int    _requestCount  = 0;
-
   private String _testID        = null;
   private String _testName      = null;
-  private int    _opp           = 0;   // these range from 1 to
-  // test.maxopportunities, so
-  // zero
-  // means 'not instantiated'
-  private int    _itemcount = -1; // how many test items
-  // segment
+  private int    _opp           = 0; //Default value means not instantiated
+  private int    _itemcount     = -1;
   private int    _segment;
   private String _segmentAccoms;
   private int    _waitSegment;
@@ -43,15 +33,12 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   private String _accs; // accommodations String
   private Integer _score;
   private String _lep; // lep flag 'Y', N' or empty
-  private boolean _custAccs; // is this student/test has
-  private List<AccTypes> _accTypesList; // 0: test; 1 and so on for
-  // public ReturnStatus ReturnedStatus { get; set; }
+  private boolean _custAccs;
+  private List<AccTypes> _accTypesList;
   private String _reason = null;
   private boolean _isMsb;
 
-  public TestOpportunity () {
-
-  }
+  public TestOpportunity () {}
 
   public TestOpportunity (UUID oppKey) {
     this._oppKey = oppKey;
