@@ -18,6 +18,16 @@ public class TestOpportunityInfo {
     private String mode;
     private String lepValue;
 
+    public boolean isMsb() {
+        return msb;
+    }
+
+    public void setMsb(boolean msb) {
+        this.msb = msb;
+    }
+
+    private boolean msb;
+
     public UUID getOpportunityId() {
         return opportunityId;
     }

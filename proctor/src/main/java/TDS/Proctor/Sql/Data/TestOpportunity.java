@@ -8,10 +8,10 @@
  ******************************************************************************/
 package TDS.Proctor.Sql.Data;
 
+import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
+
 import java.util.List;
 import java.util.UUID;
-
-import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
 
 public class TestOpportunity implements Comparable<TestOpportunity>
 {
@@ -29,6 +29,41 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   private String _testID        = null;
   private String _testName      = null;
   private int    _opp           = 0;   // these range from 1 to
+  // test.maxopportunities, so
+  // zero
+  // means 'not instantiated'
+  private int    _itemcount = -1; // how many test items
+  // segment
+  private int    _segment;
+  private String _segmentAccoms;
+  private int    _waitSegment;
+  private String _name;
+  private String _status;
+  private String _displayStatus;
+  private String _accs; // accommodations String
+  private Integer _score;
+  private String _lep; // lep flag 'Y', N' or empty
+  private boolean _custAccs; // is this student/test has
+  private List<AccTypes> _accTypesList; // 0: test; 1 and so on for
+  // public ReturnStatus ReturnedStatus { get; set; }
+  private String _reason = null;
+  private boolean _isMsb;
+
+  public TestOpportunity () {
+
+  }
+
+  public TestOpportunity (UUID oppKey) {
+    this._oppKey = oppKey;
+  }
+
+  public boolean isMsb() {
+    return _isMsb;
+  }
+
+  public void setIsMsb(boolean isMsb) {
+    this._isMsb = isMsb;
+  }
 
   /**
    * @return the _opp
@@ -44,16 +79,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public void setOpp (int _opp) {
     this._opp = _opp;
   }
-
-  // test.maxopportunities, so
-  // zero
-  // means 'not instantiated'
-  private int    _itemcount = -1; // how many test items
-  // segment
-  private int    _segment;
-  private String _segmentAccoms;
-  private int    _waitSegment;
-  private String _name;
 
   /**
    * @return the _itemcount
@@ -100,9 +125,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._requestCount = _requestCount;
   }
 
-  private String _status;
-  private String _displayStatus;
-
   /**
    * @return the _displayStatus
    */
@@ -118,8 +140,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._displayStatus = _displayStatus;
   }
 
-  private String _accs; // accommodations String
-
   /**
    * @return the _accs
    */
@@ -134,8 +154,7 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public void setAccs (String _accs) {
     this._accs = _accs;
   }
-
-  private Integer _score;
+                             // custom accs setting?
 
   /**
    * @return the _score
@@ -152,8 +171,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._score = _score;
   }
 
-  private String _lep; // lep flag 'Y', N' or empty
-
   /**
    * @return the _lep
    */
@@ -168,9 +185,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public void setLep (String _lep) {
     this._lep = _lep;
   }
-
-  private boolean _custAccs; // is this student/test has
-                             // custom accs setting?
 
   /**
    * @return the _custAccs
@@ -223,6 +237,7 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public String getTestKey () {
     return _testKey;
   }
+                                        // segments
 
   /**
    * @param _testKey
@@ -247,9 +262,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._name = _name;
   }
 
-  private List<AccTypes> _accTypesList; // 0: test; 1 and so on for
-                                        // segments
-
   /**
    * @return the _accTypesList
    */
@@ -265,9 +277,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._accTypesList = _accTypesList;
   }
 
-  // public ReturnStatus ReturnedStatus { get; set; }
-  private String _reason = null;
-
   /**
    * @return the _testID
    */
@@ -281,14 +290,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
    */
   public void setTestID (String _testID) {
     this._testID = _testID;
-  }
-
-  public TestOpportunity () {
-
-  }
-
-  public TestOpportunity (UUID oppKey) {
-    this._oppKey = oppKey;
   }
 
   // sort by testKey/Status/waitSegment
@@ -313,12 +314,12 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._oppKey = oppKey;
   }
 
-  public void setSsid (String ssid) {
-    this._ssid = ssid;
-  }
-
   public String getSsid () {
     return this._ssid;
+  }
+
+  public void setSsid (String ssid) {
+    this._ssid = ssid;
   }
 
   public String getTestName () {
