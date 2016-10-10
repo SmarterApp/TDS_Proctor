@@ -1,55 +1,42 @@
 /*******************************************************************************
  * Educational Online Test Delivery System 
  * Copyright (c) 2014 American Institutes for Research
- *   
+ *
  * Distributed under the AIR Open Source License, Version 1.0 
  * See accompanying file AIR-License-1_0.txt or at
  * http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf
  ******************************************************************************/
 package TDS.Proctor.Sql.Data;
 
-import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
-
 import java.util.List;
 import java.util.UUID;
+
+import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
 
 public class TestOpportunity implements Comparable<TestOpportunity>
 {
   private UUID   _oppKey;
-  private String _ssid;
+  private String _ssid;                // the ID by which the testee is
+  // known to the client
   private String _testKey;
-  private int    _responseCount = -1;
+  // administered (an
+  // aggregate
+  // from tblTesteeResponse)
+  private int    _responseCount = -1;  // how many items testee has
+  // answered
   private int    _requestCount  = 0;
+
   private String _testID        = null;
   private String _testName      = null;
-  private int    _opp           = 0; //Default value means not instantiated
-  private int    _itemcount     = -1;
-  private int    _segment;
-  private String _segmentAccoms;
-  private int    _waitSegment;
-  private String _name;
-  private String _status;
-  private String _displayStatus;
-  private String _accs; // accommodations String
-  private Integer _score;
-  private String _lep; // lep flag 'Y', N' or empty
-  private boolean _custAccs;
-  private List<AccTypes> _accTypesList;
-  private String _reason = null;
+  private int    _opp           = 0;   // these range from 1 to
   private boolean _isMsb;
-
-  public TestOpportunity () {}
-
-  public TestOpportunity (UUID oppKey) {
-    this._oppKey = oppKey;
-  }
 
   public boolean isMsb() {
     return _isMsb;
   }
 
-  public void setIsMsb(boolean isMsb) {
-    this._isMsb = isMsb;
+  public void setIsMsb(boolean _isMsb) {
+    this._isMsb = _isMsb;
   }
 
   /**
@@ -66,6 +53,16 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public void setOpp (int _opp) {
     this._opp = _opp;
   }
+
+  // test.maxopportunities, so
+  // zero
+  // means 'not instantiated'
+  private int    _itemcount = -1; // how many test items
+  // segment
+  private int    _segment;
+  private String _segmentAccoms;
+  private int    _waitSegment;
+  private String _name;
 
   /**
    * @return the _itemcount
@@ -112,6 +109,9 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._requestCount = _requestCount;
   }
 
+  private String _status;
+  private String _displayStatus;
+
   /**
    * @return the _displayStatus
    */
@@ -126,6 +126,8 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public void setDisplayStatus (String _displayStatus) {
     this._displayStatus = _displayStatus;
   }
+
+  private String _accs; // accommodations String
 
   /**
    * @return the _accs
@@ -142,6 +144,8 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._accs = _accs;
   }
 
+  private Integer _score;
+
   /**
    * @return the _score
    */
@@ -157,6 +161,8 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._score = _score;
   }
 
+  private String _lep; // lep flag 'Y', N' or empty
+
   /**
    * @return the _lep
    */
@@ -171,6 +177,9 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public void setLep (String _lep) {
     this._lep = _lep;
   }
+
+  private boolean _custAccs; // is this student/test has
+  // custom accs setting?
 
   /**
    * @return the _custAccs
@@ -247,6 +256,9 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._name = _name;
   }
 
+  private List<AccTypes> _accTypesList; // 0: test; 1 and so on for
+  // segments
+
   /**
    * @return the _accTypesList
    */
@@ -262,6 +274,9 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._accTypesList = _accTypesList;
   }
 
+  // public ReturnStatus ReturnedStatus { get; set; }
+  private String _reason = null;
+
   /**
    * @return the _testID
    */
@@ -275,6 +290,14 @@ public class TestOpportunity implements Comparable<TestOpportunity>
    */
   public void setTestID (String _testID) {
     this._testID = _testID;
+  }
+
+  public TestOpportunity () {
+
+  }
+
+  public TestOpportunity (UUID oppKey) {
+    this._oppKey = oppKey;
   }
 
   // sort by testKey/Status/waitSegment
@@ -299,12 +322,12 @@ public class TestOpportunity implements Comparable<TestOpportunity>
     this._oppKey = oppKey;
   }
 
-  public String getSsid () {
-    return this._ssid;
-  }
-
   public void setSsid (String ssid) {
     this._ssid = ssid;
+  }
+
+  public String getSsid () {
+    return this._ssid;
   }
 
   public String getTestName () {
