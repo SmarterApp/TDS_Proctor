@@ -93,8 +93,9 @@ public class TestSessionDaoImpl extends AbstractDLL implements TestSessionDao {
                     + " numResponses as ResponseCount, (select count(*) from testopprequest REQ where REQ._fk_TestOpportunity = tOpp._fk_TestOpportunity and REQ._fk_Session = ${sessionKey}"
                     + " and DateFulfilled is null and DateSubmitted > ${midnightAM} and DateSubmitted < ${midnightPM}) as RequestCountN, (select value as score from testopportunityscores S, "
                     + " ${ConfigDB}.client_testscorefeatures F  where F.ClientName = ${clientname} and ReportToProctor = 1 and S._fk_TestOpportunity = tOpp._fk_TestOpportunity and S.IsOfficial = 1 "
-                    + " and S.MeasureOf = F.MeasureOf and S.MeasureLabel = F.MeasureLabel limit 1) as Score, AccommodationString as Accommodations, tOpp.customAccommodations, tOpp.mode "
-                    + " from testopportunity_readonly tOpp where _fk_Session = ${sessionKey} and tOpp.DateChanged > ${midnightAM} and tOpp.DateChanged < ${midnightPM}  and tOpp.status not in ('pending', 'suspended', 'denied');";
+                    + " and S.MeasureOf = F.MeasureOf and S.MeasureLabel = F.MeasureLabel limit 1) as Score, AccommodationString as Accommodations, tOpp.customAccommodations, tOpp.mode, ctp.msb"
+                    + " from testopportunity_readonly tOpp left outer join configs.client_testproperties ctp on tOpp._efk_testid = ctp.testid"
+                    + " where _fk_Session = ${sessionKey} and tOpp.DateChanged > ${midnightAM} and tOpp.DateChanged < ${midnightPM}  and tOpp.status not in ('pending', 'suspended', 'denied');";
 
             SqlParametersMaps parms = new SqlParametersMaps ().put ("paused", "paused").put ("clientname", client).put ("sessionKey", sessionKey).put ("midnightPM", midnightPM)
                     .put ("midnightAM", midnightAM);

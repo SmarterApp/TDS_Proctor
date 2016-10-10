@@ -87,7 +87,7 @@ public class ProctorUserServiceImpl extends AbstractDLL implements ProctorUserSe
             try (SQLConnection connection = legacySqlConnection.get()) {
                 String testTypesStr = listToQuotedString(testTypes);
                 final String SQL_QUERY = "select distinct P.TestID, P.GradeText, P.SubjectName as Subject, P.label as DisplayName, "
-                        + " P.SortOrder, P.AccommodationFamily,P.IsSelectable, M.IsSegmented, M.TestKey"
+                        + " P.SortOrder, P.AccommodationFamily,P.IsSelectable, M.IsSegmented, M.TestKey, P.msb"
                         + " from ${ConfigDB}.client_testproperties P, ${ConfigDB}.client_testmode M, ${ItemBankDB}.tblsetofadminsubjects S "
                         + " where P.clientname = ${clientname}  and M.clientname = ${clientname} and M.testID = P.testID and M.testkey = S._Key"
                         + " and S.testtype in (${testTypesStr})"
