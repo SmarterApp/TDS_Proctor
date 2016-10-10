@@ -65,6 +65,7 @@ public class TestApprovalHelper {
         rs.addColumn ("waitingForSegment", SQL_TYPE_To_JAVA_TYPE.INT);
         rs.addColumn ("mode", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
         rs.addColumn ("LEP", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
+        rs.addColumn ("msb", SQL_TYPE_To_JAVA_TYPE.BIT);
 
         List<CaseInsensitiveMap<Object>> resultList = new ArrayList<>();
 
@@ -82,6 +83,7 @@ public class TestApprovalHelper {
             rcd.put("waitingForSegment", oppInfo.getWaitingForSegment());
             rcd.put("mode", oppInfo.getMode());
             rcd.put("LEP", oppInfo.getLepValue());
+            rcd.put("msb", oppInfo.isMsb());
             resultList.add(rcd);
         }
 
@@ -116,6 +118,7 @@ public class TestApprovalHelper {
         rs.addColumn ("waitingForSegment", SQL_TYPE_To_JAVA_TYPE.INT);
         rs.addColumn ("mode", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
         rs.addColumn ("LEP", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
+        rs.addColumn ("msb", SQL_TYPE_To_JAVA_TYPE.BIT);
 
         // accommodations temp table columns
         rs.addColumn ("oppKey", SQL_TYPE_To_JAVA_TYPE.UNIQUEIDENTIFIER);
@@ -124,7 +127,6 @@ public class TestApprovalHelper {
         rs.addColumn ("AccValue", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
         rs.addColumn ("segment", SQL_TYPE_To_JAVA_TYPE.INT);
         rs.addColumn ("isSelectable", SQL_TYPE_To_JAVA_TYPE.BIT);
-
 
         List<CaseInsensitiveMap<Object>> resultList = new ArrayList<>();
 
@@ -147,6 +149,7 @@ public class TestApprovalHelper {
                     rcd.put("waitingForSegment", oppInfo.getWaitingForSegment());
                     rcd.put("mode", oppInfo.getMode());
                     rcd.put("LEP", oppInfo.getLepValue());
+                    rcd.put ("msb", oppInfo.isMsb());
 
                     // accommodations values
                     rcd.put("oppKey", acc.getOpportunityId());
