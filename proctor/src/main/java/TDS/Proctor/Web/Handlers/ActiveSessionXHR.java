@@ -247,7 +247,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       if (!StringUtils.isEmpty (strBGetCurTestees)) {
         bGetCurTestees = Boolean.parseBoolean (strBGetCurTestees);
       }
-      
+
       // 1. Get a list of students waiting for approval
       sessionDTO.setbReplaceApprovalOpps (true);
       sessionDTO.setApprovalOpps (_proctorAppTasks.getTestOppTasks ().getTestsForApproval (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ()));

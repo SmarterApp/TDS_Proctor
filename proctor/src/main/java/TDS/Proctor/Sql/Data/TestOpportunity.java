@@ -141,7 +141,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public void setAccs (String _accs) {
     this._accs = _accs;
   }
-                             // custom accs setting?
 
   /**
    * @return the _score
@@ -224,7 +223,6 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   public String getTestKey () {
     return _testKey;
   }
-                                        // segments
 
   /**
    * @param _testKey
