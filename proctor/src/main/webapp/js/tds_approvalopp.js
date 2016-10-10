@@ -1241,11 +1241,11 @@ YUI.add("tds-approvalopps", function (Y) {
 
         td = _oShared.tdNode(null, "table_accomm");
         var span = _oShared.spanNode(null, "positioner");
-        // For the prototype - lets just assume isSegmentApproval means its a Multi Stage Braille action
-        var isMsbApproval = testOpp.IsSegmentApproval;
+        // This property initiates the multi-stage braille flow
+        var isMsbApproval = testOpp.msb;
         var btnDetailsLabel;
         //if segment approval
-        if (testOpp.IsSegmentApproval || isMsbApproval) {
+        if (testOpp.IsSegmentApproval) {
             span.setContent(_getSegmentAppText(status))
             btnDetailsLabel = _getBtnDetailsLabel();
         }
@@ -1260,8 +1260,8 @@ YUI.add("tds-approvalopps", function (Y) {
         if (testOpp.IsSegmentApproval && !isMsbApproval) {
             a.on('click', _seeEditDetails_SegApproval, null, testOpp);
             td.append(span);
-        } else if (isMsbApproval) { // Waiting for page maybe?
-            td.append("Waiting for MSB Package GRADE3-ELA-2");
+        } else if (testOpp.status == "segmentExit"  && isMsbApproval) {
+            td.append("Waiting for MSB Package for " + testOpp.testName);
         } else {
             a.on('click', _seeEditDetails, null, testOpp);
             td.append(span);
