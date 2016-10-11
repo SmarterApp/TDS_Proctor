@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import AIR.Common.DB.SQLConnection;
+import TDS.Proctor.Sql.Data.*;
 import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestSessionDao;
 import org.apache.commons.lang3.StringUtils;
@@ -32,20 +33,6 @@ import AIR.Common.Helpers._Ref;
 import AIR.Common.Utilities.UrlEncoderDecoderUtils;
 import TDS.Proctor.Services.ProctorAppTasks;
 import TDS.Proctor.Services.ProctorUserService;
-import TDS.Proctor.Sql.Data.AlertMessages;
-import TDS.Proctor.Sql.Data.Districts;
-import TDS.Proctor.Sql.Data.Grades;
-import TDS.Proctor.Sql.Data.InstitutionList;
-import TDS.Proctor.Sql.Data.ProctorUser;
-import TDS.Proctor.Sql.Data.Schools;
-import TDS.Proctor.Sql.Data.SessionDTO;
-import TDS.Proctor.Sql.Data.Test;
-import TDS.Proctor.Sql.Data.TestOpps;
-import TDS.Proctor.Sql.Data.TestSession;
-import TDS.Proctor.Sql.Data.Testee;
-import TDS.Proctor.Sql.Data.TesteeRequestDTO;
-import TDS.Proctor.Sql.Data.TesteeRequests;
-import TDS.Proctor.Sql.Data.Testees;
 import TDS.Proctor.Sql.Data.Abstractions.IAppConfigService;
 import TDS.Proctor.Sql.Data.Accommodations.AccsDTO;
 import TDS.Shared.Browser.BrowserAction;
@@ -58,6 +45,8 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 import TDS.Shared.Exceptions.TDSSecurityException;
 import tds.dll.api.ICommonDLL;
+import tds.dll.common.performance.caching.CacheType;
+import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
 
 @Scope ("prototype")
@@ -79,6 +68,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
   @Autowired
   private ICommonDLL _commonDll;
+
+  @Autowired
+  private CachingService _cachingService;
 
   @RequestMapping (value = "XHR.axd/TestController2", method = RequestMethod.GET)
   public @ResponseBody
@@ -243,6 +235,8 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         return null;
       }
 
+      SessionDTO sessionDTO = new SessionDTO ();
+
       UUID sessionKey = UUID.fromString(strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "AutoRefreshData");
 
@@ -251,8 +245,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       if (!StringUtils.isEmpty (strBGetCurTestees)) {
         bGetCurTestees = Boolean.parseBoolean (strBGetCurTestees);
       }
-
-      SessionDTO sessionDTO = new SessionDTO ();
 
       // 1. Get a list of students waiting for approval
       sessionDTO.setbReplaceApprovalOpps (true);

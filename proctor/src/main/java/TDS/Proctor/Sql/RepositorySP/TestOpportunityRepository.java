@@ -79,6 +79,7 @@ private static final Logger _logger = LoggerFactory.getLogger(TestOpportunityRep
       tOp.setStatus (reader.getString ("Status"));
       tOp.setTestID (reader.getString ("_efk_TestID"));
       tOp.setTestName (tOp.getTestID ());
+      tOp.setIsMsb(reader.getBoolean("msb"));
 
       // tOp.testName = tests.GetTestDisplayName(tOp.testKey); //we will
       // need to get this from client side

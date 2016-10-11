@@ -63,8 +63,7 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
 
   public TestOpps getCurrentSessionTestees (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
     TestOpps testOpps = null;
-    try (SQLConnection connection = getSQLConnection ()) {
-      //SingleDataResultSet result = dll.P_GetCurrentSessionTestees_SP (connection, sessionKey, proctorKey, browserKey);
+    try {
       SingleDataResultSet result = testSessionDao.getCurrentSessionTestees(sessionKey, proctorKey, browserKey);
 
       Iterator<DbResultRecord> records = result.getRecords ();
@@ -80,19 +79,14 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
     return testOpps;
   }
 
-  //TODO should be void
-  private ReturnStatus loadCurrentSessionTestees (Iterator<DbResultRecord> records, TestOpps testOpps) throws SQLException {
+  private void loadCurrentSessionTestees (Iterator<DbResultRecord> records, TestOpps testOpps) throws SQLException {
 
     if (records == null)
-      return null;// nothing to load
-    // check for errors
+      return; // nothing to load
 
-    // if (hasColumn (reader, "status") && hasColumn (reader, "reason")) {
-    // return ReturnStatus.parse (reader);
-    // }
     while (records.hasNext ()) {
       DbResultRecord record = records.next ();
-      // load stuff here ...
+
       TestOpportunity tOp = new TestOpportunity ();
       tOp.setOppKey (record.<UUID> get ("opportunityKey"));
       tOp.setName (record.<String> get ("TesteeName"));
@@ -110,6 +104,7 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
       // implementation changes
       tOp.setItemcount ((!record.hasColumn ("ItemCount")) ? -1 : record.<Integer> get ("ItemCount"));
       tOp.setResponseCount ((!record.hasColumn ("ResponseCount")) ? 0 : record.<Integer> get ("ResponseCount"));
+      tOp.setIsMsb(record.<Boolean> get("msb"));
 
       Integer score = null;
       
@@ -122,14 +117,9 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
       }
       
       tOp.setScore (score);
-      
-      
       tOp.setRequestCount ((!record.hasColumn ("RequestCount") ? 0 : record.<Integer> get ("RequestCount")));
-
       tOp.setAccs ((!record.hasColumn ("Accommodations")) ? null : record.<String> get ("Accommodations"));
-
       String strPauseMins = (!record.hasColumn ("pauseMinutes") || record.<String> get ("pauseMinutes") == null) ? "" : String.format (", %s min", record.<String> get ("pauseMinutes"));
-
       if (tOp.getScore () != null)
         tOp.setDisplayStatus (String.format ("%s: %d", tOp.getStatus (), tOp.getScore ()));
       else if (!record.hasColumn ("DateCompleted") || record.<Date> get ("DateCompleted") == null)
@@ -138,10 +128,7 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
         tOp.setDisplayStatus (tOp.getStatus ());
       tOp.setCustAccs (record.<Boolean> get ("customAccommodations"));
       testOpps.add (tOp);
-
     }
-
-    return null;
   }
 
   public TestOpps getTestsForApproval (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
@@ -203,6 +190,7 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
 	  tOp.setSsid (record.<String> get ("TesteeID"));
 	  tOp.setName (record.<String> get ("TesteeName"));
 	  tOp.setWaitSegment (record.<Integer> get ("waitingForSegment"));
+      tOp.setIsMsb(record.<Boolean> get("msb"));
 
 	  testOpps.add (tOp);
 	  testOppDic.put (tOp.getOppKey (), testOpps.size () - 1);

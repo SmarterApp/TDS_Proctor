@@ -86,15 +86,16 @@ public class TestApprovalServiceImpl extends AbstractDLL implements TestApproval
                     "O.opportunity, " +
                     "O._efk_AdminSubject as adminSubject, O.status, O.testeeID, " +
                     "O.testeeName, O.customAccommodations, O.waitingForSegment, O.mode, " +
-                    "A.attributeValue as lepValue " +
+                    "A.attributeValue as lepValue,  ctp.msb " +
                 "from testopportunity_readonly O " +
+                "left join ${configDB}.client_testproperties ctp on O._efk_testid = ctp.testid and O.clientname = ctp.clientname " +
                 "left join testeeattribute A on O._fk_testopportunity = A._fk_testopportunity and A.tds_id = 'LEP' " +
                 "where _fk_Session = :sessionKey and O.status in ('pending', 'suspended', 'segmentEntry', 'segmentExit');";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("sessionKey", UuidAdapter.getBytesFromUUID(sessionKey));
 
-        List<TestOpportunityInfo> opportunities = namedParameterJdbcTemplate.query(SQL,
+        List<TestOpportunityInfo> opportunities = namedParameterJdbcTemplate.query(this.fixDataBaseNames(SQL),
                 parameters,
                 new BeanPropertyRowMapper(TestOpportunityInfo.class));
 
