@@ -200,8 +200,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID sessionKey = UUID.fromString (strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "ProctorPing");
 
-      _cachingService.setValue(CacheType.LongTerm, "msbData", strSessionKey + ":ASSID1:PAUSED");
-
       _proctorAppTasks.getTestSessionTasks ().setSessionDateVisited (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
 
       return new ReturnStatus ("True", "");
