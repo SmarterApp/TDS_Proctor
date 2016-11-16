@@ -132,7 +132,7 @@ public class TestApprovalHelper {
 
         for (TestOpportunityInfo oppInfo : opportunities) {
             for (TesteeAccommodation acc : filteredAccommodations) {
-                if (oppInfo.getOpportunityId() == acc.getOpportunityId()) {
+                if (oppInfo.getOpportunityId().equals(acc.getOpportunityId())) {
 
                     CaseInsensitiveMap<Object> rcd = new CaseInsensitiveMap<>();
 
