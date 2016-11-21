@@ -127,6 +127,7 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
       else
         tOp.setDisplayStatus (tOp.getStatus ());
       tOp.setCustAccs (record.<Boolean> get ("customAccommodations"));
+        tOp.setSegmentName(record.<String> get("SegmentName"));
       testOpps.add (tOp);
     }
   }

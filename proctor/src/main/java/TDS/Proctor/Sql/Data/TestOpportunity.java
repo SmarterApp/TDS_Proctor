@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TestOpportunity implements Comparable<TestOpportunity>
 {
@@ -30,6 +31,15 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   private String _testName      = null;
   private int    _opp           = 0;   // these range from 1 to
   private boolean _isMsb;
+  private String        segmentName;
+
+  public String getSegmentName() {
+    return segmentName;
+  }
+
+  public void setSegmentName(String segmentName) {
+    this.segmentName = segmentName;
+  }
 
   public boolean isMsb() {
     return _isMsb;
