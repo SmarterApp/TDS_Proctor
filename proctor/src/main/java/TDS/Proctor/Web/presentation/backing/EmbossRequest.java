@@ -17,7 +17,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import TDS.Proctor.Services.EmbossFileService;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,18 +54,17 @@ public class EmbossRequest extends BasePage implements IPrintRequestPresenterVie
     // filepath is from testopprequest and usually contains a single file path
     //  a colon separated list is provided for Braille Transcript and means that the files should be combined together into a single file
     String[] files = filepath.split(";");
-    String filename = _embossFileService.getCombinedFilePath(files[0], "_combined");
+    String filename = _embossFileService.getCombinedFileName(files[0], files.length > 1 ? "_combined" : "");
 
     try {
       FacesContext facesContext = FacesContext.getCurrentInstance ();
       ExternalContext externalContext = facesContext.getExternalContext ();
       externalContext.responseReset ();
       externalContext.setResponseContentType (contentType);
-      //externalContext.setResponseContentLength ((int) file.length ());
       externalContext.setResponseHeader ("Content-Disposition", contentDisposition + "; filename=" + filename);
       OutputStream outputStream = externalContext.getResponseOutputStream ();
 
-      _embossFileService.writeEmbossFile(outputStream, files);
+      externalContext.setResponseContentLength( _embossFileService.writeEmbossFile(outputStream, files) );
 
       facesContext.responseComplete ();
     } catch (Exception ex) {

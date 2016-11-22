@@ -27,61 +27,61 @@ public class EmbossFileServiceTest {
     public void tearDown() { }
 
     @Test
-    public void shouldCombineFilePath() {
-        String combinedFilePath = embossFileService.getCombinedFilePath("/usr/test/testfile.brf", "_suffix");
+    public void shouldCombineFileName() {
+        String combinedFilePath = embossFileService.getCombinedFileName("/usr/test/testfile.brf", "_suffix");
 
-        assertTrue(combinedFilePath.equals("/usr/test/testfile_suffix.brf"));
+        assertTrue(combinedFilePath.equals("testfile_suffix.brf"));
     }
 
     @Test
-    public void shouldCombineFilePathWithMultiplePeriods() {
-        String combinedFilePath = embossFileService.getCombinedFilePath("/usr/test/testfile.something.brf", "_suffix");
+    public void shouldCombineFileNamehWithMultiplePeriods() {
+        String combinedFilePath = embossFileService.getCombinedFileName("/usr/test/testfile.something.brf", "_suffix");
 
-        assertTrue(combinedFilePath.equals("/usr/test/testfile.something_suffix.brf"));
+        assertTrue(combinedFilePath.equals("testfile.something_suffix.brf"));
     }
 
     @Test
-    public void shouldCombineFilePathWithNoExtension() {
-        String combinedFilePath = embossFileService.getCombinedFilePath("/usr/test/testfile", "_suffix");
+    public void shouldCombineFileNameWithNoExtension() {
+        String combinedFilePath = embossFileService.getCombinedFileName("/usr/test/testfile", "_suffix");
 
-        assertTrue(combinedFilePath.equals("/usr/test/testfile_suffix"));
+        assertTrue(combinedFilePath.equals("testfile_suffix"));
     }
 
     @Test
-    public void shouldCombineFilePathWithEmptySuffixProvided() {
-        String combinedFilePath = embossFileService.getCombinedFilePath("/usr/test/testfile.brf", "");
+    public void shouldCombineFileNameWithEmptySuffixProvided() {
+        String combinedFilePath = embossFileService.getCombinedFileName("/usr/test/testfile.brf", "");
 
-        assertTrue(combinedFilePath.equals("/usr/test/testfile.brf"));
+        assertTrue(combinedFilePath.equals("testfile.brf"));
     }
 
     @Test
-    public void shouldCombineFilePathWithNullSuffixProvided() {
-        String combinedFilePath = embossFileService.getCombinedFilePath("/usr/test/testfile.brf", null);
+    public void shouldCombineFileNameithNullSuffixProvided() {
+        String combinedFilePath = embossFileService.getCombinedFileName("/usr/test/testfile.brf", null);
 
-        assertTrue(combinedFilePath.equals("/usr/test/testfile.brf"));
+        assertTrue(combinedFilePath.equals("testfile.brf"));
     }
 
     @Test
     public void shouldCombineBrfFilesWithLineBreaks() throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        embossFileService.writeEmbossFile(outputStream, new String[] { sample1FilePath, sample2FilePath });
+        int bytesWritten = embossFileService.writeEmbossFile(outputStream, new String[] { sample1FilePath, sample2FilePath });
 
         // file sizes plus the 4 characters for the line breaks added in between
         int combinedSize = Files.readAllBytes(Paths.get(sample1FilePath)).length + Files.readAllBytes(Paths.get(sample2FilePath)).length + 4;
 
         assertTrue(outputStream.size() == combinedSize);
-
+        assertTrue(bytesWritten == outputStream.size());
     }
 
     @Test
     public void shouldHandleOneBrfFileInput() throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        embossFileService.writeEmbossFile(outputStream, new String[] { sample1FilePath });
+        int bytesWritten = embossFileService.writeEmbossFile(outputStream, new String[] { sample1FilePath });
 
         assertTrue(outputStream.size() == Files.readAllBytes(Paths.get(sample1FilePath)).length);
-
+        assertTrue(bytesWritten == outputStream.size());
     }
 
     @Test(expected = IOException.class)
