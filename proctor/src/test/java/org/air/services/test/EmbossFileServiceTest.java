@@ -63,38 +63,28 @@ public class EmbossFileServiceTest {
 
     @Test
     public void shouldCombineBrfFilesWithLineBreaks() throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        int bytesWritten = embossFileService.writeEmbossFile(outputStream, new String[] { sample1FilePath, sample2FilePath });
+        byte[] contents = embossFileService.combineFiles(new String[] { sample1FilePath, sample2FilePath });
 
         // file sizes plus the 4 characters for the line breaks added in between
         int combinedSize = Files.readAllBytes(Paths.get(sample1FilePath)).length + Files.readAllBytes(Paths.get(sample2FilePath)).length + 4;
 
-        assertTrue(outputStream.size() == combinedSize);
-        assertTrue(bytesWritten == outputStream.size());
+        assertTrue(contents.length == combinedSize);
     }
 
     @Test
     public void shouldHandleOneBrfFileInput() throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] contents = embossFileService.combineFiles(new String[] { sample1FilePath });
 
-        int bytesWritten = embossFileService.writeEmbossFile(outputStream, new String[] { sample1FilePath });
-
-        assertTrue(outputStream.size() == Files.readAllBytes(Paths.get(sample1FilePath)).length);
-        assertTrue(bytesWritten == outputStream.size());
+        assertTrue(contents.length == Files.readAllBytes(Paths.get(sample1FilePath)).length);
     }
 
     @Test(expected = IOException.class)
     public void shouldThrowExceptionWhenBadMainFilePath() throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        embossFileService.writeEmbossFile(outputStream, new String[] { "/tmp/badfile.brf" });
+        byte[] contents = embossFileService.combineFiles(new String[] { "/tmp/badfile.brf" });
     }
 
     @Test(expected = IOException.class)
     public void shouldThrowExceptionWhenBadSecondFileFilePath() throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        embossFileService.writeEmbossFile(outputStream, new String[] { sample1FilePath, "/tmp/badfile.brf" });
+        embossFileService.combineFiles(new String[] { sample1FilePath, "/tmp/badfile.brf" });
     }
 }

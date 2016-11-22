@@ -1,11 +1,11 @@
 package TDS.Proctor.Services;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.http.util.ByteArrayBuffer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -13,33 +13,32 @@ import java.nio.file.Paths;
 @Scope("prototype")
 public class EmbossFileService {
     /**
-     * Writes multiple files to the output stream added a new page break between each file
+     * Combine one or more files into a new file with page breaks.
      *
-     * @param outputStream output stream to write to
-     * @param files one or more file paths to braille files
-     * @return the number of bytes written
+     * @param files one or more file paths to braille files that will be combined with page breaks
+     * @return the combined file contents as a byte array
      * @throws IOException
      */
-    public int writeEmbossFile(OutputStream outputStream, String[] files) throws IOException {
-        int bytesWritten = 0;
+    public byte[] combineFiles(String[] files) throws IOException {
+        ByteArrayBuffer contents = new ByteArrayBuffer(0);
+
         byte[] bytes = Files.readAllBytes(Paths.get(files[0]));
-        outputStream.write(bytes);
-        bytesWritten += bytes.length;
+        contents.append(bytes, 0, bytes.length);
 
         for (int i = 1; i < files.length; i++) {
             // 10 = new line
             // 12 = form feed (new page)
             char[] lineBreak = {(char) 10, (char) 12, (char) 10, (char) 12};
-            outputStream.write(new String(lineBreak).getBytes("UTF-8"));
+            bytes = new String(lineBreak).getBytes("UTF-8");
+            contents.append(bytes, 0, bytes.length);
 
             bytes = Files.readAllBytes(Paths.get(files[i]));
-            outputStream.write(bytes);
-
-            bytesWritten += bytes.length + 4;
+            contents.append(bytes, 0, bytes.length);
         }
 
-        return bytesWritten;
+        return contents.toByteArray();
     }
+
 
     /**
      * Generates a combined filename by adding the appopriate suffix before the extension.  If a full path is given, only the filename part is used.

@@ -9,8 +9,11 @@
 
 package TDS.Proctor.Web.presentation.backing;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -51,25 +54,25 @@ public class EmbossRequest extends BasePage implements IPrintRequestPresenterVie
   private EmbossFileService     _embossFileService = new EmbossFileService();
 
   public void download (String filepath, String contentType, String contentDisposition) throws IOException {
-    // filepath is from testopprequest and usually contains a single file path
-    //  a colon separated list is provided for Braille Transcript and means that the files should be combined together into a single file
     String[] files = filepath.split(";");
     String filename = _embossFileService.getCombinedFileName(files[0], files.length > 1 ? "_combined" : "");
-
     try {
+      byte[] fileContents = _embossFileService.combineFiles(files);
+      
       FacesContext facesContext = FacesContext.getCurrentInstance ();
       ExternalContext externalContext = facesContext.getExternalContext ();
       externalContext.responseReset ();
       externalContext.setResponseContentType (contentType);
+      externalContext.setResponseContentLength (fileContents.length);
       externalContext.setResponseHeader ("Content-Disposition", contentDisposition + "; filename=" + filename);
-      OutputStream outputStream = externalContext.getResponseOutputStream ();
 
-      externalContext.setResponseContentLength( _embossFileService.writeEmbossFile(outputStream, files) );
+      OutputStream outStream = externalContext.getResponseOutputStream ();
+      outStream.write(fileContents);
 
       facesContext.responseComplete ();
     } catch (Exception ex) {
-      writeError ("Unable to download the content file: " + filename);
-      _logger.error (ex.getMessage (), ex);
+      writeError("Unable to download the content file: " + filename);
+      _logger.error(ex.getMessage(), ex);
       // handle the message first
       // TDSLogger.Application.Fatal (ex);
     }
