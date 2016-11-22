@@ -2,16 +2,31 @@ package TDS.Proctor.Services;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.util.ByteArrayBuffer;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @Component
-@Scope("prototype")
 public class EmbossFileService {
+    // 10 = new line
+    // 12 = form feed (new page)
+    private static final char[] PAGE_BREAK_CHARS = {(char)10, (char)12, (char)10, (char)12};
+    private static byte[] PAGE_BREAK_BYTES = null;
+
+    public EmbossFileService() {
+        String pageBreak = new String(PAGE_BREAK_CHARS);
+
+        try {
+            PAGE_BREAK_BYTES = pageBreak.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // if UTF-8 is not supported, use the default OS encoding
+            PAGE_BREAK_BYTES = pageBreak.getBytes();
+        }
+    }
+
     /**
      * Combine one or more files into a new file with page breaks.
      *
@@ -26,11 +41,8 @@ public class EmbossFileService {
         contents.append(bytes, 0, bytes.length);
 
         for (int i = 1; i < files.length; i++) {
-            // 10 = new line
-            // 12 = form feed (new page)
-            char[] lineBreak = {(char) 10, (char) 12, (char) 10, (char) 12};
-            bytes = new String(lineBreak).getBytes("UTF-8");
-            contents.append(bytes, 0, bytes.length);
+            // page break
+            contents.append(PAGE_BREAK_BYTES, 0, PAGE_BREAK_BYTES.length);
 
             bytes = Files.readAllBytes(Paths.get(files[i]));
             contents.append(bytes, 0, bytes.length);
@@ -53,6 +65,5 @@ public class EmbossFileService {
         return FilenameUtils.getBaseName(templateFilePath) +
                 (suffix != null ? suffix : "") +
                 (extension != null && extension != "" ? "." + extension : "");
-
     }
 }
