@@ -18,6 +18,15 @@ public class TestOpportunityInfo {
     private String mode;
     private String lepValue;
     private boolean msb;
+    private String segmentName;
+
+    public String getSegmentName() {
+        return segmentName;
+    }
+
+    public void setSegmentName(String segmentName) {
+        this.segmentName = segmentName;
+    }
 
     public boolean isMsb() {
         return msb;
