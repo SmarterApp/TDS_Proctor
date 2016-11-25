@@ -8,11 +8,10 @@
  ******************************************************************************/
 package TDS.Proctor.Sql.Data;
 
+import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
+
 import java.util.List;
 import java.util.UUID;
-
-import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TestOpportunity implements Comparable<TestOpportunity>
 {
