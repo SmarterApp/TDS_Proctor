@@ -23,6 +23,7 @@ YUI.add("tds-approvalopps", function (Y) {
         _divMsbSegmentApprovalDetails = null,
         _spanAccsForName_Seg = null,
         _spanAccsForName_MsbSeg = null,
+        _spanAccsForName_MsbName = null,
         _btnSet = null,
         _btnCancel = null,
         _btnSetApprove = null;
@@ -77,6 +78,7 @@ YUI.add("tds-approvalopps", function (Y) {
         _divMsbSegmentApprovalDetails = Y.one('#divMsbSegmentApprovalDetails');
         _spanAccsForName_Seg = Y.one('#spanAccsForName_Seg');
         _spanAccsForName_MsbSeg = Y.one("#_spanAccsForName_MsbSeg");
+        _spanAccsForName_MsbName = Y.one("#_spanAccsForName_MsbName");
         _btnSetApprove = Y.one('#btnSetApprove');
         _btnSet = Y.one('#btnSet');
         _btnCancel = Y.one('#btnCancel');
@@ -351,6 +353,14 @@ YUI.add("tds-approvalopps", function (Y) {
         if (testOpps == null || testOpps.length < 1) {//no data
             _done();
             return;
+        }
+        for(var i = 0; i < testOpps.length; i++) {
+            if(testOpps[i].msb && testOpps[i].segmentName) {
+                var msgDialog = _oShared.msgDialog("MSB approval required", _oMessages.get("There are Multi-Stage Braille students pending approval. This operation is disabled."));
+                msgDialog.addButton("close", Y.tds.messages.getRaw("Confirm"), msgDialog.cancel);
+                msgDialog.show(_oShared.NotificationType.warning);
+                return;
+            }
         }
         var str = _oMessages.get("Please confirm that you would approve all {0} of these students to begin their tests.", [_getNumActiveTestOpps()]);
         str += "<br/><br/>";
@@ -681,7 +691,8 @@ YUI.add("tds-approvalopps", function (Y) {
         _divApprovalsShell.addClass(_oClassName.show_details);
         _divTestApprovalDetails.hide();
         _divMsbSegmentApprovalDetails.show();
-        _spanAccsForName_MsbSeg.setContent(testOpp.name)
+        _spanAccsForName_MsbSeg.setContent(testOpp.segmentName);
+        _spanAccsForName_MsbName.setContent(testOpp.ssid);
 
         //approve
         var btn = Y.one("#btnApprove_MsbSeg");
@@ -955,8 +966,15 @@ YUI.add("tds-approvalopps", function (Y) {
 
     //approval and close the details dialog
     function _approveAndClose(e, testOpp) {
-        _showEditDetailDialog(false, testOpp);
-        _approve(e, testOpp);
+        if(Y.one("#msb-segment-id-input")._node.value == Y.one("#_spanAccsForName_MsbSeg")._node.innerText) {
+            _showEditDetailDialog(false, testOpp);
+            _approve(e, testOpp);
+        } else {
+            var msgDialog = _oShared.msgDialog(Y.tds.messages.getRaw("Identifiers do not match!"), _oMessages.get("Provided identifier does not match student's segment identifier. Please confirm the student has received the correct packet and enter its ID to continue."));
+            msgDialog.addButton("close", Y.tds.messages.getRaw("Confirm"), msgDialog.cancel);
+            msgDialog.show(_oShared.NotificationType.warning);
+            _cancelAcc(e, testOpp);
+        }
     }
 
     //set and approve accoms

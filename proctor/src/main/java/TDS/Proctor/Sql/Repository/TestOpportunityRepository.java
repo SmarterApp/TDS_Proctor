@@ -191,6 +191,7 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
 	  tOp.setName (record.<String> get ("TesteeName"));
 	  tOp.setWaitSegment (record.<Integer> get ("waitingForSegment"));
       tOp.setIsMsb(record.<Boolean> get("msb"));
+      tOp.setSegmentName(record.<String> get("segmentName"));
 
 	  testOpps.add (tOp);
 	  testOppDic.put (tOp.getOppKey (), testOpps.size () - 1);
