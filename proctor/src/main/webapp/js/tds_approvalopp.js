@@ -574,6 +574,7 @@ YUI.add("tds-approvalopps", function (Y) {
     function _denyAndClose(e, testOpp) {
         _showEditDetailDialog(false, testOpp);
         _deny(e, testOpp);
+        Y.one("#msb-segment-id-input")._node.value = "";
     }
 
     function _deny(e, testOpp) {
@@ -975,6 +976,7 @@ YUI.add("tds-approvalopps", function (Y) {
             msgDialog.show(_oShared.NotificationType.warning);
             _cancelAcc(e, testOpp);
         }
+        Y.one("#msb-segment-id-input")._node.value = "";
     }
 
     //set and approve accoms
@@ -1157,6 +1159,7 @@ YUI.add("tds-approvalopps", function (Y) {
         Y.log("_cancelAcc");
         _showEditDetailDialog(false, testOpp);
         _oShared.addClosing(); //for mobile
+        Y.one("#msb-segment-id-input")._node.value = "";
     }
 
     //remove row selected class
