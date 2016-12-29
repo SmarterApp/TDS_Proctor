@@ -11,9 +11,10 @@ import java.nio.file.Paths;
 
 @Component
 public class EmbossFileService {
+    // 13 = carriage return
     // 10 = new line
     // 12 = form feed (new page)
-    private static final char[] PAGE_BREAK_CHARS = {(char)10, (char)12, (char)10, (char)12};
+    private static final char[] PAGE_BREAK_CHARS = {(char)13, (char)10, (char)12};
     private static byte[] PAGE_BREAK_BYTES = null;
 
     public EmbossFileService() {
