@@ -46,6 +46,8 @@
 	<context:component-scan base-package="tds.dll.common.diagnostic"/>
 	<context:component-scan base-package="TDS.Proctor.diagnostic"/>
 
+	<context:component-scan base-package="TDS.Proctor.Services"/>
+
 	<!-- DLLs -->
 	<import resource="classpath:context-modules/dlls-context-module.xml"/>
 	
@@ -85,6 +87,14 @@
 	<beans:bean id="applicationDataSource" class="com.zaxxer.hikari.HikariDataSource">
 		<beans:constructor-arg ref="hikariConfig" />
 	</beans:bean>
+
+	<beans:bean id="clientRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"/>
+
+	<!-- a generic rest Template bean for invoking webservices can be injected into clients -->
+	<beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<beans:constructor-arg ref="clientRequestFactory"/>
+	</beans:bean>
+
 
 	<!--&lt;!&ndash;Start: c3p0 Datasource Configuration &ndash;&gt;-->
 	<!--<beans:bean id="applicationDataSource" destroy-method="close"-->

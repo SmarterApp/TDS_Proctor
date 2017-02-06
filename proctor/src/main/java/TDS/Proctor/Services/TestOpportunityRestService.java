@@ -1,0 +1,111 @@
+package TDS.Proctor.Services;
+
+import TDS.Proctor.Sql.Data.Abstractions.ITestOpportunityService;
+import TDS.Proctor.Sql.Data.Accommodations.AccType;
+import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
+import TDS.Proctor.Sql.Data.Accommodations.AccValue;
+import TDS.Proctor.Sql.Data.TestOpportunity;
+import TDS.Proctor.Sql.Data.TestOpps;
+import TDS.Shared.Exceptions.ReturnStatusException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
+import tds.exam.Exam;
+import tds.exam.ExamAccommodation;
+
+public class TestOpportunityRestService implements ITestOpportunityService {
+    private final TestOpportunityService testOpportunityService;
+    private final RestTemplate restTemplate;
+    private final UriComponentsBuilder examsBuilder;
+    private final UriComponentsBuilder examAccommodationsBuilder;
+
+
+    @Autowired
+    public TestOpportunityRestService(final TestOpportunityService testOpportunityService, final RestTemplate restTemplate, final String examUrl) {
+        this.testOpportunityService = testOpportunityService;
+        this.restTemplate = restTemplate;
+        examsBuilder = UriComponentsBuilder.fromUriString(examUrl);
+        examsBuilder.pathSegment("pending-approval");
+        examsBuilder.pathSegment("{sessionId}");
+
+        examAccommodationsBuilder = UriComponentsBuilder.fromUriString(examUrl);
+        examAccommodationsBuilder.pathSegment("{examId}");
+        examAccommodationsBuilder.pathSegment("accommodations");
+    }
+
+    @Override
+    public TestOpps getCurrentSessionTestees(UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
+        return testOpportunityService.getCurrentSessionTestees(sessionKey, proctorKey, browserKey);
+    }
+
+    @Override
+    public TestOpps getTestsForApproval(UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
+        // proctorKey and browerKey are unused method parameters
+        final String examsUrl = examsBuilder.buildAndExpand(sessionKey.toString()).toUriString();
+        final Exam[] exams = restTemplate.getForObject(examsUrl, Exam[].class);
+
+        final TestOpps testOpps = new TestOpps();
+        for (final Exam exam : exams) {
+            final TestOpportunity testOpportunity = new TestOpportunity(exam.getId());
+            testOpportunity.setTestID(exam.getAssessmentId());
+            testOpportunity.setOpp(exam.getAttempts());
+            testOpportunity.setTestKey(exam.getAssessmentKey());
+            testOpportunity.setStatus(exam.getStatus().getCode());
+            testOpportunity.setSsid(exam.getLoginSSID());
+            testOpportunity.setName(exam.getStudentName());
+
+            final String examAccommodationsUrl = examAccommodationsBuilder.buildAndExpand(exam.getId().toString()).toUriString();
+            final ExamAccommodation[] examAccommodations = restTemplate.getForObject(examAccommodationsUrl, ExamAccommodation[].class);
+
+            final AccTypes accTypes = new AccTypes();
+            for (final ExamAccommodation ea : examAccommodations) {
+                final List<AccValue> values;
+                final String accTypeKey = ea.getType();
+                AccType accType = accTypes.get(accTypeKey);
+                // accValues are grouped by accTypeKey and added to accType
+                if (accType == null) {
+                    accType = new AccType(accTypeKey);
+                    values = new ArrayList<>();
+                    accType.setSelectable(ea.isSelectable());
+                    accType.setAllowChange(ea.isAllowChange());
+                } else {
+                    values = accType.getValues();
+                }
+                final AccValue accValue = new AccValue(ea.getValue(), ea.getCode(), false);
+                values.add(accValue);
+                accType.setValues(values);
+
+                accTypes.put(ea.getType(), accType);
+            }
+            testOpportunity.setAccTypesList(Arrays.asList(accTypes));
+            testOpps.add(testOpportunity);
+        }
+        return testOpps;
+    }
+
+    @Override
+    public boolean approveOpportunity(UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
+        return testOpportunityService.approveOpportunity(oppKey, sessionKey, proctorKey, browserKey);
+    }
+
+    @Override
+    public boolean approveAccommodations(UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, int segment, String segmentAccs) throws ReturnStatusException {
+        return testOpportunityService.approveAccommodations(oppKey, sessionKey, proctorKey, browserKey, segment, segmentAccs);
+    }
+
+    @Override
+    public boolean denyOpportunity(UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, String reason) throws ReturnStatusException {
+        return testOpportunityService.denyOpportunity(oppKey, sessionKey, proctorKey, browserKey, reason);
+    }
+
+    @Override
+    public boolean pauseOpportunity(UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
+        return testOpportunityService.pauseOpportunity(oppKey, sessionKey, proctorKey, browserKey);
+    }
+}
