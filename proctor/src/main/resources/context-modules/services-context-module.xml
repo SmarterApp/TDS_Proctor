@@ -37,6 +37,9 @@
 		<constructor-arg ref="legacyTestOpportunityService"/>
 		<constructor-arg ref="integrationRestTemplate"/>
 		<constructor-arg value="${tds.exam.remote.url}"/>
+		<constructor-arg value="${tds.assessment.remote.url}"/>
+		<constructor-arg value="${tds.exam.legacy.enabled}"/>
+		<constructor-arg value="${tds.exam.remote.enabled}"/>
 	</bean>
 	<bean id="iTestService" class="TDS.Proctor.Services.TestService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
