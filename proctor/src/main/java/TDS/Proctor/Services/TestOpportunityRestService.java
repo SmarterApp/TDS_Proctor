@@ -7,13 +7,9 @@ import TDS.Proctor.Sql.Data.Accommodations.AccValue;
 import TDS.Proctor.Sql.Data.TestOpportunity;
 import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Shared.Exceptions.ReturnStatusException;
-import com.google.common.collect.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -22,21 +18,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import tds.accommodation.Accommodation;
-import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
 
 public class TestOpportunityRestService implements ITestOpportunityService {
     private static final Logger logger = LoggerFactory.getLogger(TestOpportunityRestService.class);
-
-    private static Pattern accommodationPattern = Pattern.compile(Pattern.quote("|"));
-    private static Pattern segmentPattern = Pattern.compile(";");
-
 
     private final TestOpportunityService testOpportunityService;
     private final RestTemplate restTemplate;
