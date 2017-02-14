@@ -29,10 +29,18 @@
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iTesteeRepository"/>
 	</bean>
-	<bean id="iTestOpportunityService" class="TDS.Proctor.Services.TestOpportunityService" scope="prototype">
+	<bean id="legacyTestOpportunityService" class="TDS.Proctor.Services.TestOpportunityService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
-     	<constructor-arg ref="iTestOpportunityRepository"/>
-	</bean>		
+		<constructor-arg ref="iTestOpportunityRepository"/>
+	</bean>
+	<bean id="iTestOpportunityService" class="TDS.Proctor.Services.TestOpportunityRestService" scope="prototype">
+		<constructor-arg ref="legacyTestOpportunityService"/>
+		<constructor-arg ref="integrationRestTemplate"/>
+		<constructor-arg value="${tds.exam.remote.url}"/>
+		<constructor-arg value="${tds.assessment.remote.url}"/>
+		<constructor-arg value="${tds.exam.legacy.enabled}"/>
+		<constructor-arg value="${tds.exam.remote.enabled}"/>
+	</bean>
 	<bean id="iTestService" class="TDS.Proctor.Services.TestService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iTestRepository"/>

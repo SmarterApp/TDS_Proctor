@@ -588,12 +588,15 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID oppKey = UUID.fromString (strOppKey);
 
       if (accsList != null) {
-        // step 1: approve all accs first
+        // step 1-legacy: approve all accs first for legacy application if enabled
         int segment = 0;
         for (String accs : accsList) {
           _proctorAppTasks.getTestOppTasks ().approveAccommodations (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey (), segment, accs);
           segment++;
         }
+
+        // step 1-rest: approve all accommodations for rest enabled application
+        _proctorAppTasks.getTestOppTasks().approveAccommodations(oppKey, sessionKey, thisUser.getBrowserKey (), strAccs);
       }
       // step 2: approve opp
       _proctorAppTasks.getTestOppTasks ().approveOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());

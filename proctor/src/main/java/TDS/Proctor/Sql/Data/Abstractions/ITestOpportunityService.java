@@ -24,6 +24,8 @@ public interface ITestOpportunityService
 
   boolean approveAccommodations (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, int segment, String segmentAccs) throws ReturnStatusException;
 
+  void approveAccommodations (UUID oppKey, UUID sessionKey, UUID browserKey, String segmentAccs) throws ReturnStatusException;
+
   boolean denyOpportunity (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, String reason) throws ReturnStatusException;
 
   boolean pauseOpportunity (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException;

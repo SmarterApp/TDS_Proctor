@@ -17,6 +17,9 @@
 		<sb11-mna-client.version>0.0.4-SNAPSHOT</sb11-mna-client.version>
 		<sb11-shared-code.version>0.0.6-SNAPSHOT</sb11-shared-code.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
+		<tds-exam-client.version>0.0.1-SNAPSHOT</tds-exam-client.version>
+		<tds-assessment-client.version>0.0.1-SNAPSHOT</tds-assessment-client.version>
+		<tds-common-legacy.version>0.0.1-SNAPSHOT</tds-common-legacy.version>
 	</properties>
 
 	<scm>
@@ -155,6 +158,12 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 		<!-- MySQL connector: Required primarily for unit tests. Must be placed in Tomcat's classpath (e.g. /lib directory) -->
 		<!-- Spring -->
 		<dependency>
@@ -267,6 +276,24 @@
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>student.library</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.exam</groupId>
+			<artifactId>tds-exam-client</artifactId>
+			<version>${tds-exam-client.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.assessment</groupId>
+			<artifactId>tds-assessment-client</artifactId>
+			<version>${tds-assessment-client.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.common</groupId>
+			<artifactId>tds-common-legacy</artifactId>
+			<version>${tds-common-legacy.version}</version>
 		</dependency>
 	</dependencies>
 
