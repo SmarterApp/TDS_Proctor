@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -80,6 +81,9 @@ public class TestOpportunityRestService implements ITestOpportunityService {
         updateExamStatusBuilder = UriComponentsBuilder.fromUriString(examUrl);
         updateExamStatusBuilder.pathSegment("{examId}");
         updateExamStatusBuilder.pathSegment("status");
+        updateExamStatusBuilder.queryParam("status", "{status}");
+        updateExamStatusBuilder.queryParam("stage", "{stage}");
+        updateExamStatusBuilder.queryParam("reason", "{reason}");
 
         this.legacyEnabled = legacyEnabled;
         this.restEnabled = restEnabled;
@@ -208,19 +212,12 @@ public class TestOpportunityRestService implements ITestOpportunityService {
     }
 
     private void approveExam(UUID examId) throws ReturnStatusException {
-        final String approveExamUrl = updateExamStatusBuilder.buildAndExpand(examId.toString()).toUriString();
-        updateExamStatusBuilder.replaceQueryParam("status", STATUS_APPROVED);
-        updateExamStatusBuilder.replaceQueryParam("stage", IN_USE);
-        updateExamStatusBuilder.replaceQueryParam("reason", "");
-
+        final String approveExamUrl = updateExamStatusBuilder.buildAndExpand(examId.toString(), STATUS_APPROVED, IN_USE.getType(), "").toUriString();
         restTemplate.put(approveExamUrl, null);
     }
 
     private void denyExam(UUID examId, String reason) throws ReturnStatusException {
-        final String denyExamUrl = updateExamStatusBuilder.buildAndExpand(examId.toString()).toUriString();
-        updateExamStatusBuilder.replaceQueryParam("status", STATUS_DENIED);
-        updateExamStatusBuilder.replaceQueryParam("stage", IN_USE);
-        updateExamStatusBuilder.replaceQueryParam("reason", reason);
+        final String denyExamUrl = updateExamStatusBuilder.buildAndExpand(examId.toString(), STATUS_DENIED, IN_USE.getType(), reason).toUriString();
 
         restTemplate.put(denyExamUrl, null);
     }
@@ -250,7 +247,7 @@ public class TestOpportunityRestService implements ITestOpportunityService {
     }
 
     private void approveAccommodations(UUID examId, UUID sessionKey, UUID browserKey, Map<Integer, Set<String>> accommodations) {
-        ApproveAccommodationsRequest request = new ApproveAccommodationsRequest(sessionKey, browserKey, accommodations);
+        ApproveAccommodationsRequest request = new ApproveAccommodationsRequest(sessionKey, browserKey, false, accommodations);
         final String approveAccommodationsUrl = approveAccommodationsBuilder.buildAndExpand(examId.toString()).toUriString();
         restTemplate.postForObject(approveAccommodationsUrl, request, ApproveAccommodationsRequest.class);
     }
@@ -272,7 +269,7 @@ public class TestOpportunityRestService implements ITestOpportunityService {
         // zero index indicates accommodations applies to all segments
         int segmentIndex = 0;
         for(String segmentString: segmentAccommodationsArray) {
-            final Set<String> segmentAccommodationsSet = ImmutableSet.copyOf(accommodationPattern.split(segmentString));
+            final Set<String> segmentAccommodationsSet = new HashSet<>(Arrays.asList(accommodationPattern.split(segmentString))); //ImmutableSet.copyOf(accommodationPattern.split(segmentString));
             accommodations.put(segmentIndex, segmentAccommodationsSet);
         }
 
