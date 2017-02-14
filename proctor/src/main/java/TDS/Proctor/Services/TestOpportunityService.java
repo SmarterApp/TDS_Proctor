@@ -60,6 +60,9 @@ public class TestOpportunityService implements ITestOpportunityService
     return true;
   }
 
+  // implemented only in TestOpportunityRestService
+  public void approveAccommodations(UUID oppKey, UUID sessionKey, UUID browserKey, String accommodations) throws ReturnStatusException {}
+
   public boolean approveAccommodations (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, int segment, String segmentAccs) throws ReturnStatusException {
     ReturnStatus returnstatus = null;
     try {

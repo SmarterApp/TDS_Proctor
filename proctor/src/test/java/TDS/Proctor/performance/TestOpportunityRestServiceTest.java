@@ -211,4 +211,26 @@ public class TestOpportunityRestServiceTest {
 
         assertTrue(testsForApproval.size() == 0);
     }
+
+    @Test
+    public void shouldApproveExam() throws Exception {
+        MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
+
+        mockServer.expect(anything()).andRespond(
+            withSuccess(emptyResponseBody, APPLICATION_JSON));
+
+        TestOpps testsForApproval = testOpportunityRestService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
+
+        assertTrue(testsForApproval.size() == 0);
+    }
+
+    @Test
+    public void shouldDenyExamWithoutException() throws Exception {
+        MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
+
+        mockServer.expect(anything()).andRespond(
+            withSuccess(emptyResponseBody, APPLICATION_JSON));
+
+        testOpportunityRestService.denyOpportunity(UUID.randomUUID(), UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID(),"deny reason text");
+    }
 }
