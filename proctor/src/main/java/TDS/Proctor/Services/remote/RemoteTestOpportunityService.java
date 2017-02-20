@@ -177,6 +177,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         if (isLegacyCallsEnabled) {
             return testOpportunityService.approveAccommodations(examId, sessionId, proctorKey, browserKey, segment, segmentAccs);
         }
+
         return true;
     }
 
@@ -186,14 +187,10 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     public void approveAccommodations(final UUID examId, final UUID sessionId, final UUID browserKey, final String accommodationsString) throws ReturnStatusException {
         if (isRemoteCallsEnabled) {
             Map<Integer, Set<String>> accommodations = parseAccommodations(accommodationsString);
-            approveAccommodations(examId, sessionId, browserKey, accommodations);
+            ApproveAccommodationsRequest request = new ApproveAccommodationsRequest(sessionId, browserKey, accommodations);
+
+            examRepository.approveAccommodations(examId, request);
         }
-    }
-
-    private void approveAccommodations(final UUID examId, final UUID sessionId, final UUID browserKey, final Map<Integer, Set<String>> accommodations) throws ReturnStatusException {
-        ApproveAccommodationsRequest request = new ApproveAccommodationsRequest(sessionId, browserKey, accommodations);
-
-        examRepository.approveAccommodations(examId, request);
     }
 
     @Override
