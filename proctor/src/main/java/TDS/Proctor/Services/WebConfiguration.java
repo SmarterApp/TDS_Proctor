@@ -29,6 +29,7 @@ public class WebConfiguration {
     @Bean(name = "integrationObjectMapper")
     public ObjectMapper getIntegrationObjectMapper() {
         return new ObjectMapper()
+            .registerModule(new GuavaModule())
             .registerModule(new JodaModule());
     }
 }
