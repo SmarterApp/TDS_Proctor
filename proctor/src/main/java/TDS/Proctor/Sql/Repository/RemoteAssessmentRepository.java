@@ -37,22 +37,19 @@ public class RemoteAssessmentRepository implements AssessmentRepository {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<Accommodation>> responseEntity;
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/%s/assessments/accommodations", assessmentUrl, clientName))
             .queryParam("assessmentKey", assessmentKey);
 
         try {
-            responseEntity = restTemplate.exchange(
+            return restTemplate.exchange(
                 builder.build().toUri(),
                 HttpMethod.GET,
                 requestHttpEntity,
                 new ParameterizedTypeReference<List<Accommodation>>() {
-                });
+                }).getBody();
         } catch (RestClientException rce) {
             throw new ReturnStatusException(rce);
         }
-
-        return responseEntity.getBody();
     }
 }

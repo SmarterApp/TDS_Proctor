@@ -47,28 +47,24 @@ public class RemoteExamRepository implements ExamRepository {
     }
 
     @Override
-    public List<Exam> findExamsPendingApproval(UUID sessionId) throws ReturnStatusException
-    {
+    public List<Exam> findExamsPendingApproval(UUID sessionId) throws ReturnStatusException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<Exam>> responseEntity;
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/pending-approval/%s", examUrl, sessionId));
 
         try {
-            responseEntity = restTemplate.exchange(
+            return restTemplate.exchange(
                 builder.build().encode().toUri(),
                 HttpMethod.GET,
                 requestHttpEntity,
                 new ParameterizedTypeReference<List<Exam>>() {
-                });
+                }).getBody();
         } catch (RestClientException rce) {
             throw new ReturnStatusException(rce);
         }
-
-        return responseEntity.getBody();
     }
 
     @Override
@@ -77,22 +73,19 @@ public class RemoteExamRepository implements ExamRepository {
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<ExamAccommodation>> responseEntity;
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/%s/accommodations", examUrl, examId));
 
         try {
-            responseEntity = restTemplate.exchange(
+            return restTemplate.exchange(
                 builder.build().encode().toUri(),
                 HttpMethod.GET,
                 requestHttpEntity,
                 new ParameterizedTypeReference<List<ExamAccommodation>>() {
-                });
+                }).getBody();
         } catch (RestClientException rce) {
             throw new ReturnStatusException(rce);
         }
-
-        return responseEntity.getBody();
     }
 
     @Override
