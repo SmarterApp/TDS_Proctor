@@ -1,4 +1,4 @@
-package TDS.Proctor.performance.sql;
+package TDS.Proctor.sql;
 
 import TDS.Proctor.Sql.Repository.RemoteAssessmentRepository;
 import TDS.Shared.Exceptions.ReturnStatusException;

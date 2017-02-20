@@ -1,4 +1,4 @@
-package TDS.Proctor.performance.services;
+package TDS.Proctor.services;
 
 import TDS.Proctor.Services.remote.RemoteTestOpportunityService;
 import TDS.Proctor.Sql.Data.Abstractions.AssessmentRepository;
@@ -42,7 +42,6 @@ public class RemoteTestOpportunityServiceTest {
 
     @After
     public void tearDown() {
-
     }
 
     @Test
