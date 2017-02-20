@@ -1,5 +1,6 @@
-package TDS.Proctor.Services;
+package TDS.Proctor.Services.remote;
 
+import TDS.Proctor.Services.TestOpportunityService;
 import TDS.Proctor.Sql.Data.Abstractions.ITestOpportunityService;
 import TDS.Proctor.Sql.Data.Accommodations.AccType;
 import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
@@ -7,7 +8,6 @@ import TDS.Proctor.Sql.Data.Accommodations.AccValue;
 import TDS.Proctor.Sql.Data.TestOpportunity;
 import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Shared.Exceptions.ReturnStatusException;
-import com.google.common.collect.ImmutableSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ import static tds.exam.ExamStatusCode.STATUS_APPROVED;
 import static tds.exam.ExamStatusCode.STATUS_DENIED;
 import static tds.exam.ExamStatusStage.IN_USE;
 
-public class TestOpportunityRestService implements ITestOpportunityService {
-    private static final Logger logger = LoggerFactory.getLogger(TestOpportunityRestService.class);
+public class RemoteTestOpportunityService implements ITestOpportunityService {
+    private static final Logger logger = LoggerFactory.getLogger(RemoteTestOpportunityService.class);
 
     private final TestOpportunityService testOpportunityService;
     private final RestTemplate restTemplate;
@@ -45,19 +45,20 @@ public class TestOpportunityRestService implements ITestOpportunityService {
     private final UriComponentsBuilder examAccommodationsBuilder;
     private final UriComponentsBuilder approveAccommodationsBuilder;
     private final UriComponentsBuilder updateExamStatusBuilder;
-    private final boolean legacyEnabled;
-    private final boolean restEnabled;
+    private final boolean isLegacyCallsEnabled;
+    private final boolean isRemoteCallsEnabled;
+
 
     private static Pattern accommodationPattern = compile(Pattern.quote("|"));
     private static Pattern segmentPattern = compile(";");
 
     @Autowired
-    public TestOpportunityRestService(final TestOpportunityService testOpportunityService,
+    public RemoteTestOpportunityService(final TestOpportunityService testOpportunityService,
                                       final RestTemplate restTemplate,
                                       @Value("${tds.exam.remote.url}") final String examUrl,
                                       @Value("${tds.assessment.remote.url}") final String assessmentUrl,
-                                      @Value("${tds.exam.legacy.enabled}") final boolean legacyEnabled,
-                                      @Value("${tds.exam.remote.enabled}") final boolean restEnabled) {
+                                      @Value("${tds.exam.legacy.enabled}") final boolean isLegacyCallsEnabled,
+                                      @Value("${tds.exam.remote.enabled}") final boolean isRemoteCallsEnabled) {
         this.testOpportunityService = testOpportunityService;
         this.restTemplate = restTemplate;
         examsBuilder = UriComponentsBuilder.fromUriString(examUrl);
@@ -85,8 +86,8 @@ public class TestOpportunityRestService implements ITestOpportunityService {
         updateExamStatusBuilder.queryParam("stage", "{stage}");
         updateExamStatusBuilder.queryParam("reason", "{reason}");
 
-        this.legacyEnabled = legacyEnabled;
-        this.restEnabled = restEnabled;
+        this.isLegacyCallsEnabled = isLegacyCallsEnabled;
+        this.isRemoteCallsEnabled = isRemoteCallsEnabled;
     }
 
     @Override
@@ -99,17 +100,17 @@ public class TestOpportunityRestService implements ITestOpportunityService {
         logger.debug("session-id: {}", sessionKey.toString());
         logger.debug("browser-id: {}", browserKey.toString());
 
-        if (legacyEnabled && restEnabled) {
-            final TestOpps legacyTestOpps = testOpportunityService.getTestsForApproval(sessionKey, proctorKey, browserKey);
-            final TestOpps testOpps = getTestsForApproval(sessionKey);
-            // TODO compare legacy and rest responses
-            return testOpps;
-        } else if (legacyEnabled && !restEnabled) {
-            return testOpportunityService.getTestsForApproval(sessionKey, proctorKey, browserKey);
-        } else {
-            // case legacyEnabled == false
-            return getTestsForApproval(sessionKey);
+        TestOpps testOpps = null;
+
+        if (isLegacyCallsEnabled) {
+            testOpps = testOpportunityService.getTestsForApproval(sessionKey, proctorKey, browserKey);
         }
+
+        if (!isRemoteCallsEnabled) {
+            return testOpps;
+        }
+
+        return getTestsForApproval(sessionKey);
     }
 
     private TestOpps getTestsForApproval(UUID sessionKey) throws ReturnStatusException {
@@ -175,40 +176,34 @@ public class TestOpportunityRestService implements ITestOpportunityService {
 
     @Override
     public boolean approveOpportunity(UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
-        if (legacyEnabled && restEnabled) {
-            try {
-                testOpportunityService.approveOpportunity(oppKey, sessionKey, proctorKey, browserKey);
-            } catch (Exception e) {
-                logger.debug("Exception approving opportunity while legacy code enabled.", e);
-            }
-            approveExam(oppKey);
-            return true;
-        } else if (legacyEnabled && !restEnabled) {
-            return testOpportunityService.approveOpportunity(oppKey, sessionKey, proctorKey, browserKey);
-        } else {
-            // case legacyEnabled == false
-            approveExam(oppKey);
-            return true;
+        boolean isApproveSuccessful = false;
+
+        if (isLegacyCallsEnabled) {
+            isApproveSuccessful = testOpportunityService.approveOpportunity(oppKey, sessionKey, proctorKey, browserKey);
         }
+
+        if (!isRemoteCallsEnabled) {
+            return isApproveSuccessful;
+        }
+
+        approveExam(oppKey);
+        return true;
     }
 
     @Override
     public boolean denyOpportunity(UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, String reason) throws ReturnStatusException {
-        if (legacyEnabled && restEnabled) {
-            try {
-                testOpportunityService.denyOpportunity(oppKey, sessionKey, proctorKey, browserKey, reason);
-            } catch (Exception e) {
-                logger.debug("Exception denying opportunity with legacy code enabled.", e);
-            }
-            denyExam(oppKey, reason);
-            return true;
-        } else if (legacyEnabled && !restEnabled) {
-            return testOpportunityService.denyOpportunity(oppKey, sessionKey, proctorKey, browserKey, reason);
-        } else {
-            // case legacyEnabled == false
-            denyExam(oppKey, reason);
-            return true;
+        boolean isDenySuccessful = false;
+
+        if (isLegacyCallsEnabled) {
+            isDenySuccessful = testOpportunityService.denyOpportunity(oppKey, sessionKey, proctorKey, browserKey, reason);
         }
+
+        if (!isRemoteCallsEnabled) {
+            return isDenySuccessful;
+        }
+
+        denyExam(oppKey, reason);
+        return true;
     }
 
     private void approveExam(UUID examId) throws ReturnStatusException {
@@ -226,12 +221,8 @@ public class TestOpportunityRestService implements ITestOpportunityService {
     // called once per segment
     @Override
     public boolean approveAccommodations(UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, int segment, String segmentAccs) throws ReturnStatusException {
-        if (legacyEnabled) {
-            try {
-                testOpportunityService.approveAccommodations(oppKey, sessionKey, proctorKey, browserKey, segment, segmentAccs);
-            } catch (Exception e) {
-                logger.debug("Exception approving accommodations with legacy code enabled.", e);
-            }
+        if (isLegacyCallsEnabled) {
+            return testOpportunityService.approveAccommodations(oppKey, sessionKey, proctorKey, browserKey, segment, segmentAccs);
         }
         return true;
     }
@@ -240,14 +231,14 @@ public class TestOpportunityRestService implements ITestOpportunityService {
     // called once per examination
     @Override
     public void approveAccommodations(UUID examId, UUID sessionKey, UUID browserKey, String accommodationsString) throws ReturnStatusException {
-        if (legacyEnabled == false || restEnabled) {
+        if (isRemoteCallsEnabled) {
             Map<Integer, Set<String>> accommodations = parseAccommodations(accommodationsString);
             approveAccommodations(examId, sessionKey, browserKey, accommodations);
         }
     }
 
     private void approveAccommodations(UUID examId, UUID sessionKey, UUID browserKey, Map<Integer, Set<String>> accommodations) {
-        ApproveAccommodationsRequest request = new ApproveAccommodationsRequest(sessionKey, browserKey, false, accommodations);
+        ApproveAccommodationsRequest request = new ApproveAccommodationsRequest(sessionKey, browserKey, accommodations);
         final String approveAccommodationsUrl = approveAccommodationsBuilder.buildAndExpand(examId.toString()).toUriString();
         restTemplate.postForObject(approveAccommodationsUrl, request, ApproveAccommodationsRequest.class);
     }

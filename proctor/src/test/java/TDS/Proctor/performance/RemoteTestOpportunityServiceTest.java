@@ -1,6 +1,6 @@
 package TDS.Proctor.performance;
 
-import TDS.Proctor.Services.TestOpportunityRestService;
+import TDS.Proctor.Services.remote.RemoteTestOpportunityService;
 import TDS.Proctor.Services.WebConfiguration;
 import TDS.Proctor.Sql.Data.TestOpps;
 import org.junit.Test;
@@ -17,10 +17,10 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-public class TestOpportunityRestServiceTest {
+public class RemoteTestOpportunityServiceTest {
     RestTemplate restTemplate;
     MockRestServiceServer mockServer;
-    TestOpportunityRestService testOpportunityRestService;
+    RemoteTestOpportunityService remoteTestOpportunityService;
 
     String emptyResponseBody = "[]";
     String pendingExamsResponseBody = "[\n" +
@@ -176,10 +176,10 @@ public class TestOpportunityRestServiceTest {
                 "    \"typeTotal\": 1\n" +
                 "  }]\n";
 
-    public TestOpportunityRestServiceTest() {
+    public RemoteTestOpportunityServiceTest() {
         restTemplate = new WebConfiguration().getRestTemplate();
         mockServer = MockRestServiceServer.createServer(restTemplate);
-        testOpportunityRestService = new TestOpportunityRestService(null, restTemplate, "http://example.com", "http://example.com", false, true);
+        remoteTestOpportunityService = new RemoteTestOpportunityService(null, restTemplate, "http://example.com", "http://example.com", false, true);
 
     }
 
@@ -195,7 +195,7 @@ public class TestOpportunityRestServiceTest {
         mockServer.expect(requestTo(containsString("accommodations"))).andRespond(
             withSuccess(examAccommodations, APPLICATION_JSON));
 
-        TestOpps testsForApproval = testOpportunityRestService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
+        TestOpps testsForApproval = remoteTestOpportunityService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
 
         assertTrue(testsForApproval.size() == 1);
     }
@@ -207,7 +207,7 @@ public class TestOpportunityRestServiceTest {
         mockServer.expect(anything()).andRespond(
             withSuccess(emptyResponseBody, APPLICATION_JSON));
 
-        TestOpps testsForApproval = testOpportunityRestService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
+        TestOpps testsForApproval = remoteTestOpportunityService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
 
         assertTrue(testsForApproval.size() == 0);
     }
@@ -219,7 +219,7 @@ public class TestOpportunityRestServiceTest {
         mockServer.expect(anything()).andRespond(
             withSuccess(emptyResponseBody, APPLICATION_JSON));
 
-        TestOpps testsForApproval = testOpportunityRestService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
+        TestOpps testsForApproval = remoteTestOpportunityService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
 
         assertTrue(testsForApproval.size() == 0);
     }
@@ -231,6 +231,6 @@ public class TestOpportunityRestServiceTest {
         mockServer.expect(anything()).andRespond(
             withSuccess(emptyResponseBody, APPLICATION_JSON));
 
-        testOpportunityRestService.denyOpportunity(UUID.randomUUID(), UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID(),"deny reason text");
+        remoteTestOpportunityService.denyOpportunity(UUID.randomUUID(), UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID(),"deny reason text");
     }
 }
