@@ -1,6 +1,5 @@
 package TDS.Proctor.Services.remote;
 
-import TDS.Proctor.Services.TestOpportunityService;
 import TDS.Proctor.Sql.Data.Abstractions.AssessmentRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITestOpportunityService;
@@ -10,12 +9,8 @@ import TDS.Proctor.Sql.Data.Accommodations.AccValue;
 import TDS.Proctor.Sql.Data.TestOpportunity;
 import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Shared.Exceptions.ReturnStatusException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,8 +33,6 @@ import static tds.exam.ExamStatusCode.STATUS_DENIED;
 import static tds.exam.ExamStatusStage.IN_USE;
 
 public class RemoteTestOpportunityService implements ITestOpportunityService {
-    private static final Logger logger = LoggerFactory.getLogger(RemoteTestOpportunityService.class);
-
     private final ITestOpportunityService testOpportunityService;
     private final boolean isLegacyCallsEnabled;
     private final boolean isRemoteCallsEnabled;
@@ -55,6 +48,11 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
                                         @Value("${tds.exam.remote.enabled}") final boolean isRemoteCallsEnabled,
                                         final ExamRepository examRepository,
                                         final AssessmentRepository assessmentRepository) {
+
+        if (!isRemoteCallsEnabled && !isLegacyCallsEnabled) {
+            throw new IllegalStateException("Remote and legacy calls are both disabled.  Please check progman configuration");
+        }
+
         this.testOpportunityService = testOpportunityService;
         this.examRepository = examRepository;
         this.assessmentRepository = assessmentRepository;
