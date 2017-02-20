@@ -61,12 +61,12 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     }
 
     @Override
-    public TestOpps getCurrentSessionTestees(UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
+    public TestOpps getCurrentSessionTestees(final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
         return testOpportunityService.getCurrentSessionTestees(sessionKey, proctorKey, browserKey);
     }
 
     @Override
-    public TestOpps getTestsForApproval(UUID sessionId, long proctorKey, UUID browserKey) throws ReturnStatusException {
+    public TestOpps getTestsForApproval(final UUID sessionId, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
         TestOpps testOpps = null;
 
         if (isLegacyCallsEnabled) {
@@ -80,7 +80,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         return getTestsForApproval(sessionId);
     }
 
-    private TestOpps getTestsForApproval(UUID sessionId) throws ReturnStatusException {
+    private TestOpps getTestsForApproval(final UUID sessionId) throws ReturnStatusException {
         final List<Exam> exams = examRepository.findExamsPendingApproval(sessionId);
 
         final TestOpps testOpps = new TestOpps();
@@ -139,7 +139,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     }
 
     @Override
-    public boolean approveOpportunity(UUID examId, UUID sessionId, long proctorKey, UUID browserKey) throws ReturnStatusException {
+    public boolean approveOpportunity(final UUID examId, final UUID sessionId, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
         boolean isApproveSuccessful = false;
 
         if (isLegacyCallsEnabled) {
@@ -155,7 +155,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     }
 
     @Override
-    public boolean denyOpportunity(UUID examId, UUID sessionId, long proctorKey, UUID browserKey, String reason) throws ReturnStatusException {
+    public boolean denyOpportunity(final UUID examId, final UUID sessionId, final long proctorKey, final UUID browserKey, final String reason) throws ReturnStatusException {
         boolean isDenySuccessful = false;
 
         if (isLegacyCallsEnabled) {
@@ -173,7 +173,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     // legacy implementation of approveAccommodations
     // called once per segment
     @Override
-    public boolean approveAccommodations(UUID examId, UUID sessionId, long proctorKey, UUID browserKey, int segment, String segmentAccs) throws ReturnStatusException {
+    public boolean approveAccommodations(final UUID examId, final UUID sessionId, final long proctorKey, final UUID browserKey, final int segment, final String segmentAccs) throws ReturnStatusException {
         if (isLegacyCallsEnabled) {
             return testOpportunityService.approveAccommodations(examId, sessionId, proctorKey, browserKey, segment, segmentAccs);
         }
@@ -183,25 +183,25 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     // rest implementation of approveAccommodations
     // called once per examination
     @Override
-    public void approveAccommodations(UUID examId, UUID sessionId, UUID browserKey, String accommodationsString) throws ReturnStatusException {
+    public void approveAccommodations(final UUID examId, final UUID sessionId, final UUID browserKey, final String accommodationsString) throws ReturnStatusException {
         if (isRemoteCallsEnabled) {
             Map<Integer, Set<String>> accommodations = parseAccommodations(accommodationsString);
             approveAccommodations(examId, sessionId, browserKey, accommodations);
         }
     }
 
-    private void approveAccommodations(UUID examId, UUID sessionId, UUID browserKey, Map<Integer, Set<String>> accommodations) throws ReturnStatusException {
+    private void approveAccommodations(final UUID examId, final UUID sessionId, final UUID browserKey, final Map<Integer, Set<String>> accommodations) throws ReturnStatusException {
         ApproveAccommodationsRequest request = new ApproveAccommodationsRequest(sessionId, browserKey, accommodations);
 
         examRepository.approveAccommodations(examId, request);
     }
 
     @Override
-    public boolean pauseOpportunity(UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException {
+    public boolean pauseOpportunity(final UUID oppKey, final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
         return testOpportunityService.pauseOpportunity(oppKey, sessionKey, proctorKey, browserKey);
     }
 
-    public static Map<Integer, Set<String>> parseAccommodations(final String accommodationsString) {
+    private static Map<Integer, Set<String>> parseAccommodations(final String accommodationsString) {
         final Map<Integer, Set<String>> accommodations = new HashMap<>();
 
         // remove last character from accommodationsString. (extra at end ';')
