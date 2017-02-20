@@ -69,9 +69,6 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
 
     @Override
     public TestOpps getTestsForApproval(UUID sessionId, long proctorKey, UUID browserKey) throws ReturnStatusException {
-        logger.debug("session-id: {}", sessionId.toString());
-        logger.debug("browser-id: {}", browserKey.toString());
-
         TestOpps testOpps = null;
 
         if (isLegacyCallsEnabled) {
