@@ -33,7 +33,7 @@
 		<constructor-arg ref="tdsSettings"/>
 		<constructor-arg ref="iTestOpportunityRepository"/>
 	</bean>
-	<bean id="iTestOpportunityService" class="TDS.Proctor.Services.remote.TestOpportunityRestService" scope="prototype">
+	<bean id="iTestOpportunityService" class="TDS.Proctor.Services.remote.RemoteTestOpportunityService" scope="prototype">
 		<constructor-arg ref="legacyTestOpportunityService"/>
 		<constructor-arg ref="integrationRestTemplate"/>
 		<constructor-arg value="${tds.exam.remote.url}"/>
