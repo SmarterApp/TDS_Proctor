@@ -25,4 +25,10 @@ public class WebConfiguration {
         template.setMessageConverters(converters);
         return template;
     }
+
+    @Bean(name = "integrationObjectMapper")
+    public ObjectMapper getIntegrationObjectMapper() {
+        return new ObjectMapper()
+            .registerModule(new JodaModule());
+    }
 }
