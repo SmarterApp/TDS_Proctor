@@ -1,7 +1,6 @@
 package TDS.Proctor.Services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +29,6 @@ public class WebConfiguration {
     @Bean(name = "integrationObjectMapper")
     public ObjectMapper getIntegrationObjectMapper() {
         return new ObjectMapper()
-            .registerModule(new GuavaModule())
             .registerModule(new JodaModule());
     }
 }
