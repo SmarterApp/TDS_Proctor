@@ -8,6 +8,7 @@ import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
 import TDS.Proctor.Sql.Data.Accommodations.AccValue;
 import TDS.Proctor.Sql.Data.TestOpportunity;
 import TDS.Proctor.Sql.Data.TestOpps;
+import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     private final boolean isRemoteCallsEnabled;
     private final ExamRepository examRepository;
     private final AssessmentRepository assessmentRepository;
+    private final TestOpportunityExamMapDao testOpportunityExamMapDao;
 
     private static Pattern accommodationPattern = compile(Pattern.quote("|"));
     private static Pattern segmentPattern = compile(";");
@@ -47,7 +49,8 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
                                         @Value("${tds.exam.legacy.enabled}") final boolean isLegacyCallsEnabled,
                                         @Value("${tds.exam.remote.enabled}") final boolean isRemoteCallsEnabled,
                                         final ExamRepository examRepository,
-                                        final AssessmentRepository assessmentRepository) {
+                                        final AssessmentRepository assessmentRepository,
+                                        final TestOpportunityExamMapDao testOpportunityExamMapDao) {
 
         if (!isRemoteCallsEnabled && !isLegacyCallsEnabled) {
             throw new IllegalStateException("Remote and legacy calls are both disabled.  Please check progman configuration");
@@ -56,6 +59,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         this.testOpportunityService = testOpportunityService;
         this.examRepository = examRepository;
         this.assessmentRepository = assessmentRepository;
+        this.testOpportunityExamMapDao = testOpportunityExamMapDao;
         this.isLegacyCallsEnabled = isLegacyCallsEnabled;
         this.isRemoteCallsEnabled = isRemoteCallsEnabled;
     }
@@ -143,7 +147,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         boolean isApproveSuccessful = false;
 
         if (isLegacyCallsEnabled) {
-            isApproveSuccessful = testOpportunityService.approveOpportunity(examId, sessionId, proctorKey, browserKey);
+            isApproveSuccessful = testOpportunityService.approveOpportunity(getTestOpportunityId(examId), sessionId, proctorKey, browserKey);
         }
 
         if (!isRemoteCallsEnabled) {
@@ -159,7 +163,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         boolean isDenySuccessful = false;
 
         if (isLegacyCallsEnabled) {
-            isDenySuccessful = testOpportunityService.denyOpportunity(examId, sessionId, proctorKey, browserKey, reason);
+            isDenySuccessful = testOpportunityService.denyOpportunity(getTestOpportunityId(examId), sessionId, proctorKey, browserKey, reason);
         }
 
         if (!isRemoteCallsEnabled) {
@@ -175,7 +179,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     @Override
     public boolean approveAccommodations(final UUID examId, final UUID sessionId, final long proctorKey, final UUID browserKey, final int segment, final String segmentAccs) throws ReturnStatusException {
         if (isLegacyCallsEnabled) {
-            return testOpportunityService.approveAccommodations(examId, sessionId, proctorKey, browserKey, segment, segmentAccs);
+            return testOpportunityService.approveAccommodations(getTestOpportunityId(examId), sessionId, proctorKey, browserKey, segment, segmentAccs);
         }
 
         return true;
@@ -214,5 +218,11 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         }
 
         return accommodations;
+    }
+
+    private UUID getTestOpportunityId(UUID examId) {
+        if (!isRemoteCallsEnabled) return examId;
+
+        return testOpportunityExamMapDao.getTestOpportunityId(examId);
     }
 }
