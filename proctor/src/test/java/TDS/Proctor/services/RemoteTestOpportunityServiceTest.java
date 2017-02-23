@@ -4,6 +4,7 @@ import TDS.Proctor.Services.remote.RemoteTestOpportunityService;
 import TDS.Proctor.Sql.Data.Abstractions.AssessmentRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITestOpportunityService;
+import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.junit.After;
 import org.junit.Before;
@@ -35,9 +36,12 @@ public class RemoteTestOpportunityServiceTest {
     @Mock
     private AssessmentRepository mockAssessmentRepository;
 
+    @Mock
+    private TestOpportunityExamMapDao mockTestOpportunityExamMapDao;
+
     @Before
     public void setup() {
-        service = new RemoteTestOpportunityService(legacyTestOpportunityService, true, true, mockExamRepository, mockAssessmentRepository);
+        service = new RemoteTestOpportunityService(legacyTestOpportunityService, true, true, mockExamRepository, mockAssessmentRepository, mockTestOpportunityExamMapDao);
     }
 
     @After
@@ -94,55 +98,4 @@ public class RemoteTestOpportunityServiceTest {
         verify(legacyTestOpportunityService).approveAccommodations(examId, sessionId, proctorKey, browserKey, 0, accs);
         verify(mockExamRepository).approveAccommodations(isA(UUID.class), isA(ApproveAccommodationsRequest.class));
     }
-
-//    @Test
-//    public void shouldRetrieveExamsPendingApproval() throws Exception {
-//
-//        mockServer.expect(requestTo(containsString("pending-approval"))).andRespond(
-//            withSuccess(pendingExamsResponseBody, APPLICATION_JSON));
-//
-//        mockServer.expect(requestTo(containsString("assessments/accommodations"))).andRespond(
-//            withSuccess(assessmentAccommodations, APPLICATION_JSON));
-//
-//        mockServer.expect(requestTo(containsString("accommodations"))).andRespond(
-//            withSuccess(examAccommodations, APPLICATION_JSON));
-//
-//        TestOpps testsForApproval = remoteTestOpportunityService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
-//
-//        assertTrue(testsForApproval.size() == 1);
-//    }
-//
-//    @Test
-//    public void shouldRetrieveNoExamsPendingApproval() throws Exception {
-//        MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
-//
-//        mockServer.expect(anything()).andRespond(
-//            withSuccess(emptyResponseBody, APPLICATION_JSON));
-//
-//        TestOpps testsForApproval = remoteTestOpportunityService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
-//
-//        assertTrue(testsForApproval.size() == 0);
-//    }
-//
-//    @Test
-//    public void shouldApproveExam() throws Exception {
-//        MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
-//
-//        mockServer.expect(anything()).andRespond(
-//            withSuccess(emptyResponseBody, APPLICATION_JSON));
-//
-//        TestOpps testsForApproval = remoteTestOpportunityService.getTestsForApproval(UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID());
-//
-//        assertTrue(testsForApproval.size() == 0);
-//    }
-//
-//    @Test
-//    public void shouldDenyExamWithoutException() throws Exception {
-//        MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
-//
-//        mockServer.expect(anything()).andRespond(
-//            withSuccess(emptyResponseBody, APPLICATION_JSON));
-//
-//        remoteTestOpportunityService.denyOpportunity(UUID.randomUUID(), UUID.randomUUID(), new Random().nextLong(), UUID.randomUUID(),"deny reason text");
-//    }
 }
