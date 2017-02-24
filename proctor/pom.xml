@@ -287,11 +287,6 @@
 			<version>1.0.1-BUILD-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
-		<dependency>
-			<groupId>org.opentestsystem.delivery</groupId>
-			<artifactId>student.library</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
@@ -303,12 +298,6 @@
 			<groupId>org.opentestsystem.assessment</groupId>
 			<artifactId>tds-assessment-client</artifactId>
 			<version>${tds-assessment-client.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.opentestsystem.common</groupId>
-			<artifactId>tds-common-legacy</artifactId>
-			<version>${tds-common-legacy.version}</version>
 		</dependency>
 	</dependencies>
 
