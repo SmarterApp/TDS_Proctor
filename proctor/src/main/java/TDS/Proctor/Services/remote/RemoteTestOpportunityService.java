@@ -10,6 +10,9 @@ import TDS.Proctor.Sql.Data.TestOpportunity;
 import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.Instant;
+import org.joda.time.Minutes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -27,6 +30,8 @@ import tds.accommodation.Accommodation;
 import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
+import tds.exam.ExamStatusCode;
+import tds.exam.ExpandableExam;
 
 import static java.util.regex.Pattern.compile;
 import static tds.exam.ExamStatusCode.STATUS_APPROVED;
@@ -65,8 +70,85 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     }
 
     @Override
-    public TestOpps getCurrentSessionTestees(final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
-        return testOpportunityService.getCurrentSessionTestees(sessionKey, proctorKey, browserKey);
+    public TestOpps getCurrentSessionTestees(final UUID sessionId, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
+        TestOpps testOpps = null;
+
+        if (isLegacyCallsEnabled) {
+            testOpps = testOpportunityService.getCurrentSessionTestees(sessionId, proctorKey, browserKey);
+        }
+
+        if (!isRemoteCallsEnabled) {
+            return testOpps;
+        }
+
+        testOpps = mapExpandableExamsToTestOpps(examRepository.findExamsForSessionId(sessionId));
+
+        return testOpps;
+    }
+
+    /* TestOpportunityRepository.java loadCurrentSessionTestees() */
+    private static TestOpps mapExpandableExamsToTestOpps(final List<ExpandableExam> exams) {
+        TestOpps testOpportunities = new TestOpps();
+
+        for (ExpandableExam expandableExam : exams) {
+            final Exam exam = expandableExam.getExam();
+            final String examStatus = exam.getStatus().getCode();
+            final int responseCount = expandableExam.getItemsResponseCount();
+
+            TestOpportunity opportunity = new TestOpportunity(exam.getId());
+            opportunity.setName(exam.getStudentName());
+            opportunity.setOpp(exam.getAttempts());
+            opportunity.setTestKey(exam.getAssessmentKey());
+            opportunity.setSsid(exam.getLoginSSID());
+            opportunity.setStatus(examStatus);
+            opportunity.setTestID(exam.getAssessmentId());
+            opportunity.setTestName(exam.getAssessmentId()); // In line
+            opportunity.setItemcount(exam.getMaxItems());
+            opportunity.setResponseCount(responseCount);
+            opportunity.setIsMsb(expandableExam.isMultiStageBraille());
+            opportunity.setRequestCount(expandableExam.getRequestCount());
+            opportunity.setAccs(buildAccommodationStringFromExamAccommodations(expandableExam.getExamAccommodations()));
+
+            final String pausedString = ExamStatusCode.STATUS_PAUSED.equals(examStatus)
+                ? String.format(", %s min", Minutes.minutesBetween(exam.getStatusChangedAt(), Instant.now()).getMinutes())
+                : StringUtils.EMPTY;
+
+            // Skip first conditional (g etScore() != null) - score is always null
+            if (exam.getCompletedAt() == null) {
+                opportunity.setDisplayStatus(String.format("%s, %d/%d%s", examStatus, responseCount, exam.getMaxItems(), pausedString));
+            } else {
+                opportunity.setDisplayStatus(examStatus);
+            }
+
+            opportunity.setCustAccs(exam.isCustomAccommodations());
+
+            testOpportunities.add(opportunity);
+        }
+
+        return testOpportunities;
+    }
+
+    private static String buildAccommodationStringFromExamAccommodations(final List<ExamAccommodation> examAccommodations) {
+        /* Accommodation String Syntax:
+            <accType1>: <accValue1> | <accType2>: <accValue2> | ...
+         */
+        StringBuilder builder = new StringBuilder();
+        ExamAccommodation examAccommodation;
+
+        for (int i = 0; i < examAccommodations.size(); ++i) {
+            examAccommodation = examAccommodations.get(i);
+            builder
+                .append(examAccommodation.getType())
+                .append(": ")
+                .append(examAccommodation.getValue());
+
+            // If this is not the last element, add a pipe delimiter
+            if (i != examAccommodations.size() - 1) {
+                builder.append(" | ");
+            }
+        }
+
+        return builder.toString();
     }
 
     @Override

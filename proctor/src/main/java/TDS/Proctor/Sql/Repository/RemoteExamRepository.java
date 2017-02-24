@@ -30,6 +30,8 @@ import tds.common.web.resources.NoContentResponseResource;
 import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
+import tds.exam.ExamStatusCode;
+import tds.exam.ExpandableExam;
 
 @Repository
 public class RemoteExamRepository implements ExamRepository {
@@ -143,6 +145,37 @@ public class RemoteExamRepository implements ExamRepository {
         }
 
         return Optional.absent();
+    }
+
+    @Override
+    public List<ExpandableExam> findExamsForSessionId(final UUID sessionId) throws ReturnStatusException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
+        List<ExpandableExam> exams;
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/sessions/%s", examUrl, sessionId))
+            .queryParam("statusNot", ExamStatusCode.STATUS_SUSPENDED)
+            .queryParam("statusNot", ExamStatusCode.STATUS_DENIED)
+            .queryParam("statusNot", ExamStatusCode.STATUS_PENDING)
+            .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_EXAM_ACCOMMODATIONS)
+            .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_ITEM_RESPONSE_COUNT);
+
+        try {
+            ResponseEntity<List<ExpandableExam>> response = restTemplate.exchange(
+                builder.build().encode().toUri(),
+                HttpMethod.GET,
+                requestHttpEntity,
+                new ParameterizedTypeReference<List<ExpandableExam>>() {
+                });
+
+            exams = response.getBody();
+        } catch (RestClientException rce) {
+            throw new ReturnStatusException(rce);
+        }
+
+        return exams;
     }
 
     private static boolean isClientError(HttpStatus status) {

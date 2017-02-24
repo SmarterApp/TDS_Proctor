@@ -10,6 +10,7 @@ import tds.common.ValidationError;
 import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
+import tds.exam.ExpandableExam;
 
 /**
  * Repository to interact with exam data
@@ -52,4 +53,13 @@ public interface ExamRepository {
      * @throws ReturnStatusException
      */
     Optional<ValidationError> updateStatus(final UUID examId, final String status, final String stage, final String reason) throws ReturnStatusException;
+
+    /**
+     * Fetches a list of {@link tds.exam.ExpandableExam}s for the session
+     *
+     * @param sessionId the id of the session
+     * @return a list of exams for the session
+     * @throws ReturnStatusException
+     */
+    List<ExpandableExam> findExamsForSessionId(final UUID sessionId) throws ReturnStatusException;
 }
