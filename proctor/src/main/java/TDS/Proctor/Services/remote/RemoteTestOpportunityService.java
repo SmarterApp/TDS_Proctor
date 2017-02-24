@@ -86,71 +86,6 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         return testOpps;
     }
 
-    /* TestOpportunityRepository.java loadCurrentSessionTestees() */
-    private static TestOpps mapExpandableExamsToTestOpps(final List<ExpandableExam> exams) {
-        TestOpps testOpportunities = new TestOpps();
-
-        for (ExpandableExam expandableExam : exams) {
-            final Exam exam = expandableExam.getExam();
-            final String examStatus = exam.getStatus().getCode();
-            final int responseCount = expandableExam.getItemsResponseCount();
-
-            TestOpportunity opportunity = new TestOpportunity(exam.getId());
-            opportunity.setName(exam.getStudentName());
-            opportunity.setOpp(exam.getAttempts());
-            opportunity.setTestKey(exam.getAssessmentKey());
-            opportunity.setSsid(exam.getLoginSSID());
-            opportunity.setStatus(examStatus);
-            opportunity.setTestID(exam.getAssessmentId());
-            opportunity.setTestName(exam.getAssessmentId()); // In line
-            opportunity.setItemcount(exam.getMaxItems());
-            opportunity.setResponseCount(responseCount);
-            opportunity.setIsMsb(expandableExam.isMultiStageBraille());
-            opportunity.setRequestCount(expandableExam.getRequestCount());
-            opportunity.setAccs(buildAccommodationStringFromExamAccommodations(expandableExam.getExamAccommodations()));
-
-            final String pausedString = ExamStatusCode.STATUS_PAUSED.equals(examStatus)
-                ? String.format(", %s min", Minutes.minutesBetween(exam.getStatusChangedAt(), Instant.now()).getMinutes())
-                : StringUtils.EMPTY;
-
-            // Skip first conditional (g etScore() != null) - score is always null
-            if (exam.getCompletedAt() == null) {
-                opportunity.setDisplayStatus(String.format("%s, %d/%d%s", examStatus, responseCount, exam.getMaxItems(), pausedString));
-            } else {
-                opportunity.setDisplayStatus(examStatus);
-            }
-
-            opportunity.setCustAccs(exam.isCustomAccommodations());
-
-            testOpportunities.add(opportunity);
-        }
-
-        return testOpportunities;
-    }
-
-    private static String buildAccommodationStringFromExamAccommodations(final List<ExamAccommodation> examAccommodations) {
-        /* Accommodation String Syntax:
-            <accType1>: <accValue1> | <accType2>: <accValue2> | ...
-         */
-        StringBuilder builder = new StringBuilder();
-        ExamAccommodation examAccommodation;
-
-        for (int i = 0; i < examAccommodations.size(); ++i) {
-            examAccommodation = examAccommodations.get(i);
-            builder
-                .append(examAccommodation.getType())
-                .append(": ")
-                .append(examAccommodation.getValue());
-
-            // If this is not the last element, add a pipe delimiter
-            if (i != examAccommodations.size() - 1) {
-                builder.append(" | ");
-            }
-        }
-
-        return builder.toString();
-    }
-
     @Override
     public TestOpps getTestsForApproval(final UUID sessionId, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
         TestOpps testOpps = null;
@@ -307,4 +242,70 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
 
         return testOpportunityExamMapDao.getTestOpportunityId(examId);
     }
+
+    /* TestOpportunityRepository.java loadCurrentSessionTestees() */
+    private static TestOpps mapExpandableExamsToTestOpps(final List<ExpandableExam> exams) {
+        TestOpps testOpportunities = new TestOpps();
+
+        for (ExpandableExam expandableExam : exams) {
+            final Exam exam = expandableExam.getExam();
+            final String examStatus = exam.getStatus().getCode();
+            final int responseCount = expandableExam.getItemsResponseCount();
+
+            TestOpportunity opportunity = new TestOpportunity(exam.getId());
+            opportunity.setName(exam.getStudentName());
+            opportunity.setOpp(exam.getAttempts());
+            opportunity.setTestKey(exam.getAssessmentKey());
+            opportunity.setSsid(exam.getLoginSSID());
+            opportunity.setStatus(examStatus);
+            opportunity.setTestID(exam.getAssessmentId());
+            opportunity.setTestName(exam.getAssessmentId()); // TestOpportunityRepository line 99 sets testName to testId
+            opportunity.setItemcount(exam.getMaxItems());
+            opportunity.setResponseCount(responseCount);
+            opportunity.setIsMsb(expandableExam.isMultiStageBraille());
+            opportunity.setRequestCount(expandableExam.getRequestCount());
+            opportunity.setAccs(buildAccommodationStringFromExamAccommodations(expandableExam.getExamAccommodations()));
+
+            final String pausedString = ExamStatusCode.STATUS_PAUSED.equals(examStatus)
+                ? String.format(", %s min", Minutes.minutesBetween(exam.getStatusChangedAt(), Instant.now()).getMinutes())
+                : StringUtils.EMPTY;
+
+            // Skip first conditional (getScore() != null) - score is always null
+            if (exam.getCompletedAt() == null) {
+                opportunity.setDisplayStatus(String.format("%s, %d/%d%s", examStatus, responseCount, exam.getMaxItems(), pausedString));
+            } else {
+                opportunity.setDisplayStatus(examStatus);
+            }
+
+            opportunity.setCustAccs(exam.isCustomAccommodations());
+
+            testOpportunities.add(opportunity);
+        }
+
+        return testOpportunities;
+    }
+
+    private static String buildAccommodationStringFromExamAccommodations(final List<ExamAccommodation> examAccommodations) {
+        /* Accommodation String Syntax:
+            <accType1>: <accValue1> | <accType2>: <accValue2> | ...
+         */
+        StringBuilder builder = new StringBuilder();
+        ExamAccommodation examAccommodation;
+
+        for (int i = 0; i < examAccommodations.size(); ++i) {
+            examAccommodation = examAccommodations.get(i);
+            builder
+                .append(examAccommodation.getType())
+                .append(": ")
+                .append(examAccommodation.getValue());
+
+            // If this is not the last element, add a pipe delimiter
+            if (i != examAccommodations.size() - 1) {
+                builder.append(" | ");
+            }
+        }
+
+        return builder.toString();
+    }
+
 }
