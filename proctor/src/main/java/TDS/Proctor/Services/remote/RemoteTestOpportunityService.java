@@ -81,9 +81,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
             return testOpps;
         }
 
-        testOpps = mapExpandableExamsToTestOpps(examRepository.findExamsForSessionId(sessionId));
-
-        return testOpps;
+        return mapExpandableExamsToTestOpps(examRepository.findExamsForSessionId(sessionId));
     }
 
     @Override
@@ -266,12 +264,12 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
             opportunity.setRequestCount(expandableExam.getRequestCount());
             opportunity.setAccs(buildAccommodationStringFromExamAccommodations(expandableExam.getExamAccommodations()));
 
-            final String pausedString = ExamStatusCode.STATUS_PAUSED.equals(examStatus)
-                ? String.format(", %s min", Minutes.minutesBetween(exam.getStatusChangedAt(), Instant.now()).getMinutes())
-                : StringUtils.EMPTY;
-
             // Skip first conditional (getScore() != null) - score is always null
             if (exam.getCompletedAt() == null) {
+                final String pausedString = ExamStatusCode.STATUS_PAUSED.equals(examStatus)
+                    ? String.format(", %s min", Minutes.minutesBetween(exam.getStatusChangedAt(), Instant.now()).getMinutes())
+                    : StringUtils.EMPTY;
+
                 opportunity.setDisplayStatus(String.format("%s, %d/%d%s", examStatus, responseCount, exam.getMaxItems(), pausedString));
             } else {
                 opportunity.setDisplayStatus(examStatus);
