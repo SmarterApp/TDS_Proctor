@@ -155,7 +155,7 @@ public class RemoteExamRepository implements ExamRepository {
         HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
         List<ExpandableExam> exams;
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/sessions/%s", examUrl, sessionId))
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/session/%s", examUrl, sessionId))
             .queryParam("statusNot", ExamStatusCode.STATUS_SUSPENDED)
             .queryParam("statusNot", ExamStatusCode.STATUS_DENIED)
             .queryParam("statusNot", ExamStatusCode.STATUS_PENDING)
