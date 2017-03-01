@@ -178,7 +178,16 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         boolean isDenySuccessful = false;
 
         if (isLegacyCallsEnabled) {
-            isDenySuccessful = testOpportunityService.denyOpportunity(getTestOpportunityId(examId), sessionId, proctorKey, browserKey, reason);
+            try {
+                isDenySuccessful = testOpportunityService.denyOpportunity(getTestOpportunityId(examId), sessionId, proctorKey, browserKey, reason);
+            }
+            catch (ReturnStatusException rse) {
+                // the legacy normal flow throws the exception
+                //  so if we are also calling the remote services then we need to swallow it
+                if (!isRemoteCallsEnabled) {
+                    throw rse;
+                }
+            }
         }
 
         if (!isRemoteCallsEnabled) {
