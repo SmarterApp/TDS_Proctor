@@ -272,8 +272,7 @@ public class TestOpportunityRepository extends AbstractDAO implements ITestOppor
   public ReturnStatus denyOpportunity (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, String reason) throws ReturnStatusException {
 
     try (SQLConnection connection = getSQLConnection ()) {
-      SingleDataResultSet result = dll.P_DenyApproval_SP (connection, sessionKey, proctorKey, browserKey, oppKey, reason);
-      ReturnStatusException.getInstanceIfAvailable (result);
+      dll.P_DenyApproval_SP (connection, sessionKey, proctorKey, browserKey, oppKey, reason);
 
     } catch (SQLException e) {
       _logger.error (e.getMessage ());
