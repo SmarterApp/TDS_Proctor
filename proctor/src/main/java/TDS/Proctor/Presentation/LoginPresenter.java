@@ -11,6 +11,7 @@ package TDS.Proctor.Presentation;
 import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +31,9 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 import TDS.Shared.Security.IEncryption;
 import TDS.Shared.Web.UserCookie;
+
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventLog;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.LOGOUT;
 
 public class LoginPresenter extends PresenterBase
 {
@@ -203,6 +207,7 @@ public class LoginPresenter extends PresenterBase
       ProctorUser thisUser = getThisUser ();
       if (thisUser != null && thisUser.getBrowserKey ().compareTo (Constants.UUIDEmpty) != 0)
         _proctorUserService.logout (thisUser.getKey (), thisUser.getBrowserKey ());
+      eventLog(LOGOUT, thisUser.getId(), thisUser.getSessionKey());
       clearOutProctorCookieInformationOrRemove (true);
       return true;
     } catch (Exception ex) {

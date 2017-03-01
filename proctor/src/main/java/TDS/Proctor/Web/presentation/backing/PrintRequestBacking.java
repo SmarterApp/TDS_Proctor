@@ -69,7 +69,7 @@ public/* partial */class PrintRequestBacking extends BasePage implements IPrintR
        */
     } catch (Exception ex)
     {
-      // log exception
+      // eventLog exception
       // TDSLogger.Application.Error(ex);
       return;
     }

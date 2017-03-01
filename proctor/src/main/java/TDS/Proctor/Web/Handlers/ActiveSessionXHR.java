@@ -9,6 +9,7 @@
 package TDS.Proctor.Web.Handlers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +49,17 @@ import tds.dll.api.ICommonDLL;
 import tds.dll.common.performance.caching.CacheType;
 import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
+
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ADD_ASSESSMENTS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.AUTO;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.READ_EXAMS_PENDING_APPROVAL;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.START_EXAM;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.START_SESSION;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventAddAssessments;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventEntry;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventError;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventLog;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventReadExamsPendingApproval;
 
 @Scope ("prototype")
 @Controller
@@ -239,29 +251,40 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
       UUID sessionKey = UUID.fromString(strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "AutoRefreshData");
+      eventEntry(READ_EXAMS_PENDING_APPROVAL, thisUser.getId(), sessionKey);
+      try {
+        boolean bGetCurTestees = true; // always get current testees if parameter
+        // not exists
+        if (!StringUtils.isEmpty(strBGetCurTestees)) {
+          bGetCurTestees = Boolean.parseBoolean(strBGetCurTestees);
+        }
 
-      boolean bGetCurTestees = true; // always get current testees if parameter
-                                     // not exists
-      if (!StringUtils.isEmpty (strBGetCurTestees)) {
-        bGetCurTestees = Boolean.parseBoolean (strBGetCurTestees);
-      }
+        // 1. Get a list of students waiting for approval
+        sessionDTO.setbReplaceApprovalOpps(true);
+        sessionDTO.setApprovalOpps(_proctorAppTasks.getTestOppTasks().getTestsForApproval(sessionKey, thisUser.getKey(), thisUser.getBrowserKey()));
 
-      // 1. Get a list of students waiting for approval
-      sessionDTO.setbReplaceApprovalOpps (true);
-      sessionDTO.setApprovalOpps (_proctorAppTasks.getTestOppTasks ().getTestsForApproval (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ()));
+        // 1. Get Current Testee belong to this session
+        // 2. Get a list of unacknowledged alert messages
+        if (bGetCurTestees) // only get this data on demand
+        {
+          // get list of test opps
+          sessionDTO.setTestOpps(new TestOpps());
+          sessionDTO.setbReplaceTestOpps(true);
+          sessionDTO.setTestOpps(_proctorAppTasks.getTestOppTasks().getCurrentSessionTestees(sessionKey, thisUser.getKey(), thisUser.getBrowserKey()));
 
-      // 1. Get Current Testee belong to this session
-      // 2. Get a list of unacknowledged alert messages
-      if (bGetCurTestees) // only get this data on demand
-      {
-        // get list of test opps
-        sessionDTO.setTestOpps (new TestOpps ());
-        sessionDTO.setbReplaceTestOpps (true);
-        sessionDTO.setTestOpps (_proctorAppTasks.getTestOppTasks ().getCurrentSessionTestees (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ()));
+          // get unacknowledged alert messages
+          sessionDTO.setbReplaceAlertMsgs(true);
+          sessionDTO.setAlertMessages(getUnAcknowledgedMessages());
+        }
 
-        // get unacknowledged alert messages
-        sessionDTO.setbReplaceAlertMsgs (true);
-        sessionDTO.setAlertMessages (getUnAcknowledgedMessages ());
+        List<UUID> testOpportunityKeys = new ArrayList<>();
+        for(TestOpportunity testOpportunity: sessionDTO.getApprovalOpps()) {
+          testOpportunityKeys.add(testOpportunity.getOppKey());
+        }
+
+        eventReadExamsPendingApproval(AUTO, thisUser.getId(), sessionKey, testOpportunityKeys);
+      } catch (Exception e) {
+        eventError(READ_EXAMS_PENDING_APPROVAL, thisUser.getId(), sessionKey, e);
       }
 
       return sessionDTO;
@@ -383,11 +406,14 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       @RequestParam (value = "testIDs", required = false) String testIDs) throws TDSSecurityException, ReturnStatusException {
     try {
       ProctorUser thisUser = checkAuthenticated();
+
       SessionDTO sessionDTO = new SessionDTO ();
       TestSession testSession;
       if (StringUtils.isEmpty (strSessionKey)) {
-        Date begin = null;
-        Date end   = null;
+        try {
+          eventEntry(START_SESSION, thisUser.getId());
+          Date begin = null;
+          Date end = null;
 //        Date now = new Date ();
 //        begin = Dates.getStartOfDayDate (now);
 //        // time zone conversion
@@ -395,30 +421,40 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 //        end = Dates.getEndOfDayDate (now);
 //        // time zone conversion
 //        end = Dates.convertXST_EST (end, getTimezoneOffset ());
-        
-        //TODO Elena: per 11/18/2014 conversation with Hoai-Anh Ngo 
-        // we will let ProctorDLL.P_CreateSession method assign begin and end dates
-        testSession = _proctorAppTasks.getTestSessionTasks ().createSession (thisUser.getKey (), thisUser.getBrowserKey (), "", thisUser.getId (), thisUser.getFullname (), null, null);
 
-        thisUser.setSessionKey (testSession.getKey ());
-        ProctorUserService.save (thisUser, getUserInfo ()); // save new session
-                                                            // key to the cookie
-        sessionDTO.setSession (testSession);
-        sessionDTO.setbReplaceSession (true);
+          //TODO Elena: per 11/18/2014 conversation with Hoai-Anh Ngo
+          // we will let ProctorDLL.P_CreateSession method assign begin and end dates
+          testSession = _proctorAppTasks.getTestSessionTasks().createSession(thisUser.getKey(), thisUser.getBrowserKey(), "", thisUser.getId(), thisUser.getFullname(), null, null);
+
+          thisUser.setSessionKey(testSession.getKey());
+          ProctorUserService.save(thisUser, getUserInfo()); // save new session
+          // key to the cookie
+          sessionDTO.setSession(testSession);
+          sessionDTO.setbReplaceSession(true);
+          eventLog(START_SESSION, thisUser.getId(), thisUser.getSessionKey());
+        } catch (Exception e) {
+          eventError(START_SESSION, thisUser.getId(), e);
+          throw e;
+        }
       } else {
         testSession = new TestSession (thisUser.getKey (), thisUser.getBrowserKey ());
         testSession.setKey (UUID.fromString (strSessionKey));
       }
-      String[] aryTestKeys = StringUtils.split (testKeys, '|');
-      String[] aryTestIDs = StringUtils.split (testIDs, '|');
-      UUID sessionKey = testSession.getKey ();
-      int len = aryTestKeys.length;
-      for (int i = 0; i < len; i++) {
-        _proctorAppTasks.getTestSessionTasks ().insertSessionTest (testSession.getKey (), thisUser.getKey (), thisUser.getBrowserKey (), aryTestKeys[i], aryTestIDs[i]);
-      }
+      try {
+        String[] aryTestKeys = StringUtils.split(testKeys, '|');
+        String[] aryTestIDs = StringUtils.split(testIDs, '|');
+        UUID sessionKey = testSession.getKey();
+        int len = aryTestKeys.length;
+        for (int i = 0; i < len; i++) {
+          _proctorAppTasks.getTestSessionTasks().insertSessionTest(testSession.getKey(), thisUser.getKey(), thisUser.getBrowserKey(), aryTestKeys[i], aryTestIDs[i]);
+        }
 
-      sessionDTO.setSessionTests (_proctorAppTasks.getTestSessionTasks ().getSessionTests (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ()));
-      sessionDTO.setbReplaceSessionTests (true);
+        sessionDTO.setSessionTests(_proctorAppTasks.getTestSessionTasks().getSessionTests(sessionKey, thisUser.getKey(), thisUser.getBrowserKey()));
+        sessionDTO.setbReplaceSessionTests(true);
+        eventAddAssessments(thisUser.getId(), thisUser.getSessionKey(), aryTestIDs);
+      } catch (Exception e) {
+        eventError(ADD_ASSESSMENTS, thisUser.getId(), thisUser.getSessionKey(), e);
+      }
       return sessionDTO;
     } catch (Exception re) {
       _logger.error (re.toString (),re);
@@ -655,11 +691,18 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
     try {
       ProctorUser thisUser = checkAuthenticated();
       UUID sessionKey = UUID.fromString (strSessionKey);
-      TestOpps testOpps = _proctorAppTasks.getTestOppTasks ().getTestsForApproval (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
-      SessionDTO sessionDTO = new SessionDTO ();
-      sessionDTO.setbReplaceApprovalOpps (true);
-      sessionDTO.setApprovalOpps (testOpps);
-      return sessionDTO;
+      try {
+        eventEntry(READ_EXAMS_PENDING_APPROVAL, thisUser.getId(), sessionKey);
+        TestOpps testOpps = _proctorAppTasks.getTestOppTasks().getTestsForApproval(sessionKey, thisUser.getKey(), thisUser.getBrowserKey());
+        SessionDTO sessionDTO = new SessionDTO();
+        sessionDTO.setbReplaceApprovalOpps(true);
+        sessionDTO.setApprovalOpps(testOpps);
+        eventLog(READ_EXAMS_PENDING_APPROVAL, thisUser.getId(), sessionKey);
+        return sessionDTO;
+      } catch (Exception e) {
+        eventError(START_EXAM, thisUser.getId(), sessionKey, e);
+        throw e;
+      }
     } catch (Exception re) {
       // TODO Shiva
       // OnDBFailed(re.ReturnStatus);

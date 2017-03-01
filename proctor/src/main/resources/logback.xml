@@ -3,4 +3,6 @@
 	<property scope="local" name="app.base.package.name" value="org.air.proctor" />
 	<property scope="local" name="mna.appender.active" value="true" />
 	<include resource="logback-included-common-config.xml" />
+	<!--<logger name="TDS.*" level="TRACE"/>-->
+	<!--<logger name="AIR.*" level="TRACE"/>-->
 </configuration>
