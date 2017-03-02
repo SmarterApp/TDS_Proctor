@@ -9,13 +9,13 @@
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>1.0.1-BUILD-SNAPSHOT</version>
+		<version>3.0.1</version>
 	</parent>
 
 	<properties>
 		<progman-client.version>0.0.4-SNAPSHOT</progman-client.version>
 		<sb11-mna-client.version>0.0.4-SNAPSHOT</sb11-mna-client.version>
-		<sb11-shared-code.version>0.0.6-SNAPSHOT</sb11-shared-code.version>
+		<sb11-shared-code.version>3.0.0</sb11-shared-code.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 	</properties>
 
