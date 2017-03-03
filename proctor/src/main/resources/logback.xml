@@ -4,5 +4,8 @@
 	<property scope="local" name="mna.appender.active" value="true" />
 	<include resource="logback-included-common-config.xml" />
 	<!--<logger name="TDS.*" level="TRACE"/>-->
-	<!--<logger name="AIR.*" level="TRACE"/>-->
+	<logger name="TDS.Proctor.Web.Handlers.ActiveSessionXHR" level="info">
+		<appender-ref ref="STDOUT"/>
+	</logger>
+
 </configuration>

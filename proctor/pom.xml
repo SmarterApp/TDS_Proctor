@@ -15,7 +15,7 @@
 	<properties>
 		<progman-client.version>0.0.4-SNAPSHOT</progman-client.version>
 		<sb11-mna-client.version>0.0.4-SNAPSHOT</sb11-mna-client.version>
-		<sb11-shared-code.version>0.0.6-SNAPSHOT</sb11-shared-code.version>
+		<sb11-shared-code.version>3.0.1-SNAPSHOT</sb11-shared-code.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 		<tds-exam-client.version>0.0.1-SNAPSHOT</tds-exam-client.version>
 		<tds-assessment-client.version>0.0.1-SNAPSHOT</tds-assessment-client.version>
@@ -299,6 +299,12 @@
 			<artifactId>tds-assessment-client</artifactId>
 			<version>${tds-assessment-client.version}</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.google.auto.value</groupId>
+			<artifactId>auto-value</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
+    </dependencies>
 
 </project>

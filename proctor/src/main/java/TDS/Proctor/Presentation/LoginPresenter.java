@@ -32,6 +32,8 @@ import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 import TDS.Shared.Security.IEncryption;
 import TDS.Shared.Web.UserCookie;
 
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventEntry;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventError;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventLog;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.LOGOUT;
 
@@ -205,10 +207,16 @@ public class LoginPresenter extends PresenterBase
   public boolean doLogout () {
     try {
       ProctorUser thisUser = getThisUser ();
-      if (thisUser != null && thisUser.getBrowserKey ().compareTo (Constants.UUIDEmpty) != 0)
-        _proctorUserService.logout (thisUser.getKey (), thisUser.getBrowserKey ());
-      eventLog(LOGOUT, thisUser.getId(), thisUser.getSessionKey());
-      clearOutProctorCookieInformationOrRemove (true);
+      try {
+        eventEntry(LOGOUT, thisUser.getId(), thisUser.getSessionKey());
+        if (thisUser != null && thisUser.getBrowserKey().compareTo(Constants.UUIDEmpty) != 0)
+          _proctorUserService.logout(thisUser.getKey(), thisUser.getBrowserKey());
+        clearOutProctorCookieInformationOrRemove(true);
+        eventLog(LOGOUT, thisUser.getId(), thisUser.getSessionKey());
+      } catch (Exception e) {
+        eventError(LOGOUT, thisUser.getId(), thisUser.getSessionKey(), e);
+      }
+
       return true;
     } catch (Exception ex) {
     	_logger.error (ex.getMessage(),ex);
