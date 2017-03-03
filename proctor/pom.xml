@@ -13,6 +13,7 @@
 	</parent>
 
 	<properties>
+		<tds-dll.version>0.0.1-SNAPSHOT</tds-dll.version>
 		<progman-client.version>0.0.4-SNAPSHOT</progman-client.version>
 		<sb11-mna-client.version>0.0.4-SNAPSHOT</sb11-mna-client.version>
 		<sb11-shared-code.version>3.0.0</sb11-shared-code.version>
@@ -73,6 +74,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-api</artifactId>
+			<version>${tds-dll.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -83,10 +85,12 @@
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-mysql</artifactId>
+			<version>${tds-dll.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-schemas</artifactId>
+			<version>${tds-dll.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- End Dependency shared project -->
