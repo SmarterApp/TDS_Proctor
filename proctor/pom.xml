@@ -302,6 +302,12 @@
 			<artifactId>tds-assessment-client</artifactId>
 			<version>${tds-assessment-client.version}</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.google.auto.value</groupId>
+			<artifactId>auto-value</artifactId>
+			<version>1.2</version>
+			<scope>provided</scope>
+		</dependency>
+    </dependencies>
 
 </project>

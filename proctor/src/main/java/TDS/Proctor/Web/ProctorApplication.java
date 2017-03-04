@@ -23,17 +23,17 @@ public class ProctorApplication extends BaseServletContextListener
   // / </summary>
   public void contextInitialized (ServletContextEvent sce) {
     super.contextInitialized (sce);
-    // log app start and list out assemblies
+    // eventLog app start and list out assemblies
     StringBuilder logBuilder = new StringBuilder ("Proctor Application Started: ");
 
-      // TODO Shiva log jar versions / names as we were doing in .NET code.
+      // TODO Shiva eventLog jar versions / names as we were doing in .NET code.
      _logger.info (logBuilder.toString ());
 
   }
 
   public void contextDestroyed (ServletContextEvent sce) {
     super.contextDestroyed (sce);
-    // log app shutdown and the reason why
+    // eventLog app shutdown and the reason why
     	 _logger.info ("Proctor application shutdown");
   }
 }
