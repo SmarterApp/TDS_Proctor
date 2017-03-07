@@ -19,6 +19,8 @@ import TDS.Proctor.Sql.Data.*;
 import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestSessionDao;
 import org.apache.commons.lang3.StringUtils;
+import org.opentestsystem.delivery.logging.ProctorEventLogger;
+import org.opentestsystem.delivery.logging.SegmentTransitionRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,23 +52,17 @@ import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
 
 import static TDS.Proctor.Services.remote.RemoteTestOpportunityService.parseAccommodations;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.ADD_ASSESSMENTS;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.APPROVE;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.DENY;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.PAUSE_EXAM;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.PRINT;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.READ;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.START_EXAM;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.START_SESSION;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventAddAssessments;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventApproveExam;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventDenyExam;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventDenyPrintRequest;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventEntry;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventError;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventLog;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventReadExamsPendingApproval;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.eventReadPrintRequests;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.ADD_ASSESSMENTS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.EXAM_STATUS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.PAUSE_EXAM;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.PRINT;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.START_SESSION;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.PENDING_STATUS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.SEGMENT_ENTRY_STATUS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.SEGMENT_EXIT_STATUS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.SubEvent.APPROVE;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.SubEvent.DENY;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.SubEvent.READ;
 
 @Scope ("prototype")
 @Controller
@@ -269,19 +265,34 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       }
 
       try {
-        eventEntry(START_EXAM, READ, thisUser.getId(), sessionKey);
+        ProctorEventLogger.eventEntry(EXAM_STATUS, READ, thisUser.getId(), sessionKey);
 
         // 1. Get a list of students waiting for approval
         sessionDTO.setbReplaceApprovalOpps(true);
         sessionDTO.setApprovalOpps(_proctorAppTasks.getTestOppTasks().getTestsForApproval(sessionKey, thisUser.getKey(), thisUser.getBrowserKey()));
         // gather data for event logging
-        List<UUID> testOpportunityKeys = new ArrayList<>();
+        List<UUID> examsPendingApproval = new ArrayList<>();
+        List<SegmentTransitionRequest> examsPendingSegmentTransition = new ArrayList<>();
+        List<UUID> printRequest = new ArrayList<>();
         for(TestOpportunity testOpportunity: sessionDTO.getApprovalOpps()) {
-          testOpportunityKeys.add(testOpportunity.getOppKey());
+          switch (testOpportunity.getStatus()) {
+            case PENDING_STATUS: examsPendingApproval.add(testOpportunity.getOppKey());
+            break;
+            case SEGMENT_ENTRY_STATUS:
+            case SEGMENT_EXIT_STATUS:
+              examsPendingSegmentTransition.add(SegmentTransitionRequest.create(testOpportunity.getOppKey(), testOpportunity.getWaitSegment()));
+            break;
+            default:
+          }
+          if (testOpportunity.getRequestCount() > 0) {
+            printRequest.add(testOpportunity.getOppKey());
+          }
         }
-        eventReadExamsPendingApproval(thisUser.getId(), sessionKey, testOpportunityKeys);
+        ProctorEventLogger.eventReadExamsPendingApproval(thisUser.getId(), sessionKey, examsPendingApproval);
+        ProctorEventLogger.eventReadSegmentTransition(thisUser.getId(), sessionKey, examsPendingSegmentTransition);
+        ProctorEventLogger.eventReadPrint(thisUser.getId(), sessionKey, printRequest);
       } catch (Exception e) {
-        eventError(START_EXAM, READ, thisUser.getId(), sessionKey, e);
+        ProctorEventLogger.error(EXAM_STATUS, READ, thisUser.getId(), sessionKey, e);
         throw e;
       }
 
@@ -290,7 +301,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       if (bGetCurTestees) // only get this data on demand
       {
         try {
-          eventEntry(PRINT, READ, thisUser.getId(), sessionKey);
+          ProctorEventLogger.eventEntry(PRINT, READ, thisUser.getId(), sessionKey);
           // get list of test opps
           sessionDTO.setTestOpps(new TestOpps());
           sessionDTO.setbReplaceTestOpps(true);
@@ -307,9 +318,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
               exams.add(testOpportunity.getOppKey());
             }
           }
-          eventReadPrintRequests(thisUser.getId(), sessionKey, exams);
+          ProctorEventLogger.eventReadPrint(thisUser.getId(), sessionKey, exams);
         } catch (Exception e) {
-          eventError(PRINT, READ, thisUser.getId(), sessionKey, e);
+          ProctorEventLogger.error(PRINT, READ, thisUser.getId(), sessionKey, e);
           throw e;
         }
       }
@@ -438,7 +449,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       TestSession testSession;
       if (StringUtils.isEmpty (strSessionKey)) {
         try {
-          eventEntry(START_SESSION, thisUser.getId());
+          ProctorEventLogger.eventEntry(START_SESSION, thisUser.getId());
           Date begin = null;
           Date end = null;
 //        Date now = new Date ();
@@ -458,9 +469,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
           // key to the cookie
           sessionDTO.setSession(testSession);
           sessionDTO.setbReplaceSession(true);
-          eventLog(START_SESSION, thisUser.getId(), thisUser.getSessionKey());
+          ProctorEventLogger.info(START_SESSION, thisUser.getId(), thisUser.getSessionKey());
         } catch (Exception e) {
-          eventError(START_SESSION, thisUser.getId(), e);
+          ProctorEventLogger.error(START_SESSION, thisUser.getId(), e);
           throw e;
         }
       } else {
@@ -468,7 +479,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         testSession.setKey (UUID.fromString (strSessionKey));
       }
       try {
-        eventEntry(ADD_ASSESSMENTS, thisUser.getId(), thisUser.getSessionKey());
+        ProctorEventLogger.eventEntry(ADD_ASSESSMENTS, thisUser.getId(), thisUser.getSessionKey());
         String[] aryTestKeys = StringUtils.split(testKeys, '|');
         String[] aryTestIDs = StringUtils.split(testIDs, '|');
         UUID sessionKey = testSession.getKey();
@@ -479,9 +490,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
         sessionDTO.setSessionTests(_proctorAppTasks.getTestSessionTasks().getSessionTests(sessionKey, thisUser.getKey(), thisUser.getBrowserKey()));
         sessionDTO.setbReplaceSessionTests(true);
-        eventAddAssessments(thisUser.getId(), thisUser.getSessionKey(), aryTestIDs);
+        ProctorEventLogger.eventAddAssessments(thisUser.getId(), thisUser.getSessionKey(), aryTestIDs);
       } catch (Exception e) {
-        eventError(ADD_ASSESSMENTS, thisUser.getId(), thisUser.getSessionKey(), e);
+        ProctorEventLogger.error(ADD_ASSESSMENTS, thisUser.getId(), thisUser.getSessionKey(), e);
         throw e;
       }
       return sessionDTO;
@@ -542,20 +553,28 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
     try {
       ProctorUser thisUser = checkAuthenticated();
       UUID oppKey = UUID.fromString (strOppKey);
+      ProctorEventLogger.eventEntry(PRINT, APPROVE, thisUser.getId(), thisUser.getSessionKey());
+      TesteeRequestDTO testeeRequestsDTO;
+      try {
+        TesteeRequests testeeRequests = _proctorAppTasks.getRequestTasks().getCurrentTesteeRequests(oppKey, thisUser.getSessionKey(), thisUser.getKey(), thisUser.getBrowserKey());
 
-      TesteeRequests testeeRequests = _proctorAppTasks.getRequestTasks().getCurrentTesteeRequests(oppKey, thisUser.getSessionKey(), thisUser.getKey(), thisUser.getBrowserKey());
+        IAppConfigService appConfigService = _proctorAppTasks.getAppConfigTasks();
+        // retrieve BrowserValidation Rule
+        BrowserValidation browserValidation = appConfigService.getBrowserValidation(environment, context);
+        // validate browser and keep browser action to pass along with request info
+        BrowserAction browserAction = browserValidation.Check(BrowserInfo.GetHttpCurrent());
 
-      IAppConfigService appConfigService = _proctorAppTasks.getAppConfigTasks();
-      // retrieve BrowserValidation Rule
-      BrowserValidation browserValidation = appConfigService.getBrowserValidation(environment, context);
-      // validate browser and keep browser action to pass along with request info
-      BrowserAction browserAction = browserValidation.Check(BrowserInfo.GetHttpCurrent());
+        // convert dates to client's time zone
+        _proctorAppTasks.getRequestTasks().convertDates(testeeRequests, getTimezoneOffset());
+        testeeRequestsDTO = new TesteeRequestDTO();
+        testeeRequestsDTO.setRequests(testeeRequests);
+        testeeRequestsDTO.setBrowserAction(browserAction);
 
-      // convert dates to client's time zone
-      _proctorAppTasks.getRequestTasks().convertDates(testeeRequests, getTimezoneOffset());
-      TesteeRequestDTO testeeRequestsDTO = new TesteeRequestDTO();
-      testeeRequestsDTO.setRequests(testeeRequests);
-      testeeRequestsDTO.setBrowserAction(browserAction);
+        ProctorEventLogger.eventApprovePrint(thisUser.getId(), thisUser.getSessionKey(), oppKey);
+      } catch (Exception e) {
+        ProctorEventLogger.error(PRINT, APPROVE, thisUser.getId(), thisUser.getSessionKey(), e);
+        throw e;
+      }
 
       return testeeRequestsDTO;
     } catch (Exception re) {
@@ -580,9 +599,14 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
     try {
       ProctorUser thisUser = checkAuthenticated();
       UUID requestKey = UUID.fromString (strRequestKey);
-      eventEntry(PRINT, DENY);
-      _proctorAppTasks.getRequestTasks ().denyTesteeRequest (thisUser.getSessionKey (), thisUser.getKey (), thisUser.getBrowserKey (), requestKey, reason);
-      eventDenyPrintRequest(thisUser.getId(), thisUser.getSessionKey(), requestKey, reason);
+      ProctorEventLogger.eventEntry(PRINT, DENY, thisUser.getId(), thisUser.getSessionKey());
+      try {
+        _proctorAppTasks.getRequestTasks().denyTesteeRequest(thisUser.getSessionKey(), thisUser.getKey(), thisUser.getBrowserKey(), requestKey, reason);
+        ProctorEventLogger.eventDenyPrint(thisUser.getId(), thisUser.getSessionKey(), requestKey, reason);
+      } catch (Exception e) {
+        ProctorEventLogger.error(PRINT, DENY, thisUser.getId(), thisUser.getSessionKey(), e);
+        throw e;
+      }
       return new ReturnStatus ("True", "");
     } catch (Exception re) {
       throw re;
@@ -611,11 +635,12 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       }
       UUID sessionKey = UUID.fromString (strSessionKey);
       UUID oppKey = UUID.fromString (strOppKey);
-      eventEntry(PAUSE_EXAM, thisUser.getId(), sessionKey);
+      ProctorEventLogger.eventEntry(PAUSE_EXAM, thisUser.getId(), sessionKey);
       try {
         _proctorAppTasks.getTestOppTasks().pauseOpportunity(oppKey, sessionKey, thisUser.getKey(), thisUser.getBrowserKey());
+        ProctorEventLogger.eventPauseExam(thisUser.getId(), sessionKey, oppKey);
       } catch (Exception e) {
-        eventError(PAUSE_EXAM, thisUser.getId(), sessionKey, e);
+        ProctorEventLogger.error(PAUSE_EXAM, thisUser.getId(), sessionKey, e);
         throw e;
       }
 
@@ -649,8 +674,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
       UUID sessionKey = UUID.fromString (strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "ApproveOpportunity");
-
-      eventEntry(START_EXAM, APPROVE, thisUser.getId(), sessionKey);
+      ProctorEventLogger.eventEntry(EXAM_STATUS, APPROVE, thisUser.getId(), sessionKey);
       try {
         String[] accsList = null;
         if (!StringUtils.isEmpty(strAccs))
@@ -667,7 +691,11 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
           // step 1-legacy: approve all accs first for legacy application if enabled
           int segment = 0;
           for (String accs : accsList) {
-            _proctorAppTasks.getTestOppTasks().approveAccommodations(oppKey, sessionKey, thisUser.getKey(), thisUser.getBrowserKey(), segment, accs);
+            try {
+              _proctorAppTasks.getTestOppTasks().approveAccommodations(oppKey, sessionKey, thisUser.getKey(), thisUser.getBrowserKey(), segment, accs);
+            } catch (Exception e) {
+              _logger.error("legacy approve accommodations", e);
+            }
             segment++;
           }
 
@@ -677,10 +705,10 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         // step 2: approve opp
         _proctorAppTasks.getTestOppTasks().approveOpportunity(oppKey, sessionKey, thisUser.getKey(), thisUser.getBrowserKey());
 
-        eventApproveExam(thisUser.getId(), sessionKey, oppKey, parseAccommodations(strAccs));
-
+        ProctorEventLogger.eventApproveExam(thisUser.getId(), sessionKey, oppKey, parseAccommodations(strAccs));
       } catch (Exception e) {
-        eventError(START_EXAM, APPROVE, thisUser.getId(), sessionKey, e);
+        ProctorEventLogger.error(EXAM_STATUS, APPROVE, thisUser.getId(), sessionKey, e);
+        throw e;
       }
 
       return new ReturnStatus ("", "Success");
@@ -714,13 +742,14 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
       UUID sessionKey = UUID.fromString (strSessionKey);
       UUID oppKey = UUID.fromString (strOppKey);
-      eventEntry(START_EXAM, DENY, thisUser.getId(), sessionKey);
 
+      ProctorEventLogger.eventEntry(EXAM_STATUS, DENY, thisUser.getId(), sessionKey);
       try {
         _proctorAppTasks.getTestOppTasks().denyOpportunity(oppKey, sessionKey, thisUser.getKey(), thisUser.getBrowserKey(), strReason);
-        eventDenyExam(thisUser.getId(), sessionKey, oppKey, strReason);
+        ProctorEventLogger.eventExamStatusDeny(thisUser.getId(), sessionKey, oppKey, strReason);
       } catch (Exception e) {
-        eventError(START_EXAM, DENY, thisUser.getId(), sessionKey, e);
+        ProctorEventLogger.error(EXAM_STATUS, DENY, thisUser.getId(), sessionKey, e);
+        throw e;
       }
 
       return new ReturnStatus ("SUCCESS", "Success");
