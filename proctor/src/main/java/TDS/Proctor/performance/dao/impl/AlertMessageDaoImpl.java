@@ -40,7 +40,7 @@ public class AlertMessageDaoImpl extends AbstractDLL implements AlertMessageDao 
 
     /**
      * Port of ProctorDll.P_GetUnAcknowledgedAlertMessages_SP
-     * Uses the new eventLog latency which uses local time to save a call to the DB
+     * Uses the new log latency which uses local time to save a call to the DB
      * @param clientName
      * @param proctorKey
      * @return

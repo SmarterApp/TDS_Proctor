@@ -65,8 +65,8 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         this.examRepository = examRepository;
         this.assessmentRepository = assessmentRepository;
         this.testOpportunityExamMapDao = testOpportunityExamMapDao;
-        this.isLegacyCallsEnabled = true;
-        this.isRemoteCallsEnabled = false;
+        this.isLegacyCallsEnabled = isLegacyCallsEnabled;
+        this.isRemoteCallsEnabled = isRemoteCallsEnabled;
     }
 
     @Override
