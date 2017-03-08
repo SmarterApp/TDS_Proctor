@@ -203,17 +203,18 @@ public class LoginPresenter extends PresenterBase
   public boolean doLogout () {
     try {
       ProctorUser thisUser = getThisUser ();
-      try {
-        ProctorEventLogger.eventEntry(LOGOUT, thisUser.getId(), thisUser.getSessionKey());
-        if (thisUser != null && thisUser.getBrowserKey().compareTo(Constants.UUIDEmpty) != 0)
-          _proctorUserService.logout(thisUser.getKey(), thisUser.getBrowserKey());
-        clearOutProctorCookieInformationOrRemove(true);
-        ProctorEventLogger.info(LOGOUT, thisUser.getId(), thisUser.getSessionKey());
-      } catch (Exception e) {
-        ProctorEventLogger.error(LOGOUT, thisUser.getId(), thisUser.getSessionKey(), e);
-        throw e;
-      }
 
+        if (thisUser != null && thisUser.getBrowserKey().compareTo(Constants.UUIDEmpty) != 0) {
+          try {
+            ProctorEventLogger.eventEntry(LOGOUT, thisUser.getId(), thisUser.getSessionKey());
+            _proctorUserService.logout(thisUser.getKey(), thisUser.getBrowserKey());
+            ProctorEventLogger.info(LOGOUT, thisUser.getId(), thisUser.getSessionKey());
+          } catch (Exception e) {
+            ProctorEventLogger.error(LOGOUT, thisUser.getId(), thisUser.getSessionKey(), e);
+            throw e;
+          }
+        }
+        clearOutProctorCookieInformationOrRemove(true);
       return true;
     } catch (Exception ex) {
     	_logger.error (ex.getMessage(),ex);
