@@ -17,11 +17,15 @@ import TDS.Proctor.Sql.Data.Abstractions.ITestService;
 import TDS.Proctor.Sql.Data.Abstractions.ITestSessionService;
 import TDS.Proctor.Sql.Data.Abstractions.ITesteeRequestService;
 import TDS.Proctor.Sql.Data.Abstractions.ITesteeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 public class ProctorAppTasks
 {
-
-  private ITestSessionService     _testSessionTasks = null;
+  @Autowired
+  @Qualifier("remoteTestSessionService")
+  private ITestSessionService     _testSessionTasks;
   private ITestOpportunityService _testOppTasks     = null;
   private ITestService            _testTasks        = null;
   private IAlertMessageService    _alertTasks       = null;
@@ -31,8 +35,7 @@ public class ProctorAppTasks
   private IProctorUserService     _proctorUserTasks = null;
   private IAppConfigService       _appConfigTasks   = null;
 
-  public ProctorAppTasks () {
-  }
+  public ProctorAppTasks() {}
 
   public IAppConfigService getAppConfigTasks () {
     return _appConfigTasks;

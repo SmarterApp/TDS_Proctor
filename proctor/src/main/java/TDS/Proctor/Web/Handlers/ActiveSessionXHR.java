@@ -459,7 +459,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
     }
     // TODO Shiva
     // catch (Exception ex)
-    // {
+    // {nRemo
     // SetStatus(HttpStatusCode.InternalServerError);
     // Write(ex.Message);
     // TDSLogger.Application.getFatal(ex);
