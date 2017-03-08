@@ -33,7 +33,7 @@ import TDS.Proctor.Web.presentation.taglib.CSSLink;
 import TDS.Proctor.Web.presentation.taglib.GlobalJavascript;
 import TDS.Shared.Exceptions.ReturnStatusException;
 
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.LOGIN;
+import static org.opentestsystem.delivery.logging.EventLogger.LogEvent.LOGIN;
 
 /**
  * @author mpatel
