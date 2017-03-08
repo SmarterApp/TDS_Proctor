@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import org.opentestsystem.shared.security.domain.SbacPermission;
+import org.opentestsystem.delivery.logging.ProctorEventLogger;
 import org.opentestsystem.shared.security.domain.SbacRole;
 import org.opentestsystem.shared.security.domain.SbacUser;
 import org.slf4j.Logger;
@@ -32,6 +32,8 @@ import TDS.Proctor.Sql.Data.Abstractions.IProctorUserService;
 import TDS.Proctor.Web.presentation.taglib.CSSLink;
 import TDS.Proctor.Web.presentation.taglib.GlobalJavascript;
 import TDS.Shared.Exceptions.ReturnStatusException;
+
+import static org.opentestsystem.delivery.logging.EventLogger.LogEvent.LOGIN;
 
 /**
  * @author mpatel
@@ -122,6 +124,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
   }
 
   public void init() throws Exception{
+    ProctorEventLogger.eventEntry(LOGIN);
     try {
       sbacUser = (SbacUser) SecurityContextHolder.getContext ().getAuthentication ().getPrincipal ();
       IProctorUserService _proctorUserService = SpringApplicationContext.getBean ("iProctorUserService", IProctorUserService.class);
@@ -135,7 +138,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
       }
       
       proctorUser = validateLogin();
-      
+
       this.userFullName = sbacUser.getFullName ();
       if(sbacUser.getRoles ().size ()>1) {
         userWithMultipleRoles = true;
@@ -158,9 +161,12 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
           _selectRolePresenter.createAndUpdateProctorIsCurrent (role,proctorUser.getKey (),getClientName (),role.getEffectiveEntity ().getEntityId (),role.getRoleEntityLevel ().name ());
         }
       }
+
+      ProctorEventLogger.info(LOGIN, proctorUser.getId());
       
     } catch (Exception e) {
-      _logger.error (e.getMessage ()==null?e.toString ():e.getMessage (),e);
+      ProctorEventLogger.error(LOGIN, e);
+
       throw e;
     }
   }

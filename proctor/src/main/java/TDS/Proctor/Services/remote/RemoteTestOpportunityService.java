@@ -226,7 +226,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         return testOpportunityService.pauseOpportunity(oppKey, sessionKey, proctorKey, browserKey);
     }
 
-    private static Map<Integer, Set<String>> parseAccommodations(final String accommodationsString) {
+    public static Map<Integer, Set<String>> parseAccommodations(final String accommodationsString) {
         final Map<Integer, Set<String>> accommodations = new HashMap<>();
 
         // remove last character from accommodationsString. (extra at end ';')
