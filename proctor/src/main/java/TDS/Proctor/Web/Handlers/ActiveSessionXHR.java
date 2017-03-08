@@ -55,6 +55,7 @@ import static TDS.Proctor.Services.remote.RemoteTestOpportunityService.parseAcco
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.ADD_ASSESSMENTS;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.EXAM_STATUS;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.PAUSE_EXAM;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.PING;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.PRINT;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.LogEvent.START_SESSION;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.PENDING_STATUS;
@@ -215,7 +216,14 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID sessionKey = UUID.fromString (strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "ProctorPing");
 
-      _proctorAppTasks.getTestSessionTasks ().setSessionDateVisited (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
+      ProctorEventLogger.eventEntry(PING, thisUser.getId());
+      try {
+        _proctorAppTasks.getTestSessionTasks().setSessionDateVisited(sessionKey, thisUser.getKey(), thisUser.getBrowserKey());
+        ProctorEventLogger.eventPing(thisUser.getId(), thisUser.getSessionKey());
+      } catch (Exception e) {
+        ProctorEventLogger.error(PING, thisUser.getId(), e);
+        throw e;
+      }
 
       return new ReturnStatus ("True", "");
     } catch (Exception re) {
