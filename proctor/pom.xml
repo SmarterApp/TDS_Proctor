@@ -16,7 +16,7 @@
 		<item-renderer.version>3.0.0</item-renderer.version>
 		<tds-dll.version>3.0.0</tds-dll.version>
 		<progman-client.version>3.0.0</progman-client.version>
-		<sb11-mna-client.version>0.0.4-SNAPSHOT</sb11-mna-client.version>
+		<sb11-mna-client.version>3.0.0</sb11-mna-client.version>
 		<sb11-shared-code.version>3.0.0</sb11-shared-code.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 	</properties>
@@ -116,7 +116,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.shared</groupId>
 			<artifactId>monitoring-alerting.client</artifactId>
-			<version> ${sb11-mna-client.version}</version>
+			<version>${sb11-mna-client.version}</version>
 		</dependency>
 
 		<dependency>
