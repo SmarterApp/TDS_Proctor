@@ -536,8 +536,8 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
   @ResponseBody
   public SessionDTO pauseSession (@RequestParam (value = "sessionKey", required = false) String strSessionKey) throws ReturnStatusException, TDSSecurityException {
     ProctorUser thisUser = checkAuthenticated();
-      UUID sessionKey = UUID.fromString (strSessionKey);
     try {
+      UUID sessionKey = UUID.fromString (strSessionKey);
       SessionDTO sessionDTO = new SessionDTO ();
       sessionDTO.setbReplaceApprovalOpps (true);
       sessionDTO.setbReplaceTestOpps (true);
