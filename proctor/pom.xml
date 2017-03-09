@@ -13,9 +13,10 @@
 	</parent>
 
 	<properties>
+		<item-renderer.version>3.0.0</item-renderer.version>
 		<tds-dll.version>3.0.0</tds-dll.version>
 		<progman-client.version>3.0.0</progman-client.version>
-		<sb11-mna-client.version>0.0.4-SNAPSHOT</sb11-mna-client.version>
+		<sb11-mna-client.version>3.0.0</sb11-mna-client.version>
 		<sb11-shared-code.version>3.0.0</sb11-shared-code.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 		<tds-exam-client.version>0.0.1</tds-exam-client.version>
@@ -119,7 +120,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.shared</groupId>
 			<artifactId>monitoring-alerting.client</artifactId>
-			<version> ${sb11-mna-client.version}</version>
+			<version>${sb11-mna-client.version}</version>
 		</dependency>
 
 		<dependency>
@@ -283,12 +284,12 @@
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>item-renderer</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
+			<version>${item-renderer.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opentestsystem.blackbox</groupId>
 			<artifactId>shared-blackbox</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
+			<version>${item-renderer.version}</version>
 			<type>war</type>
 		</dependency>
 
