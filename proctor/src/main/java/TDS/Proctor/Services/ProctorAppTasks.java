@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class ProctorAppTasks
 {
   @Autowired
-  @Qualifier("remoteTestSessionService")
+  @Qualifier("remoteSessionService")
   private ITestSessionService     _testSessionTasks;
   private ITestOpportunityService _testOppTasks     = null;
   private ITestService            _testTasks        = null;

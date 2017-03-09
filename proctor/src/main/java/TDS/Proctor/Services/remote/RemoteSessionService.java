@@ -17,27 +17,27 @@ import java.util.UUID;
 import tds.session.PauseSessionRequest;
 import tds.session.PauseSessionResponse;
 
-@Service("remoteTestSessionService")
+@Service("remoteSessionService")
 @Scope("prototype")
-public class RemoteTestSessionService implements ITestSessionService {
-    private final ITestSessionService testSessionService;
+public class RemoteSessionService implements ITestSessionService {
+    private final ITestSessionService legacyTestSessionService;
     private final SessionRepository sessionRepository;
 
     @Autowired
-    public RemoteTestSessionService(@Qualifier("legacyTestSessionService") ITestSessionService testSessionService,
-                                    final SessionRepository sessionRepository) {
-        this.testSessionService = testSessionService;
+    public RemoteSessionService(@Qualifier("legacyTestSessionService") ITestSessionService legacyTestSessionService,
+                                final SessionRepository sessionRepository) {
+        this.legacyTestSessionService = legacyTestSessionService;
         this.sessionRepository = sessionRepository;
     }
 
     @Override
     public List<TestSession> getCurrentSessions(final long proctorKey) throws ReturnStatusException {
-        return testSessionService.getCurrentSessions(proctorKey);
+        return legacyTestSessionService.getCurrentSessions(proctorKey);
     }
 
     @Override
     public TestSession getCurrentSession(final long proctorKey, final UUID curBrowserKey) throws ReturnStatusException {
-        return testSessionService.getCurrentSession(proctorKey, curBrowserKey);
+        return legacyTestSessionService.getCurrentSession(proctorKey, curBrowserKey);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class RemoteTestSessionService implements ITestSessionService {
         PauseSessionResponse response = sessionRepository.pause(sessionKey,
             new PauseSessionRequest(proctorKey, browserKey));
 
-        return response.getStatus().equalsIgnoreCase("closed");
+        return response.isPaused(); // .getStatus().equalsIgnoreCase("closed");
     }
 
     @Override
@@ -58,7 +58,7 @@ public class RemoteTestSessionService implements ITestSessionService {
                                      final String proctorName,
                                      final Date dateBegin,
                                      final Date dateEnd) throws ReturnStatusException {
-        return testSessionService.createSession(proctorKey, browserKey,
+        return legacyTestSessionService.createSession(proctorKey, browserKey,
             sessionName,
             proctorID,
             proctorName,
@@ -72,28 +72,28 @@ public class RemoteTestSessionService implements ITestSessionService {
                                      final UUID browserKey,
                                      final String testKey,
                                      final String testID) throws ReturnStatusException {
-        return testSessionService.insertSessionTest(sessionKey, proctorKey, browserKey, testKey, testID);
+        return legacyTestSessionService.insertSessionTest(sessionKey, proctorKey, browserKey, testKey, testID);
     }
 
     @Override
     public List<String> getSessionTests(final UUID sessionKey,
                                         final long proctorKey,
                                         final UUID browserKey) throws ReturnStatusException {
-        return testSessionService.getSessionTests(sessionKey, proctorKey, browserKey);
+        return legacyTestSessionService.getSessionTests(sessionKey, proctorKey, browserKey);
     }
 
     @Override
     public boolean setSessionDateVisited(final UUID sessionKey,
                                          final long proctorKey,
                                          final UUID browserKey) throws ReturnStatusException {
-        return testSessionService.setSessionDateVisited(sessionKey, proctorKey, browserKey);
+        return legacyTestSessionService.setSessionDateVisited(sessionKey, proctorKey, browserKey);
     }
 
     @Override
     public boolean hasActiveOpps(final UUID sessionKey,
                                  final long proctorKey,
                                  final UUID browserKey) throws ReturnStatusException {
-        return testSessionService.hasActiveOpps(sessionKey, proctorKey, browserKey);
+        return legacyTestSessionService.hasActiveOpps(sessionKey, proctorKey, browserKey);
     }
 
     @Override
@@ -101,6 +101,6 @@ public class RemoteTestSessionService implements ITestSessionService {
                                   final UUID browserKey,
                                   final String sessionID,
                                   final _Ref<UUID> sessionKey) throws ReturnStatusException {
-        return testSessionService.handoffSession(proctorKey, browserKey, sessionID, sessionKey);
+        return legacyTestSessionService.handoffSession(proctorKey, browserKey, sessionID, sessionKey);
     }
 }

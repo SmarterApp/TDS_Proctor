@@ -5,6 +5,7 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,7 @@ import tds.session.PauseSessionRequest;
 import tds.session.PauseSessionResponse;
 
 @Repository
+@Scope("prototype")
 public class RemoteSessionRepository implements SessionRepository {
     private final RestTemplate restTemplate;
     private final String sessionUrl;

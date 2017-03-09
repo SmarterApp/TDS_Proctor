@@ -1,7 +1,7 @@
 package TDS.Proctor.services;
 
 import AIR.Common.Helpers._Ref;
-import TDS.Proctor.Services.remote.RemoteTestSessionService;
+import TDS.Proctor.Services.remote.RemoteSessionService;
 import TDS.Proctor.Sql.Data.Abstractions.ITestSessionService;
 import TDS.Proctor.Sql.Data.Abstractions.SessionRepository;
 import TDS.Proctor.Sql.Data.TestSession;
@@ -28,8 +28,8 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RemoteTestSessionServiceTest {
-    private RemoteTestSessionService remoteTestSessionService;
+public class RemoteSessionServiceTest {
+    private RemoteSessionService remoteSessionService;
 
     @Mock
     private SessionRepository mockSessionRepository;
@@ -39,7 +39,7 @@ public class RemoteTestSessionServiceTest {
 
     @Before
     public void setup() {
-        remoteTestSessionService = new RemoteTestSessionService(legacyTestSessionService, mockSessionRepository);
+        remoteSessionService = new RemoteSessionService(legacyTestSessionService, mockSessionRepository);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class RemoteTestSessionServiceTest {
         when(legacyTestSessionService.getCurrentSessions(proctorKey))
             .thenReturn(mockSessions);
 
-        List<TestSession> result = remoteTestSessionService.getCurrentSessions(proctorKey);
+        List<TestSession> result = remoteSessionService.getCurrentSessions(proctorKey);
         verify(legacyTestSessionService).getCurrentSessions(proctorKey);
         verifyZeroInteractions(mockSessionRepository);
 
@@ -68,7 +68,7 @@ public class RemoteTestSessionServiceTest {
         when(legacyTestSessionService.getCurrentSession(proctorKey, browserKey))
             .thenReturn(session);
 
-        TestSession result = remoteTestSessionService.getCurrentSession(proctorKey, browserKey);
+        TestSession result = remoteSessionService.getCurrentSession(proctorKey, browserKey);
         verify(legacyTestSessionService).getCurrentSession(proctorKey, browserKey);
         verifyZeroInteractions(mockSessionRepository);
 
@@ -89,7 +89,7 @@ public class RemoteTestSessionServiceTest {
         when(mockSessionRepository.pause(isA(UUID.class), isA(PauseSessionRequest.class)))
             .thenReturn(mockPauseSessionResponse);
 
-        boolean response = remoteTestSessionService.pauseSession(sessionId, proctorId, browserKey);
+        boolean response = remoteSessionService.pauseSession(sessionId, proctorId, browserKey);
         verify(mockSessionRepository).pause(isA(UUID.class), isA(PauseSessionRequest.class));
         verifyZeroInteractions(legacyTestSessionService);
 
@@ -118,7 +118,7 @@ public class RemoteTestSessionServiceTest {
             dateEnd))
             .thenReturn(mockSession);
 
-        TestSession result = remoteTestSessionService.createSession(proctorKey,
+        TestSession result = remoteSessionService.createSession(proctorKey,
             browserKey,
             sessionName,
             proctorId,
