@@ -18,6 +18,7 @@
 		<progman-client.version>3.0.0</progman-client.version>
 		<sb11-mna-client.version>3.0.0</sb11-mna-client.version>
 		<sb11-shared-code.version>3.0.0</sb11-shared-code.version>
+		<sb11-shared-security.version>3.0.0</sb11-shared-security.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 		<tds-exam-client.version>0.0.1</tds-exam-client.version>
 		<tds-assessment-client.version>0.0.2</tds-assessment-client.version>
@@ -132,7 +133,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.shared</groupId>
 			<artifactId>sb11-shared-security</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${sb11-shared-security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
