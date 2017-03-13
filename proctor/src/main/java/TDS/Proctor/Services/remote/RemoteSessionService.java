@@ -102,7 +102,7 @@ public class RemoteSessionService implements ITestSessionService {
             throw new ReturnStatusException("Invalid response from the session service");
         }
 
-        return response.getData().get().isPaused();
+        return response.getData().get().isClosed();
     }
 
     @Override
