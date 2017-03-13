@@ -65,7 +65,10 @@ public class RemoteSessionRepositoryTest {
 
         Response<PauseSessionResponse> result = remoteSessionRepository.pause(sessionId, pauseSessionRequest);
 
-        assertThat(result).isEqualToComparingFieldByFieldRecursively(mockPauseSessionResponse);
+        assertThat(result.getError().isPresent()).isFalse();
+        assertThat(result.getData().isPresent()).isTrue();
+        PauseSessionResponse pauseSessionResponseFromResult = result.getData().get();
+        assertThat(pauseSessionResponseFromResult).isEqualToComparingFieldByFieldRecursively(mockPauseSessionResponse);
     }
 
     @Test(expected = ReturnStatusException.class)
