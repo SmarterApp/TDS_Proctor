@@ -49,7 +49,7 @@ public class RemoteExamRepository implements ExamRepository {
     }
 
     @Override
-    public List<Exam> findExamsPendingApproval(UUID sessionId) throws ReturnStatusException {
+    public List<Exam> findExamsPendingApproval(final UUID sessionId) throws ReturnStatusException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -70,7 +70,7 @@ public class RemoteExamRepository implements ExamRepository {
     }
 
     @Override
-    public List<ExamAccommodation> findAllAccommodations(UUID examId) throws ReturnStatusException {
+    public List<ExamAccommodation> findAllAccommodations(final UUID examId) throws ReturnStatusException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -91,7 +91,7 @@ public class RemoteExamRepository implements ExamRepository {
     }
 
     @Override
-    public void approveAccommodations(UUID examId, ApproveAccommodationsRequest approveAccommodationsRequest) throws ReturnStatusException {
+    public void approveAccommodations(final UUID examId, final ApproveAccommodationsRequest approveAccommodationsRequest) throws ReturnStatusException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -178,11 +178,38 @@ public class RemoteExamRepository implements ExamRepository {
         return exams;
     }
 
+    @Override
+    public void pauseAllExamsInSession(final UUID sessionId) throws ReturnStatusException {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/pause/%s", examUrl, sessionId));
+
+        try {
+            restTemplate.put(builder.build().encode().toUri(), null);
+        } catch (RestClientException rce) {
+            throw new ReturnStatusException(rce);
+        }
+    }
+
+    /**
+     * Determine if a {@link org.springframework.http.HttpStatus} belongs to the
+     * {@link org.springframework.http.HttpStatus.Series} {@code CLIENT_ERROR} series.
+     *
+     * @param status The {@link org.springframework.http.HttpStatus} to evaluate
+     * @return True if the status belongs to the {@code CLIENT_ERROR} series; otherwise false
+     */
     private static boolean isClientError(HttpStatus status) {
         return HttpStatus.Series.CLIENT_ERROR.equals(status.series());
     }
 
-    private NoContentResponseResource handleErrorResponseNoContent(String body) throws ReturnStatusException {
+    /**
+     * Convert the message body from an {@link org.springframework.web.client.HttpClientErrorException} to a
+     * {@link tds.common.web.resources.NoContentResponseResource} to extract the {@link tds.common.ValidationError}.
+     *
+     * @param body The body of the {@link org.springframework.http.ResponseEntity}
+     * @return A {@link tds.common.web.resources.NoContentResponseResource} extracted from the body of the
+     * {@link org.springframework.http.ResponseEntity}
+     * @throws ReturnStatusException If the body cannot be converted
+     */
+    private NoContentResponseResource handleErrorResponseNoContent(final String body) throws ReturnStatusException {
         try {
             JavaType type = objectMapper.getTypeFactory().constructType(NoContentResponseResource.class);
             return objectMapper.readValue(body, type);

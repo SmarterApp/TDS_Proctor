@@ -2,6 +2,7 @@ package TDS.Proctor.sql;
 
 import TDS.Proctor.Sql.Repository.RemoteSessionRepository;
 import TDS.Shared.Exceptions.ReturnStatusException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +26,6 @@ import tds.session.Session;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -35,10 +35,14 @@ public class RemoteSessionRepositoryTest {
     @Mock
     private RestTemplate mockRestTemplate;
 
+    @Mock
+    private ObjectMapper mockObjectMapper;
+
     @Before
     public void setup() {
         remoteSessionRepository = new RemoteSessionRepository(mockRestTemplate,
-            "http://localhost:8080/sessions");
+            "http://localhost:8080/sessions",
+            mockObjectMapper);
     }
 
     @Test
@@ -59,7 +63,7 @@ public class RemoteSessionRepositoryTest {
             isA(ParameterizedTypeReference.class)))
             .thenReturn(mockResponseEntity);
 
-        PauseSessionResponse result = remoteSessionRepository.pause(sessionId, pauseSessionRequest);
+        Response<PauseSessionResponse> result = remoteSessionRepository.pause(sessionId, pauseSessionRequest);
 
         assertThat(result).isEqualToComparingFieldByFieldRecursively(mockPauseSessionResponse);
     }

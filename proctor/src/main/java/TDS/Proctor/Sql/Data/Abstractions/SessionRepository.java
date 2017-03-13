@@ -4,6 +4,7 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 
 import java.util.UUID;
 
+import tds.common.Response;
 import tds.session.PauseSessionRequest;
 import tds.session.PauseSessionResponse;
 
@@ -17,8 +18,9 @@ public interface SessionRepository {
      *
      * @param sessionId The unique identifier of the {@link tds.session.Session} to pause
      * @param request The proctor key and proctor's browser key to identify
-     * @return A {@link tds.session.PauseSessionResponse} describing the
+     * @return A {@link tds.common.Response<tds.session.PauseSessionResponse>} describing the state of the
+     * {@link tds.session.Session} that has been paused.
      * @throws ReturnStatusException
      */
-    PauseSessionResponse pause(final UUID sessionId, final PauseSessionRequest request) throws ReturnStatusException;
+    Response<PauseSessionResponse> pause(final UUID sessionId, final PauseSessionRequest request) throws ReturnStatusException;
 }

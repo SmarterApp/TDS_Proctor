@@ -2,6 +2,7 @@ package TDS.Proctor.services;
 
 import AIR.Common.Helpers._Ref;
 import TDS.Proctor.Services.remote.RemoteSessionService;
+import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITestSessionService;
 import TDS.Proctor.Sql.Data.Abstractions.SessionRepository;
 import TDS.Proctor.Sql.Data.TestSession;
@@ -17,12 +18,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import tds.common.Response;
 import tds.session.PauseSessionRequest;
 import tds.session.PauseSessionResponse;
 import tds.session.Session;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -32,14 +35,21 @@ public class RemoteSessionServiceTest {
     private RemoteSessionService remoteSessionService;
 
     @Mock
-    private SessionRepository mockSessionRepository;
+    private SessionRepository mockRemoteSessionRepository;
+
+    @Mock
+    private ExamRepository mockRemoteExamRepository;
 
     @Mock
     private ITestSessionService legacyTestSessionService;
 
     @Before
     public void setup() {
-        remoteSessionService = new RemoteSessionService(legacyTestSessionService, mockSessionRepository);
+        remoteSessionService = new RemoteSessionService(legacyTestSessionService,
+            mockRemoteSessionRepository,
+            mockRemoteExamRepository,
+            true,
+            true);
     }
 
     @Test
@@ -53,7 +63,7 @@ public class RemoteSessionServiceTest {
 
         List<TestSession> result = remoteSessionService.getCurrentSessions(proctorKey);
         verify(legacyTestSessionService).getCurrentSessions(proctorKey);
-        verifyZeroInteractions(mockSessionRepository);
+        verifyZeroInteractions(mockRemoteSessionRepository);
 
         assertThat(result).hasSize(2);
         assertThat(result).isEqualTo(mockSessions);
@@ -70,7 +80,7 @@ public class RemoteSessionServiceTest {
 
         TestSession result = remoteSessionService.getCurrentSession(proctorKey, browserKey);
         verify(legacyTestSessionService).getCurrentSession(proctorKey, browserKey);
-        verifyZeroInteractions(mockSessionRepository);
+        verifyZeroInteractions(mockRemoteSessionRepository);
 
         assertThat(result).isEqualTo(session);
     }
@@ -85,12 +95,65 @@ public class RemoteSessionServiceTest {
             .withId(sessionId)
             .withStatus("closed")
             .build());
+        Response<PauseSessionResponse> mockResponse = new Response<>(mockPauseSessionResponse);
 
-        when(mockSessionRepository.pause(isA(UUID.class), isA(PauseSessionRequest.class)))
-            .thenReturn(mockPauseSessionResponse);
+        when(mockRemoteSessionRepository.pause(isA(UUID.class), isA(PauseSessionRequest.class)))
+            .thenReturn(mockResponse);
+        when(legacyTestSessionService.pauseSession(sessionId, proctorId, browserKey)).thenReturn(true);
 
         boolean response = remoteSessionService.pauseSession(sessionId, proctorId, browserKey);
-        verify(mockSessionRepository).pause(isA(UUID.class), isA(PauseSessionRequest.class));
+        verifyZeroInteractions(mockRemoteSessionRepository);
+        verify(legacyTestSessionService).pauseSession(sessionId, proctorId, browserKey);
+        verify(mockRemoteExamRepository).pauseAllExamsInSession(sessionId);
+
+        assertThat(response).isTrue();
+    }
+
+    @Test
+    public void shouldPauseASessionUsingOnlyLegacySessionService() throws ReturnStatusException {
+        UUID sessionId = UUID.randomUUID();
+        long proctorId = 9L;
+        UUID browserKey = UUID.randomUUID();
+        RemoteSessionService remoteSessionServiceConfiguredForLegacyOnly =
+            new RemoteSessionService(legacyTestSessionService,
+                mockRemoteSessionRepository,
+                mockRemoteExamRepository,
+                true,
+                false);
+
+        when(legacyTestSessionService.pauseSession(sessionId, proctorId, browserKey)).thenReturn(true);
+
+        boolean response = remoteSessionServiceConfiguredForLegacyOnly.pauseSession(sessionId, proctorId, browserKey);
+        verifyZeroInteractions(mockRemoteSessionRepository);
+        verify(legacyTestSessionService).pauseSession(sessionId, proctorId, browserKey);
+
+        assertThat(response).isTrue();
+    }
+
+    @Test
+    public void shouldPauseASessionUsingOnlyRemoteSessionService() throws ReturnStatusException {
+        UUID sessionId = UUID.randomUUID();
+        long proctorId = 9L;
+        UUID browserKey = UUID.randomUUID();
+        RemoteSessionService remoteSessionServiceConfiguredForRemoteOnly =
+            new RemoteSessionService(legacyTestSessionService,
+                mockRemoteSessionRepository,
+                mockRemoteExamRepository,
+                false,
+                true);
+
+        PauseSessionResponse mockPauseSessionResponse = new PauseSessionResponse(new Session.Builder()
+            .withId(sessionId)
+            .withStatus("closed")
+            .build());
+        Response<PauseSessionResponse> mockResponse = new Response<>(mockPauseSessionResponse);
+
+        when(mockRemoteSessionRepository.pause(isA(UUID.class), isA(PauseSessionRequest.class)))
+            .thenReturn(mockResponse);
+        doNothing().when(mockRemoteExamRepository).pauseAllExamsInSession(sessionId);
+
+        boolean response = remoteSessionServiceConfiguredForRemoteOnly.pauseSession(sessionId, proctorId, browserKey);
+        verify(mockRemoteSessionRepository).pause(isA(UUID.class), isA(PauseSessionRequest.class));
         verifyZeroInteractions(legacyTestSessionService);
 
         assertThat(response).isTrue();
@@ -132,7 +195,7 @@ public class RemoteSessionServiceTest {
             proctorName,
             dateBegin,
             dateEnd);
-        verifyZeroInteractions(mockSessionRepository);
+        verifyZeroInteractions(mockRemoteSessionRepository);
 
         assertThat(result).isEqualTo(mockSession);
     }
@@ -150,7 +213,7 @@ public class RemoteSessionServiceTest {
 
         boolean result = legacyTestSessionService.insertSessionTest(sessionKey, proctorKey, browserKey, testKey, testId);
         verify(legacyTestSessionService).insertSessionTest(sessionKey, proctorKey, browserKey, testKey, testId);
-        verifyZeroInteractions(mockSessionRepository);
+        verifyZeroInteractions(mockRemoteSessionRepository);
     }
 
     @Test
@@ -165,7 +228,7 @@ public class RemoteSessionServiceTest {
 
         List<String> result = legacyTestSessionService.getSessionTests(sessionKey, proctorKey, browserKey);
         verify(legacyTestSessionService).getSessionTests(sessionKey, proctorKey, browserKey);
-        verifyZeroInteractions(mockSessionRepository);
+        verifyZeroInteractions(mockRemoteSessionRepository);
 
         assertThat(result).isEqualTo(testKeys);
     }
@@ -181,7 +244,7 @@ public class RemoteSessionServiceTest {
 
         boolean result = legacyTestSessionService.setSessionDateVisited(sessionKey, proctorKey, browserKey);
         verify(legacyTestSessionService).setSessionDateVisited(sessionKey, proctorKey, browserKey);
-        verifyZeroInteractions(mockSessionRepository);
+        verifyZeroInteractions(mockRemoteSessionRepository);
 
         assertThat(result).isTrue();
     }
@@ -197,7 +260,7 @@ public class RemoteSessionServiceTest {
 
         boolean result = legacyTestSessionService.hasActiveOpps(sessionKey, proctorKey, browserKey);
         verify(legacyTestSessionService).hasActiveOpps(sessionKey, proctorKey, browserKey);
-        verifyZeroInteractions(mockSessionRepository);
+        verifyZeroInteractions(mockRemoteSessionRepository);
 
         assertThat(result).isTrue();
     }
@@ -215,6 +278,17 @@ public class RemoteSessionServiceTest {
         boolean result = legacyTestSessionService.handoffSession(proctorKey, browserKey, sessionId, sessionKey);
 
         verify(legacyTestSessionService).handoffSession(proctorKey, browserKey, sessionId, sessionKey);
-        verifyZeroInteractions(mockSessionRepository);
+        verifyZeroInteractions(mockRemoteSessionRepository);
+
+        assertThat(result).isTrue();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldThrowIllegalStateExceptionWhenIsLegacyEnabledAndIsRemoteEnabledAreBothFalse() {
+        new RemoteSessionService(legacyTestSessionService,
+            mockRemoteSessionRepository,
+            mockRemoteExamRepository,
+            false,
+            false);
     }
 }
