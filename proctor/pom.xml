@@ -22,7 +22,7 @@
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 		<tds-exam-client.version>0.0.1</tds-exam-client.version>
 		<tds-assessment-client.version>0.0.2</tds-assessment-client.version>
-		<tds-session-client.version>0.0.3-SNAPSHOT</tds-session-client.version>
+		<tds-session-client.version>0.0.3</tds-session-client.version>
 		<jackson.version>2.8.5</jackson.version>
 	</properties>
 
