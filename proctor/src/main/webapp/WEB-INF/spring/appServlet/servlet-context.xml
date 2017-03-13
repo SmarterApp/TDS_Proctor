@@ -33,4 +33,12 @@
 	<context:component-scan base-package="TDS.Proctor.diagnostic.controller" />
 	<context:component-scan base-package="tds.blackbox" />
 	<context:component-scan base-package="tds.iris.web.handlers.blackbox" />
+
+	<!-- Configuring interceptors for logging -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/**" />
+			<beans:bean class="TDS.Proctor.Web.interceptors.ProctorLoggingInterceptor" />
+		</interceptor>
+	</interceptors>
 </beans:beans>

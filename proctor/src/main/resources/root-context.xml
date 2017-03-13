@@ -49,6 +49,7 @@
 	<context:component-scan base-package="TDS.Proctor.diagnostic"/>
 
 	<context:component-scan base-package="TDS.Proctor.Services"/>
+	<context:component-scan base-package="org.opentestsystem.delivery.logging"/>
 
 	<!-- DLLs -->
 	<import resource="classpath:context-modules/dlls-context-module.xml"/>
@@ -108,6 +109,7 @@
 		<beans:constructor-arg ref="clientRequestFactory"/>
 	</beans:bean>
 
+	<beans:bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 
 	<!--&lt;!&ndash;Start: c3p0 Datasource Configuration &ndash;&gt;-->
 	<!--<beans:bean id="applicationDataSource" destroy-method="close"-->
