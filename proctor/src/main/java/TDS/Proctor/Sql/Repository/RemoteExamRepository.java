@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
@@ -180,10 +181,11 @@ public class RemoteExamRepository implements ExamRepository {
 
     @Override
     public void pauseAllExamsInSession(final UUID sessionId) throws ReturnStatusException {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/pause/%s", examUrl, sessionId));
+        UriComponents uriComponents = UriComponentsBuilder.fromUriString("{examUrl}/pause/{sessionId}")
+            .buildAndExpand(examUrl, sessionId);
 
         try {
-            restTemplate.put(builder.build().encode().toUri(), null);
+            restTemplate.put(uriComponents.encode().toUri(), null);
         } catch (RestClientException rce) {
             throw new ReturnStatusException(rce);
         }

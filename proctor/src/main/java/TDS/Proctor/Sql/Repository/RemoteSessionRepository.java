@@ -29,7 +29,6 @@ import tds.session.PauseSessionRequest;
 import tds.session.PauseSessionResponse;
 
 @Repository
-@Scope("prototype")
 public class RemoteSessionRepository implements SessionRepository {
     private final RestTemplate restTemplate;
     private final String sessionUrl;

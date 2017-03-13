@@ -155,6 +155,7 @@ public class RemoteSessionServiceTest {
         boolean response = remoteSessionServiceConfiguredForRemoteOnly.pauseSession(sessionId, proctorId, browserKey);
         verify(mockRemoteSessionRepository).pause(isA(UUID.class), isA(PauseSessionRequest.class));
         verifyZeroInteractions(legacyTestSessionService);
+        verifyZeroInteractions(mockRemoteExamRepository);
 
         assertThat(response).isTrue();
     }
