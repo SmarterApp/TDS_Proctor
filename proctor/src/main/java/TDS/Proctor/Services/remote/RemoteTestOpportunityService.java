@@ -111,6 +111,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
             testOpportunity.setStatus(exam.getStatus().getCode());
             testOpportunity.setSsid(exam.getLoginSSID());
             testOpportunity.setName(exam.getStudentName());
+            testOpportunity.setCustAccs(exam.isCustomAccommodations());
 
             final List<Accommodation> assessmentAccommodations = assessmentRepository.findAccommodations(exam.getClientName(), exam.getAssessmentKey());
             final List<ExamAccommodation> examAccommodations = examRepository.findAllAccommodations(exam.getId());
