@@ -21,7 +21,7 @@
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iProctorRepository"/>
 	</bean>	
-	<bean id="iTesteeRequestService" class="TDS.Proctor.Services.TesteeRequestService" scope="prototype">
+	<bean id="legacyTesteeRequestService" class="TDS.Proctor.Services.TesteeRequestService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iTesteeRequestRepository"/>
 	</bean>	
@@ -34,7 +34,9 @@
 		<constructor-arg ref="iTestOpportunityRepository"/>
 	</bean>
 	<bean id="examRepository" class="TDS.Proctor.Sql.Repository.RemoteExamRepository" scope="prototype"></bean>
+	<bean id="examPrintRequestRepository" class="TDS.Proctor.Sql.Repository.RemoteExamPrintRequestRepository" scope="prototype"></bean>
 	<bean id="assessmentRepository" class="TDS.Proctor.Sql.Repository.RemoteAssessmentRepository" scope="prototype"></bean>
+	<bean id="iTesteeRequestService" class="TDS.Proctor.Services.remote.RemoteTesteeRequestService" scope="prototype"></bean>
 	<bean id="iTestOpportunityService" class="TDS.Proctor.Services.remote.RemoteTestOpportunityService" scope="prototype">	</bean>
 	<bean id="iTestService" class="TDS.Proctor.Services.TestService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
