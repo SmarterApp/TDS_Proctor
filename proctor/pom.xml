@@ -5,17 +5,20 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>1.1.0</version>
+	<version>1.1.1-SNAPSHOT</version>
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>1.0.1</version>
+		<version>3.0.1</version>
 	</parent>
 
 	<properties>
-		<progman-client.version>0.0.4</progman-client.version>
-		<sb11-mna-client.version>0.0.4</sb11-mna-client.version>
-		<sb11-shared-code.version>0.0.6</sb11-shared-code.version>
+		<item-renderer.version>3.0.0</item-renderer.version>
+		<tds-dll.version>3.0.0</tds-dll.version>
+		<progman-client.version>3.0.0</progman-client.version>
+		<sb11-mna-client.version>3.0.0</sb11-mna-client.version>
+		<sb11-shared-code.version>3.0.0</sb11-shared-code.version>
+		<sb11-shared-security.version>3.0.0</sb11-shared-security.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 	</properties>
 
@@ -70,16 +73,19 @@
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-api</artifactId>
+			<version>${tds-dll.version}</version>
 		</dependency>
 		
 		<!--dependency> <groupId>org.opentestsystem.delivery</groupId> <artifactId>tds-dll-mssql</artifactId> </dependency -->
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-mysql</artifactId>
+			<version>${tds-dll.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-schemas</artifactId>
+			<version>${tds-dll.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- End Dependency shared project -->
@@ -107,7 +113,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.shared</groupId>
 			<artifactId>monitoring-alerting.client</artifactId>
-			<version> ${sb11-mna-client.version}</version>
+			<version>${sb11-mna-client.version}</version>
 		</dependency>
 
 		<dependency>
@@ -120,7 +126,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.shared</groupId>
 			<artifactId>sb11-shared-security</artifactId>
-			<version>0.0.1</version>
+			<version>${sb11-shared-security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -251,12 +257,12 @@
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>item-renderer</artifactId>
-			<version>0.0.1</version>
+			<version>${item-renderer.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opentestsystem.blackbox</groupId>
 			<artifactId>shared-blackbox</artifactId>
-			<version>1.0.1</version>
+			<version>${item-renderer.version}</version>
 			<type>war</type>
 		</dependency>
 		<dependency>

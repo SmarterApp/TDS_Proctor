@@ -1,6 +1,6 @@
 package TDS.Proctor.performance.services.impl;
 
-import AIR.Common.DB.*;
+import AIR.Common.DB.AbstractDLL;
 import AIR.Common.DB.results.MultiDataResultSet;
 import AIR.Common.DB.results.SingleDataResultSet;
 import TDS.Proctor.performance.domain.TestOpportunityInfo;
@@ -20,7 +20,10 @@ import tds.dll.common.performance.utils.DateUtility;
 import tds.dll.common.performance.utils.UuidAdapter;
 
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TestApprovalServiceImpl extends AbstractDLL implements TestApprovalService {
@@ -86,15 +89,20 @@ public class TestApprovalServiceImpl extends AbstractDLL implements TestApproval
                     "O.opportunity, " +
                     "O._efk_AdminSubject as adminSubject, O.status, O.testeeID, " +
                     "O.testeeName, O.customAccommodations, O.waitingForSegment, O.mode, " +
-                    "A.attributeValue as lepValue " +
+                    "A.attributeValue as lepValue, " +
+                    "ctp.msb, " +
+                    "tos._efk_segment as segmentName " +
                 "from testopportunity_readonly O " +
+                "left join ${configDB}.client_testproperties ctp on O._efk_testid = ctp.testid and O.clientname = ctp.clientname " +
                 "left join testeeattribute A on O._fk_testopportunity = A._fk_testopportunity and A.tds_id = 'LEP' " +
+                "left join testopportunitysegment tos on O._fk_testopportunity = tos._fk_testopportunity " +
+                    "and O.insegment = tos.segmentposition " +
                 "where _fk_Session = :sessionKey and O.status in ('pending', 'suspended', 'segmentEntry', 'segmentExit');";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("sessionKey", UuidAdapter.getBytesFromUUID(sessionKey));
 
-        List<TestOpportunityInfo> opportunities = namedParameterJdbcTemplate.query(SQL,
+        List<TestOpportunityInfo> opportunities = namedParameterJdbcTemplate.query(this.fixDataBaseNames(SQL),
                 parameters,
                 new BeanPropertyRowMapper(TestOpportunityInfo.class));
 

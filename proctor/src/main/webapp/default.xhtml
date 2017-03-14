@@ -431,6 +431,32 @@
 										i18n-content="Button.Cancel">Cancel</span></a> <span class="clear"></span>
 								</div>
 							</div>
+							<div id="divMsbSegmentApprovalDetails" class="segment_settings"
+								 style="display: none">
+								<h2>
+									<span>Multi Stage Braille Segment Request Details for: </span>
+									<span id="_spanAccsForName_MsbName"></span>
+								</h2>
+								<div class="segmentInfo">
+									<p>
+										Please hand out the packet with id <strong><span id="_spanAccsForName_MsbSeg"></span></strong> for the next segment.
+										After delivering the braille packet, confirm that the correct packet was
+										distributed by entering the segment id in the text box below and clicking the
+										"Approve" button. Once approved, the student will be allowed to continue to the next segment.
+									</p>
+								</div>
+								<div class="msb-segment-id">
+									<label for="segmentid" style="padding-left: 20px"><strong>MSB segment ID:</strong></label>
+									<input type="text" id="msb-segment-id-input"/>
+								</div>
+								<div class="details_buttons">
+									<a href="#" class="save" id="btnApprove_MsbSeg"><span>Approve</span></a>
+									<a href="#" class="cancel" id="btnDeny_MsbSeg"><span
+											i18n-content="Button.Deny">Deny</span></a>
+									<a href="#" class="cancel" id="btnCancel_MsbSeg"><span
+										i18n-content="Button.Cancel">Cancel</span></a> <span class="clear"></span>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="denial">
