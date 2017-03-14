@@ -64,7 +64,7 @@ public class RemoteExamRepositoryTest {
         assertThat(remoteExamRepository.findExamsPendingApproval(exam.getSessionId())).isEqualTo(exams);
     }
 
-    @Test (expected = ReturnStatusException.class)
+    @Test(expected = ReturnStatusException.class)
     public void shouldThrowReturnStatusExceptionWhenRestClientUnhandledExceptionIsThrown() throws ReturnStatusException {
         when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
             .thenThrow(new RestClientException("Fail"));
@@ -112,11 +112,26 @@ public class RemoteExamRepositoryTest {
         assertThat(expandableExams).isEmpty();
     }
 
-    @Test (expected = ReturnStatusException.class)
+    @Test(expected = ReturnStatusException.class)
     public void shouldThrowReturnStatusExceptionWhenRestClientUnhandledExceptionIsThrownFindExamsForSession() throws ReturnStatusException {
         when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
             .thenThrow(new RestClientException("Fail"));
         remoteExamRepository.findExamsForSessionId(UUID.randomUUID());
+    }
+
+    @Test
+    public void shouldReturnExamForExamId() throws ReturnStatusException {
+        when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
+            .thenReturn(new ResponseEntity(new Exam.Builder().build(), HttpStatus.OK));
+        final Exam exam = remoteExamRepository.getExamById(UUID.randomUUID());
+        assertThat(exam).isNotNull();
+    }
+
+    @Test(expected = ReturnStatusException.class)
+    public void shouldThrowReturnStatusExceptionForRestClientException() throws ReturnStatusException {
+        when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
+            .thenThrow(new RestClientException("Fail"));
+        remoteExamRepository.getExamById(UUID.randomUUID());
     }
 }
 
