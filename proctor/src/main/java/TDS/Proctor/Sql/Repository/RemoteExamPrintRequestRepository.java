@@ -11,7 +11,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -20,7 +19,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
-import tds.common.web.resources.NoContentResponseResource;
 import tds.exam.ExamPrintRequest;
 
 @Repository
@@ -31,8 +29,8 @@ public class RemoteExamPrintRequestRepository implements ExamPrintRequestReposit
 
     @Autowired
     public RemoteExamPrintRequestRepository(@Qualifier("integrationRestTemplate") final RestTemplate restTemplate,
-                                @Value("${tds.exam.remote.url}") final String examUrl,
-                                @Qualifier("integrationObjectMapper") final ObjectMapper objectMapper) {
+                                            @Value("${tds.exam.remote.url}") final String examUrl,
+                                            @Qualifier("integrationObjectMapper") final ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.examUrl = examUrl;
         this.objectMapper = objectMapper;
@@ -72,8 +70,7 @@ public class RemoteExamPrintRequestRepository implements ExamPrintRequestReposit
                 builder.build().toUri(),
                 HttpMethod.PUT,
                 requestHttpEntity,
-                new ParameterizedTypeReference<NoContentResponseResource>() {
-                }).getBody();
+                Void.class);
         } catch (RestClientException rce) {
             throw new ReturnStatusException(rce);
         }

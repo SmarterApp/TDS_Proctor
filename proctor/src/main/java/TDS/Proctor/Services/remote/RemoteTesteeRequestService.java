@@ -1,6 +1,7 @@
 package TDS.Proctor.Services.remote;
 
 import TDS.Proctor.Sql.Data.Abstractions.ExamPrintRequestRepository;
+import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITesteeRequestService;
 import TDS.Proctor.Sql.Data.TesteeRequest;
 import TDS.Proctor.Sql.Data.TesteeRequests;
@@ -13,29 +14,31 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.List;
 import java.util.UUID;
 
+import tds.exam.Exam;
 import tds.exam.ExamPrintRequest;
+import tds.exam.ExamPrintRequestStatus;
 
 public class RemoteTesteeRequestService implements ITesteeRequestService {
     private final ITesteeRequestService legacyTesteeRequestService;
     private final ExamPrintRequestRepository examPrintRequestRepository;
+    private final ExamRepository examRepository;
     private final ProctorUserDao proctorUserDao;
-    private final TestOpportunityExamMapDao testOpportunityExamMapDao;
     private final boolean isLegacyCallsEnabled;
     private final boolean isRemoteCallsEnabled;
 
     @Autowired
     public RemoteTesteeRequestService(final ITesteeRequestService testeeRequestService,
                                       final ExamPrintRequestRepository examPrintRequestRepository,
+                                      final ExamRepository examRepository,
                                       @Value("${tds.exam.legacy.enabled}") final boolean isLegacyCallsEnabled,
                                       @Value("${tds.exam.remote.enabled}") final boolean isRemoteCallsEnabled,
-                                      final TestOpportunityExamMapDao testOpportunityExamMapDao,
                                       final ProctorUserDao proctorUserDao) {
         this.legacyTesteeRequestService = testeeRequestService;
         this.examPrintRequestRepository = examPrintRequestRepository;
+        this.examRepository = examRepository;
         this.isLegacyCallsEnabled = isLegacyCallsEnabled;
         this.isRemoteCallsEnabled = isRemoteCallsEnabled;
         this.proctorUserDao = proctorUserDao;
-        this.testOpportunityExamMapDao = testOpportunityExamMapDao;
     }
 
     @Override
@@ -98,8 +101,11 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
             throw new ReturnStatusException(accessDenied);
         }
 
+        ExamPrintRequest request = examPrintRequestRepository.findRequestAndApprove(requestKey);
+        Exam exam = examRepository.getExamById(request.getExamId());
+
         // markFulfilled is always "true" as used in the legacy app
-        return mapPrintRequestToTesteeRequest(examPrintRequestRepository.findRequestAndApprove(requestKey));
+        return mapPrintRequestToTesteeRequest(request, exam);
     }
 
     @Override
@@ -135,14 +141,14 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
         TesteeRequests testeeRequests = new TesteeRequests();
 
         for (ExamPrintRequest printRequest : printRequests) {
-            TesteeRequest testeeRequest = mapPrintRequestToTesteeRequest(printRequest);
+            TesteeRequest testeeRequest = mapPrintRequestToTesteeRequest(printRequest, null);
             testeeRequests.add(testeeRequest);
         }
 
         return testeeRequests;
     }
 
-    private TesteeRequest mapPrintRequestToTesteeRequest(final ExamPrintRequest printRequest) {
+    private TesteeRequest mapPrintRequestToTesteeRequest(final ExamPrintRequest printRequest, final Exam exam) {
         TesteeRequest testeeRequest = new TesteeRequest();
         testeeRequest.setKey(printRequest.getId());
         testeeRequest.setOppKey(printRequest.getExamId());
@@ -151,16 +157,33 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
         testeeRequest.setRequestValue(printRequest.getValue());
         testeeRequest.setDateSubmitted(printRequest.getCreatedAt().toDate());
 
-        if (printRequest.getDeniedAt() != null) {
-            testeeRequest.setDateFulfilled(printRequest.getDeniedAt().toDate());
+        if (printRequest.getStatus() == ExamPrintRequestStatus.DENIED) {
+            testeeRequest.setDateFulfilled(printRequest.getChangedAt().toDate());
             testeeRequest.setDeniedReason(printRequest.getReasonDenied());
-        } else if (printRequest.getApprovedAt() != null) {
-            testeeRequest.setDateFulfilled(printRequest.getApprovedAt().toDate());
+        } else if (printRequest.getStatus() == ExamPrintRequestStatus.APPROVED) {
+            testeeRequest.setDateFulfilled(printRequest.getChangedAt().toDate());
         }
 
         testeeRequest.setItemPage(printRequest.getPagePosition());
         testeeRequest.setItemPosition(printRequest.getItemPosition());
         testeeRequest.setRequestDesc(printRequest.getDescription());
+
+        /* TesteeRequestRepository.java - line 95 */
+        // Exam-specific data for request details
+        if (exam != null) {
+            testeeRequest.setTestID(exam.getAssessmentId());
+            testeeRequest.setTesteeKey(exam.getStudentId());
+            testeeRequest.setTesteeName(exam.getStudentName());
+            testeeRequest.setLanguage(exam.getLanguageCode());
+            testeeRequest.setAccCode(exam.getLanguageCode());
+            testeeRequest.setRequestParameters(printRequest.getParameters());
+            testeeRequest.setOpportunity(exam.getAttempts());
+
+            if (printRequest.getType().equals(ExamPrintRequest.REQUEST_TYPE_PRINT_ITEM)) {
+                testeeRequest.setItemResponse(printRequest.getItemResponse());
+            }
+        }
+
         return testeeRequest;
     }
 }

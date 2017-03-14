@@ -17,12 +17,21 @@ import tds.exam.ExpandableExam;
  */
 public interface ExamRepository {
     /**
+     * Fetches an {@link tds.exam.Exam} by its id
+     *
+     * @param id The id of the {@link tds.exam.Exam} to fetch
+     * @return The fetched {@link tds.exam.Exam}
+     */
+    Exam getExamById(final UUID id) throws ReturnStatusExceptions;
+
+    /**
      * Fetches all exams pending approval for a specific session
+     *
      * @param sessionId the id of the session
      * @return the list of {@link tds.exam.Exam}s pending approval
      * @throws ReturnStatusException
      */
-    List<Exam> findExamsPendingApproval(UUID sessionId) throws ReturnStatusException;
+    List<Exam> findExamsPendingApproval(final UUID sessionId) throws ReturnStatusException;
 
     /**
      * Fetches the collection of {@link tds.exam.ExamAccommodation}s for an exam
@@ -31,7 +40,7 @@ public interface ExamRepository {
      * @return the list of {@link tds.exam.ExamAccommodation}s
      * @throws ReturnStatusException
      */
-    List<ExamAccommodation> findAllAccommodations(UUID examId) throws ReturnStatusException;
+    List<ExamAccommodation> findAllAccommodations(final UUID examId) throws ReturnStatusException;
 
     /**
      * Creates a request for the exam service to approve {@link tds.exam.ExamAccommodation}s
@@ -47,7 +56,7 @@ public interface ExamRepository {
      *
      * @param examId the id of the {@link tds.exam.Exam}
      * @param status the status to update the exam to
-     * @param stage the stage of the exam
+     * @param stage  the stage of the exam
      * @param reason the reason for the exam status update
      * @return An optional {@link tds.common.ValidationError}, if one occurs during the processing of the request
      * @throws ReturnStatusException
