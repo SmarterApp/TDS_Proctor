@@ -110,6 +110,8 @@
 	</beans:bean>
 
 	<beans:bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+	<beans:bean id="eventParser" class="org.opentestsystem.delivery.logging.ProctorEventParserFactory" />
+
 
 	<!--&lt;!&ndash;Start: c3p0 Datasource Configuration &ndash;&gt;-->
 	<!--<beans:bean id="applicationDataSource" destroy-method="close"-->
