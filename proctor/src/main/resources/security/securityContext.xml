@@ -39,7 +39,6 @@
 		<security:custom-filter after="BASIC_AUTH_FILTER" ref="samlFilter" />
 	</security:http>
 
-]
 	<!--<bean id="metadataGeneratorFilter" class="org.springframework.security.saml.metadata.MetadataGeneratorFilter">-->
 		<!--<constructor-arg ref="metadataGenerator"/>-->
 	<!--</bean>-->
