@@ -6,7 +6,6 @@ import TDS.Proctor.Sql.Data.Abstractions.ITesteeRequestService;
 import TDS.Proctor.Sql.Data.TesteeRequest;
 import TDS.Proctor.Sql.Data.TesteeRequests;
 import TDS.Proctor.performance.dao.ProctorUserDao;
-import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
