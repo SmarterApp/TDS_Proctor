@@ -37,6 +37,7 @@
 	<bean id="examPrintRequestRepository" class="TDS.Proctor.Sql.Repository.RemoteExamPrintRequestRepository" scope="prototype"></bean>
 	<bean id="assessmentRepository" class="TDS.Proctor.Sql.Repository.RemoteAssessmentRepository" scope="prototype"></bean>
 	<bean id="iTesteeRequestService" class="TDS.Proctor.Services.remote.RemoteTesteeRequestService" scope="prototype"></bean>
+	<bean id="sessionRepository" class="TDS.Proctor.Sql.Repository.RemoteSessionRepository" scope="prototype"></bean>
 	<bean id="iTestOpportunityService" class="TDS.Proctor.Services.remote.RemoteTestOpportunityService" scope="prototype">	</bean>
 	<bean id="iTestService" class="TDS.Proctor.Services.TestService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
@@ -44,16 +45,16 @@
 	</bean>
 	<bean id="iTestSessionService" class="TDS.Proctor.Services.TestSessionService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
-     	<constructor-arg ref="iTestSessionRepository"/>
-	</bean>	
+		<constructor-arg ref="iTestSessionRepository"/>
+	</bean>
 	<bean id="iMessageService" class="TDS.Proctor.Services.MessageService" scope="prototype">
      	<constructor-arg ref="iMessageRepository"/>
 	</bean>	
 	
 	<bean id="proctorAppTasks" class="TDS.Proctor.Services.ProctorAppTasks" scope="prototype">
 		<property name="appConfigTasks"><ref bean="iAppConfigService"/></property>
-     	<property name="testSessionTasks"><ref bean="iTestSessionService"/></property>
-     	<property name="testOppTasks"><ref bean="iTestOpportunityService"/></property>
+		<property name="testSessionTasks"><ref bean="iTestSessionService"/></property>
+		<property name="testOppTasks"><ref bean="iTestOpportunityService"/></property>
      	<property name="testTasks"><ref bean="iTestService"/></property>
      	<property name="alertTasks"><ref bean="iAlertMessageService"/></property>
      	<property name="requestTasks"><ref bean="iTesteeRequestService"/></property>

@@ -30,6 +30,9 @@ import tds.exam.ExpandableExam;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Matchers.isNull;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -132,6 +135,22 @@ public class RemoteExamRepositoryTest {
         when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
             .thenThrow(new RestClientException("Fail"));
         remoteExamRepository.getExamById(UUID.randomUUID());
+    }
+
+    @Test
+    public void shouldPauseAllExamsInASession() throws ReturnStatusException {
+        doNothing().when(mockRestTemplate).put(isA(URI.class), isNull());
+
+        remoteExamRepository.pauseAllExamsInSession(UUID.randomUUID());
+        verify(mockRestTemplate).put(isA(URI.class), isNull());
+    }
+
+    @Test(expected = ReturnStatusException.class)
+    public void shouldThrowReturnStatusExceptionWhenTheCallToExamServiceEncountersAnError() throws ReturnStatusException {
+        doThrow(new RestClientException("failure")).when(mockRestTemplate).put(isA(URI.class), isNull());
+
+        remoteExamRepository.pauseAllExamsInSession(UUID.randomUUID());
+        verify(mockRestTemplate).put(isA(URI.class), isNull());
     }
 }
 

@@ -27,7 +27,16 @@ public class TestOpportunityExamMapDaoImpl implements TestOpportunityExamMapDao 
     @Override
     @Cacheable(CacheType.MediumTerm)
     public UUID getTestOpportunityId(UUID examId) {
-        final String SQL_QUERY = "select testopportunity_id from testopportunity_exam_map where exam_id = :examId";
+        final String SQL_QUERY = "select mp.testopportunity_id \n" +
+            "from \n" +
+            "   testopportunity_exam_map mp \n" +
+            "join \n" +
+            "   testopportunity op on unhex(replace(mp.testopportunity_id,'-','')) = op._key \n" +
+            "where \n" +
+            "   mp.exam_id = :examId \n" +
+            "order by \n" +
+            "   op.datechanged desc \n" +
+            "limit 0, 1";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("examId", examId.toString());

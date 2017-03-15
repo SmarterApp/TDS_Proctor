@@ -69,8 +69,11 @@
 			<util:map map-class="java.util.HashMap">
 				<beans:entry key="tds.exam.remote.enabled" value="${tds.exam.remote.enabled:false}" />
 				<beans:entry key="tds.exam.legacy.enabled" value="${tds.exam.legacy.enabled:true}" />
+				<beans:entry key="tds.session.remote.enabled" value="${tds.session.remote.enabled:false}" />
+				<beans:entry key="tds.session.legacy.enabled" value="${tds.session.legacy.enabled:true}" />
 				<beans:entry key="tds.exam.remote.url" value="${tds.exam.remote.url}" />
 				<beans:entry key="tds.assessment.remote.url" value="${tds.assessment.remote.url}" />
+				<beans:entry key="tds.session.remote.url" value="${tds.session.remote.url}" />
 			</util:map>
 		</beans:constructor-arg>
 	</beans:bean>

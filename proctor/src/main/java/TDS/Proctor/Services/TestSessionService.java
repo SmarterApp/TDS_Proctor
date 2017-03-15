@@ -19,7 +19,11 @@ import TDS.Proctor.Sql.Data.Abstractions.ITestSessionService;
 import TDS.Shared.Configuration.TDSSettings;
 import TDS.Shared.Data.ReturnStatus;
 import TDS.Shared.Exceptions.ReturnStatusException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
+@Service("legacyTestSessionService")
 public class TestSessionService implements ITestSessionService
 
 {
@@ -27,6 +31,7 @@ public class TestSessionService implements ITestSessionService
   String                               _clientName;
   int                                  _sessionType = 0;
 
+  @Autowired
   public TestSessionService (TDSSettings settings, ITestSessionRepository repository) {
     _repository = repository;
     _clientName = settings.getClientName ();

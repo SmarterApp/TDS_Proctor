@@ -1,12 +1,28 @@
 /*******************************************************************************
  * Educational Online Test Delivery System 
  * Copyright (c) 2014 American Institutes for Research
- *   
+ *
  * Distributed under the AIR Open Source License, Version 1.0 
  * See accompanying file AIR-License-1_0.txt or at
  * http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf
  ******************************************************************************/
 package TDS.Proctor.Sql.Repository;
+
+import AIR.Common.DB.AbstractDAO;
+import AIR.Common.DB.SQLConnection;
+import AIR.Common.DB.results.DbResultRecord;
+import AIR.Common.DB.results.SingleDataResultSet;
+import AIR.Common.Helpers._Ref;
+import TDS.Proctor.Sql.Data.Abstractions.ITestSessionRepository;
+import TDS.Proctor.Sql.Data.TestSession;
+import TDS.Proctor.performance.services.ProctorUserService;
+import TDS.Proctor.performance.services.TestSessionService;
+import TDS.Shared.Data.ReturnStatus;
+import TDS.Shared.Exceptions.ReturnStatusException;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,29 +31,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import TDS.Proctor.performance.dao.ProctorUserDao;
-import TDS.Proctor.performance.services.ProctorUserService;
-import TDS.Proctor.performance.services.TestSessionService;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import tds.dll.api.ICommonDLL;
 import tds.dll.api.IProctorDLL;
-import AIR.Common.DB.AbstractDAO;
-import AIR.Common.DB.SQLConnection;
-import AIR.Common.DB.results.DbResultRecord;
-import AIR.Common.DB.results.SingleDataResultSet;
-import AIR.Common.Helpers._Ref;
-import TDS.Proctor.Sql.Data.TestSession;
-import TDS.Proctor.Sql.Data.Abstractions.ITestSessionRepository;
-import TDS.Shared.Data.ReturnStatus;
-import TDS.Shared.Exceptions.ReturnStatusException;
 
 /**
  * @author temp_ukommineni
- * 
+ *
  */
 public class TestSessionRepository extends AbstractDAO implements ITestSessionRepository
 {
@@ -108,7 +107,7 @@ public class TestSessionRepository extends AbstractDAO implements ITestSessionRe
       if (records.hasNext ()) {
         DbResultRecord record = records.next ();
         testSession = new TestSession (proctorKey, browserKey);
-        testSession.setKey (record.<UUID> get ("sessionKey")); 
+        testSession.setKey (record.<UUID> get ("sessionKey"));
         testSession.setId (record.<String> get ("sessionID"));
         testSession.setStatus (record.<String> get ("sessionStatus"));
         // testSession.datebegin = dateBegin;
