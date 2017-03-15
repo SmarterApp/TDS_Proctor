@@ -22,7 +22,7 @@ public interface ExamRepository {
      * @param id The id of the {@link tds.exam.Exam} to fetch
      * @return The fetched {@link tds.exam.Exam}
      */
-    Exam getExamById(final UUID id) throws ReturnStatusExceptions;
+    Exam getExamById(final UUID id) throws ReturnStatusException;
 
     /**
      * Fetches all exams pending approval for a specific session
