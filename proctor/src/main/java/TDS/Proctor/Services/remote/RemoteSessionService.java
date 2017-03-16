@@ -4,6 +4,7 @@ import AIR.Common.Helpers._Ref;
 import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITestSessionService;
 import TDS.Proctor.Sql.Data.Abstractions.SessionRepository;
+import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Proctor.Sql.Data.TestSession;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,7 +142,20 @@ public class RemoteSessionService implements ITestSessionService {
     public boolean setSessionDateVisited(final UUID sessionKey,
                                          final long proctorKey,
                                          final UUID browserKey) throws ReturnStatusException {
-        return legacyTestSessionService.setSessionDateVisited(sessionKey, proctorKey, browserKey);
+        boolean successful = false;
+
+        if (isLegacyCallsEnabled) {
+            successful = legacyTestSessionService.setSessionDateVisited(sessionKey, proctorKey, browserKey);
+        }
+
+        if (!isRemoteCallsEnabled) {
+            return successful;
+        }
+
+        // proctorKey and browserKey are unused - only used for validation, done at the controller level
+        sessionRepository.updateDateVisited(sessionKey);
+
+        return true;
     }
 
     @Override

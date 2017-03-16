@@ -25,7 +25,9 @@ import tds.session.PauseSessionResponse;
 import tds.session.Session;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -80,5 +82,25 @@ public class RemoteSessionRepositoryTest {
             .thenThrow(new RestClientException("failure"));
 
         remoteSessionRepository.pause(UUID.randomUUID(), new PauseSessionRequest(9L, UUID.randomUUID()));
+    }
+
+    @Test
+    public void shouldExtendSessionSuccessfully() throws ReturnStatusException {
+        UUID sessionId = UUID.randomUUID();
+        remoteSessionRepository.updateDateVisited(sessionId);
+        verify(mockRestTemplate).exchange(isA(URI.class),
+            isA(HttpMethod.class),
+            isA(HttpEntity.class),
+            eq(Void.class));
+    }
+
+    @Test(expected = ReturnStatusException.class)
+    public void shouldThrowReturnStatusExceptionExtendSession() throws ReturnStatusException {
+        when(mockRestTemplate.exchange(isA(URI.class),
+            isA(HttpMethod.class),
+            isA(HttpEntity.class),
+            eq(Void.class)))
+            .thenThrow(new RestClientException("failure"));
+        remoteSessionRepository.updateDateVisited(UUID.randomUUID());
     }
 }
