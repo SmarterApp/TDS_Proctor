@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import tds.exam.ExamPrintRequest;
+import tds.exam.ExpandableExamPrintRequest;
 
 /**
  * Repository to interact with exam print request data
@@ -37,7 +38,7 @@ public interface ExamPrintRequestRepository {
      * @return The approved {@link tds.exam.ExamPrintRequest}
      * @throws ReturnStatusException
      */
-    ExamPrintRequest findRequestAndApprove(final UUID requestId) throws ReturnStatusException;
+    ExpandableExamPrintRequest findRequestAndApprove(final UUID requestId) throws ReturnStatusException;
 
     /**
      * Creates a request to fetch a list of approved {@link tds.exam.ExamPrintRequest} for the specified session

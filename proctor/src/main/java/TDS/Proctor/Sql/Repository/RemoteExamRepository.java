@@ -50,27 +50,6 @@ public class RemoteExamRepository implements ExamRepository {
     }
 
     @Override
-    public Exam getExamById(final UUID id) throws ReturnStatusException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/%s", examUrl, id));
-
-        try {
-            return restTemplate.exchange(
-                builder.build().encode().toUri(),
-                HttpMethod.GET,
-                requestHttpEntity,
-                new ParameterizedTypeReference<Exam>() {
-                }).getBody();
-        } catch (RestClientException rce) {
-            throw new ReturnStatusException(rce);
-        }
-    }
-
-    @Override
     public List<Exam> findExamsPendingApproval(final UUID sessionId) throws ReturnStatusException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);

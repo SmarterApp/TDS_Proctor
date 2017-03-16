@@ -21,6 +21,7 @@ import java.util.UUID;
 import tds.exam.Exam;
 import tds.exam.ExamPrintRequest;
 import tds.exam.ExamPrintRequestStatus;
+import tds.exam.ExpandableExamPrintRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -37,14 +38,11 @@ public class RemoteTesteeRequestServiceTest {
     private ExamPrintRequestRepository mockExamPrintRequestRepository;
 
     @Mock
-    private ExamRepository mockExamRepository;
-
-    @Mock
     private ProctorUserDao proctorUserDao;
 
     @Before
     public void setup() {
-        service = new RemoteTesteeRequestService(legacyTestOpportunityService, mockExamPrintRequestRepository, mockExamRepository,
+        service = new RemoteTesteeRequestService(legacyTestOpportunityService, mockExamPrintRequestRepository,
             false, true, proctorUserDao);
     }
 
@@ -236,15 +234,17 @@ public class RemoteTesteeRequestServiceTest {
             .withParameters("request: params;")
             .build();
 
+        ExpandableExamPrintRequest expandableRequest = new ExpandableExamPrintRequest.Builder(request)
+            .withExam(exam)
+            .build();
+
         when(proctorUserDao.validateProctorSession(proctorId, sessionId, browserId)).thenReturn(null);
-        when(mockExamPrintRequestRepository.findRequestAndApprove(requestId)).thenReturn(request);
-        when(mockExamRepository.getExamById(exam.getId())).thenReturn(exam);
+        when(mockExamPrintRequestRepository.findRequestAndApprove(requestId)).thenReturn(expandableRequest);
 
         TesteeRequest testeeRequest = service.getTesteeRequestValues(sessionId, proctorId, browserId, requestId, true);
 
         verify(proctorUserDao).validateProctorSession(proctorId, sessionId, browserId);
         verify(mockExamPrintRequestRepository).findRequestAndApprove(requestId);
-        verify(mockExamRepository).getExamById(exam.getId());
 
         assertThat(testeeRequest.getKey()).isEqualTo(request.getId());
         assertThat(testeeRequest.getDateSubmitted()).isEqualTo(request.getCreatedAt().toDate());

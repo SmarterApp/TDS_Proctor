@@ -123,21 +123,6 @@ public class RemoteExamRepositoryTest {
     }
 
     @Test
-    public void shouldReturnExamForExamId() throws ReturnStatusException {
-        when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
-            .thenReturn(new ResponseEntity(new Exam.Builder().build(), HttpStatus.OK));
-        final Exam exam = remoteExamRepository.getExamById(UUID.randomUUID());
-        assertThat(exam).isNotNull();
-    }
-
-    @Test(expected = ReturnStatusException.class)
-    public void shouldThrowReturnStatusExceptionForRestClientException() throws ReturnStatusException {
-        when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
-            .thenThrow(new RestClientException("Fail"));
-        remoteExamRepository.getExamById(UUID.randomUUID());
-    }
-
-    @Test
     public void shouldPauseAllExamsInASession() throws ReturnStatusException {
         doNothing().when(mockRestTemplate).put(isA(URI.class), isNull());
 

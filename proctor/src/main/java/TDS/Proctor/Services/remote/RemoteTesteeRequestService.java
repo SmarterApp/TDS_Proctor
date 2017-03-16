@@ -1,7 +1,6 @@
 package TDS.Proctor.Services.remote;
 
 import TDS.Proctor.Sql.Data.Abstractions.ExamPrintRequestRepository;
-import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITesteeRequestService;
 import TDS.Proctor.Sql.Data.TesteeRequest;
 import TDS.Proctor.Sql.Data.TesteeRequests;
@@ -15,12 +14,11 @@ import java.util.UUID;
 
 import tds.exam.Exam;
 import tds.exam.ExamPrintRequest;
-import tds.exam.ExamPrintRequestStatus;
+import tds.exam.ExpandableExamPrintRequest;
 
 public class RemoteTesteeRequestService implements ITesteeRequestService {
     private final ITesteeRequestService legacyTesteeRequestService;
     private final ExamPrintRequestRepository examPrintRequestRepository;
-    private final ExamRepository examRepository;
     private final ProctorUserDao proctorUserDao;
     private final boolean isLegacyCallsEnabled;
     private final boolean isRemoteCallsEnabled;
@@ -28,13 +26,16 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
     @Autowired
     public RemoteTesteeRequestService(final ITesteeRequestService testeeRequestService,
                                       final ExamPrintRequestRepository examPrintRequestRepository,
-                                      final ExamRepository examRepository,
                                       @Value("${tds.exam.legacy.enabled}") final boolean isLegacyCallsEnabled,
                                       @Value("${tds.exam.remote.enabled}") final boolean isRemoteCallsEnabled,
                                       final ProctorUserDao proctorUserDao) {
+
+        if (!isRemoteCallsEnabled && !isLegacyCallsEnabled) {
+            throw new IllegalStateException("Remote and legacy calls are both disabled.  Please check progman configuration");
+        }
+
         this.legacyTesteeRequestService = testeeRequestService;
         this.examPrintRequestRepository = examPrintRequestRepository;
-        this.examRepository = examRepository;
         this.isLegacyCallsEnabled = isLegacyCallsEnabled;
         this.isRemoteCallsEnabled = isRemoteCallsEnabled;
         this.proctorUserDao = proctorUserDao;
@@ -52,13 +53,17 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
             return requests;
         }
 
+        validateAccessAndThrowIfDenied(sessionKey, proctorKey, browserKey);
+
+        return mapPrintRequestsToTesteeRequests(examPrintRequestRepository.findUnfulfilledRequests(opportunityKey, sessionKey));
+    }
+
+    private void validateAccessAndThrowIfDenied(final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
         final String accessDenied = proctorUserDao.validateProctorSession(proctorKey, sessionKey, browserKey);
 
         if (accessDenied != null) {
             throw new ReturnStatusException(accessDenied);
         }
-
-        return mapPrintRequestsToTesteeRequests(examPrintRequestRepository.findUnfulfilledRequests(opportunityKey, sessionKey));
     }
 
     @Override
@@ -73,11 +78,7 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
             return requests;
         }
 
-        final String accessDenied = proctorUserDao.validateProctorSession(proctorKey, sessionKey, browserKey);
-
-        if (accessDenied != null) {
-            throw new ReturnStatusException(accessDenied);
-        }
+        validateAccessAndThrowIfDenied(sessionKey, proctorKey, browserKey);
 
         return mapPrintRequestsToTesteeRequests(examPrintRequestRepository.findApprovedRequests(sessionKey));
     }
@@ -94,17 +95,12 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
             return testeeRequest;
         }
 
-        final String accessDenied = proctorUserDao.validateProctorSession(proctorKey, sessionKey, browserKey);
+        validateAccessAndThrowIfDenied(sessionKey, proctorKey, browserKey);
 
-        if (accessDenied != null) {
-            throw new ReturnStatusException(accessDenied);
-        }
-
-        ExamPrintRequest request = examPrintRequestRepository.findRequestAndApprove(requestKey);
-        Exam exam = examRepository.getExamById(request.getExamId());
+        ExpandableExamPrintRequest request = examPrintRequestRepository.findRequestAndApprove(requestKey);
 
         // markFulfilled is always "true" as used in the legacy app
-        return mapPrintRequestToTesteeRequest(request, exam);
+        return mapExpandablePrintRequestToTesteeRequest(request);
     }
 
     @Override
@@ -119,11 +115,7 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
             return successful;
         }
 
-        final String accessDenied = proctorUserDao.validateProctorSession(proctorKey, sessionKey, browserKey);
-
-        if (accessDenied != null) {
-            throw new ReturnStatusException(accessDenied);
-        }
+        validateAccessAndThrowIfDenied(sessionKey, proctorKey, browserKey);
 
         examPrintRequestRepository.denyPrintRequest(requestKey, reason);
 
@@ -140,39 +132,25 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
         TesteeRequests testeeRequests = new TesteeRequests();
 
         for (ExamPrintRequest printRequest : printRequests) {
-            TesteeRequest testeeRequest = mapPrintRequestToTesteeRequest(printRequest, null);
+            TesteeRequest testeeRequest = mapPrintRequestToTesteeRequest(printRequest);
             testeeRequests.add(testeeRequest);
         }
 
         return testeeRequests;
     }
 
-    private TesteeRequest mapPrintRequestToTesteeRequest(final ExamPrintRequest printRequest, final Exam exam) {
-        TesteeRequest testeeRequest = new TesteeRequest();
-        testeeRequest.setKey(printRequest.getId());
-        testeeRequest.setOppKey(printRequest.getExamId());
-        testeeRequest.setSessionKey(printRequest.getSessionId());
-        testeeRequest.setRequestType(printRequest.getType());
-        testeeRequest.setRequestValue(printRequest.getValue());
-        testeeRequest.setDateSubmitted(printRequest.getCreatedAt().toDate());
+    private TesteeRequest mapExpandablePrintRequestToTesteeRequest(final ExpandableExamPrintRequest expandableExamPrintRequest) {
+        ExamPrintRequest printRequest = expandableExamPrintRequest.getExamPrintRequest();
+        TesteeRequest testeeRequest = mapPrintRequestToTesteeRequest(printRequest);
 
-        if (printRequest.getStatus() == ExamPrintRequestStatus.DENIED) {
-            testeeRequest.setDateFulfilled(printRequest.getChangedAt().toDate());
-            testeeRequest.setDeniedReason(printRequest.getReasonDenied());
-        } else if (printRequest.getStatus() == ExamPrintRequestStatus.APPROVED) {
-            testeeRequest.setDateFulfilled(printRequest.getChangedAt().toDate());
-        }
-
-        testeeRequest.setItemPage(printRequest.getPagePosition());
-        testeeRequest.setItemPosition(printRequest.getItemPosition());
-        testeeRequest.setRequestDesc(printRequest.getDescription());
-
+        Exam exam = expandableExamPrintRequest.getExam();
         /* TesteeRequestRepository.java - line 95 */
         // Exam-specific data for request details
         if (exam != null) {
             testeeRequest.setTestID(exam.getAssessmentId());
             testeeRequest.setTesteeKey(exam.getStudentId());
             testeeRequest.setTesteeName(exam.getStudentName());
+            /* In ProctorDLL.java, lines [1698-1699] and [1790-1791], these two properties are set to the same "lang" variable */
             testeeRequest.setLanguage(exam.getLanguageCode());
             testeeRequest.setAccCode(exam.getLanguageCode());
             testeeRequest.setRequestParameters(printRequest.getParameters());
@@ -182,6 +160,29 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
                 testeeRequest.setItemResponse(printRequest.getItemResponse());
             }
         }
+
+        return testeeRequest;
+    }
+
+    private TesteeRequest mapPrintRequestToTesteeRequest(final ExamPrintRequest printRequest) {
+        TesteeRequest testeeRequest = new TesteeRequest();
+        testeeRequest.setKey(printRequest.getId());
+        testeeRequest.setOppKey(printRequest.getExamId());
+        testeeRequest.setSessionKey(printRequest.getSessionId());
+        testeeRequest.setRequestType(printRequest.getType());
+        testeeRequest.setRequestValue(printRequest.getValue());
+        testeeRequest.setDateSubmitted(printRequest.getCreatedAt().toDate());
+
+        if (printRequest.isDenied()) {
+            testeeRequest.setDateFulfilled(printRequest.getChangedAt().toDate());
+            testeeRequest.setDeniedReason(printRequest.getReasonDenied());
+        } else if (printRequest.isApproved()) {
+            testeeRequest.setDateFulfilled(printRequest.getChangedAt().toDate());
+        }
+
+        testeeRequest.setItemPage(printRequest.getPagePosition());
+        testeeRequest.setItemPosition(printRequest.getItemPosition());
+        testeeRequest.setRequestDesc(printRequest.getDescription());
 
         return testeeRequest;
     }

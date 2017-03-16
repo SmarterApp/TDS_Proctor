@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 import tds.exam.ExamPrintRequest;
+import tds.exam.ExpandableExamPrintRequest;
 
 @Repository
 public class RemoteExamPrintRequestRepository implements ExamPrintRequestRepository {
@@ -77,21 +78,21 @@ public class RemoteExamPrintRequestRepository implements ExamPrintRequestReposit
     }
 
     @Override
-    public ExamPrintRequest findRequestAndApprove(final UUID requestId) throws ReturnStatusException {
+    public ExpandableExamPrintRequest findRequestAndApprove(final UUID requestId) throws ReturnStatusException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/print/approve/%s", examUrl, requestId));
-
-        ExamPrintRequest examPrintRequestResponseEntity;
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/print/approve/%s", examUrl, requestId))
+            .queryParam("embed", ExpandableExamPrintRequest.EXPANDABLE_PARAMS_PRINT_REQUEST_WITH_EXAM);
+        ExpandableExamPrintRequest examPrintRequestResponseEntity;
 
         try {
             examPrintRequestResponseEntity = restTemplate.exchange(
                 builder.build().toUri(),
                 HttpMethod.PUT,
                 requestHttpEntity,
-                new ParameterizedTypeReference<ExamPrintRequest>() {
+                new ParameterizedTypeReference<ExpandableExamPrintRequest>() {
                 }).getBody();
         } catch (RestClientException rce) {
             throw new ReturnStatusException(rce);

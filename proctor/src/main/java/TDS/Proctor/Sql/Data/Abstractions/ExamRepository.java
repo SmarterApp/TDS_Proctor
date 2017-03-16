@@ -17,14 +17,6 @@ import tds.exam.ExpandableExam;
  */
 public interface ExamRepository {
     /**
-     * Fetches an {@link tds.exam.Exam} by its id
-     *
-     * @param id The id of the {@link tds.exam.Exam} to fetch
-     * @return The fetched {@link tds.exam.Exam}
-     */
-    Exam getExamById(final UUID id) throws ReturnStatusException;
-
-    /**
      * Fetches all exams pending approval for a specific session
      *
      * @param sessionId the id of the session

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 import tds.exam.ExamPrintRequest;
+import tds.exam.ExpandableExamPrintRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
@@ -79,9 +80,11 @@ public class RemoteExamPrintRequestRepositoryTest {
     @Test
     public void shouldFindRequestAndApprove() throws Exception {
         ExamPrintRequest request = new ExamPrintRequest.Builder(UUID.randomUUID()).build();
+        ExpandableExamPrintRequest expandableRequest = new ExpandableExamPrintRequest.Builder(request).build();
+
         when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
-            .thenReturn(new ResponseEntity(request, HttpStatus.OK));
-        assertThat(repository.findRequestAndApprove(UUID.randomUUID())).isEqualTo(request);
+            .thenReturn(new ResponseEntity(expandableRequest, HttpStatus.OK));
+        assertThat(repository.findRequestAndApprove(UUID.randomUUID())).isEqualTo(expandableRequest);
         verify(mockRestTemplate).exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class));
     }
 
