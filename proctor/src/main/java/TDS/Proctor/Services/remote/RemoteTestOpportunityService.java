@@ -111,6 +111,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
             testOpportunity.setStatus(exam.getStatus().getCode());
             testOpportunity.setSsid(exam.getLoginSSID());
             testOpportunity.setName(exam.getStudentName());
+            testOpportunity.setCustAccs(exam.isCustomAccommodations());
 
             final List<Accommodation> assessmentAccommodations = assessmentRepository.findAccommodations(exam.getClientName(), exam.getAssessmentKey());
             final List<ExamAccommodation> examAccommodations = examRepository.findAllAccommodations(exam.getId());
@@ -180,8 +181,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         if (isLegacyCallsEnabled) {
             try {
                 isDenySuccessful = testOpportunityService.denyOpportunity(getTestOpportunityId(examId), sessionId, proctorKey, browserKey, reason);
-            }
-            catch (ReturnStatusException rse) {
+            } catch (ReturnStatusException rse) {
                 // the legacy normal flow throws the exception
                 //  so if we are also calling the remote services then we need to swallow it
                 if (!isRemoteCallsEnabled) {
@@ -230,13 +230,13 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         final Map<Integer, Set<String>> accommodations = new HashMap<>();
 
         // remove last character from accommodationsString. (extra at end ';')
-        final String accommodationsString2 = accommodationsString.substring(0, accommodationsString.length () - 1);
+        final String accommodationsString2 = accommodationsString.substring(0, accommodationsString.length() - 1);
         final String[] segmentAccommodationsArray = segmentPattern.split(accommodationsString2);
 
         // segments are one-based array
         // zero index indicates accommodations applies to all segments
         int segmentIndex = 0;
-        for(String segmentString: segmentAccommodationsArray) {
+        for (String segmentString : segmentAccommodationsArray) {
             final Set<String> segmentAccommodationsSet = new HashSet<>(Arrays.asList(accommodationPattern.split(segmentString))); //ImmutableSet.copyOf(accommodationPattern.split(segmentString));
             accommodations.put(segmentIndex, segmentAccommodationsSet);
         }

@@ -10,7 +10,6 @@ import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
-import org.joda.time.ReadableDuration;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,6 +68,40 @@ public class RemoteTestOpportunityServiceTest {
         service.getTestsForApproval(sessionId, proctorKey, browserKey);
         verify(legacyTestOpportunityService).getTestsForApproval(sessionId, proctorKey, browserKey);
         verify(mockExamRepository).findExamsPendingApproval(sessionId);
+    }
+
+    @Test
+    public void shouldMapPendingApprovalToTestOpportunity() throws ReturnStatusException {
+        UUID sessionId = UUID.randomUUID();
+        Long proctorKey = 99L;
+        UUID browserKey = UUID.randomUUID();
+
+        Exam examPendingApproval = new Exam.Builder()
+            .withId(UUID.randomUUID())
+            .withAssessmentId("test-assessment-id")
+            .withAssessmentKey("test-assessment-key")
+            .withAttempts(2)
+            .withStatus(new ExamStatusCode(ExamStatusCode.STATUS_PENDING), Instant.now())
+            .withLoginSSID("ssid1")
+            .withStudentName("student1")
+            .withCustomAccommodation(true)
+            .build();
+
+        when(mockExamRepository.findExamsPendingApproval(sessionId)).thenReturn(Arrays.asList(examPendingApproval));
+
+        TestOpps testOpps = service.getTestsForApproval(sessionId, proctorKey, browserKey);
+        verify(legacyTestOpportunityService).getTestsForApproval(sessionId, proctorKey, browserKey);
+        verify(mockExamRepository).findExamsPendingApproval(sessionId);
+
+        assertThat(testOpps).hasSize(1);
+        TestOpportunity testOpp = testOpps.get(0);
+        assertThat(testOpp.getTestID()).isEqualTo(examPendingApproval.getAssessmentId());
+        assertThat(testOpp.getTestKey()).isEqualTo(examPendingApproval.getAssessmentKey());
+        assertThat(testOpp.getOpp()).isEqualTo(examPendingApproval.getAttempts());
+        assertThat(testOpp.getStatus()).isEqualTo(examPendingApproval.getStatus().getCode());
+        assertThat(testOpp.getSsid()).isEqualTo(examPendingApproval.getLoginSSID());
+        assertThat(testOpp.getName()).isEqualTo(examPendingApproval.getStudentName());
+        assertThat(testOpp.isCustAccs()).isEqualTo(examPendingApproval.isCustomAccommodations());
     }
 
     @Test
