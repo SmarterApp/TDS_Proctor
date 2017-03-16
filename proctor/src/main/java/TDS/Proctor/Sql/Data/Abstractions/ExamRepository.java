@@ -23,7 +23,7 @@ public interface ExamRepository {
      * @return the list of {@link tds.exam.Exam}s pending approval
      * @throws ReturnStatusException in the event the call failed
      */
-    List<Exam> findExamsPendingApproval(UUID sessionId) throws ReturnStatusException;
+    List<Exam> findExamsPendingApproval(final UUID sessionId) throws ReturnStatusException;
 
     /**
      * Fetches the collection of {@link tds.exam.ExamAccommodation}s for an exam
@@ -32,7 +32,7 @@ public interface ExamRepository {
      * @return the list of {@link tds.exam.ExamAccommodation}s
      * @throws ReturnStatusException in the event the call failed
      */
-    List<ExamAccommodation> findAllAccommodations(UUID examId) throws ReturnStatusException;
+    List<ExamAccommodation> findAllAccommodations(final UUID examId) throws ReturnStatusException;
 
     /**
      * Creates a request for the exam service to approve {@link tds.exam.ExamAccommodation}s
