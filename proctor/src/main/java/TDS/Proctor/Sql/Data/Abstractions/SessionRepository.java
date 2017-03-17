@@ -23,4 +23,11 @@ public interface SessionRepository {
      * @throws ReturnStatusException
      */
     Response<PauseSessionResponse> pause(final UUID sessionId, final PauseSessionRequest request) throws ReturnStatusException;
+
+    /**
+     *  Updates the "date visited" of the session to prevent timeout
+     *
+     * @param sessionId The unique identifier of the {@link tds.session.Session} to extend
+     */
+    void updateDateVisited(UUID sessionId) throws ReturnStatusException;
 }
