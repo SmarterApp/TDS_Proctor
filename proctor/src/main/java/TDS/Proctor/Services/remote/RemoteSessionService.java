@@ -4,7 +4,6 @@ import AIR.Common.Helpers._Ref;
 import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITestSessionService;
 import TDS.Proctor.Sql.Data.Abstractions.SessionRepository;
-import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Proctor.Sql.Data.TestSession;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
