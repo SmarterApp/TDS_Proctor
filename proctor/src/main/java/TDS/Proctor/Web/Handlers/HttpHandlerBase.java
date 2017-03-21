@@ -256,7 +256,7 @@ private static final Logger _logger = LoggerFactory.getLogger(HttpHandlerBase.cl
     return _userInfo;
   }
 
-  protected ProctorUser getUser () {
+  public ProctorUser getUser () {
     if (_user == null) {
       _user = ProctorUserService.loadUserFromCookie (getUserInfo ());
     }

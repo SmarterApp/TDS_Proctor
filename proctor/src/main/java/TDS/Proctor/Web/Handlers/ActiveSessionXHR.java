@@ -211,9 +211,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID sessionKey = UUID.fromString (strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "ProctorPing");
 
-      _eventLogger.putField(PROCTOR_ID.name(), thisUser.getId());
-      _eventLogger.putField(SESSION_ID.name(), thisUser.getSessionKey());
-
       _proctorAppTasks.getTestSessionTasks ().setSessionDateVisited (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
 
       return new ReturnStatus ("True", "");
@@ -427,9 +424,7 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       String[] aryTestIDs = StringUtils.split (testIDs, '|');
       UUID sessionKey = testSession.getKey ();
 
-      _eventLogger.putField(PROCTOR_ID.name(), thisUser.getId());
-      _eventLogger.putField(SESSION_ID.name(), thisUser.getSessionKey());
-      _eventLogger.putField(ASSESSMENTS.name(), aryTestIDs);
+
 
       int len = aryTestKeys.length;
       for (int i = 0; i < len; i++) {
@@ -510,8 +505,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       testeeRequestsDTO.setRequests (testeeRequests);
       testeeRequestsDTO.setBrowserAction (browserAction);
 
-      _eventLogger.putField(PROCTOR_ID.name(), thisUser.getId());
-      _eventLogger.putField(SESSION_ID.name(), thisUser.getSessionKey());
       _eventLogger.putField(EXAM.name(), oppKey);
 
       return testeeRequestsDTO;
