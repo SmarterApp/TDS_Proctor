@@ -4,7 +4,6 @@ import TDS.Proctor.Sql.Repository.RemoteExamRepository;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +29,6 @@ import tds.exam.ExamAccommodation;
 import tds.exam.ExpandableExam;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.doNothing;
@@ -69,7 +67,7 @@ public class RemoteExamRepositoryTest {
         assertThat(remoteExamRepository.findExamsPendingApproval(exam.getSessionId())).isEqualTo(exams);
     }
 
-    @Test (expected = ReturnStatusException.class)
+    @Test(expected = ReturnStatusException.class)
     public void shouldThrowReturnStatusExceptionWhenRestClientUnhandledExceptionIsThrown() throws ReturnStatusException {
         when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
             .thenThrow(new RestClientException("Fail"));
@@ -117,7 +115,7 @@ public class RemoteExamRepositoryTest {
         assertThat(expandableExams).isEmpty();
     }
 
-    @Test (expected = ReturnStatusException.class)
+    @Test(expected = ReturnStatusException.class)
     public void shouldThrowReturnStatusExceptionWhenRestClientUnhandledExceptionIsThrownFindExamsForSession() throws ReturnStatusException {
         when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
             .thenThrow(new RestClientException("Fail"));

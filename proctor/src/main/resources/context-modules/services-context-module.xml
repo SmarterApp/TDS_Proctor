@@ -7,12 +7,12 @@
 	<bean id="iAlertMessageService" class="TDS.Proctor.Services.AlertMessageService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iAlertMessageRepository"/>
-	</bean>	
+	</bean>
 	<bean id="iAppConfigService" class="TDS.Proctor.Services.AppConfigService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iAppConfigRepository"/>
      	<constructor-arg ref="clientContextBrowserValidation"/>
-	</bean>	
+	</bean>
 	<bean id="iInstitutionService" class="TDS.Proctor.Services.InstitutionService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iInstitutionRepository"/>
@@ -20,11 +20,11 @@
 	<bean id="iProctorUserService" class="TDS.Proctor.Services.ProctorUserService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iProctorRepository"/>
-	</bean>	
-	<bean id="iTesteeRequestService" class="TDS.Proctor.Services.TesteeRequestService" scope="prototype">
+	</bean>
+	<bean id="legacyTesteeRequestService" class="TDS.Proctor.Services.TesteeRequestService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iTesteeRequestRepository"/>
-	</bean>	
+	</bean>
 	<bean id="iTesteeService" class="TDS.Proctor.Services.TesteeService" scope="prototype">
 		<constructor-arg ref="tdsSettings"/>
      	<constructor-arg ref="iTesteeRepository"/>
@@ -34,7 +34,9 @@
 		<constructor-arg ref="iTestOpportunityRepository"/>
 	</bean>
 	<bean id="examRepository" class="TDS.Proctor.Sql.Repository.RemoteExamRepository" scope="prototype"></bean>
+	<bean id="examPrintRequestRepository" class="TDS.Proctor.Sql.Repository.RemoteExamPrintRequestRepository" scope="prototype"></bean>
 	<bean id="assessmentRepository" class="TDS.Proctor.Sql.Repository.RemoteAssessmentRepository" scope="prototype"></bean>
+	<bean id="iTesteeRequestService" class="TDS.Proctor.Services.remote.RemoteTesteeRequestService" scope="prototype"></bean>
 	<bean id="sessionRepository" class="TDS.Proctor.Sql.Repository.RemoteSessionRepository" scope="prototype"></bean>
 	<bean id="iTestOpportunityService" class="TDS.Proctor.Services.remote.RemoteTestOpportunityService" scope="prototype">	</bean>
 	<bean id="iTestService" class="TDS.Proctor.Services.TestService" scope="prototype">
@@ -44,11 +46,11 @@
 
 	<bean id="iMessageService" class="TDS.Proctor.Services.MessageService" scope="prototype">
      	<constructor-arg ref="iMessageRepository"/>
-	</bean>	
-	
+	</bean>
+
 	<bean id="proctorAppTasks" class="TDS.Proctor.Services.ProctorAppTasks" scope="prototype">
 		<property name="appConfigTasks"><ref bean="iAppConfigService"/></property>
-     	<property name="testOppTasks"><ref bean="iTestOpportunityService"/></property>
+        <property name="testOppTasks"><ref bean="iTestOpportunityService"/></property>
      	<property name="testTasks"><ref bean="iTestService"/></property>
      	<property name="alertTasks"><ref bean="iAlertMessageService"/></property>
      	<property name="requestTasks"><ref bean="iTesteeRequestService"/></property>
@@ -56,13 +58,13 @@
      	<property name="institutionTasks"><ref bean="iInstitutionService"/></property>
      	<property name="proctorUserTasks"><ref bean="iProctorUserService"/></property>
 	</bean>
-	
+
 	<bean id="proctorPackageService" class="TDS.Proctor.Services.remote.RemoteProctorPackageService" />
 
 	<bean id="httpWebHelper" class="AIR.Common.Web.HttpWebHelper"/>
-	
+
 	<bean id="messageXml" class="TDS.Shared.Messages.MessageXml"/>
-	
+
 	<bean id="clientContextBrowserValidation" class="TDS.Proctor.Sql.Data.ClientContextBrowserValidation" scope="singleton" />
 
 </beans>

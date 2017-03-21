@@ -284,6 +284,14 @@ public class RemoteSessionServiceTest {
         assertThat(result).isTrue();
     }
 
+    @Test
+    public void shouldUpdateStatus() throws ReturnStatusException {
+        final UUID sessionId = UUID.randomUUID();
+        boolean result = remoteSessionService.setSessionDateVisited(sessionId, 2112, UUID.randomUUID());
+        assertThat(result).isTrue();
+        verify(mockRemoteSessionRepository).updateDateVisited(sessionId);
+    }
+
     @Test(expected = IllegalStateException.class)
     public void shouldThrowIllegalStateExceptionWhenIsLegacyEnabledAndIsRemoteEnabledAreBothFalse() {
         new RemoteSessionService(legacyTestSessionService,

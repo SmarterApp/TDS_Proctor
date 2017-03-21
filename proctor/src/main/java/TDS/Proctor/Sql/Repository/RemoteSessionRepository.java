@@ -73,6 +73,26 @@ public class RemoteSessionRepository implements SessionRepository {
         }
     }
 
+    @Override
+    public void updateDateVisited(final UUID sessionId) throws ReturnStatusException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/%s/extend", sessionUrl, sessionId));
+
+        try {
+            restTemplate.exchange(
+                builder.build().toUri(),
+                HttpMethod.PUT,
+                requestHttpEntity,
+                Void.class);
+        } catch (RestClientException rce) {
+            throw new ReturnStatusException(rce);
+        }
+    }
+
     /**
      * Convert the message body from an {@link org.springframework.web.client.HttpClientErrorException} to a
      * {@link tds.common.Response<tds.session.PauseSessionResponse>} to extract the {@link tds.common.ValidationError}.

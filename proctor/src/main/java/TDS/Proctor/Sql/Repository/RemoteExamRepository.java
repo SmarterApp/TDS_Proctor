@@ -161,7 +161,8 @@ public class RemoteExamRepository implements ExamRepository {
             .queryParam("statusNot", ExamStatusCode.STATUS_DENIED)
             .queryParam("statusNot", ExamStatusCode.STATUS_PENDING)
             .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_EXAM_ACCOMMODATIONS)
-            .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_ITEM_RESPONSE_COUNT);
+            .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_ITEM_RESPONSE_COUNT)
+            .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_UNFULFILLED_REQUEST_COUNT);
 
         try {
             ResponseEntity<List<ExpandableExam>> response = restTemplate.exchange(

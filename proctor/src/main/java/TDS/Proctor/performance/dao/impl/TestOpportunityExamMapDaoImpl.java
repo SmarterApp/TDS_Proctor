@@ -43,4 +43,14 @@ public class TestOpportunityExamMapDaoImpl implements TestOpportunityExamMapDao 
 
         return UUID.fromString(namedParameterJdbcTemplate.queryForObject(SQL_QUERY, parameters, String.class));
     }
+
+    @Override
+    public UUID getExamId(final UUID testOpportunityId) {
+        final String SQL_QUERY = "select exam_id from testopportunity_exam_map where testopportunity_id = :testOpportunityId";
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("testOpportunityId", testOpportunityId.toString());
+
+        return UUID.fromString(namedParameterJdbcTemplate.queryForObject(SQL_QUERY, parameters, String.class));
+    }
 }
