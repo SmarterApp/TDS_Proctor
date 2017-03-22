@@ -5,7 +5,8 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
+
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
@@ -27,12 +28,6 @@
 
 		<docker.image.prefix>fwsbac</docker.image.prefix>
 	</properties>
-
-	<scm>
-		<connection>scm:hg:https://bitbucket.org/sbacoss/tds_release</connection>
-		<developerConnection>scm:hg:https://bitbucket.org/sbacoss/tds_release</developerConnection>
-		<url>https://bitbucket.org/sbacoss/tds_release</url>
-	</scm>
 
 	<licenses>
 		<license>
@@ -318,47 +313,67 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.10</version>
-				<configuration>
-					<imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-					<imageTags>
-						<imageTag>${project.version}</imageTag>
-						<imageTag>latest</imageTag>
-					</imageTags>
-					<dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.war</include>
-						</resource>
-
-						<!-- TDS_Proctor requires file-system test definitions.  The resource directories below must
-							be defined in the build machine's local file-system at the specified paths
-							to be embedded into the proctor docker container image.
-							Modify as required.-->
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>/usr/local/tomcat/resources/tds/bank</directory>
-							<include>**/*</include>
-						</resource>
-
-						<!-- TDS_Proctor requires file-system SAML security files.  The resource directory below
-							must be defined in the build machine's local file-system at the specified path to be
-							embedded into the proctor docker container image.
-							NOTE that the SAML security keystore and metadata xml files must be registered with your
-							SAML identity provider.
-							Modify as required. -->
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>/opt/sbtds/deploy/resources</directory>
-							<include>security/**/*</include>
-						</resource>
-					</resources>
-				</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
 			</plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.10</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.war</include>
+                        </resource>
+
+                        <!-- TDS_Proctor requires file-system test definitions.  The resource directories below must
+                            be defined in the build machine's local file-system at the specified paths
+                            to be embedded into the proctor docker container image.
+                            Modify as required.-->
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>/usr/local/tomcat/resources/tds/bank</directory>
+                            <include>**/*</include>
+                        </resource>
+
+                        <!-- TDS_Proctor requires file-system SAML security files.  The resource directory below
+                            must be defined in the build machine's local file-system at the specified path to be
+                            embedded into the proctor docker container image.
+                            NOTE that the SAML security keystore and metadata xml files must be registered with your
+                            SAML identity provider.
+                            Modify as required. -->
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>/opt/sbtds/deploy/resources</directory>
+                            <include>security/**/*</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
+
+	<scm>
+		<connection>scm:git:https://github.com/SmarterApp/TDS_Proctor.git</connection>
+		<developerConnection>scm:git:git://github.com/SmarterApp/TDS_Proctor.git</developerConnection>
+		<url>https://github.com/SmarterApp/TDS_Proctor</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>airdev-releases</name>
+			<url>https://airdev.jfrog.io/airdev/libs-releases-local</url>
+		</repository>
+	</distributionManagement>
+
 </project>
