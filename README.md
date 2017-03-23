@@ -45,7 +45,7 @@ oauth.testreg.username={OAuth username for test registration}
 oauth.testreg.password={OAuth password for test registration} 
 
 working example:
-oauth.access.url=https://drc-dev-secure.opentestsystem.org/auth/oauth2/access_token?realm=/sbac
+oauth.access.url=https://openam-server-name/auth/oauth2/access_token?realm=/sbac
 pm.oauth.client.id=pm
 pm.oauth.client.secret=OAUTHCLIENTSECRET
 pm.oauth.batch.account=test@example.com
@@ -109,10 +109,11 @@ The following parameters need to be configured inside program management for dat
 Following parameters need to be configured inside program management for MNA.	
 
 * `mna.mnaUrl=http://<mna-context-url>/mna-rest/`  - URL of the Monitoring and Alerting client server's rest url
-* `mnaServerName=proctor_dev`  -  Used by the mna clients to identify which server is sending the log/metrics/alerts.
-* `mnaNodeName=dev`  - Used by the mna clients to identify who is sending the log/metrics/alerts. There is a discrete mnaServerName and a node in case say XXX for server name & node1/node2 in a clustered environment giving the ability to search across clustered nodes by server name or specifically for a given node. It’s being stored in the db for metric/log/alert, but not displayed.
+* `mnaServerName=proctor`  -  Used by the mna clients to identify which server is sending the log/metrics/alerts.
+* `mnaNodeName=production`  - Used by the mna clients to identify who is sending the log/metrics/alerts. There is a discrete mnaServerName and a node in case say XXX for server name & node1/node2 in a clustered environment giving the ability to search across clustered nodes by server name or specifically for a given node. It’s being stored in the db for metric/log/alert, but not displayed.
 * `mna.logger.level=ERROR`  - Used to control what is logged to the Monitoring and Alerting system. Logging Levels (ALL - Turn on all logging levels,  TRACE, DEBUG, INFO, WARN, ERROR, OFF - Turn off logging).
-
+* `mna.oauth.batch.account=user@example.com` - Username (email address) of MNA client user used for authenticating into MNA and logging metrics information 
+* `mna.oauth.batch.password=password` - Password of MNA client user
 
 #### SSO properties
 The following parameters need to be configured inside program management for SSO.	
@@ -142,13 +143,9 @@ The following parameters need to be configured inside program management for Pro
 * `proctor.DONOT_Distributed=true` 
 * `proctor.ClientQueryString=false` 
 * `proctor.Appkey=Proctor` 
-* `proctor.EncryptedPassword=true` 
 * `proctor.RecordSystemClient=true` 
-* `proctor.AdminPassword=SeCrEtPaSsWoRd` 
-* `proctor.SqlCommandTimeout=60` 
 * `proctor.AppName=Proctor` 
-* `proctor.SessionType=0`  - Type of the testing supported: 0 is online, 1 is paper-based.
-* `proctor.DBJndiName=java:/comp/env/jdbc/sessiondb` 
+* `proctor.SessionType=0`  - Type of the testing supported: 0 is online, 1 is paper-based. 
 * `proctor.TestRegistrationApplicationUrl=http://localhost:8083/`  -  URL to TR(ART) Application
 * `proctor.TDSArchiveDBName=archive`  - Name of the archive schema
 * `proctor.TDSSessionDBName=session`  - Name of the session schema
@@ -157,7 +154,6 @@ The following parameters need to be configured inside program management for Pro
 * `proctor.Debug.AllowFTP=true` 
 * `proctor.StateCode=SBAC_PT` 
 * `proctor.ClientName=SBAC_PT`
-* `proctor.IsTrStubSession=true` 
 * `logLatencyInterval=55` - Define the seconds of a minute when DB latency is being logged into database table.
 * `logLatencyMaxTime=30000` - If any procedure call execution time exceeds the number of milliseconds specified here, It will be logged into the dblatency table of the database.
 * `dbLockRetrySleepInterval=116` - Database connection will wait for number of milliseconds specified here before trying to acquire the exclusive resource lock on database again.
@@ -308,6 +304,30 @@ Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1281_othe
 #### SB-1301
 Execute /tds-dll-schemas/src/main/resources/import/genericsbacconfig/sb1301_translation_combined_values order.sql
 
+
+## Diagnostic API
+
+### Usage
+
+The diagnostic API is available via the `/status` endpoint.  Most commonly that would mean `https://url.com/status`.
+
+There are 5 different levels of details provided depending on what is passed in via the level querystring parameter like `status?level=1`.  The levels are defined below:
+
+1. Local system details such as CPU usage, memory usage and free storage space
+2. Configuration details for the local java environment settings and ProgMan settings
+3. Database read access checks to each of the 4 databases used in TDS
+4. Database write access checks to each of the 4 databases used in TDS
+5. Component dependency checks for access to ART, ProgMan, Permission, and SSO.
+
+### ProgMan Settings
+
+The Diagnostic API has a few settings which can adjusted via ProgMan.  Logical defaults are provided for each so there is no need to enter them usually.  The default values are provided below.
+
+* `diagnostic.enabled: true` - Disable access to the API by setting to `false`
+* `diagnostic.volume.minimumPercentFree: 5` - When the percent free space on disk is less than this value an error state is returned.
+* `diagnostic.volume.warningPercentFree: 15` - A warning state is returned when the percent available disk space is below this value.
+
+
 ## Build Order
 These are the steps that should be taken in order to build all of the Proctor related artifacts.
 
@@ -329,16 +349,16 @@ These are the steps that should be taken in order to build all of the Proctor re
 
 If building all components from scratch the following build order is needed:
 
-* sharedmultijardev
-* itemrendererdev
-* tdsdlldev
+* sharedmultijar
+* itemrenderer
+* tdsdll
 * tdsloadtester
 * SharedBuild
 * SharedCode
 * RestAPIGenerator
 * MonitoringAndAlertingClient
 * ProgramManagementClient
-* TDSDev
+* TDS
 
 ## Dependencies
 Proctor has a number of direct dependencies that are necessary for it to function.  These dependencies are already built into the Maven POM files.
@@ -395,3 +415,4 @@ Proctor has a number of direct dependencies that are necessary for it to functio
 ### Runtime Dependencies
 * Servlet API
 * Persistence API
+* MySQL Connector/J ( version 5.1.26 + ) need to be added in "lib" folder of application server

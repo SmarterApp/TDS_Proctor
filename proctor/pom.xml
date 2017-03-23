@@ -14,7 +14,7 @@
 	</parent>
 
 	<properties>
-		<item-renderer.version>3.0.0</item-renderer.version>
+		<item-renderer.version>3.0.5</item-renderer.version>
 		<tds-dll.version>3.0.0</tds-dll.version>
 		<progman-client.version>3.0.1</progman-client.version>
 		<sb11-mna-client.version>3.0.0</sb11-mna-client.version>
@@ -76,11 +76,13 @@
 			<artifactId>tds-dll-api</artifactId>
 			<version>${tds-dll.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.26</version>
 		</dependency>
+		
 		<!--dependency> <groupId>org.opentestsystem.delivery</groupId> <artifactId>tds-dll-mssql</artifactId> </dependency -->
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
@@ -285,8 +287,8 @@
 			<version>${item-renderer.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.opentestsystem.blackbox</groupId>
-			<artifactId>shared-blackbox</artifactId>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>item-renderer-web</artifactId>
 			<version>${item-renderer.version}</version>
 			<type>war</type>
 		</dependency>

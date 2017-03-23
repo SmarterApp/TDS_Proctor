@@ -32,5 +32,4 @@
 	<context:component-scan base-package="TDS.Proctor.Web.Handlers" />
 	<context:component-scan base-package="TDS.Proctor.diagnostic.controller" />
 	<context:component-scan base-package="tds.blackbox" />
-	<context:component-scan base-package="tds.iris.web.handlers.blackbox" />
 </beans:beans>
