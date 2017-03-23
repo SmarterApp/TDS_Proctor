@@ -43,3 +43,6 @@ and put them in your Tomcat libs folder.
 
 4) JSON diff is used for comparing the two json objects by online.
 http://tlrobinson.net/projects/javascript-fun/jsondiff/
+
+5) To Support FORMATIVE Test along with Summative & Interim Test, below DDL should be run on session schema
+alter table r_proctorpackage MODIFY  testtype varchar(40);

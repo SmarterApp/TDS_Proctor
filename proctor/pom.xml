@@ -5,17 +5,18 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>3.0.1-SNAPSHOT</version>
+
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>3.0.1</version>
+		<version>3.0.3</version>
 	</parent>
 
 	<properties>
-		<item-renderer.version>3.0.0</item-renderer.version>
+		<item-renderer.version>3.0.5</item-renderer.version>
 		<tds-dll.version>3.0.0</tds-dll.version>
-		<progman-client.version>3.0.0</progman-client.version>
+		<progman-client.version>3.0.1</progman-client.version>
 		<sb11-mna-client.version>3.0.0</sb11-mna-client.version>
 		<sb11-shared-code.version>3.0.1-SNAPSHOT</sb11-shared-code.version>
 		<sb11-shared-security.version>3.0.0</sb11-shared-security.version>
@@ -24,13 +25,9 @@
 		<tds-assessment-client.version>0.0.2</tds-assessment-client.version>
 		<tds-session-client.version>0.0.3</tds-session-client.version>
 		<jackson.version>2.8.5</jackson.version>
-	</properties>
 
-	<scm>
-		<connection>scm:hg:https://bitbucket.org/sbacoss/tds_release</connection>
-		<developerConnection>scm:hg:https://bitbucket.org/sbacoss/tds_release</developerConnection>
-		<url>https://bitbucket.org/sbacoss/tds_release</url>
-	</scm>
+		<docker.image.prefix>fwsbac</docker.image.prefix>
+	</properties>
 
 	<licenses>
 		<license>
@@ -79,11 +76,13 @@
 			<artifactId>tds-dll-api</artifactId>
 			<version>${tds-dll.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.26</version>
 		</dependency>
+		
 		<!--dependency> <groupId>org.opentestsystem.delivery</groupId> <artifactId>tds-dll-mssql</artifactId> </dependency -->
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
@@ -288,8 +287,8 @@
 			<version>${item-renderer.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.opentestsystem.blackbox</groupId>
-			<artifactId>shared-blackbox</artifactId>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>item-renderer-web</artifactId>
 			<version>${item-renderer.version}</version>
 			<type>war</type>
 		</dependency>
@@ -312,5 +311,71 @@
 			<version>${tds-session-client.version}</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.10</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.war</include>
+                        </resource>
+
+                        <!-- TDS_Proctor requires file-system test definitions.  The resource directories below must
+                            be defined in the build machine's local file-system at the specified paths
+                            to be embedded into the proctor docker container image.
+                            Modify as required.-->
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>/usr/local/tomcat/resources/tds/bank</directory>
+                            <include>**/*</include>
+                        </resource>
+
+                        <!-- TDS_Proctor requires file-system SAML security files.  The resource directory below
+                            must be defined in the build machine's local file-system at the specified path to be
+                            embedded into the proctor docker container image.
+                            NOTE that the SAML security keystore and metadata xml files must be registered with your
+                            SAML identity provider.
+                            Modify as required. -->
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>/opt/sbtds/deploy/resources</directory>
+                            <include>security/**/*</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<connection>scm:git:https://github.com/SmarterApp/TDS_Proctor.git</connection>
+		<developerConnection>scm:git:git://github.com/SmarterApp/TDS_Proctor.git</developerConnection>
+		<url>https://github.com/SmarterApp/TDS_Proctor</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>airdev-releases</name>
+			<url>https://airdev.jfrog.io/airdev/libs-releases-local</url>
+		</repository>
+	</distributionManagement>
 
 </project>
