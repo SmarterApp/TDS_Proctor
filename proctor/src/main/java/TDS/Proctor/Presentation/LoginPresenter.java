@@ -8,12 +8,6 @@
  ******************************************************************************/
 package TDS.Proctor.Presentation;
 
-import java.util.UUID;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import AIR.Common.Configuration.AppSettingsHelper;
 import AIR.Common.Helpers.Constants;
 import AIR.Common.Utilities.SpringApplicationContext;
@@ -22,14 +16,30 @@ import AIR.Common.Utilities.UrlEncoderDecoderUtils;
 import AIR.Common.Web.FacesContextHelper;
 import AIR.Common.Web.Session.HttpContext;
 import TDS.Proctor.Services.ProctorUserService;
+import TDS.Proctor.Sql.Data.Abstractions.IProctorUserService;
 import TDS.Proctor.Sql.Data.AppConfig;
 import TDS.Proctor.Sql.Data.ProctorUser;
-import TDS.Proctor.Sql.Data.Abstractions.IProctorUserService;
 import TDS.Shared.Data.ReturnStatus;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 import TDS.Shared.Security.IEncryption;
 import TDS.Shared.Web.UserCookie;
+import org.apache.commons.lang3.StringUtils;
+import org.opentestsystem.delivery.logging.EventInfo;
+import org.opentestsystem.delivery.logging.EventLogger;
+import org.opentestsystem.delivery.logging.EventParser;
+import org.opentestsystem.delivery.logging.ProctorEventLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.UUID;
+
+import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.ENTER;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.BROWSER_ID;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.PROCTOR_ID;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.SESSION_ID;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorLogEvent.LOGOUT;
 
 public class LoginPresenter extends PresenterBase
 {
@@ -199,13 +209,23 @@ public class LoginPresenter extends PresenterBase
   }
 
   public boolean doLogout () {
+    ProctorEventLogger _eventLogger = new ProctorEventLogger();
+    EventInfo eventInfo = EventInfo.create(LOGOUT.name(), ENTER.name(), EventParser.getEventDataFields(getHttpCurrentContext().getRequest()));
     try {
+
       ProctorUser thisUser = getThisUser ();
+
+      _eventLogger.putField(PROCTOR_ID.name(), thisUser.getId());
+      _eventLogger.putField(SESSION_ID.name(), thisUser.getSessionKey());
+      _eventLogger.putField(BROWSER_ID.name(), thisUser.getBrowserKey());
+      _eventLogger.info(eventInfo);
+
       if (thisUser != null && thisUser.getBrowserKey ().compareTo (Constants.UUIDEmpty) != 0)
         _proctorUserService.logout (thisUser.getKey (), thisUser.getBrowserKey ());
       clearOutProctorCookieInformationOrRemove (true);
       return true;
     } catch (Exception ex) {
+      _eventLogger.error(eventInfo, ex);
     	_logger.error (ex.getMessage(),ex);
       return false;
     }
