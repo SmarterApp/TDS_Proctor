@@ -33,14 +33,11 @@ import TDS.Proctor.Web.presentation.taglib.CSSLink;
 import TDS.Proctor.Web.presentation.taglib.GlobalJavascript;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.opentestsystem.delivery.logging.EventInfo;
-import org.opentestsystem.delivery.logging.EventLogger.EventData;
 import org.opentestsystem.delivery.logging.EventParser;
-import org.opentestsystem.delivery.logging.LoggingFilter;
 import org.opentestsystem.delivery.logging.ProctorEventLogger;
 import org.opentestsystem.shared.security.domain.SbacRole;
 import org.opentestsystem.shared.security.domain.SbacUser;
 
-import static com.google.common.base.Optional.fromNullable;
 import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.ENTER;
 import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.EXIT;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.BROWSER_ID;

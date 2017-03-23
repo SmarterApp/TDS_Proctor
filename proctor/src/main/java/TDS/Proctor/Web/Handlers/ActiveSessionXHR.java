@@ -8,15 +8,41 @@
  ******************************************************************************/
 package TDS.Proctor.Web.Handlers;
 
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
 import AIR.Common.DB.SQLConnection;
-import TDS.Proctor.Sql.Data.*;
+import AIR.Common.Helpers.Constants;
+import AIR.Common.Helpers._Ref;
+import AIR.Common.Utilities.UrlEncoderDecoderUtils;
+import TDS.Proctor.Services.ProctorAppTasks;
+import TDS.Proctor.Services.ProctorUserService;
+import TDS.Proctor.Sql.Data.Abstractions.IAppConfigService;
+import TDS.Proctor.Sql.Data.Accommodations.AccsDTO;
+import TDS.Proctor.Sql.Data.AlertMessages;
+import TDS.Proctor.Sql.Data.Districts;
+import TDS.Proctor.Sql.Data.Grades;
+import TDS.Proctor.Sql.Data.InstitutionList;
+import TDS.Proctor.Sql.Data.ProctorUser;
+import TDS.Proctor.Sql.Data.Schools;
+import TDS.Proctor.Sql.Data.SessionDTO;
+import TDS.Proctor.Sql.Data.Test;
+import TDS.Proctor.Sql.Data.TestOpportunity;
+import TDS.Proctor.Sql.Data.TestOpps;
+import TDS.Proctor.Sql.Data.TestSession;
+import TDS.Proctor.Sql.Data.Testee;
+import TDS.Proctor.Sql.Data.TesteeRequestDTO;
+import TDS.Proctor.Sql.Data.TesteeRequests;
+import TDS.Proctor.Sql.Data.Testees;
 import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestSessionDao;
+import TDS.Shared.Browser.BrowserAction;
+import TDS.Shared.Browser.BrowserInfo;
+import TDS.Shared.Browser.BrowserValidation;
+import TDS.Shared.Data.ReturnStatus;
+import TDS.Shared.Exceptions.FailedReturnStatusException;
+import TDS.Shared.Exceptions.NoDataException;
+import TDS.Shared.Exceptions.ReturnStatusException;
+import TDS.Shared.Exceptions.RuntimeReturnStatusException;
+import TDS.Shared.Exceptions.TDSSecurityException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.opentestsystem.delivery.logging.ProctorEventLogger;
 import org.slf4j.Logger;
@@ -29,26 +55,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import AIR.Common.Helpers.Constants;
-import AIR.Common.Helpers._Ref;
-import AIR.Common.Utilities.UrlEncoderDecoderUtils;
-import TDS.Proctor.Services.ProctorAppTasks;
-import TDS.Proctor.Services.ProctorUserService;
-import TDS.Proctor.Sql.Data.Abstractions.IAppConfigService;
-import TDS.Proctor.Sql.Data.Accommodations.AccsDTO;
-import TDS.Shared.Browser.BrowserAction;
-import TDS.Shared.Browser.BrowserInfo;
-import TDS.Shared.Browser.BrowserValidation;
-import TDS.Shared.Data.ReturnStatus;
-import TDS.Shared.Exceptions.FailedReturnStatusException;
-import TDS.Shared.Exceptions.NoDataException;
-import TDS.Shared.Exceptions.ReturnStatusException;
-import TDS.Shared.Exceptions.RuntimeReturnStatusException;
-import TDS.Shared.Exceptions.TDSSecurityException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import tds.dll.api.ICommonDLL;
-import tds.dll.common.performance.caching.CacheType;
 import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
+
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAM;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.STATUS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.SEGMENT;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.REQUEST_COUNT;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAMS;
 
 @Scope ("prototype")
 @Controller
@@ -266,6 +289,17 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         // get unacknowledged alert messages
         sessionDTO.setbReplaceAlertMsgs (true);
         sessionDTO.setAlertMessages (getUnAcknowledgedMessages ());
+
+        final List<Map<String, String>> examEventInfoList = new ArrayList<>();
+        for(TestOpportunity testOpportunity: sessionDTO.getApprovalOpps()) {
+          final Map<String, String> examFields = new HashMap<>(4);
+          examFields.put(EXAM.name(), testOpportunity.getOppKey().toString());
+          examFields.put(STATUS.name(), testOpportunity.getStatus().toString());
+          examFields.put(SEGMENT.name(), String.valueOf(testOpportunity.getWaitSegment()));
+          examFields.put(REQUEST_COUNT.name(), String.valueOf(testOpportunity.getRequestCount()));
+          examEventInfoList.add(examFields);
+        }
+        _eventLogger.putField(EXAMS.name(), examEventInfoList);
       }
 
       return sessionDTO;
