@@ -16,16 +16,18 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 public interface ITestOpportunityService
 {
 
-  TestOpps getCurrentSessionTestees (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException;
+  TestOpps getCurrentSessionTestees (final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException;
 
-  TestOpps getTestsForApproval (UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException;
+  TestOpps getTestsForApproval (final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException;
 
-  boolean approveOpportunity (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException;
+  boolean approveOpportunity (final UUID oppKey, final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException;
 
-  boolean approveAccommodations (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, int segment, String segmentAccs) throws ReturnStatusException;
+  boolean approveAccommodations (final UUID oppKey, final UUID sessionKey, final long proctorKey, final UUID browserKey, final int segment, final String segmentAccs) throws ReturnStatusException;
 
-  boolean denyOpportunity (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey, String reason) throws ReturnStatusException;
+  void approveAccommodations (final UUID oppKey, final UUID sessionKey, final UUID browserKey, final String segmentAccs) throws ReturnStatusException;
 
-  boolean pauseOpportunity (UUID oppKey, UUID sessionKey, long proctorKey, UUID browserKey) throws ReturnStatusException;
+  boolean denyOpportunity (final UUID oppKey, final UUID sessionKey, final long proctorKey, final UUID browserKey, final String reason) throws ReturnStatusException;
+
+  boolean pauseOpportunity (final UUID oppKey, final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException;
 
 }

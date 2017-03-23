@@ -7,11 +7,13 @@
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
-		 http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.2.xsd">
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	
 	<!-- Start : Added for SSO Integration -->
 	<beans:import resource="classpath:security/securityContext.xml"/>
@@ -46,6 +48,8 @@
 	<context:component-scan base-package="tds.dll.common.diagnostic"/>
 	<context:component-scan base-package="TDS.Proctor.diagnostic"/>
 
+	<context:component-scan base-package="TDS.Proctor.Services"/>
+
 	<!-- DLLs -->
 	<import resource="classpath:context-modules/dlls-context-module.xml"/>
 	
@@ -59,6 +63,20 @@
 	<!-- <jee:jndi-lookup id="applicationDataSource"
 		   jndi-name="${DBJndiName}"
 		   expected-type="javax.sql.DataSource" /> -->
+
+	<beans:bean factory-bean="appSettings" factory-method="updateProperties" lazy-init="false">
+		<beans:constructor-arg>
+			<util:map map-class="java.util.HashMap">
+				<beans:entry key="tds.exam.remote.enabled" value="${tds.exam.remote.enabled:false}" />
+				<beans:entry key="tds.exam.legacy.enabled" value="${tds.exam.legacy.enabled:true}" />
+				<beans:entry key="tds.session.remote.enabled" value="${tds.session.remote.enabled:false}" />
+				<beans:entry key="tds.session.legacy.enabled" value="${tds.session.legacy.enabled:true}" />
+				<beans:entry key="tds.exam.remote.url" value="${tds.exam.remote.url}" />
+				<beans:entry key="tds.assessment.remote.url" value="${tds.assessment.remote.url}" />
+				<beans:entry key="tds.session.remote.url" value="${tds.session.remote.url}" />
+			</util:map>
+		</beans:constructor-arg>
+	</beans:bean>
 
 	<beans:bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<beans:property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
@@ -85,6 +103,14 @@
 	<beans:bean id="applicationDataSource" class="com.zaxxer.hikari.HikariDataSource">
 		<beans:constructor-arg ref="hikariConfig" />
 	</beans:bean>
+
+	<beans:bean id="clientRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory"/>
+
+	<!-- a generic rest Template bean for invoking webservices can be injected into clients -->
+	<beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<beans:constructor-arg ref="clientRequestFactory"/>
+	</beans:bean>
+
 
 	<!--&lt;!&ndash;Start: c3p0 Datasource Configuration &ndash;&gt;-->
 	<!--<beans:bean id="applicationDataSource" destroy-method="close"-->
