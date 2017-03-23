@@ -32,6 +32,21 @@ import TDS.Proctor.Sql.Data.Abstractions.IProctorUserService;
 import TDS.Proctor.Web.presentation.taglib.CSSLink;
 import TDS.Proctor.Web.presentation.taglib.GlobalJavascript;
 import TDS.Shared.Exceptions.ReturnStatusException;
+import org.opentestsystem.delivery.logging.EventInfo;
+import org.opentestsystem.delivery.logging.EventLogger.EventData;
+import org.opentestsystem.delivery.logging.EventParser;
+import org.opentestsystem.delivery.logging.LoggingFilter;
+import org.opentestsystem.delivery.logging.ProctorEventLogger;
+import org.opentestsystem.shared.security.domain.SbacRole;
+import org.opentestsystem.shared.security.domain.SbacUser;
+
+import static com.google.common.base.Optional.fromNullable;
+import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.ENTER;
+import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.EXIT;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.BROWSER_ID;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.PROCTOR_ID;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.SESSION_ID;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorLogEvent.LOGIN;
 
 /**
  * @author mpatel
@@ -121,7 +136,11 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
     this._clientName = clientName;
   }
 
-  public void init() throws Exception{
+  public void init() throws Exception {
+    ProctorEventLogger _eventLogger = new ProctorEventLogger();
+    EventInfo eventInfo = EventInfo.create(LOGIN.name(), ENTER.name(), EventParser.getEventDataFields(getCurrentContext().getRequest()));
+    _eventLogger.info(eventInfo);
+
     try {
       sbacUser = (SbacUser) SecurityContextHolder.getContext ().getAuthentication ().getPrincipal ();
       IProctorUserService _proctorUserService = SpringApplicationContext.getBean ("iProctorUserService", IProctorUserService.class);
@@ -130,6 +149,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
           _proctorUserService.createUser (sbacUser.getUniqueId (),sbacUser.getEmail (), sbacUser.getFullName ());
         }
       } catch (ReturnStatusException e) {
+        _eventLogger.error(eventInfo, e);
         _logger.error (e.getMessage ()!=null?e.getMessage ():e.toString (),e);
         throw new UsernameNotFoundException(e.toString ());
       }
@@ -158,8 +178,14 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
           _selectRolePresenter.createAndUpdateProctorIsCurrent (role,proctorUser.getKey (),getClientName (),role.getEffectiveEntity ().getEntityId (),role.getRoleEntityLevel ().name ());
         }
       }
-      
+
+      _eventLogger.putField(PROCTOR_ID.name(), proctorUser.getId());
+      _eventLogger.putField(SESSION_ID.name(), proctorUser.getSessionKey());
+      _eventLogger.putField(BROWSER_ID.name(), proctorUser.getBrowserKey());
+
+      _eventLogger.info(eventInfo.withCheckpoint(EXIT.name()));
     } catch (Exception e) {
+      _eventLogger.error(eventInfo, e);
       _logger.error (e.getMessage ()==null?e.toString ():e.getMessage (),e);
       throw e;
     }
