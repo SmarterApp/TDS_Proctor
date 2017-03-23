@@ -50,13 +50,6 @@ import tds.dll.common.performance.caching.CacheType;
 import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
 
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.ASSESSMENTS;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAM;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.PROCTOR_ID;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.REASON;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.REQUEST_KEY;
-import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.SESSION_ID;
-
 @Scope ("prototype")
 @Controller
 public class ActiveSessionXHR extends HttpHandlerBase
@@ -505,8 +498,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       testeeRequestsDTO.setRequests (testeeRequests);
       testeeRequestsDTO.setBrowserAction (browserAction);
 
-      _eventLogger.putField(EXAM.name(), oppKey);
-
       return testeeRequestsDTO;
     } catch (Exception re) {
       throw re;
@@ -532,11 +523,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID requestKey = UUID.fromString (strRequestKey);
 
       _proctorAppTasks.getRequestTasks ().denyTesteeRequest (thisUser.getSessionKey (), thisUser.getKey (), thisUser.getBrowserKey (), requestKey, reason);
-
-      _eventLogger.putField(PROCTOR_ID.name(), thisUser.getId());
-      _eventLogger.putField(SESSION_ID.name(), thisUser.getSessionKey());
-      _eventLogger.putField(REQUEST_KEY.name(), requestKey);
-      _eventLogger.putField(REASON.name(), reason);
 
       return new ReturnStatus ("True", "");
     } catch (Exception re) {
@@ -568,10 +554,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID oppKey = UUID.fromString (strOppKey);
       _proctorAppTasks.getTestOppTasks ().pauseOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
 
-      _eventLogger.putField(PROCTOR_ID.name(), thisUser.getId());
-      _eventLogger.putField(SESSION_ID.name(), thisUser.getSessionKey());
-      _eventLogger.putField(EXAM.name(), oppKey);
-
       return new ReturnStatus ("SUCCESS", "SUCCESS");
     } catch (Exception re) {
       throw re;
@@ -602,10 +584,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
       UUID sessionKey = UUID.fromString (strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "ApproveOpportunity");
-
-      _eventLogger.putField(PROCTOR_ID.name(), thisUser.getId());
-      _eventLogger.putField(SESSION_ID.name(), thisUser.getSessionKey());
-      _eventLogger.putField(EXAM.name(), strOppKey);
 
       String[] accsList = null;
       if (!StringUtils.isEmpty (strAccs))
@@ -663,10 +641,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
       UUID sessionKey = UUID.fromString (strSessionKey);
       UUID oppKey = UUID.fromString (strOppKey);
-
-      _eventLogger.putField(PROCTOR_ID.name(), thisUser.getId());
-      _eventLogger.putField(SESSION_ID.name(), thisUser.getSessionKey());
-      _eventLogger.putField(EXAM.name(), oppKey);
 
       _proctorAppTasks.getTestOppTasks ().denyOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey (), strReason);
 
