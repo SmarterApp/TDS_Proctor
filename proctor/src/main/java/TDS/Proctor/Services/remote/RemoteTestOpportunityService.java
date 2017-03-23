@@ -1,6 +1,5 @@
 package TDS.Proctor.Services.remote;
 
-import TDS.Proctor.Sql.Data.Abstractions.AssessmentRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITestOpportunityService;
 import TDS.Proctor.Sql.Data.Accommodations.AccType;
@@ -26,7 +25,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import tds.accommodation.Accommodation;
 import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
@@ -43,7 +41,6 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     private final boolean isLegacyCallsEnabled;
     private final boolean isRemoteCallsEnabled;
     private final ExamRepository examRepository;
-    private final AssessmentRepository assessmentRepository;
     private final TestOpportunityExamMapDao testOpportunityExamMapDao;
 
     private static Pattern accommodationPattern = compile(Pattern.quote("|"));
@@ -54,7 +51,6 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
                                         @Value("${tds.exam.legacy.enabled}") final boolean isLegacyCallsEnabled,
                                         @Value("${tds.exam.remote.enabled}") final boolean isRemoteCallsEnabled,
                                         final ExamRepository examRepository,
-                                        final AssessmentRepository assessmentRepository,
                                         final TestOpportunityExamMapDao testOpportunityExamMapDao) {
 
         if (!isRemoteCallsEnabled && !isLegacyCallsEnabled) {
@@ -63,7 +59,6 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
 
         this.testOpportunityService = testOpportunityService;
         this.examRepository = examRepository;
-        this.assessmentRepository = assessmentRepository;
         this.testOpportunityExamMapDao = testOpportunityExamMapDao;
         this.isLegacyCallsEnabled = isLegacyCallsEnabled;
         this.isRemoteCallsEnabled = isRemoteCallsEnabled;
@@ -113,50 +108,42 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
             testOpportunity.setName(exam.getStudentName());
             testOpportunity.setCustAccs(exam.isCustomAccommodations());
 
-            final List<Accommodation> assessmentAccommodations = assessmentRepository.findAccommodations(exam.getClientName(), exam.getAssessmentKey());
             final List<ExamAccommodation> examAccommodations = examRepository.findAllAccommodations(exam.getId());
 
-            final Map<String, ExamAccommodation> examAccommodationsMap = new HashMap<>();
-            for (final ExamAccommodation examAccommodation : examAccommodations) {
-                examAccommodationsMap.put(examAccommodation.getCode(), examAccommodation);
-            }
 
             final AccTypes accTypes = new AccTypes();
-            for (final Accommodation assessmentAccommodation : assessmentAccommodations) {
-                String code = assessmentAccommodation.getCode();
-                if (examAccommodationsMap.containsKey(code)) {
-                    ExamAccommodation examAccommodation = examAccommodationsMap.get(code);
-                    if (examAccommodation.getType().equals(assessmentAccommodation.getType())) {
-                        final List<AccValue> values;
-                        final String accTypeKey = assessmentAccommodation.getType();
-                        AccType accType = accTypes.get(accTypeKey);
-                        // accValues are grouped by accTypeKey and added to accType
-                        if (accType == null) {
-                            accType = new AccType(accTypeKey);
-                            values = new ArrayList<>();
-                            accType.setSelectable(assessmentAccommodation.isSelectable());
-                            accType.setAllowChange(assessmentAccommodation.isAllowChange());
-                            accType.setVisible(assessmentAccommodation.isVisible());
-                            accType.setSortOrder(assessmentAccommodation.getToolTypeSortOrder());
-                            accType.setDependOnType(assessmentAccommodation.getDependsOnToolType());
-                        } else {
-                            values = accType.getValues();
-                        }
-                        final AccValue accValue = new AccValue(assessmentAccommodation.getValue(),
-                            assessmentAccommodation.getCode(), true);
-
-                        values.add(accValue);
-                        accType.setValues(values);
-
-                        accTypes.put(assessmentAccommodation.getType(), accType);
+            for (final ExamAccommodation examAccommodation : examAccommodations) {
+                if (examAccommodation.getType().equals(examAccommodation.getType())) {
+                    final List<AccValue> values;
+                    final String accTypeKey = examAccommodation.getType();
+                    AccType accType = accTypes.get(accTypeKey);
+                    // accValues are grouped by accTypeKey and added to accType
+                    if (accType == null) {
+                        accType = new AccType(accTypeKey);
+                        values = new ArrayList<>();
+                        accType.setSelectable(examAccommodation.isSelectable());
+                        accType.setAllowChange(examAccommodation.isAllowChange());
+                        accType.setVisible(examAccommodation.isVisible());
+                        accType.setSortOrder(examAccommodation.getSortOrder());
+                        accType.setDependOnType(examAccommodation.getDependsOn());
+                    } else {
+                        values = accType.getValues();
                     }
+                    final AccValue accValue = new AccValue(examAccommodation.getValue(),
+                        examAccommodation.getCode(), true);
+
+                    values.add(accValue);
+                    accType.setValues(values);
+                    accTypes.put(examAccommodation.getType(), accType);
                 }
             }
+
             testOpportunity.setAccTypesList(Arrays.asList(accTypes));
             testOpps.add(testOpportunity);
         }
+
         return testOpps;
-    }
+}
 
     @Override
     public boolean approveOpportunity(final UUID examId, final UUID sessionId, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
