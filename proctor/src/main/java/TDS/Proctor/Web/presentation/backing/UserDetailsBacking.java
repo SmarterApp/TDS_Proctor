@@ -14,6 +14,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.opentestsystem.delivery.logging.EventInfo;
+import org.opentestsystem.delivery.logging.EventParser;
+import org.opentestsystem.delivery.logging.ProctorEventLogger;
 import org.opentestsystem.shared.security.domain.SbacPermission;
 import org.opentestsystem.shared.security.domain.SbacRole;
 import org.opentestsystem.shared.security.domain.SbacUser;
@@ -32,11 +35,6 @@ import TDS.Proctor.Sql.Data.Abstractions.IProctorUserService;
 import TDS.Proctor.Web.presentation.taglib.CSSLink;
 import TDS.Proctor.Web.presentation.taglib.GlobalJavascript;
 import TDS.Shared.Exceptions.ReturnStatusException;
-import org.opentestsystem.delivery.logging.EventInfo;
-import org.opentestsystem.delivery.logging.EventParser;
-import org.opentestsystem.delivery.logging.ProctorEventLogger;
-import org.opentestsystem.shared.security.domain.SbacRole;
-import org.opentestsystem.shared.security.domain.SbacUser;
 
 import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.ENTER;
 import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.EXIT;

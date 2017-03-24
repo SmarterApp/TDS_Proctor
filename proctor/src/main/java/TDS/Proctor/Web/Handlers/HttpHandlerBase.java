@@ -8,6 +8,19 @@
  ******************************************************************************/
 package TDS.Proctor.Web.Handlers;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.opentestsystem.delivery.logging.LoggingExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import AIR.Common.Configuration.AppSettingsHelper;
 import AIR.Common.Web.Session.HttpContext;
 import TDS.Proctor.Services.ProctorUserService;
@@ -19,18 +32,6 @@ import TDS.Shared.Exceptions.NoDataException;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.TDSSecurityException;
 import TDS.Shared.Web.UserCookie;
-import org.opentestsystem.delivery.logging.LoggingExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 // / <summary>
 // / Base class for any TDS HTTP handler services
