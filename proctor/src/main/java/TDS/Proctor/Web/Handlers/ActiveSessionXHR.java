@@ -436,13 +436,11 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       String[] aryTestKeys = StringUtils.split (testKeys, '|');
       String[] aryTestIDs = StringUtils.split (testIDs, '|');
       UUID sessionKey = testSession.getKey ();
-
-
-
       int len = aryTestKeys.length;
       for (int i = 0; i < len; i++) {
         _proctorAppTasks.getTestSessionTasks ().insertSessionTest (testSession.getKey (), thisUser.getKey (), thisUser.getBrowserKey (), aryTestKeys[i], aryTestIDs[i]);
       }
+
       sessionDTO.setSessionTests (_proctorAppTasks.getTestSessionTasks ().getSessionTests (sessionKey, thisUser.getKey (), thisUser.getBrowserKey ()));
       sessionDTO.setbReplaceSessionTests (true);
       return sessionDTO;
@@ -517,7 +515,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       TesteeRequestDTO testeeRequestsDTO = new TesteeRequestDTO ();
       testeeRequestsDTO.setRequests (testeeRequests);
       testeeRequestsDTO.setBrowserAction (browserAction);
-
       return testeeRequestsDTO;
     } catch (Exception re) {
       throw re;
@@ -543,7 +540,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID requestKey = UUID.fromString (strRequestKey);
 
       _proctorAppTasks.getRequestTasks ().denyTesteeRequest (thisUser.getSessionKey (), thisUser.getKey (), thisUser.getBrowserKey (), requestKey, reason);
-
       return new ReturnStatus ("True", "");
     } catch (Exception re) {
       throw re;
@@ -573,7 +569,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID sessionKey = UUID.fromString (strSessionKey);
       UUID oppKey = UUID.fromString (strOppKey);
       _proctorAppTasks.getTestOppTasks ().pauseOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
-
       return new ReturnStatus ("SUCCESS", "SUCCESS");
     } catch (Exception re) {
       throw re;
@@ -629,7 +624,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       }
       // step 2: approve opp
       _proctorAppTasks.getTestOppTasks ().approveOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());
-
       return new ReturnStatus ("", "Success");
     } catch (Exception re) {
       // TODO Shiva
