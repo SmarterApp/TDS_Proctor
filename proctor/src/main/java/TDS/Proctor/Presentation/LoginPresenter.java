@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.ENTER;
+import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.EXIT;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.BROWSER_ID;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.PROCTOR_ID;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.SESSION_ID;
@@ -223,6 +224,8 @@ public class LoginPresenter extends PresenterBase
       if (thisUser != null && thisUser.getBrowserKey ().compareTo (Constants.UUIDEmpty) != 0)
         _proctorUserService.logout (thisUser.getKey (), thisUser.getBrowserKey ());
       clearOutProctorCookieInformationOrRemove (true);
+
+      _eventLogger.info(eventInfo.withCheckpoint(EXIT.name()));
       return true;
     } catch (Exception ex) {
       _eventLogger.error(eventInfo, ex);
