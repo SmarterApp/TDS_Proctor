@@ -53,6 +53,7 @@ import tds.dll.common.performance.caching.CacheType;
 import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
 
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.ASSESSMENTS;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAM;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAMS;
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.REQUEST_COUNT;
@@ -435,6 +436,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       }
       String[] aryTestKeys = StringUtils.split (testKeys, '|');
       String[] aryTestIDs = StringUtils.split (testIDs, '|');
+
+      _eventLogger.putField(ASSESSMENTS.name(), aryTestIDs);
+
       UUID sessionKey = testSession.getKey ();
       int len = aryTestKeys.length;
       for (int i = 0; i < len; i++) {
