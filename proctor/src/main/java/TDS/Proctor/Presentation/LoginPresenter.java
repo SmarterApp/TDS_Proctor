@@ -209,8 +209,8 @@ public class LoginPresenter extends PresenterBase
   }
 
   public boolean doLogout () {
-    ProctorEventLogger _eventLogger = new ProctorEventLogger();
-    EventInfo eventInfo = EventInfo.create(LOGOUT.name(), ENTER.name(), EventParser.getEventDataFields(getHttpCurrentContext().getRequest()));
+    final ProctorEventLogger _eventLogger = new ProctorEventLogger();
+    final EventInfo eventInfo = EventInfo.create(LOGOUT.name(), ENTER.name(), EventParser.getEventDataFields(getHttpCurrentContext().getRequest()));
     try {
 
       ProctorUser thisUser = getThisUser ();

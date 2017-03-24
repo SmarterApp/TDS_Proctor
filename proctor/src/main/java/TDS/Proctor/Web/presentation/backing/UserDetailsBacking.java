@@ -132,8 +132,8 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
   }
 
   public void init() throws Exception {
-    ProctorEventLogger _eventLogger = new ProctorEventLogger();
-    EventInfo eventInfo = EventInfo.create(LOGIN.name(), ENTER.name(), EventParser.getEventDataFields(getCurrentContext().getRequest()));
+    final ProctorEventLogger _eventLogger = new ProctorEventLogger();
+    final EventInfo eventInfo = EventInfo.create(LOGIN.name(), ENTER.name(), EventParser.getEventDataFields(getCurrentContext().getRequest()));
     _eventLogger.info(eventInfo);
 
     try {
