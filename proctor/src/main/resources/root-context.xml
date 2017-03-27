@@ -112,7 +112,6 @@
 		<beans:constructor-arg ref="clientRequestFactory"/>
 	</beans:bean>
 
-	<beans:bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 	<beans:bean id="eventParser" class="org.opentestsystem.delivery.logging.ProctorEventParserFactory" />
 
 
