@@ -49,6 +49,7 @@
 	<context:component-scan base-package="TDS.Proctor.diagnostic"/>
 
 	<context:component-scan base-package="TDS.Proctor.Services"/>
+	<context:component-scan base-package="org.opentestsystem.delivery.logging"/>
 
 	<!-- DLLs -->
 	<import resource="classpath:context-modules/dlls-context-module.xml"/>
@@ -110,6 +111,8 @@
 	<beans:bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<beans:constructor-arg ref="clientRequestFactory"/>
 	</beans:bean>
+
+	<beans:bean id="eventParser" class="org.opentestsystem.delivery.logging.ProctorEventParserFactory" />
 
 
 	<!--&lt;!&ndash;Start: c3p0 Datasource Configuration &ndash;&gt;-->

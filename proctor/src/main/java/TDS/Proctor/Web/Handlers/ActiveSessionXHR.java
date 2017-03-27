@@ -9,8 +9,11 @@
 package TDS.Proctor.Web.Handlers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import AIR.Common.DB.SQLConnection;
@@ -18,6 +21,7 @@ import TDS.Proctor.Sql.Data.*;
 import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestSessionDao;
 import org.apache.commons.lang3.StringUtils;
+import org.opentestsystem.delivery.logging.ProctorEventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +53,13 @@ import tds.dll.common.performance.caching.CacheType;
 import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
 
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.ASSESSMENTS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAM;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAMS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.REQUEST_COUNT;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.SEGMENT;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.STATUS;
+
 @Scope ("prototype")
 @Controller
 public class ActiveSessionXHR extends HttpHandlerBase
@@ -68,6 +79,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
   @Autowired
   private ICommonDLL _commonDll;
+
+  @Autowired
+  private ProctorEventLogger _eventLogger;
 
   @Autowired
   private CachingService _cachingService;
@@ -262,6 +276,17 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         // get unacknowledged alert messages
         sessionDTO.setbReplaceAlertMsgs (true);
         sessionDTO.setAlertMessages (getUnAcknowledgedMessages ());
+
+        final List<Map<String, String>> examEventInfoList = new ArrayList<>();
+        for(TestOpportunity testOpportunity: sessionDTO.getApprovalOpps()) {
+          final Map<String, String> examFields = new HashMap<>(4);
+          examFields.put(EXAM.name(), testOpportunity.getOppKey().toString());
+          examFields.put(STATUS.name(), testOpportunity.getStatus().toString());
+          examFields.put(SEGMENT.name(), String.valueOf(testOpportunity.getWaitSegment()));
+          examFields.put(REQUEST_COUNT.name(), String.valueOf(testOpportunity.getRequestCount()));
+          examEventInfoList.add(examFields);
+        }
+        _eventLogger.putField(EXAMS.name(), examEventInfoList);
       }
 
       return sessionDTO;
@@ -411,6 +436,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       }
       String[] aryTestKeys = StringUtils.split (testKeys, '|');
       String[] aryTestIDs = StringUtils.split (testIDs, '|');
+
+      _eventLogger.putField(ASSESSMENTS.name(), aryTestIDs);
+
       UUID sessionKey = testSession.getKey ();
       int len = aryTestKeys.length;
       for (int i = 0; i < len; i++) {
