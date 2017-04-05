@@ -33,6 +33,7 @@ import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
 import tds.exam.ExamStatusCode;
 import tds.exam.ExpandableExam;
+import tds.exam.ExpandableExamAttributes;
 
 @Repository
 public class RemoteExamRepository implements ExamRepository {
@@ -160,9 +161,9 @@ public class RemoteExamRepository implements ExamRepository {
             .queryParam("statusNot", ExamStatusCode.STATUS_SUSPENDED)
             .queryParam("statusNot", ExamStatusCode.STATUS_DENIED)
             .queryParam("statusNot", ExamStatusCode.STATUS_PENDING)
-            .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_EXAM_ACCOMMODATIONS)
-            .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_ITEM_RESPONSE_COUNT)
-            .queryParam("embed", ExpandableExam.EXPANDABLE_PARAMS_UNFULFILLED_REQUEST_COUNT);
+            .queryParam("expandableAttribute", ExpandableExamAttributes.EXAM_ACCOMMODATIONS)
+            .queryParam("expandableAttribute", ExpandableExamAttributes.ITEM_RESPONSE_COUNT)
+            .queryParam("expandableAttribute", ExpandableExamAttributes.UNFULFILLED_REQUEST_COUNT);
 
         try {
             ResponseEntity<List<ExpandableExam>> response = restTemplate.exchange(

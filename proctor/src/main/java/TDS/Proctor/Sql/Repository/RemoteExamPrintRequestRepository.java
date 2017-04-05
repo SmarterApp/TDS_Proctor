@@ -84,7 +84,7 @@ public class RemoteExamPrintRequestRepository implements ExamPrintRequestReposit
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/print/approve/%s", examUrl, requestId))
-            .queryParam("embed", ExpandableExamPrintRequest.EXPANDABLE_PARAMS_PRINT_REQUEST_WITH_EXAM);
+            .queryParam("expandableAttribute", ExpandableExamPrintRequest.EXPANDABLE_PARAMS_PRINT_REQUEST_WITH_EXAM);
         ExpandableExamPrintRequest examPrintRequestResponseEntity;
 
         try {
