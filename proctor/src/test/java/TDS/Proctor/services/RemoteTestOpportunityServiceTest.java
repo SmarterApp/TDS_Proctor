@@ -110,9 +110,12 @@ public class RemoteTestOpportunityServiceTest {
         UUID sessionId = UUID.randomUUID();
         Long proctorKey = 99L;
         UUID browserKey = UUID.randomUUID();
+        UUID legacyOpportunityId = UUID.randomUUID();
+
+        when(mockTestOpportunityExamMapDao.getTestOpportunityId(examId)).thenReturn(legacyOpportunityId);
 
         service.approveOpportunity(examId, sessionId, proctorKey, browserKey);
-        verify(legacyTestOpportunityService).approveOpportunity(examId, sessionId, proctorKey, browserKey);
+        verify(legacyTestOpportunityService).approveOpportunity(legacyOpportunityId, sessionId, proctorKey, browserKey);
         verify(mockExamRepository).updateStatus(examId, STATUS_APPROVED, IN_USE.getType(), null);
     }
 
@@ -122,10 +125,13 @@ public class RemoteTestOpportunityServiceTest {
         UUID sessionId = UUID.randomUUID();
         Long proctorKey = 99L;
         UUID browserKey = UUID.randomUUID();
+        UUID legacyOpportunityId = UUID.randomUUID();
         String reason = "some reason";
 
+        when(mockTestOpportunityExamMapDao.getTestOpportunityId(examId)).thenReturn(legacyOpportunityId);
+
         service.denyOpportunity(examId, sessionId, proctorKey, browserKey, reason);
-        verify(legacyTestOpportunityService).denyOpportunity(examId, sessionId, proctorKey, browserKey, reason);
+        verify(legacyTestOpportunityService).denyOpportunity(legacyOpportunityId, sessionId, proctorKey, browserKey, reason);
         verify(mockExamRepository).updateStatus(examId, STATUS_DENIED, IN_USE.getType(), reason);
     }
 
@@ -135,12 +141,15 @@ public class RemoteTestOpportunityServiceTest {
         UUID sessionId = UUID.randomUUID();
         Long proctorKey = 99L;
         UUID browserKey = UUID.randomUUID();
+        UUID legacyOpportunityId = UUID.randomUUID();
         String accs = "acc1;acc2";
+
+        when(mockTestOpportunityExamMapDao.getTestOpportunityId(examId)).thenReturn(legacyOpportunityId);
 
         service.approveAccommodations(examId, sessionId, proctorKey, browserKey, 0, accs);
         service.approveAccommodations(examId, sessionId, browserKey, accs);
 
-        verify(legacyTestOpportunityService).approveAccommodations(examId, sessionId, proctorKey, browserKey, 0, accs);
+        verify(legacyTestOpportunityService).approveAccommodations(legacyOpportunityId, sessionId, proctorKey, browserKey, 0, accs);
         verify(mockExamRepository).approveAccommodations(isA(UUID.class), isA(ApproveAccommodationsRequest.class));
     }
 
