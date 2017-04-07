@@ -82,15 +82,15 @@ public class RemoteExamPrintRequestRepositoryTest {
         ExamPrintRequest request = new ExamPrintRequest.Builder(UUID.randomUUID()).build();
         ExpandableExamPrintRequest expandableRequest = new ExpandableExamPrintRequest.Builder(request).build();
 
-        when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
+        when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), eq(ExpandableExamPrintRequest.class)))
             .thenReturn(new ResponseEntity(expandableRequest, HttpStatus.OK));
         assertThat(repository.findRequestAndApprove(UUID.randomUUID())).isEqualTo(expandableRequest);
-        verify(mockRestTemplate).exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class));
+        verify(mockRestTemplate).exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), eq(ExpandableExamPrintRequest.class));
     }
 
     @Test(expected = ReturnStatusException.class)
     public void shouldThrowReturnStatusExceptionForRestClientUnhaldnedExceptionFindAndApproveRequests() throws Exception {
-        when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), isA(ParameterizedTypeReference.class)))
+        when(mockRestTemplate.exchange(isA(URI.class), isA(HttpMethod.class), isA(HttpEntity.class), eq(ExpandableExamPrintRequest.class)))
             .thenThrow(new RestClientException("Fail"));
         repository.findRequestAndApprove(UUID.randomUUID());
     }

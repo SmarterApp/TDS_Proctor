@@ -89,12 +89,11 @@ public class RemoteExamPrintRequestRepository implements ExamPrintRequestReposit
         ExpandableExamPrintRequest examPrintRequestResponseEntity;
 
         try {
-            final ResponseEntity<ExpandableExamPrintRequest> result = restTemplate.exchange(
+            examPrintRequestResponseEntity = restTemplate.exchange(
                 builder.build().toUri(),
                 HttpMethod.PUT,
                 requestHttpEntity,
-                ExpandableExamPrintRequest.class);
-            examPrintRequestResponseEntity = result.getBody();
+                ExpandableExamPrintRequest.class).getBody();
         } catch (RestClientException rce) {
             throw new ReturnStatusException(rce);
         }
