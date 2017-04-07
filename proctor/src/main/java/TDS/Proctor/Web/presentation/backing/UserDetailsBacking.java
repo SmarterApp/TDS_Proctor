@@ -8,16 +8,19 @@
  ******************************************************************************/
 package TDS.Proctor.Web.presentation.backing;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
-
+import AIR.Common.Utilities.SpringApplicationContext;
+import AIR.Common.Web.CookieHelper;
+import TDS.Proctor.Presentation.IPresenterBase;
+import TDS.Proctor.Presentation.PresenterBase;
+import TDS.Proctor.Presentation.SelectRolePresenter;
+import TDS.Proctor.Sql.Data.Abstractions.IProctorUserService;
+import TDS.Proctor.Sql.Data.ProctorUser;
+import TDS.Proctor.Web.presentation.taglib.CSSLink;
+import TDS.Proctor.Web.presentation.taglib.GlobalJavascript;
+import TDS.Shared.Exceptions.ReturnStatusException;
 import org.opentestsystem.delivery.logging.EventInfo;
 import org.opentestsystem.delivery.logging.EventParser;
 import org.opentestsystem.delivery.logging.ProctorEventLogger;
-import org.opentestsystem.shared.security.domain.SbacPermission;
 import org.opentestsystem.shared.security.domain.SbacRole;
 import org.opentestsystem.shared.security.domain.SbacUser;
 import org.slf4j.Logger;
@@ -25,16 +28,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import AIR.Common.Utilities.SpringApplicationContext;
-import AIR.Common.Web.CookieHelper;
-import TDS.Proctor.Presentation.IPresenterBase;
-import TDS.Proctor.Presentation.PresenterBase;
-import TDS.Proctor.Presentation.SelectRolePresenter;
-import TDS.Proctor.Sql.Data.ProctorUser;
-import TDS.Proctor.Sql.Data.Abstractions.IProctorUserService;
-import TDS.Proctor.Web.presentation.taglib.CSSLink;
-import TDS.Proctor.Web.presentation.taglib.GlobalJavascript;
-import TDS.Shared.Exceptions.ReturnStatusException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.ENTER;
 import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.EXIT;
@@ -133,7 +131,11 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
 
   public void init() throws Exception {
     final ProctorEventLogger _eventLogger = new ProctorEventLogger();
-    final EventInfo eventInfo = EventInfo.create(LOGIN.name(), ENTER.name(), EventParser.getEventDataFields(getCurrentContext().getRequest()));
+    final EventInfo eventInfo = EventInfo.builder()
+        .event(LOGIN.name())
+        .checkpoint(ENTER.name())
+        .data(EventParser.getEventDataFields(getCurrentContext().getRequest()))
+        .build();
     _eventLogger.info(eventInfo);
 
     try {
