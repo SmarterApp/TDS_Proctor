@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.opentestsystem.shared.test.LifecycleManagingTestRunner;
@@ -38,6 +39,7 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 @RunWith (LifecycleManagingTestRunner.class)
 @ContextConfiguration ("classpath:test-context-staged-data.xml")
 @ActiveProfiles("rts")
+@Ignore("Requires external resources")
 public class TestSessionRepositoryTest
 {
   @Autowired

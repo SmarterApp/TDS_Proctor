@@ -11,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -84,7 +85,7 @@ public class RemoteExamPrintRequestRepository implements ExamPrintRequestReposit
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/print/approve/%s", examUrl, requestId))
-            .queryParam("expandableAttribute", ExpandableExamPrintRequest.EXPANDABLE_PARAMS_PRINT_REQUEST_WITH_EXAM);
+            .queryParam("expandableProperties", ExpandableExamPrintRequest.EXPANDABLE_PARAMS_PRINT_REQUEST_WITH_EXAM);
         ExpandableExamPrintRequest examPrintRequestResponseEntity;
 
         try {
@@ -92,8 +93,7 @@ public class RemoteExamPrintRequestRepository implements ExamPrintRequestReposit
                 builder.build().toUri(),
                 HttpMethod.PUT,
                 requestHttpEntity,
-                new ParameterizedTypeReference<ExpandableExamPrintRequest>() {
-                }).getBody();
+                ExpandableExamPrintRequest.class).getBody();
         } catch (RestClientException rce) {
             throw new ReturnStatusException(rce);
         }

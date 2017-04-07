@@ -15,7 +15,7 @@ public class EmbossFileService {
     // 10 = new line
     // 12 = form feed (new page)
     private static final char[] PAGE_BREAK_CHARS = {(char)13, (char)10, (char)12};
-    private static byte[] PAGE_BREAK_BYTES = null;
+    static byte[] PAGE_BREAK_BYTES = null;
 
     public EmbossFileService() {
         String pageBreak = new String(PAGE_BREAK_CHARS);

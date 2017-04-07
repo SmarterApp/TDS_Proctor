@@ -4,6 +4,8 @@ import TDS.Proctor.Services.EmbossFileService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -65,8 +67,8 @@ public class EmbossFileServiceTest {
     public void shouldCombineBrfFilesWithLineBreaks() throws IOException {
         byte[] contents = embossFileService.combineFiles(new String[] { sample1FilePath, sample2FilePath });
 
-        // file sizes plus the 4 characters for the line breaks added in between
-        int combinedSize = Files.readAllBytes(Paths.get(sample1FilePath)).length + Files.readAllBytes(Paths.get(sample2FilePath)).length + 4;
+        // file sizes plus the 3 characters for the EmbossFileService.PAGE_BREAK_BYTES added in between
+        int combinedSize = Files.readAllBytes(Paths.get(sample1FilePath)).length + Files.readAllBytes(Paths.get(sample2FilePath)).length + 3;
 
         assertTrue(contents.length == combinedSize);
     }
