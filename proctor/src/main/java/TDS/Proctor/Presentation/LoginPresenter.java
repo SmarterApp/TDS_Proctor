@@ -26,13 +26,11 @@ import TDS.Shared.Security.IEncryption;
 import TDS.Shared.Web.UserCookie;
 import org.apache.commons.lang3.StringUtils;
 import org.opentestsystem.delivery.logging.EventInfo;
-import org.opentestsystem.delivery.logging.EventLogger;
 import org.opentestsystem.delivery.logging.EventParser;
 import org.opentestsystem.delivery.logging.ProctorEventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 import static org.opentestsystem.delivery.logging.EventLogger.Checkpoint.ENTER;
@@ -211,7 +209,11 @@ public class LoginPresenter extends PresenterBase
 
   public boolean doLogout () {
     final ProctorEventLogger _eventLogger = new ProctorEventLogger();
-    final EventInfo eventInfo = EventInfo.create(LOGOUT.name(), ENTER.name(), EventParser.getEventDataFields(getHttpCurrentContext().getRequest()));
+    final EventInfo eventInfo = EventInfo.builder()
+        .event(LOGOUT.name())
+        .checkpoint(ENTER.name())
+        .data(EventParser.getEventDataFields(getHttpCurrentContext().getRequest()))
+        .build();
     _eventLogger.info(eventInfo);
     try {
 
