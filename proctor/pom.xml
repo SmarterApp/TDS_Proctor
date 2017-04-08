@@ -72,6 +72,10 @@
 			<artifactId>shared-json</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>shared-spring</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-api</artifactId>
 			<version>${tds-dll.version}</version>
