@@ -32,6 +32,8 @@ import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
 import tds.exam.ExamStatusCode;
+import tds.exam.ExamStatusRequest;
+import tds.exam.ExamStatusStage;
 import tds.exam.ExpandableExam;
 import tds.exam.ExpandableExamAttributes;
 
@@ -118,12 +120,10 @@ public class RemoteExamRepository implements ExamRepository {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
+        ExamStatusRequest request = new ExamStatusRequest(new ExamStatusCode(status, ExamStatusStage.fromType(stage)), reason);
+        HttpEntity<?> requestHttpEntity = new HttpEntity<>(request, headers);
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/%s/status", examUrl, examId))
-            .queryParam("status", status)
-            .queryParam("stage", stage)
-            .queryParam("reason", reason);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(String.format("%s/%s/status", examUrl, examId));
 
         try {
             restTemplate.exchange(
