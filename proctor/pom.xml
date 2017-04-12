@@ -21,7 +21,7 @@
 		<sb11-shared-code.version>3.0.3</sb11-shared-code.version>
 		<sb11-shared-security.version>3.0.0</sb11-shared-security.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
-		<tds-exam-client.version>0.0.9</tds-exam-client.version>
+		<tds-exam-client.version>0.0.10</tds-exam-client.version>
 		<tds-assessment-client.version>0.0.8</tds-assessment-client.version>
 		<tds-session-client.version>0.0.3</tds-session-client.version>
 		<jackson.version>2.8.5</jackson.version>
