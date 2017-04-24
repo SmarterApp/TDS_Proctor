@@ -43,6 +43,7 @@
 	
 	<context:annotation-config />
 
+	<context:component-scan base-package="TDS.Proctor.configuration"/>
 	<context:component-scan base-package="tds.dll.common.performance"/>
 	<context:component-scan base-package="TDS.Proctor.performance"/>
 	<context:component-scan base-package="tds.dll.common.diagnostic"/>
