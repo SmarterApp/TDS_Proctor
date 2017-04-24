@@ -358,7 +358,7 @@
                             Modify as required. -->
                         <resource>
                             <targetPath>/</targetPath>
-                            <directory>/opt/sbtds/deploy/resources</directory>
+                            <directory>/opt/sbtds/awsqa/resources</directory>
                             <include>security/**/*</include>
                         </resource>
                     </resources>
