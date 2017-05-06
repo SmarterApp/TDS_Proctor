@@ -193,6 +193,18 @@ public class RemoteExamRepository implements ExamRepository {
         }
     }
 
+    @Override
+    public void pauseExam(final UUID examId) throws ReturnStatusException {
+        UriComponents uriComponents = UriComponentsBuilder.fromUriString("{examUrl}/{examId}/pause/")
+            .buildAndExpand(examUrl, examId);
+
+        try {
+            restTemplate.put(uriComponents.encode().toUri(), null);
+        } catch (RestClientException rce) {
+            throw new ReturnStatusException(rce);
+        }
+    }
+
     /**
      * Determine if a {@link org.springframework.http.HttpStatus} belongs to the
      * {@link org.springframework.http.HttpStatus.Series} {@code CLIENT_ERROR} series.

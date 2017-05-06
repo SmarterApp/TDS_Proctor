@@ -71,4 +71,13 @@ public interface ExamRepository {
      * @throws ReturnStatusException in the event the call failed
      */
     void pauseAllExamsInSession(final UUID sessionId) throws ReturnStatusException;
+
+    /**
+     * Pauses a single exam after validating the proctor session
+     *
+     * @param examId the id of the exam to pause
+     * @return
+     * @throws ReturnStatusException
+     */
+    void pauseExam(final UUID examId) throws ReturnStatusException;
 }

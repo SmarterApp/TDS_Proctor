@@ -8,6 +8,7 @@ import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
 import TDS.Proctor.Sql.Data.Accommodations.AccValue;
 import TDS.Proctor.Sql.Data.TestOpportunity;
 import TDS.Proctor.Sql.Data.TestOpps;
+import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.apache.commons.lang.StringUtils;
@@ -45,6 +46,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     private final ExamRepository examRepository;
     private final AssessmentRepository assessmentRepository;
     private final TestOpportunityExamMapDao testOpportunityExamMapDao;
+    private final ProctorUserDao proctorUserDao;
 
     private static Pattern accommodationPattern = compile(Pattern.quote("|"));
     private static Pattern segmentPattern = compile(";");
@@ -55,7 +57,8 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
                                         @Value("${tds.exam.remote.enabled}") final boolean isRemoteCallsEnabled,
                                         final ExamRepository examRepository,
                                         final AssessmentRepository assessmentRepository,
-                                        final TestOpportunityExamMapDao testOpportunityExamMapDao) {
+                                        final TestOpportunityExamMapDao testOpportunityExamMapDao,
+                                        final ProctorUserDao proctorUserDao) {
 
         if (!isRemoteCallsEnabled && !isLegacyCallsEnabled) {
             throw new IllegalStateException("Remote and legacy calls are both disabled.  Please check progman configuration");
@@ -65,6 +68,7 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
         this.examRepository = examRepository;
         this.assessmentRepository = assessmentRepository;
         this.testOpportunityExamMapDao = testOpportunityExamMapDao;
+        this.proctorUserDao = proctorUserDao;
         this.isLegacyCallsEnabled = isLegacyCallsEnabled;
         this.isRemoteCallsEnabled = isRemoteCallsEnabled;
     }
@@ -222,8 +226,16 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
     }
 
     @Override
-    public boolean pauseOpportunity(final UUID oppKey, final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
-        return testOpportunityService.pauseOpportunity(oppKey, sessionKey, proctorKey, browserKey);
+    public boolean pauseOpportunity(final UUID examId, final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
+        final String validationError = proctorUserDao.validateProctorSession(proctorKey, sessionKey, browserKey);
+
+        if (validationError != null) {
+            throw new ReturnStatusException(validationError);
+        }
+
+        examRepository.pauseExam(examId);
+
+        return true;
     }
 
     private static Map<Integer, Set<String>> parseAccommodations(final String accommodationsString) {
