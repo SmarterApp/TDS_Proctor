@@ -227,6 +227,17 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
 
     @Override
     public boolean pauseOpportunity(final UUID examId, final UUID sessionKey, final long proctorKey, final UUID browserKey) throws ReturnStatusException {
+        boolean successful = false;
+
+        if (isLegacyCallsEnabled) {
+            final UUID opportunityId = testOpportunityExamMapDao.getTestOpportunityId(examId);
+            successful = testOpportunityService.pauseOpportunity(opportunityId, sessionKey, proctorKey, browserKey);
+        }
+
+        if (!isRemoteCallsEnabled) {
+            return successful;
+        }
+
         final String validationError = proctorUserDao.validateProctorSession(proctorKey, sessionKey, browserKey);
 
         if (validationError != null) {
