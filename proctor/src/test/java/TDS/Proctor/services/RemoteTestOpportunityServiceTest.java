@@ -6,6 +6,7 @@ import TDS.Proctor.Sql.Data.Abstractions.ExamRepository;
 import TDS.Proctor.Sql.Data.Abstractions.ITestOpportunityService;
 import TDS.Proctor.Sql.Data.TestOpportunity;
 import TDS.Proctor.Sql.Data.TestOpps;
+import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.joda.time.DateTime;
@@ -28,6 +29,7 @@ import tds.exam.ExpandableExam;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static tds.exam.ExamStatusCode.STATUS_APPROVED;
@@ -50,9 +52,13 @@ public class RemoteTestOpportunityServiceTest {
     @Mock
     private TestOpportunityExamMapDao mockTestOpportunityExamMapDao;
 
+    @Mock
+    private ProctorUserDao mockProctorUserDao;
+
     @Before
     public void setup() {
-        service = new RemoteTestOpportunityService(legacyTestOpportunityService, true, true, mockExamRepository, mockAssessmentRepository, mockTestOpportunityExamMapDao);
+        service = new RemoteTestOpportunityService(legacyTestOpportunityService, true, true,
+            mockExamRepository, mockAssessmentRepository, mockTestOpportunityExamMapDao, mockProctorUserDao);
     }
 
     @After
@@ -133,6 +139,34 @@ public class RemoteTestOpportunityServiceTest {
         service.denyOpportunity(examId, sessionId, proctorKey, browserKey, reason);
         verify(legacyTestOpportunityService).denyOpportunity(legacyOpportunityId, sessionId, proctorKey, browserKey, reason);
         verify(mockExamRepository).updateStatus(examId, STATUS_DENIED, IN_USE.getType(), reason);
+    }
+
+    @Test
+    public void shouldPauseSingleExam() throws ReturnStatusException {
+        final UUID examId = UUID.randomUUID();
+        final UUID sessionId = UUID.randomUUID();
+        final long proctorId = 1234;
+        final UUID browserKey = UUID.randomUUID();
+
+        when(mockProctorUserDao.validateProctorSession(proctorId, sessionId, browserKey)).thenReturn(null);
+        boolean successful = service.pauseOpportunity(examId, sessionId, proctorId, browserKey);
+        verify(mockProctorUserDao).validateProctorSession(proctorId, sessionId, browserKey);
+        verify(mockExamRepository).pauseExam(examId);
+        assertThat(successful).isTrue();
+    }
+
+    @Test(expected = ReturnStatusException.class)
+    public void shouldFailToPauseSingleExam() throws ReturnStatusException {
+        final UUID examId = UUID.randomUUID();
+        final UUID sessionId = UUID.randomUUID();
+        final long proctorId = 1234;
+        final UUID browserKey = UUID.randomUUID();
+
+        when(mockProctorUserDao.validateProctorSession(proctorId, sessionId, browserKey)).thenReturn("An error");
+        boolean successful = service.pauseOpportunity(examId, sessionId, proctorId, browserKey);
+        verify(mockProctorUserDao).validateProctorSession(proctorId, sessionId, browserKey);
+        verify(mockExamRepository, never()).pauseExam(examId);
+        assertThat(successful).isTrue();
     }
 
     @Test

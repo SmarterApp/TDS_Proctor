@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -185,6 +186,22 @@ public class RemoteExamRepository implements ExamRepository {
     public void pauseAllExamsInSession(final UUID sessionId) throws ReturnStatusException {
         UriComponents uriComponents = UriComponentsBuilder.fromUriString("{examUrl}/pause/{sessionId}")
             .buildAndExpand(examUrl, sessionId);
+
+        try {
+            restTemplate.put(uriComponents.encode().toUri(), null);
+        } catch (final HttpStatusCodeException e) {
+            final ReturnStatusException statusException = new ReturnStatusException("Failed to pause the exam: " + e.getResponseBodyAsString());
+            statusException.getReturnStatus().setHttpStatusCode(500);
+            throw statusException;
+        } catch (final RestClientException rce) {
+            throw new ReturnStatusException(rce);
+        }
+    }
+
+    @Override
+    public void pauseExam(final UUID examId) throws ReturnStatusException {
+        UriComponents uriComponents = UriComponentsBuilder.fromUriString("{examUrl}/{examId}/pause/")
+            .buildAndExpand(examUrl, examId);
 
         try {
             restTemplate.put(uriComponents.encode().toUri(), null);
