@@ -136,7 +136,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
         .checkpoint(ENTER.name())
         .data(EventParser.getEventDataFields(getCurrentContext().getRequest()))
         .build();
-    _eventLogger.info(eventInfo);
+    _eventLogger.trace(eventInfo);
 
     try {
       sbacUser = (SbacUser) SecurityContextHolder.getContext ().getAuthentication ().getPrincipal ();
@@ -180,7 +180,7 @@ public class UserDetailsBacking extends BasePage implements IPresenterBase
       _eventLogger.putField(SESSION_ID.name(), proctorUser.getSessionKey());
       _eventLogger.putField(BROWSER_ID.name(), proctorUser.getBrowserKey());
 
-      _eventLogger.info(eventInfo.withCheckpoint(EXIT.name()));
+      _eventLogger.trace(eventInfo.withCheckpoint(EXIT.name()));
     } catch (Exception e) {
       _eventLogger.error(eventInfo, e);
       _logger.error (e.getMessage ()==null?e.toString ():e.getMessage (),e);

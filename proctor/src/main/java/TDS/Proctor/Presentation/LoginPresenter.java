@@ -214,7 +214,7 @@ public class LoginPresenter extends PresenterBase
         .checkpoint(ENTER.name())
         .data(EventParser.getEventDataFields(getHttpCurrentContext().getRequest()))
         .build();
-    _eventLogger.info(eventInfo);
+    _eventLogger.trace(eventInfo);
     try {
 
       ProctorUser thisUser = getThisUser ();
@@ -227,7 +227,7 @@ public class LoginPresenter extends PresenterBase
         _proctorUserService.logout (thisUser.getKey (), thisUser.getBrowserKey ());
       clearOutProctorCookieInformationOrRemove (true);
 
-      _eventLogger.info(eventInfo.withCheckpoint(EXIT.name()));
+      _eventLogger.trace(eventInfo.withCheckpoint(EXIT.name()));
       return true;
     } catch (Exception ex) {
       _eventLogger.error(eventInfo, ex);
