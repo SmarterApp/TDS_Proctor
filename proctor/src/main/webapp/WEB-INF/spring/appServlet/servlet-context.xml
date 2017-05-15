@@ -37,6 +37,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/**" />
+			<exclude-mapping path="/status" />
 			<beans:bean class="org.opentestsystem.delivery.logging.LoggingInterceptor" />
 		</interceptor>
 	</interceptors>
