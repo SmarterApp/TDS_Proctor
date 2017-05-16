@@ -11,9 +11,12 @@ import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
+import com.google.common.base.Optional;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Instant;
 import org.joda.time.Minutes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -28,6 +31,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import tds.accommodation.Accommodation;
+import tds.common.ValidationError;
 import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
@@ -40,6 +44,8 @@ import static tds.exam.ExamStatusCode.STATUS_DENIED;
 import static tds.exam.ExamStatusStage.IN_USE;
 
 public class RemoteTestOpportunityService implements ITestOpportunityService {
+    private static final Logger LOG = LoggerFactory.getLogger(RemoteTestOpportunityService.class);
+
     private final ITestOpportunityService testOpportunityService;
     private final boolean isLegacyCallsEnabled;
     private final boolean isRemoteCallsEnabled;
@@ -174,7 +180,14 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
             return isApproveSuccessful;
         }
 
-        examRepository.updateStatus(examId, STATUS_APPROVED, IN_USE.getType(), null);
+        Optional<ValidationError> maybeError = examRepository.updateStatus(examId, STATUS_APPROVED, IN_USE.getType(), null);
+
+        //Consistent with the legacy implementation.  If it fails for any reason it throws.
+        if(maybeError.isPresent()) {
+            LOG.warn("Unable to approve opportunity: {}", maybeError.get().getMessage());
+            throw new ReturnStatusException(maybeError.get().getMessage());
+        }
+
         return true;
     }
 
@@ -198,7 +211,14 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
             return isDenySuccessful;
         }
 
-        examRepository.updateStatus(examId, STATUS_DENIED, IN_USE.getType(), reason);
+        Optional<ValidationError> maybeError = examRepository.updateStatus(examId, STATUS_DENIED, IN_USE.getType(), reason);
+
+        //Consistent with the legacy implementation.  If it fails for any reason it throws.
+        if(maybeError.isPresent()) {
+            LOG.warn("Unable to deny opportunity: {}", maybeError.get().getMessage());
+            throw new ReturnStatusException(maybeError.get().getMessage());
+        }
+
         return true;
     }
 
