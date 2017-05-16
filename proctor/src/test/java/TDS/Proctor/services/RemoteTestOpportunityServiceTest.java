@@ -9,6 +9,7 @@ import TDS.Proctor.Sql.Data.TestOpps;
 import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestOpportunityExamMapDao;
 import TDS.Shared.Exceptions.ReturnStatusException;
+import com.google.common.base.Optional;
 import org.joda.time.DateTime;
 import org.joda.time.Instant;
 import org.junit.After;
@@ -21,6 +22,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Arrays;
 import java.util.UUID;
 
+import tds.common.ValidationError;
 import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
@@ -117,28 +119,63 @@ public class RemoteTestOpportunityServiceTest {
         Long proctorKey = 99L;
         UUID browserKey = UUID.randomUUID();
         UUID legacyOpportunityId = UUID.randomUUID();
+        Optional<ValidationError> maybeError = Optional.absent();
 
         when(mockTestOpportunityExamMapDao.getTestOpportunityId(examId)).thenReturn(legacyOpportunityId);
+        when(mockExamRepository.updateStatus(examId, STATUS_APPROVED, IN_USE.getType(), null)).thenReturn(maybeError);
 
         service.approveOpportunity(examId, sessionId, proctorKey, browserKey);
         verify(legacyTestOpportunityService).approveOpportunity(legacyOpportunityId, sessionId, proctorKey, browserKey);
         verify(mockExamRepository).updateStatus(examId, STATUS_APPROVED, IN_USE.getType(), null);
     }
 
+    @Test (expected = ReturnStatusException.class)
+    public void shouldThrowIfCannotApproveExam() throws ReturnStatusException {
+        UUID examId = UUID.randomUUID();
+        UUID sessionId = UUID.randomUUID();
+        Long proctorKey = 99L;
+        UUID browserKey = UUID.randomUUID();
+        UUID legacyOpportunityId = UUID.randomUUID();
+        Optional<ValidationError> maybeError = Optional.of(new ValidationError("code", "couldn't approve"));
+
+        when(mockTestOpportunityExamMapDao.getTestOpportunityId(examId)).thenReturn(legacyOpportunityId);
+        when(mockExamRepository.updateStatus(examId, STATUS_APPROVED, IN_USE.getType(), null)).thenReturn(maybeError);
+
+        service.approveOpportunity(examId, sessionId, proctorKey, browserKey);
+    }
+
     @Test
-    public void shouldCallDenyExam() throws ReturnStatusException {
+    public void shouldDenyExam() throws ReturnStatusException {
         UUID examId = UUID.randomUUID();
         UUID sessionId = UUID.randomUUID();
         Long proctorKey = 99L;
         UUID browserKey = UUID.randomUUID();
         UUID legacyOpportunityId = UUID.randomUUID();
         String reason = "some reason";
+        Optional<ValidationError> maybeError = Optional.absent();
 
         when(mockTestOpportunityExamMapDao.getTestOpportunityId(examId)).thenReturn(legacyOpportunityId);
+        when(mockExamRepository.updateStatus(examId, STATUS_DENIED, IN_USE.getType(), reason)).thenReturn(maybeError);
 
         service.denyOpportunity(examId, sessionId, proctorKey, browserKey, reason);
         verify(legacyTestOpportunityService).denyOpportunity(legacyOpportunityId, sessionId, proctorKey, browserKey, reason);
         verify(mockExamRepository).updateStatus(examId, STATUS_DENIED, IN_USE.getType(), reason);
+    }
+
+    @Test (expected = ReturnStatusException.class)
+    public void shouldThrowIfErrorDenyingExam() throws ReturnStatusException {
+        UUID examId = UUID.randomUUID();
+        UUID sessionId = UUID.randomUUID();
+        Long proctorKey = 99L;
+        UUID browserKey = UUID.randomUUID();
+        UUID legacyOpportunityId = UUID.randomUUID();
+        String reason = "some reason";
+        Optional<ValidationError> maybeError = Optional.of(new ValidationError("code", "error message"));
+
+        when(mockTestOpportunityExamMapDao.getTestOpportunityId(examId)).thenReturn(legacyOpportunityId);
+        when(mockExamRepository.updateStatus(examId, STATUS_DENIED, IN_USE.getType(), reason)).thenReturn(maybeError);
+
+        service.denyOpportunity(examId, sessionId, proctorKey, browserKey, reason);
     }
 
     @Test
