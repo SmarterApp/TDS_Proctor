@@ -71,7 +71,7 @@
         <Connector port="8080"
                    protocol="org.apache.coyote.http11.Http11NioProtocol"
                    acceptorThreadCount="2"
-                   maxConnections="12"
+                   maxConnections="8"
                    maxHttpHeaderSize="18192"
                    URIEncoding="UTF-8"
                    connectionTimeout="20000"
