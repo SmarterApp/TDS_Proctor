@@ -5,25 +5,29 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>1.1.0</version>
+	<version>3.1.0.RELEASE</version>
+
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>1.0.1</version>
+		<version>3.1.0.RELEASE</version>
 	</parent>
 
 	<properties>
-		<progman-client.version>0.0.4</progman-client.version>
-		<sb11-mna-client.version>0.0.4</sb11-mna-client.version>
-		<sb11-shared-code.version>0.0.6</sb11-shared-code.version>
+		<item-renderer.version>3.1.0.RELEASE</item-renderer.version>
+		<tds-dll.version>3.1.0.RELEASE</tds-dll.version>
+		<progman-client.version>3.1.0.RELEASE</progman-client.version>
+		<sb11-mna-client.version>3.1.0.RELEASE</sb11-mna-client.version>
+		<sb11-shared-code.version>3.1.0.RELEASE</sb11-shared-code.version>
+		<sb11-shared-security.version>3.1.0.RELEASE</sb11-shared-security.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
-	</properties>
+		<tds-exam-client.version>3.1.0.RELEASE</tds-exam-client.version>
+		<tds-assessment-client.version>3.1.0.RELEASE</tds-assessment-client.version>
+		<jackson.version>2.8.5</jackson.version>
+		<tds-session-client.version>3.1.0.RELEASE</tds-session-client.version>
 
-	<scm>
-		<connection>scm:hg:https://bitbucket.org/sbacoss/tds_release</connection>
-		<developerConnection>scm:hg:https://bitbucket.org/sbacoss/tds_release</developerConnection>
-		<url>https://bitbucket.org/sbacoss/tds_release</url>
-	</scm>
+		<docker.image.prefix>fwsbac</docker.image.prefix>
+	</properties>
 
 	<licenses>
 		<license>
@@ -68,22 +72,31 @@
 			<artifactId>shared-json</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.opentestsystem.shared</groupId>
+			<artifactId>shared-spring</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-api</artifactId>
+			<version>${tds-dll.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.26</version>
 		</dependency>
+		
 		<!--dependency> <groupId>org.opentestsystem.delivery</groupId> <artifactId>tds-dll-mssql</artifactId> </dependency -->
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-mysql</artifactId>
+			<version>${tds-dll.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-schemas</artifactId>
+			<version>${tds-dll.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- End Dependency shared project -->
@@ -111,7 +124,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.shared</groupId>
 			<artifactId>monitoring-alerting.client</artifactId>
-			<version> ${sb11-mna-client.version}</version>
+			<version>${sb11-mna-client.version}</version>
 		</dependency>
 
 		<dependency>
@@ -124,7 +137,7 @@
 		<dependency>
 			<groupId>org.opentestsystem.shared</groupId>
 			<artifactId>sb11-shared-security</artifactId>
-			<version>0.0.1</version>
+			<version>${sb11-shared-security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -146,14 +159,28 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-guava</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<!-- MySQL connector: Required primarily for unit tests. Must be placed in Tomcat's classpath (e.g. /lib directory) -->
 		<!-- Spring -->
@@ -219,6 +246,12 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>2.6.0</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- Start JSF integration -->
 		<!-- Mojara implementation of JSF -->
 		<!-- dependency> <groupId>org.glassfish</groupId> <artifactId>javax.faces</artifactId> <version>${javax.faces-version}</version> <scope>runtime</scope> </dependency> <dependency> <groupId>org.glassfish</groupId> 
@@ -255,19 +288,98 @@
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>item-renderer</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.opentestsystem.blackbox</groupId>
-			<artifactId>shared-blackbox</artifactId>
-			<version>1.0.1</version>
-			<type>war</type>
+			<version>${item-renderer.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
-			<artifactId>student.library</artifactId>
-			<version>0.0.1</version>
+			<artifactId>item-renderer-web</artifactId>
+			<version>${item-renderer.version}</version>
+			<type>war</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>tds-exam-client</artifactId>
+			<version>${tds-exam-client.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>tds-assessment-client</artifactId>
+			<version>${tds-assessment-client.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opentestsystem.delivery</groupId>
+			<artifactId>tds-session-client</artifactId>
+			<version>${tds-session-client.version}</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+			</plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.10</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.war</include>
+                        </resource>
+
+                        <!-- TDS_Proctor requires file-system test definitions.  The resource directories below must
+                            be defined in the build machine's local file-system at the specified paths
+                            to be embedded into the proctor docker container image.
+                            Modify as required.-->
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>/usr/local/tomcat/resources/tds/bank</directory>
+                            <include>**/*</include>
+                        </resource>
+
+                        <!-- TDS_Proctor requires file-system SAML security files.  The resource directory below
+                            must be defined in the build machine's local file-system at the specified path to be
+                            embedded into the proctor docker container image.
+                            NOTE that the SAML security keystore and metadata xml files must be registered with your
+                            SAML identity provider.
+                            Modify as required. -->
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>/opt/sbtds/deploy/resources</directory>
+                            <include>security/**/*</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<connection>scm:git:https://github.com/SmarterApp/TDS_Proctor.git</connection>
+		<developerConnection>scm:git:git://github.com/SmarterApp/TDS_Proctor.git</developerConnection>
+		<url>https://github.com/SmarterApp/TDS_Proctor</url>
+		<tag>3.1.0.RELEASE</tag>
+	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>airdev-releases</name>
+			<url>https://airdev.jfrog.io/airdev/libs-releases-local</url>
+		</repository>
+	</distributionManagement>
 
 </project>

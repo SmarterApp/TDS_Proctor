@@ -65,6 +65,8 @@ public class TestApprovalHelper {
         rs.addColumn ("waitingForSegment", SQL_TYPE_To_JAVA_TYPE.INT);
         rs.addColumn ("mode", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
         rs.addColumn ("LEP", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
+        rs.addColumn ("msb", SQL_TYPE_To_JAVA_TYPE.BIT);
+        rs.addColumn("segmentName", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
 
         List<CaseInsensitiveMap<Object>> resultList = new ArrayList<>();
 
@@ -82,6 +84,8 @@ public class TestApprovalHelper {
             rcd.put("waitingForSegment", oppInfo.getWaitingForSegment());
             rcd.put("mode", oppInfo.getMode());
             rcd.put("LEP", oppInfo.getLepValue());
+            rcd.put("msb", oppInfo.isMsb());
+            rcd.put("segmentName", oppInfo.getSegmentName());
             resultList.add(rcd);
         }
 
@@ -116,6 +120,8 @@ public class TestApprovalHelper {
         rs.addColumn ("waitingForSegment", SQL_TYPE_To_JAVA_TYPE.INT);
         rs.addColumn ("mode", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
         rs.addColumn ("LEP", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
+        rs.addColumn ("msb", SQL_TYPE_To_JAVA_TYPE.BIT);
+        rs.addColumn("segmentName", SQL_TYPE_To_JAVA_TYPE.VARCHAR);
 
         // accommodations temp table columns
         rs.addColumn ("oppKey", SQL_TYPE_To_JAVA_TYPE.UNIQUEIDENTIFIER);
@@ -125,12 +131,11 @@ public class TestApprovalHelper {
         rs.addColumn ("segment", SQL_TYPE_To_JAVA_TYPE.INT);
         rs.addColumn ("isSelectable", SQL_TYPE_To_JAVA_TYPE.BIT);
 
-
         List<CaseInsensitiveMap<Object>> resultList = new ArrayList<>();
 
         for (TestOpportunityInfo oppInfo : opportunities) {
             for (TesteeAccommodation acc : filteredAccommodations) {
-                if (oppInfo.getOpportunityId() == acc.getOpportunityId()) {
+                if (oppInfo.getOpportunityId().equals(acc.getOpportunityId())) {
 
                     CaseInsensitiveMap<Object> rcd = new CaseInsensitiveMap<>();
 
@@ -147,6 +152,8 @@ public class TestApprovalHelper {
                     rcd.put("waitingForSegment", oppInfo.getWaitingForSegment());
                     rcd.put("mode", oppInfo.getMode());
                     rcd.put("LEP", oppInfo.getLepValue());
+                    rcd.put ("msb", oppInfo.isMsb());
+                    rcd.put("segmentName", oppInfo.getSegmentName());
 
                     // accommodations values
                     rcd.put("oppKey", acc.getOpportunityId());

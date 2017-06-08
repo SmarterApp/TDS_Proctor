@@ -130,7 +130,7 @@ PrintRequest.prototype.blackboxReady = function () {
     function getAccommodations(testeeRequestParams) {
         var accsJson = { types: [] };
 
-        if (testeeRequestParams == null || testeeRequestParams.length < 1) return accommodations;
+        if (testeeRequestParams == null || testeeRequestParams.length < 1) return accsJson;
 
         var accGroups = testeeRequestParams.split(';');
 

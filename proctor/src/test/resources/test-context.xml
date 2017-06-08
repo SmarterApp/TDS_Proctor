@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 						http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -19,6 +20,9 @@
 		location="classpath:opentestsystem.shared.test-db-default-properties.xml" />
 	<context:property-placeholder
 		ignore-unresolvable="true" order="800" location="classpath:settings-unitTests.xml" />
+
+	<beans:import resource="classpath:opentestsystem.shared.test-db-context-module.xml"/>
+	<beans:import resource="classpath:opentestsystem.shared.tr-api-context-module.xml" />
 
 	<!-- Repositories -->
 	<import resource="classpath:context-modules/repositories-context-module.xml" />

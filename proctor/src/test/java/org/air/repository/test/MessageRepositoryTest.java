@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.opentestsystem.shared.test.LifecycleManagingTestRunner;
@@ -30,6 +31,7 @@ import TDS.Shared.Messages.MessageDTO;
  */
 @RunWith (LifecycleManagingTestRunner.class)
 @ContextConfiguration ("classpath:test-context.xml")
+@Ignore("Requires external resources")
 public class MessageRepositoryTest
 {
   @Autowired

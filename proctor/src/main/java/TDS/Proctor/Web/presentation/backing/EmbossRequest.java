@@ -13,10 +13,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+
+import TDS.Proctor.Services.EmbossFileService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,23 +51,28 @@ public class EmbossRequest extends BasePage implements IPrintRequestPresenterVie
   private String                _lblDate;
   private PageLayout            _pageLayout;
   private String                _title;
+  private EmbossFileService     _embossFileService = new EmbossFileService();
 
   public void download (String filepath, String contentType, String contentDisposition) throws IOException {
-    String filename = Path.getFileName (filepath);
+    String[] files = filepath.split(";");
+    String filename = _embossFileService.getCombinedFileName(files[0], files.length > 1 ? "_combined" : "");
     try {
-      File file = new File (filepath);
+      byte[] fileContents = _embossFileService.combineFiles(files);
+      
       FacesContext facesContext = FacesContext.getCurrentInstance ();
       ExternalContext externalContext = facesContext.getExternalContext ();
       externalContext.responseReset ();
       externalContext.setResponseContentType (contentType);
-      externalContext.setResponseContentLength ((int) file.length ());
+      externalContext.setResponseContentLength (fileContents.length);
       externalContext.setResponseHeader ("Content-Disposition", contentDisposition + "; filename=" + filename);
+
       OutputStream outStream = externalContext.getResponseOutputStream ();
-      Files.copy (file.toPath (), outStream);
+      outStream.write(fileContents);
+
       facesContext.responseComplete ();
     } catch (Exception ex) {
-      writeError ("Unable to download the content file: " + filename);
-      _logger.error (ex.getMessage (), ex);
+      writeError("Unable to download the content file: " + filename);
+      _logger.error(ex.getMessage(), ex);
       // handle the message first
       // TDSLogger.Application.Fatal (ex);
     }
@@ -105,7 +113,7 @@ public class EmbossRequest extends BasePage implements IPrintRequestPresenterVie
         contentType = "application/x-VPPrintFile";
         break;
       default:
-        writeError (TDSStringUtils.format ("Unknow file type: {0}", fileext));
+        writeError (TDSStringUtils.format ("Unknown file type: {0}", fileext));
         return;
       }
 

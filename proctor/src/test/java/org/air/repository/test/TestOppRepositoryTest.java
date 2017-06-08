@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 
 import java.util.UUID;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.opentestsystem.shared.test.LifecycleManagingTestRunner;
@@ -35,6 +36,7 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 @RunWith (LifecycleManagingTestRunner.class)
 @ContextConfiguration ("classpath:test-context-staged-data.xml")
 @ActiveProfiles("rts")
+@Ignore("Requires external resources")
 public class TestOppRepositoryTest
 {
   @Autowired
