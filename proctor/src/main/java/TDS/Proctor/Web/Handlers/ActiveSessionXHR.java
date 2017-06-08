@@ -9,14 +9,19 @@
 package TDS.Proctor.Web.Handlers;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import AIR.Common.DB.SQLConnection;
+import TDS.Proctor.Sql.Data.*;
 import TDS.Proctor.performance.dao.ProctorUserDao;
 import TDS.Proctor.performance.dao.TestSessionDao;
 import org.apache.commons.lang3.StringUtils;
+import org.opentestsystem.delivery.logging.ProctorEventLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,20 +37,6 @@ import AIR.Common.Helpers._Ref;
 import AIR.Common.Utilities.UrlEncoderDecoderUtils;
 import TDS.Proctor.Services.ProctorAppTasks;
 import TDS.Proctor.Services.ProctorUserService;
-import TDS.Proctor.Sql.Data.AlertMessages;
-import TDS.Proctor.Sql.Data.Districts;
-import TDS.Proctor.Sql.Data.Grades;
-import TDS.Proctor.Sql.Data.InstitutionList;
-import TDS.Proctor.Sql.Data.ProctorUser;
-import TDS.Proctor.Sql.Data.Schools;
-import TDS.Proctor.Sql.Data.SessionDTO;
-import TDS.Proctor.Sql.Data.Test;
-import TDS.Proctor.Sql.Data.TestOpps;
-import TDS.Proctor.Sql.Data.TestSession;
-import TDS.Proctor.Sql.Data.Testee;
-import TDS.Proctor.Sql.Data.TesteeRequestDTO;
-import TDS.Proctor.Sql.Data.TesteeRequests;
-import TDS.Proctor.Sql.Data.Testees;
 import TDS.Proctor.Sql.Data.Abstractions.IAppConfigService;
 import TDS.Proctor.Sql.Data.Accommodations.AccsDTO;
 import TDS.Shared.Browser.BrowserAction;
@@ -58,7 +49,16 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 import TDS.Shared.Exceptions.TDSSecurityException;
 import tds.dll.api.ICommonDLL;
+import tds.dll.common.performance.caching.CacheType;
+import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
+
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.ASSESSMENTS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAM;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.EXAMS;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.REQUEST_COUNT;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.SEGMENT;
+import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.STATUS;
 
 @Scope ("prototype")
 @Controller
@@ -79,6 +79,12 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
   @Autowired
   private ICommonDLL _commonDll;
+
+  @Autowired
+  private ProctorEventLogger _eventLogger;
+
+  @Autowired
+  private CachingService _cachingService;
 
   @RequestMapping (value = "XHR.axd/TestController2", method = RequestMethod.GET)
   public @ResponseBody
@@ -243,6 +249,8 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         return null;
       }
 
+      SessionDTO sessionDTO = new SessionDTO ();
+
       UUID sessionKey = UUID.fromString(strSessionKey);
       ProctorUser thisUser = checkAuthenticatedAndValidate(sessionKey, "AutoRefreshData");
 
@@ -251,8 +259,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       if (!StringUtils.isEmpty (strBGetCurTestees)) {
         bGetCurTestees = Boolean.parseBoolean (strBGetCurTestees);
       }
-
-      SessionDTO sessionDTO = new SessionDTO ();
 
       // 1. Get a list of students waiting for approval
       sessionDTO.setbReplaceApprovalOpps (true);
@@ -270,6 +276,17 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
         // get unacknowledged alert messages
         sessionDTO.setbReplaceAlertMsgs (true);
         sessionDTO.setAlertMessages (getUnAcknowledgedMessages ());
+
+        final List<Map<String, String>> examEventInfoList = new ArrayList<>();
+        for(TestOpportunity testOpportunity: sessionDTO.getApprovalOpps()) {
+          final Map<String, String> examFields = new HashMap<>(4);
+          examFields.put(EXAM.name(), testOpportunity.getOppKey().toString());
+          examFields.put(STATUS.name(), testOpportunity.getStatus().toString());
+          examFields.put(SEGMENT.name(), String.valueOf(testOpportunity.getWaitSegment()));
+          examFields.put(REQUEST_COUNT.name(), String.valueOf(testOpportunity.getRequestCount()));
+          examEventInfoList.add(examFields);
+        }
+        _eventLogger.putField(EXAMS.name(), examEventInfoList);
       }
 
       return sessionDTO;
@@ -419,6 +436,9 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       }
       String[] aryTestKeys = StringUtils.split (testKeys, '|');
       String[] aryTestIDs = StringUtils.split (testIDs, '|');
+
+      _eventLogger.putField(ASSESSMENTS.name(), aryTestIDs);
+
       UUID sessionKey = testSession.getKey ();
       int len = aryTestKeys.length;
       for (int i = 0; i < len; i++) {
@@ -596,12 +616,15 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
       UUID oppKey = UUID.fromString (strOppKey);
 
       if (accsList != null) {
-        // step 1: approve all accs first
+        // step 1-legacy: approve all accs first for legacy application if enabled
         int segment = 0;
         for (String accs : accsList) {
           _proctorAppTasks.getTestOppTasks ().approveAccommodations (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey (), segment, accs);
           segment++;
         }
+
+        // step 1-rest: approve all accommodations for rest enabled application
+        _proctorAppTasks.getTestOppTasks().approveAccommodations(oppKey, sessionKey, thisUser.getBrowserKey (), strAccs);
       }
       // step 2: approve opp
       _proctorAppTasks.getTestOppTasks ().approveOpportunity (oppKey, sessionKey, thisUser.getKey (), thisUser.getBrowserKey ());

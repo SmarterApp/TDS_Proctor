@@ -1,23 +1,23 @@
 /*******************************************************************************
  * Educational Online Test Delivery System 
  * Copyright (c) 2014 American Institutes for Research
- *   
+ *
  * Distributed under the AIR Open Source License, Version 1.0 
  * See accompanying file AIR-License-1_0.txt or at
  * http://www.smarterapp.org/documents/American_Institutes_for_Research_Open_Source_Software_License.pdf
  ******************************************************************************/
 package TDS.Proctor.Sql.Data;
 
+import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
+
 import java.util.List;
 import java.util.UUID;
-
-import TDS.Proctor.Sql.Data.Accommodations.AccTypes;
 
 public class TestOpportunity implements Comparable<TestOpportunity>
 {
   private UUID   _oppKey;
   private String _ssid;                // the ID by which the testee is
-                                        // known to the client
+  // known to the client
   private String _testKey;
   // administered (an
   // aggregate
@@ -29,6 +29,24 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   private String _testID        = null;
   private String _testName      = null;
   private int    _opp           = 0;   // these range from 1 to
+  private boolean _isMsb;
+  private String        segmentName;
+
+  public String getSegmentName() {
+    return segmentName;
+  }
+
+  public void setSegmentName(String segmentName) {
+    this.segmentName = segmentName;
+  }
+
+  public boolean isMsb() {
+    return _isMsb;
+  }
+
+  public void setIsMsb(boolean _isMsb) {
+    this._isMsb = _isMsb;
+  }
 
   /**
    * @return the _opp
@@ -170,7 +188,7 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   }
 
   private boolean _custAccs; // is this student/test has
-                             // custom accs setting?
+  // custom accs setting?
 
   /**
    * @return the _custAccs
@@ -248,7 +266,7 @@ public class TestOpportunity implements Comparable<TestOpportunity>
   }
 
   private List<AccTypes> _accTypesList; // 0: test; 1 and so on for
-                                        // segments
+  // segments
 
   /**
    * @return the _accTypesList

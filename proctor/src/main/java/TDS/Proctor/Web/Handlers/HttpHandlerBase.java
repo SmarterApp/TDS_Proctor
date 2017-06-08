@@ -8,8 +8,10 @@
  ******************************************************************************/
 package TDS.Proctor.Web.Handlers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.opentestsystem.delivery.logging.LoggingExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -64,7 +66,8 @@ private static final Logger _logger = LoggerFactory.getLogger(HttpHandlerBase.cl
 
   @ExceptionHandler ({ NoDataException.class })
   @ResponseBody
-  public ReturnStatus handleNoDataException (NoDataException exp, HttpServletResponse response) {
+  public ReturnStatus handleNoDataException (NoDataException exp, HttpServletRequest request, HttpServletResponse response) {
+    LoggingExceptionHandler.handleException(request, exp);
     _logger.error (exp.getMessage ());
     response.setStatus (HttpServletResponse.SC_OK);
     return exp.getReturnStatus ();
@@ -72,7 +75,8 @@ private static final Logger _logger = LoggerFactory.getLogger(HttpHandlerBase.cl
 
   @ExceptionHandler ({ ReturnStatusException.class })
   @ResponseBody
-  public ReturnStatus handleReturnStatusException (ReturnStatusException exp, HttpServletResponse response) {
+  public ReturnStatus handleReturnStatusException (ReturnStatusException exp, HttpServletRequest request, HttpServletResponse response) {
+    LoggingExceptionHandler.handleException(request, exp);
     _logger.error (exp.getMessage ());
     response.setStatus (HttpServletResponse.SC_OK);
     return exp.getReturnStatus ();
@@ -253,7 +257,7 @@ private static final Logger _logger = LoggerFactory.getLogger(HttpHandlerBase.cl
     return _userInfo;
   }
 
-  protected ProctorUser getUser () {
+  public ProctorUser getUser () {
     if (_user == null) {
       _user = ProctorUserService.loadUserFromCookie (getUserInfo ());
     }

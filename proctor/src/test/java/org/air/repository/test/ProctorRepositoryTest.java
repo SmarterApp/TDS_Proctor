@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -35,6 +36,7 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 @RunWith (LifecycleManagingTestRunner.class)
 @ContextConfiguration ("classpath:test-context-staged-data.xml")
 @ActiveProfiles("rts")
+@Ignore("Requires external resources")
 public class ProctorRepositoryTest
 {
   @SuppressWarnings ("unused")

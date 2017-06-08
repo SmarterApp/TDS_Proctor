@@ -11,6 +11,7 @@ package org.air.repository.test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.opentestsystem.shared.test.LifecycleManagingTestRunner;
@@ -29,6 +30,7 @@ import TDS.Proctor.Sql.Data.Abstractions.IAppConfigRepository;
  */
 @RunWith (LifecycleManagingTestRunner.class)
 @ContextConfiguration ("classpath:test-context.xml")
+@Ignore("Requires external resources")
 public class AppConfigRepositoryTest
 {
   @Autowired
