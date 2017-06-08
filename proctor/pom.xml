@@ -14,7 +14,7 @@
 	</parent>
 
 	<properties>
-		<item-renderer.version>3.0.9</item-renderer.version>
+		<item-renderer.version>3.1.0.RELEASE</item-renderer.version>
 		<tds-dll.version>3.0.0</tds-dll.version>
 		<progman-client.version>3.1.0.RELEASE</progman-client.version>
 		<sb11-mna-client.version>3.1.0.RELEASE</sb11-mna-client.version>
