@@ -135,7 +135,7 @@ public class RemoteExamRepository implements ExamRepository {
                 });
         } catch (HttpClientErrorException hce) {
             // No need to throw a ReturnStatusException if its a 4xx here - we'll leave it up to the service calling this method
-            if (isClientError(hce.getStatusCode())) {
+            if (hce.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
                 NoContentResponseResource responseResource = handleErrorResponseNoContent(hce.getResponseBodyAsString());
                 if (responseResource.getErrors().length > 0) {
                     return Optional.of(responseResource.getErrors()[0]);
