@@ -5,7 +5,7 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>3.1.0.RELEASE</version>
+	<version>3.1.1.RELEASE</version>
 
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
@@ -14,17 +14,17 @@
 	</parent>
 
 	<properties>
-		<item-renderer.version>3.1.0.RELEASE</item-renderer.version>
-		<tds-dll.version>3.1.0.RELEASE</tds-dll.version>
+		<item-renderer.version>3.1.1.RELEASE</item-renderer.version>
+		<tds-dll.version>3.1.1.RELEASE</tds-dll.version>
 		<progman-client.version>3.1.0.RELEASE</progman-client.version>
 		<sb11-mna-client.version>3.1.0.RELEASE</sb11-mna-client.version>
-		<sb11-shared-code.version>3.1.0.RELEASE</sb11-shared-code.version>
-		<sb11-shared-security.version>3.1.0.RELEASE</sb11-shared-security.version>
+		<sb11-shared-code.version>3.1.1.RELEASE</sb11-shared-code.version>
+		<sb11-shared-security.version>3.1.1.RELEASE</sb11-shared-security.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
-		<tds-exam-client.version>3.1.0.RELEASE</tds-exam-client.version>
-		<tds-assessment-client.version>3.1.0.RELEASE</tds-assessment-client.version>
+		<tds-exam-client.version>3.1.1.RELEASE</tds-exam-client.version>
+		<tds-assessment-client.version>3.1.1.RELEASE</tds-assessment-client.version>
 		<jackson.version>2.8.5</jackson.version>
-		<tds-session-client.version>3.1.0.RELEASE</tds-session-client.version>
+		<tds-session-client.version>3.1.1.RELEASE</tds-session-client.version>
 
 		<docker.image.prefix>smarterbalanced</docker.image.prefix>
 	</properties>
@@ -371,7 +371,7 @@
 		<connection>scm:git:https://github.com/SmarterApp/TDS_Proctor.git</connection>
 		<developerConnection>scm:git:git://github.com/SmarterApp/TDS_Proctor.git</developerConnection>
 		<url>https://github.com/SmarterApp/TDS_Proctor</url>
-		<tag>3.1.0.RELEASE</tag>
+		<tag>3.1.1.RELEASE</tag>
 	</scm>
 
 	<distributionManagement>
