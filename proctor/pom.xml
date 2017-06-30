@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>3.1.0.RELEASE</version>
+		<version>3.1.2-SNAPSHOT</version>
 	</parent>
 
 	<properties>
@@ -18,8 +18,8 @@
 		<tds-dll.version>3.1.1.RELEASE</tds-dll.version>
 		<progman-client.version>3.1.0.RELEASE</progman-client.version>
 		<sb11-mna-client.version>3.1.0.RELEASE</sb11-mna-client.version>
-		<sb11-shared-code.version>3.1.1.RELEASE</sb11-shared-code.version>
-		<sb11-shared-security.version>3.1.1.RELEASE</sb11-shared-security.version>
+		<sb11-shared-code.version>3.1.2-SNAPSHOT</sb11-shared-code.version>
+		<sb11-shared-security.version>3.1.2-SNAPSHOT</sb11-shared-security.version>
 		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
 		<tds-exam-client.version>3.1.1.RELEASE</tds-exam-client.version>
 		<tds-assessment-client.version>3.1.1.RELEASE</tds-assessment-client.version>
