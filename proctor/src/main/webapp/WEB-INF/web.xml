@@ -187,7 +187,7 @@
 	<!-- SB-1040: 404 error for Resources.axd while printing math item -->
 	<servlet>
 		<servlet-name>ResourceHandler</servlet-name>
-		<servlet-class>tds.itemrenderer.web.ResourceHandler</servlet-class>
+		<servlet-class>tds.itemrenderer.web.RemoteResourceHandler</servlet-class>
 		<load-on-startup>4</load-on-startup>
 	</servlet>
 	<servlet-mapping>
