@@ -5,16 +5,16 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>3.1.2-SNAPSHOT</version>
+	<version>3.1.2</version>
 
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>3.1.3-SNAPSHOT</version>
+		<version>3.1.2</version>
 	</parent>
 
 	<properties>
-		<item-renderer.version>3.1.5-SNAPSHOT</item-renderer.version>
+		<item-renderer.version>3.1.5</item-renderer.version>
 		<tds-dll.version>3.1.1.RELEASE</tds-dll.version>
 		<progman-client.version>3.1.0.RELEASE</progman-client.version>
 		<sb11-mna-client.version>3.1.0.RELEASE</sb11-mna-client.version>
