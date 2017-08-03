@@ -73,11 +73,6 @@
 			<groupId>org.opentestsystem.shared</groupId>
 			<artifactId>shared-spring</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.opentestsystem.delivery</groupId>
-			<artifactId>tds-dll-api</artifactId>
-			<version>${tds-dll.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -85,7 +80,6 @@
 			<version>5.1.26</version>
 		</dependency>
 		
-		<!--dependency> <groupId>org.opentestsystem.delivery</groupId> <artifactId>tds-dll-mssql</artifactId> </dependency -->
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-mysql</artifactId>
