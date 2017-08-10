@@ -5,7 +5,7 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>3.1.2-SNAPSHOT</version>
+	<version>3.1.2</version>
 
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
@@ -79,7 +79,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.26</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.opentestsystem.delivery</groupId>
 			<artifactId>tds-dll-mysql</artifactId>
