@@ -10,16 +10,16 @@
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>4.0.0.RELEASE</version>
+		<version>4.0.1.RELEASE</version>
 	</parent>
 
 	<properties>
-		<item-renderer.version>3.1.3-SNAPSHOT</item-renderer.version>
-		<tds-dll.version>3.1.2-SNAPSHOT</tds-dll.version>
-		<progman-client.version>3.1.1-SNAPSHOT</progman-client.version>
-		<sb11-mna-client.version>3.1.0.RELEASE</sb11-mna-client.version>
+		<item-renderer.version>4.0.1.RELEASE</item-renderer.version>
+		<tds-dll.version>4.0.0.RELEASE</tds-dll.version>
+		<progman-client.version>4.0.0.RELEASE</progman-client.version>
+		<sb11-mna-client.version>4.0.0.RELEASE</sb11-mna-client.version>
 		<sb11-shared-code.version>4.0.0.RELEASE</sb11-shared-code.version>
-		<sb11-shared-security.version>3.1.2-SNAPSHOT</sb11-shared-security.version>
+		<sb11-shared-security.version>4.0.0</sb11-shared-security.version>
 		<tds-exam-client.version>3.1.1.RELEASE</tds-exam-client.version>
 		<tds-assessment-client.version>3.1.1.RELEASE</tds-assessment-client.version>
 		<tds-session-client.version>3.1.1.RELEASE</tds-session-client.version>
