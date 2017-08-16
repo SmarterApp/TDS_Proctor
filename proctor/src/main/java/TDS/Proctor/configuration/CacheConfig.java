@@ -24,7 +24,7 @@ import tds.dll.common.performance.caching.CacheKeyGenerator;
  */
 @Configuration
 @EnableCaching
-public class CachingConfig {
+public class CacheConfig {
 
     @Bean
     public EhCacheManagerFactoryBean cacheFactoryBean() {
