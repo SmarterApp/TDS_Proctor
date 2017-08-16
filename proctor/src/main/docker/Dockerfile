@@ -11,12 +11,6 @@ ADD server.xml /usr/local/tomcat/conf/
 #Add the WAR file
 ADD testadmin-*.war $CATALINA_HOME/webapps/proctor.war
 
-#Embed "items" and "stimuli" resources from build machine file-system
-#See comments in TDS_Proctor/proctor/pom.xml
-RUN mkdir -p /usr/local/tomcat/resources/tds/bank
-ADD items /usr/local/tomcat/resources/tds/bank/items
-ADD stimuli /usr/local/tomcat/resources/tds/bank/stimuli
-
 #Embed SAML security files from build machine file-system
 #See comments in TDS_Proctor/proctor/pom.xml
 RUN mkdir -p /opt/sbtds/resources
