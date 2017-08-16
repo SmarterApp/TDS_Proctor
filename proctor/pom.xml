@@ -336,16 +336,6 @@
                             <include>${project.build.finalName}.war</include>
                         </resource>
 
-                        <!-- TDS_Proctor requires file-system test definitions.  The resource directories below must
-                            be defined in the build machine's local file-system at the specified paths
-                            to be embedded into the proctor docker container image.
-                            Modify as required.-->
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>/usr/local/tomcat/resources/tds/bank</directory>
-                            <include>**/*</include>
-                        </resource>
-
                         <!-- TDS_Proctor requires file-system SAML security files.  The resource directory below
                             must be defined in the build machine's local file-system at the specified path to be
                             embedded into the proctor docker container image.
