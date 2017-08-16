@@ -5,7 +5,7 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>3.1.2</version>
+	<version>3.1.4-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
@@ -20,7 +20,8 @@
 		<sb11-mna-client.version>4.0.0.RELEASE</sb11-mna-client.version>
 		<sb11-shared-code.version>4.0.0.RELEASE</sb11-shared-code.version>
 		<sb11-shared-security.version>4.0.0</sb11-shared-security.version>
-		<tds-exam-client.version>3.1.1.RELEASE</tds-exam-client.version>
+		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
+		<tds-exam-client.version>3.1.2.RELEASE</tds-exam-client.version>
 		<tds-assessment-client.version>3.1.1.RELEASE</tds-assessment-client.version>
 		<tds-session-client.version>3.1.1.RELEASE</tds-session-client.version>
 
