@@ -43,7 +43,7 @@
 	<context:component-scan base-package="TDS.Proctor.performance"/>
 	<context:component-scan base-package="tds.dll.common.diagnostic"/>
 	<context:component-scan base-package="TDS.Proctor.diagnostic"/>
-
+	<context:component-scan base-package="TDS.Proctor.Web.presentation.backing"/>
 	<context:component-scan base-package="TDS.Proctor.Services"/>
 	<context:component-scan base-package="tds.itemrenderer.repository" />
 

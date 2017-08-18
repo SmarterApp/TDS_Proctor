@@ -14,23 +14,31 @@
 package TDS.Proctor.Services;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.util.ByteArrayBuffer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
+import tds.itemrenderer.repository.ContentRepository;
 
 @Component
 public class EmbossFileService {
+
+
+    private final ContentRepository contentRepository;
+
     // 13 = carriage return
     // 10 = new line
     // 12 = form feed (new page)
     private static final char[] PAGE_BREAK_CHARS = {(char)13, (char)10, (char)12};
     static byte[] PAGE_BREAK_BYTES = null;
 
-    public EmbossFileService() {
+    @Autowired
+    public EmbossFileService(final ContentRepository contentRepository) {
+        this.contentRepository = contentRepository;
         String pageBreak = new String(PAGE_BREAK_CHARS);
 
         try {
@@ -51,14 +59,14 @@ public class EmbossFileService {
     public byte[] combineFiles(String[] files) throws IOException {
         ByteArrayBuffer contents = new ByteArrayBuffer(0);
 
-        byte[] bytes = Files.readAllBytes(Paths.get(files[0]));
+        byte[] bytes = IOUtils.toByteArray(contentRepository.findResource(files[0]));
         contents.append(bytes, 0, bytes.length);
 
         for (int i = 1; i < files.length; i++) {
             // page break
             contents.append(PAGE_BREAK_BYTES, 0, PAGE_BREAK_BYTES.length);
 
-            bytes = Files.readAllBytes(Paths.get(files[i]));
+            bytes = IOUtils.toByteArray(contentRepository.findResource(files[i]));
             contents.append(bytes, 0, bytes.length);
         }
 
