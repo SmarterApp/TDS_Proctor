@@ -248,6 +248,11 @@
 			<version>2.6.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>compile</scope>
+		</dependency>
 		<!-- Start JSF integration -->
 		<!-- Mojara implementation of JSF -->
 		<!-- dependency> <groupId>org.glassfish</groupId> <artifactId>javax.faces</artifactId> <version>${javax.faces-version}</version> <scope>runtime</scope> </dependency> <dependency> <groupId>org.glassfish</groupId> 
