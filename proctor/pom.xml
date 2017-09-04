@@ -10,11 +10,11 @@
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>4.0.4</version>
+		<version>4.0.5</version>
 	</parent>
 
 	<properties>
-		<item-renderer.version>4.0.4-SNAPSHOT</item-renderer.version>
+		<item-renderer.version>4.0.4</item-renderer.version>
 		<tds-dll.version>4.0.2</tds-dll.version>
 		<progman-client.version>4.0.4</progman-client.version>
 		<sb11-mna-client.version>4.0.2</sb11-mna-client.version>
