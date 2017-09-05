@@ -5,25 +5,24 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>3.1.4-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
 		<artifactId>shared-master</artifactId>
-		<version>4.0.1.RELEASE</version>
+		<version>4.0.5</version>
 	</parent>
 
 	<properties>
-		<item-renderer.version>4.0.1.RELEASE</item-renderer.version>
-		<tds-dll.version>4.0.0.RELEASE</tds-dll.version>
-		<progman-client.version>4.0.0.RELEASE</progman-client.version>
-		<sb11-mna-client.version>4.0.0.RELEASE</sb11-mna-client.version>
-		<sb11-shared-code.version>4.0.0.RELEASE</sb11-shared-code.version>
-		<sb11-shared-security.version>4.0.0</sb11-shared-security.version>
-		<org.springframework.security-version>3.2.4.RELEASE</org.springframework.security-version>
-		<tds-exam-client.version>3.1.2.RELEASE</tds-exam-client.version>
-		<tds-assessment-client.version>3.1.1.RELEASE</tds-assessment-client.version>
-		<tds-session-client.version>3.1.1.RELEASE</tds-session-client.version>
+		<item-renderer.version>4.0.4</item-renderer.version>
+		<tds-dll.version>4.0.2</tds-dll.version>
+		<progman-client.version>4.0.4</progman-client.version>
+		<sb11-mna-client.version>4.0.2</sb11-mna-client.version>
+		<sb11-shared-code.version>4.0.5</sb11-shared-code.version>
+		<sb11-shared-security.version>4.0.2</sb11-shared-security.version>
+		<tds-exam-client.version>4.0.1</tds-exam-client.version>
+		<tds-assessment-client.version>3.1.3</tds-assessment-client.version>
+		<tds-session-client.version>3.1.2</tds-session-client.version>
 
 		<docker.image.prefix>smarterbalanced</docker.image.prefix>
 	</properties>
