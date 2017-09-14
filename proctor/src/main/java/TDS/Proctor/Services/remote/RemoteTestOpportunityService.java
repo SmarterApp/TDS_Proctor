@@ -235,6 +235,13 @@ public class RemoteTestOpportunityService implements ITestOpportunityService {
 
         //Consistent with the legacy implementation.  If it fails for any reason it throws.
         if(maybeError.isPresent()) {
+            if (maybeError.get().getCode().equals("badStatusTransition")) {
+                // See TestSessionServiceImpl.java line 388 - failed update status call should result in a customized message.
+                final String error = "This student is no longer awaiting approval.";
+                LOG.warn("Unable to approve opportunity: {}", error);
+                throw new ReturnStatusException(error);
+            }
+
             LOG.warn("Unable to deny opportunity: {}", maybeError.get().getMessage());
             throw new ReturnStatusException(maybeError.get().getMessage());
         }
