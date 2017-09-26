@@ -33,12 +33,16 @@ import TDS.Proctor.Presentation.IPrintRequestPresenterView;
 import TDS.Proctor.Presentation.PresenterBase;
 import TDS.Proctor.Presentation.PrintRequestPresenter;
 import TDS.Proctor.Sql.Data.TesteeRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * @author mskhan
  * 
  */
-
+@Component
+@Scope("request")
 public class EmbossRequest extends BasePage implements IPrintRequestPresenterView
 {
 
@@ -51,7 +55,8 @@ public class EmbossRequest extends BasePage implements IPrintRequestPresenterVie
   private String                _lblDate;
   private PageLayout            _pageLayout;
   private String                _title;
-  private EmbossFileService     _embossFileService = new EmbossFileService();
+  @Autowired
+  private EmbossFileService     _embossFileService;
 
   public void download (String filepath, String contentType, String contentDisposition) throws IOException {
     String[] files = filepath.split(";");
@@ -122,7 +127,7 @@ public class EmbossRequest extends BasePage implements IPrintRequestPresenterVie
     {
       writeError (ex.getMessage ());
       // handle the message first
-      // TDSLogger.Application.Fatal(ex);
+      // TDSLogger.Application.Fatal (ex);
       return;
     }
   }
