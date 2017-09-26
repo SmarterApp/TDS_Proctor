@@ -8,30 +8,7 @@
  ******************************************************************************/
 package TDS.Proctor.Web.Handlers;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import AIR.Common.DB.SQLConnection;
-import TDS.Proctor.Sql.Data.*;
-import TDS.Proctor.performance.dao.ProctorUserDao;
-import TDS.Proctor.performance.dao.TestSessionDao;
-import org.apache.commons.lang3.StringUtils;
-import org.opentestsystem.delivery.logging.ProctorEventLogger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import AIR.Common.Helpers.Constants;
 import AIR.Common.Helpers._Ref;
 import AIR.Common.Utilities.UrlEncoderDecoderUtils;
@@ -39,6 +16,23 @@ import TDS.Proctor.Services.ProctorAppTasks;
 import TDS.Proctor.Services.ProctorUserService;
 import TDS.Proctor.Sql.Data.Abstractions.IAppConfigService;
 import TDS.Proctor.Sql.Data.Accommodations.AccsDTO;
+import TDS.Proctor.Sql.Data.AlertMessages;
+import TDS.Proctor.Sql.Data.Districts;
+import TDS.Proctor.Sql.Data.Grades;
+import TDS.Proctor.Sql.Data.InstitutionList;
+import TDS.Proctor.Sql.Data.ProctorUser;
+import TDS.Proctor.Sql.Data.Schools;
+import TDS.Proctor.Sql.Data.SessionDTO;
+import TDS.Proctor.Sql.Data.Test;
+import TDS.Proctor.Sql.Data.TestOpportunity;
+import TDS.Proctor.Sql.Data.TestOpps;
+import TDS.Proctor.Sql.Data.TestSession;
+import TDS.Proctor.Sql.Data.Testee;
+import TDS.Proctor.Sql.Data.TesteeRequestDTO;
+import TDS.Proctor.Sql.Data.TesteeRequests;
+import TDS.Proctor.Sql.Data.Testees;
+import TDS.Proctor.performance.dao.ProctorUserDao;
+import TDS.Proctor.performance.dao.TestSessionDao;
 import TDS.Shared.Browser.BrowserAction;
 import TDS.Shared.Browser.BrowserInfo;
 import TDS.Shared.Browser.BrowserValidation;
@@ -48,9 +42,28 @@ import TDS.Shared.Exceptions.NoDataException;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import TDS.Shared.Exceptions.RuntimeReturnStatusException;
 import TDS.Shared.Exceptions.TDSSecurityException;
+import org.apache.commons.lang3.StringUtils;
+import org.opentestsystem.delivery.logging.ProctorEventLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import tds.dll.api.ICommonDLL;
-import tds.dll.common.performance.caching.CacheType;
-import tds.dll.common.performance.caching.CachingService;
 import tds.dll.common.performance.utils.LegacySqlConnection;
 
 import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEventData.ASSESSMENTS;
@@ -62,6 +75,7 @@ import static org.opentestsystem.delivery.logging.ProctorEventLogger.ProctorEven
 
 @Scope ("prototype")
 @Controller
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class ActiveSessionXHR extends HttpHandlerBase
 {
 private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.class);
@@ -82,9 +96,6 @@ private static final Logger _logger = LoggerFactory.getLogger(ActiveSessionXHR.c
 
   @Autowired
   private ProctorEventLogger _eventLogger;
-
-  @Autowired
-  private CachingService _cachingService;
 
   @RequestMapping (value = "XHR.axd/TestController2", method = RequestMethod.GET)
   public @ResponseBody

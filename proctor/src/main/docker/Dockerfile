@@ -2,20 +2,14 @@
 # Docker file to build a docker servlet container hosting the Proctor WAR.
 ################
 
-#Based off of the shared secure tomcat 7 image from SS_SharedMultiJar
-FROM smarterbalanced/secure-tomcat-image:3.1.0.RELEASE
+# tomcat 8 based off of the shared secure tomcat image from SS_SharedMultiJar
+FROM smarterbalanced/secure-tomcat-image:4.0.0.RELEASE
 
 #Overwrite server.xml
 ADD server.xml /usr/local/tomcat/conf/
 
 #Add the WAR file
 ADD testadmin-*.war $CATALINA_HOME/webapps/proctor.war
-
-#Embed "items" and "stimuli" resources from build machine file-system
-#See comments in TDS_Proctor/proctor/pom.xml
-RUN mkdir -p /usr/local/tomcat/resources/tds/bank
-ADD items /usr/local/tomcat/resources/tds/bank/items
-ADD stimuli /usr/local/tomcat/resources/tds/bank/stimuli
 
 #Embed SAML security files from build machine file-system
 #See comments in TDS_Proctor/proctor/pom.xml
