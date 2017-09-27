@@ -5,7 +5,7 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.1-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
@@ -15,15 +15,15 @@
 
 	<properties>
 		<item-renderer.version>4.0.7</item-renderer.version>
-		<tds-dll.version>4.0.2</tds-dll.version>
+		<tds-dll.version>4.0.3.RELEASE</tds-dll.version>
 		<progman-client.version>4.0.5.RELEASE</progman-client.version>
 		<sb11-mna-client.version>4.0.3.RELEASE</sb11-mna-client.version>
 		<sb11-shared-code.version>4.0.6.RELEASE</sb11-shared-code.version>
 		<sb11-shared-security.version>4.0.3.RELEASE</sb11-shared-security.version>
 		<tds-exam-client.version>4.0.3</tds-exam-client.version>
-		<tds-assessment-client.version>3.1.3</tds-assessment-client.version>
-		<tds-session-client.version>3.1.2</tds-session-client.version>
-
+		<tds-assessment-client.version>4.0.0.RELEASE</tds-assessment-client.version>
+		<tds-session-client.version>3.1.3.RELEASE</tds-session-client.version>
+		<mockito.version>1.10.19</mockito.version>
 		<docker.image.prefix>smarterbalanced</docker.image.prefix>
 	</properties>
 
@@ -319,14 +319,28 @@
 			<artifactId>tds-session-client</artifactId>
 			<version>${tds-session-client.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-			</plugin>
+            <plugin>
+               <artifactId>maven-release-plugin</artifactId>
+               <version>2.5.3</version>
+               <dependencies>
+                  <dependency>
+                     <groupId>org.apache.maven.scm</groupId>
+                     <artifactId>maven-scm-provider-gitexe</artifactId>
+                     <version>1.9.5</version>
+                  </dependency>
+               </dependencies>
+            </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
@@ -376,5 +390,4 @@
 			<url>https://airdev.jfrog.io/airdev/libs-releases-local</url>
 		</repository>
 	</distributionManagement>
-
 </project>
