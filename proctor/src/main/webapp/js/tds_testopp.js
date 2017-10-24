@@ -366,10 +366,11 @@ YUI.add("tds-testopps", function(Y) {
         if (contElem == undefined)
             return;
 
-        //set TEST level acc values
-        var masterAccTypes = masterAccTypesList[0];
         var ary = _oAccTypes.parseAccsString(testOpp.accs);
-        _oAccTypes.setIsVisibleAndLabel(masterAccTypes, ary);
+        // Set the label for the test/segments
+        for (var i = 0; i < masterAccTypesList.length; i++) {
+            _oAccTypes.setIsVisibleAndLabel(masterAccTypesList[i], ary);
+        }
         var strDetails = _oAccTypes.getAccDetailsViewString(ary);
         
         contElem.setContent(strDetails);
