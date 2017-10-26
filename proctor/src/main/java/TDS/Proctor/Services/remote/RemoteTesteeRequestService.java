@@ -168,6 +168,7 @@ public class RemoteTesteeRequestService implements ITesteeRequestService {
             testeeRequest.setAccCode(exam.getLanguageCode());
             testeeRequest.setRequestParameters(printRequest.getParameters());
             testeeRequest.setOpportunity(exam.getAttempts());
+            testeeRequest.setTesteeID(exam.getLoginSSID());
 
             if (printRequest.getType().equals(ExamPrintRequest.REQUEST_TYPE_PRINT_ITEM)) {
                 testeeRequest.setItemResponse(printRequest.getItemResponse());
