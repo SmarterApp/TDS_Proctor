@@ -229,6 +229,7 @@ public class RemoteTesteeRequestServiceTest {
             .withStudentId(2112)
             .withStudentName("Peter Steele")
             .withAssessmentId("Assessment ID")
+            .withLoginSSID("LOGINSSID")
             .build();
 
         ExamPrintRequest request = new ExamPrintRequest.Builder(UUID.randomUUID())
@@ -276,6 +277,7 @@ public class RemoteTesteeRequestServiceTest {
         assertThat(testeeRequest.getAccCode()).isEqualTo(exam.getLanguageCode());
         assertThat(testeeRequest.getRequestParameters()).isEqualTo(request.getParameters());
         assertThat(testeeRequest.getOpportunity()).isEqualTo(exam.getAttempts());
+        assertThat(testeeRequest.getTesteeID()).isEqualTo(exam.getLoginSSID());
     }
 
     @Test(expected = ReturnStatusException.class)
