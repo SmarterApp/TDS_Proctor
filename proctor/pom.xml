@@ -5,7 +5,7 @@
 	<artifactId>testadmin</artifactId>
 	<name>proctor</name>
 	<packaging>war</packaging>
-	<version>4.0.1-SNAPSHOT</version>
+	<version>4.0.1.RELEASE</version>
 
 	<parent>
 		<groupId>org.opentestsystem.shared</groupId>
@@ -375,7 +375,7 @@
 		<connection>scm:git:https://github.com/SmarterApp/TDS_Proctor.git</connection>
 		<developerConnection>scm:git:git://github.com/SmarterApp/TDS_Proctor.git</developerConnection>
 		<url>https://github.com/SmarterApp/TDS_Proctor</url>
-		<tag>HEAD</tag>
+		<tag>4.0.1.RELEASE</tag>
 	</scm>
 
 	<distributionManagement>
