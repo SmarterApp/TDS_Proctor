@@ -1,4 +1,4 @@
-/***************************************************************************************************
+/* **************************************************************************************************
  * Educational Online Test Delivery System
  * Copyright (c) 2017 Regents of the University of California
  *
@@ -50,6 +50,7 @@ import tds.exam.ExamStatusRequest;
 import tds.exam.ExamStatusStage;
 import tds.exam.ExpandableExam;
 import tds.exam.ExpandableExamAttributes;
+import tds.exam.ExpiredExamInformation;
 
 @Repository
 public class RemoteExamRepository implements ExamRepository {
@@ -223,15 +224,28 @@ public class RemoteExamRepository implements ExamRepository {
         }
     }
 
-    /**
-     * Determine if a {@link org.springframework.http.HttpStatus} belongs to the
-     * {@link org.springframework.http.HttpStatus.Series} {@code CLIENT_ERROR} series.
-     *
-     * @param status The {@link org.springframework.http.HttpStatus} to evaluate
-     * @return True if the status belongs to the {@code CLIENT_ERROR} series; otherwise false
-     */
-    private static boolean isClientError(HttpStatus status) {
-        return HttpStatus.Series.CLIENT_ERROR.equals(status.series());
+    @Override
+    public List<ExpiredExamInformation> expireExams(final String clientName) throws ReturnStatusException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
+
+        UriComponents uriComponents = UriComponentsBuilder.fromUriString("{examUrl}/expire/{clientName}")
+            .buildAndExpand(clientName, clientName);
+
+        try {
+            ResponseEntity<List<ExpiredExamInformation>> response = restTemplate.exchange(
+                uriComponents.encode().toUri(),
+                HttpMethod.POST,
+                requestHttpEntity,
+                new ParameterizedTypeReference<List<ExpiredExamInformation>>() {
+                });
+
+            return response.getBody();
+        } catch (RestClientException rce) {
+            throw new ReturnStatusException(rce);
+        }
     }
 
     /**
