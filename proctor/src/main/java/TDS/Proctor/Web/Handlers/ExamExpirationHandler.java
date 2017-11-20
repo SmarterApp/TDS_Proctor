@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -37,7 +36,6 @@ public class ExamExpirationHandler {
      */
     @RequestMapping(value = "/exams/expire/{clientName}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 //    @Secured({ "ROLE_Assessment Modify" })
-    @ResponseBody
     ResponseEntity<List<ExpiredExamInformation>> expireExams(@PathVariable final String clientName) throws ReturnStatusException {
         return ResponseEntity.ok(examExpirationService.expireExams(clientName));
     }
