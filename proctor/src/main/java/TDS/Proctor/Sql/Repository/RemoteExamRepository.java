@@ -232,7 +232,7 @@ public class RemoteExamRepository implements ExamRepository {
         HttpEntity<?> requestHttpEntity = new HttpEntity<>(headers);
 
         UriComponents uriComponents = UriComponentsBuilder.fromUriString("{examUrl}/expire/{clientName}")
-            .buildAndExpand(clientName, clientName);
+            .buildAndExpand(examUrl, clientName);
 
         try {
             ResponseEntity<List<ExpiredExamInformation>> response = restTemplate.exchange(
