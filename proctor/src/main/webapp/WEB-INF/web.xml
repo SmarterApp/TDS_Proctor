@@ -34,6 +34,7 @@
 
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/exams/expire/*</url-pattern>
 		<url-pattern>/Services/*</url-pattern>
 		<url-pattern>/status/*</url-pattern>
 		<url-pattern>/status/summary/*</url-pattern>
