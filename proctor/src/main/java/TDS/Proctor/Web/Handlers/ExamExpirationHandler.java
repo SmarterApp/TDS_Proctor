@@ -3,13 +3,12 @@ package TDS.Proctor.Web.Handlers;
 import TDS.Proctor.Services.ExamExpirationService;
 import TDS.Shared.Exceptions.ReturnStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -18,8 +17,7 @@ import tds.exam.ExpiredExamInformation;
 /**
  * Handles expiration exam requests
  */
-@Controller
-@Scope("prototype")
+@RestController
 public class ExamExpirationHandler {
     private final ExamExpirationService examExpirationService;
 
@@ -35,7 +33,6 @@ public class ExamExpirationHandler {
      * @throws ReturnStatusException if there is any issue expiring exams
      */
     @RequestMapping(value = "/exams/expire/{clientName}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @Secured({ "ROLE_Assessment Modify" })
     ResponseEntity<List<ExpiredExamInformation>> expireExams(@PathVariable final String clientName) throws ReturnStatusException {
         return ResponseEntity.ok(examExpirationService.expireExams(clientName));
     }
