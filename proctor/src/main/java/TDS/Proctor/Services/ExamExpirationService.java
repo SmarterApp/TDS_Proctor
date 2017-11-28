@@ -12,7 +12,7 @@ public interface ExamExpirationService {
      * Expires exams for given client name
      *
      * @param clientName the client name for the exams
-     * @return a list of {@link tds.exam.ExpiredExamInformation} for the expired exams
+     * @return {@link tds.exam.ExpiredExamResponse} for the expired exams
      * @throws ReturnStatusException if there is any unexpected issue expiring exams
      */
     ExpiredExamResponse expireExams(final String clientName) throws ReturnStatusException;

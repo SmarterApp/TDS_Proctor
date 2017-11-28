@@ -27,7 +27,7 @@ public class ExamExpirationHandler {
     /**
      * Expires exams
      * @param clientName the client name to use when expiring exams
-     * @return {@link org.springframework.http.ResponseEntity} containing list of {@link tds.exam.ExpiredExamInformation}
+     * @return {@link org.springframework.http.ResponseEntity} containing {@link tds.exam.ExpiredExamResponse}
      * @throws ReturnStatusException if there is any issue expiring exams
      */
     @RequestMapping(value = "/exams/expire/{clientName}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
