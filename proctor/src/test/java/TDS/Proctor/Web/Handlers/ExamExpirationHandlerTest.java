@@ -11,9 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
-import java.util.List;
 
-import tds.exam.ExpiredExamInformation;
+import tds.exam.ExpiredExamResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -33,13 +32,14 @@ public class ExamExpirationHandlerTest {
 
     @Test
     public void shouldExpireExams() throws ReturnStatusException {
-        when(mockExamExpirationService.expireExams("SBAC")).thenReturn(Collections.emptyList());
+        ExpiredExamResponse expiredExamResponse = new ExpiredExamResponse(false, Collections.emptyList());
+        when(mockExamExpirationService.expireExams("SBAC")).thenReturn(expiredExamResponse);
 
-        ResponseEntity<List<ExpiredExamInformation>> response = handler.expireExams("SBAC");
+        ResponseEntity<ExpiredExamResponse> response = handler.expireExams("SBAC");
 
         verify(mockExamExpirationService).expireExams("SBAC");
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).hasSize(0);
+        assertThat(response.getBody()).isEqualTo(expiredExamResponse);
     }
 }

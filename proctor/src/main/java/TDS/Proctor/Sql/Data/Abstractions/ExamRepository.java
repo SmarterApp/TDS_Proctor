@@ -25,6 +25,7 @@ import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
 import tds.exam.ExpandableExam;
 import tds.exam.ExpiredExamInformation;
+import tds.exam.ExpiredExamResponse;
 
 /**
  * Repository to interact with exam data
@@ -98,8 +99,8 @@ public interface ExamRepository {
      * Expires exams for the given clientName
      *
      * @param clientName the client name to use when expiring exams
-     * @return a list of {@link tds.exam.ExpiredExamInformation}'s with information for the expired exams
+     * @return a list of {@link tds.exam.ExpiredExamResponse} with information for the expired exams
      * @throws TDS.Shared.Exceptions.ReturnStatusException if there is an issue when expiring exams
      */
-    List<ExpiredExamInformation> expireExams(String clientName) throws ReturnStatusException;
+    ExpiredExamResponse expireExams(String clientName) throws ReturnStatusException;
 }

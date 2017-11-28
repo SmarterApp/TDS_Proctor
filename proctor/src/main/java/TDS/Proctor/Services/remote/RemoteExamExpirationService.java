@@ -6,9 +6,7 @@ import TDS.Shared.Exceptions.ReturnStatusException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import tds.exam.ExpiredExamInformation;
+import tds.exam.ExpiredExamResponse;
 
 @Service
 public class RemoteExamExpirationService implements ExamExpirationService{
@@ -20,7 +18,7 @@ public class RemoteExamExpirationService implements ExamExpirationService{
     }
 
     @Override
-    public List<ExpiredExamInformation> expireExams(final String clientName) throws ReturnStatusException {
+    public ExpiredExamResponse expireExams(final String clientName) throws ReturnStatusException {
         return examRepository.expireExams(clientName);
     }
 }

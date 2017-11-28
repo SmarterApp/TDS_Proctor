@@ -50,7 +50,7 @@ import tds.exam.ExamStatusRequest;
 import tds.exam.ExamStatusStage;
 import tds.exam.ExpandableExam;
 import tds.exam.ExpandableExamAttributes;
-import tds.exam.ExpiredExamInformation;
+import tds.exam.ExpiredExamResponse;
 
 @Repository
 public class RemoteExamRepository implements ExamRepository {
@@ -225,7 +225,7 @@ public class RemoteExamRepository implements ExamRepository {
     }
 
     @Override
-    public List<ExpiredExamInformation> expireExams(final String clientName) throws ReturnStatusException {
+    public ExpiredExamResponse expireExams(final String clientName) throws ReturnStatusException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -235,12 +235,11 @@ public class RemoteExamRepository implements ExamRepository {
             .buildAndExpand(examUrl, clientName);
 
         try {
-            ResponseEntity<List<ExpiredExamInformation>> response = restTemplate.exchange(
+            ResponseEntity<ExpiredExamResponse> response = restTemplate.exchange(
                 uriComponents.encode().toUri(),
                 HttpMethod.POST,
                 requestHttpEntity,
-                new ParameterizedTypeReference<List<ExpiredExamInformation>>() {
-                });
+                ExpiredExamResponse.class);
 
             return response.getBody();
         } catch (RestClientException rce) {

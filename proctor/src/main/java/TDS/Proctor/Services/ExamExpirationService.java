@@ -2,9 +2,7 @@ package TDS.Proctor.Services;
 
 import TDS.Shared.Exceptions.ReturnStatusException;
 
-import java.util.List;
-
-import tds.exam.ExpiredExamInformation;
+import tds.exam.ExpiredExamResponse;
 
 /**
  * Handles expiring exams
@@ -17,5 +15,5 @@ public interface ExamExpirationService {
      * @return a list of {@link tds.exam.ExpiredExamInformation} for the expired exams
      * @throws ReturnStatusException if there is any unexpected issue expiring exams
      */
-    List<ExpiredExamInformation> expireExams(final String clientName) throws ReturnStatusException;
+    ExpiredExamResponse expireExams(final String clientName) throws ReturnStatusException;
 }
