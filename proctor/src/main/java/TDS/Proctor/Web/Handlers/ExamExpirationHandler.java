@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-import tds.exam.ExpiredExamInformation;
+import tds.exam.ExpiredExamResponse;
 
 /**
  * Handles expiration exam requests
@@ -29,11 +27,11 @@ public class ExamExpirationHandler {
     /**
      * Expires exams
      * @param clientName the client name to use when expiring exams
-     * @return {@link org.springframework.http.ResponseEntity} containing list of {@link tds.exam.ExpiredExamInformation}
+     * @return {@link org.springframework.http.ResponseEntity} containing {@link tds.exam.ExpiredExamResponse}
      * @throws ReturnStatusException if there is any issue expiring exams
      */
     @RequestMapping(value = "/exams/expire/{clientName}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<ExpiredExamInformation>> expireExams(@PathVariable final String clientName) throws ReturnStatusException {
+    ResponseEntity<ExpiredExamResponse> expireExams(@PathVariable final String clientName) throws ReturnStatusException {
         return ResponseEntity.ok(examExpirationService.expireExams(clientName));
     }
 }
