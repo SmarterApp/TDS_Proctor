@@ -24,6 +24,8 @@ import tds.exam.ApproveAccommodationsRequest;
 import tds.exam.Exam;
 import tds.exam.ExamAccommodation;
 import tds.exam.ExpandableExam;
+import tds.exam.ExpiredExamInformation;
+import tds.exam.ExpiredExamResponse;
 
 /**
  * Repository to interact with exam data
@@ -89,8 +91,16 @@ public interface ExamRepository {
      * Pauses a single exam after validating the proctor session
      *
      * @param examId the id of the exam to pause
-     * @return
-     * @throws ReturnStatusException
+     * @throws ReturnStatusException if there is an issue pausing the exam
      */
     void pauseExam(final UUID examId) throws ReturnStatusException;
+
+    /**
+     * Expires exams for the given clientName
+     *
+     * @param clientName the client name to use when expiring exams
+     * @return a list of {@link tds.exam.ExpiredExamResponse} with information for the expired exams
+     * @throws TDS.Shared.Exceptions.ReturnStatusException if there is an issue when expiring exams
+     */
+    ExpiredExamResponse expireExams(String clientName) throws ReturnStatusException;
 }
