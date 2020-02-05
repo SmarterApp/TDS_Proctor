@@ -99,7 +99,7 @@
 
 	<!-- Handler for successful logout -->
 	<bean id="successLogoutHandler" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
-		<property name="defaultTargetUrl" value="/" />
+		<property name="defaultTargetUrl" value="${proctor.security.saml.logout.redirect.url" />
 	</bean>
 
 	<!-- Register authentication manager with SAML provider -->
@@ -198,10 +198,11 @@
 	</bean>
 
 	<!-- Override default logout processing filter with the one processing SAML messages -->
-	<bean id="samlLogoutFilter" class="org.springframework.security.saml.SAMLLogoutFilter">
+	<bean id="customSamlLogoutFilter" class="TDS.Proctor.configuration.CustomSAMLLogoutFilter">
 		<constructor-arg ref="successLogoutHandler" />
 		<constructor-arg ref="logoutHandler" />
 		<constructor-arg ref="logoutHandler" />
+		<constructor-arg ref="${proctor.security.saml.global.logout}" />
 	</bean>
 
 	<!-- Filter processing incoming logout messages -->
